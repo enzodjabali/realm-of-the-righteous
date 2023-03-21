@@ -1,3 +1,0 @@
-# 2proj
-
-tower defense
