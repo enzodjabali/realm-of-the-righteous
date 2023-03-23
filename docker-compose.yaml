@@ -1,0 +1,54 @@
+version: '3.8'
+services:
+  php:
+    container_name: rotr_php
+    build:
+      context: ./docker
+    ports:
+      - "9000:9000"
+    volumes:
+      - .:/var/www
+    depends_on:
+      - database
+
+  httpd:
+    container_name: rotr_apache2
+    image: httpd:2.4
+    ports:
+      - '8080:80'
+    volumes:
+      - .:/var/www
+      - ./docker/apache2/httpd.conf:/usr/local/apache2/conf/httpd.conf
+    depends_on:
+      - php
+      - database
+
+  database:
+    build:
+      context: .
+    image: mysql:8.0.32
+    command: --default-authentication-plugin=mysql_native_password
+    #restart: unless-stopped
+    container_name: rotr_mysql
+    volumes:
+      - data-volume:/var/lib/mysql
+    ports:
+      - target: 3306
+        published: 3306
+        protocol: tcp
+        mode: host
+    environment:
+      - MYSQL_ROOT_PASSWORD=ChangeMe
+
+  phpmyadmin:
+    container_name: rotr_phpmyadmin
+    image: phpmyadmin:5.2.1-apache
+    ports:
+      - 8081:80
+    environment:
+      - PMA_ARBITRARY=1
+
+volumes:
+  data-volume:
+
+#jdbc:mysql://localhost:3306/db?allowPublicKeyRetrieval=true&useSSL=false
