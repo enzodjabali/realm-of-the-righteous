@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : database
--- Généré le : jeu. 23 mars 2023 à 23:29
--- Version du serveur : 8.0.32
--- Version de PHP : 8.1.17
+-- Host: database
+-- Generation Time: Mar 27, 2023 at 10:10 AM
+-- Server version: 8.0.32
+-- PHP Version: 8.1.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `rotr`
+-- Database: `rotr`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `game_event`
+-- Table structure for table `game_event`
 --
 
 CREATE TABLE `game_event` (
@@ -38,7 +38,7 @@ CREATE TABLE `game_event` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `game_state`
+-- Table structure for table `game_state`
 --
 
 CREATE TABLE `game_state` (
@@ -51,7 +51,7 @@ CREATE TABLE `game_state` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `maps`
+-- Table structure for table `maps`
 --
 
 CREATE TABLE `maps` (
@@ -61,7 +61,7 @@ CREATE TABLE `maps` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Déchargement des données de la table `maps`
+-- Dumping data for table `maps`
 --
 
 INSERT INTO `maps` (`id`, `map_name`, `map_matrix`) VALUES
@@ -70,7 +70,7 @@ INSERT INTO `maps` (`id`, `map_name`, `map_matrix`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `player`
+-- Table structure for table `player`
 --
 
 CREATE TABLE `player` (
@@ -84,11 +84,18 @@ CREATE TABLE `player` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Index pour les tables déchargées
+-- Dumping data for table `player`
+--
+
+INSERT INTO `player` (`id`, `username`, `password`, `email`, `score`, `level`, `coins`) VALUES
+(1, 'test', 'test123!', 'test@test.dev', 2300, 2, 50);
+
+--
+-- Indexes for dumped tables
 --
 
 --
--- Index pour la table `game_event`
+-- Indexes for table `game_event`
 --
 ALTER TABLE `game_event`
   ADD PRIMARY KEY (`id`),
@@ -96,37 +103,46 @@ ALTER TABLE `game_event`
   ADD KEY `player_id` (`player_id`);
 
 --
--- Index pour la table `game_state`
+-- Indexes for table `game_state`
 --
 ALTER TABLE `game_state`
   ADD PRIMARY KEY (`id`),
   ADD KEY `map_id` (`map_id`);
 
 --
--- Index pour la table `maps`
+-- Indexes for table `maps`
 --
 ALTER TABLE `maps`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `player`
+-- Indexes for table `player`
 --
 ALTER TABLE `player`
   ADD PRIMARY KEY (`id`);
 
 --
--- Contraintes pour les tables déchargées
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- Contraintes pour la table `game_event`
+-- AUTO_INCREMENT for table `player`
+--
+ALTER TABLE `player`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `game_event`
 --
 ALTER TABLE `game_event`
-  ADD CONSTRAINT `game_event_ibfk_1` FOREIGN KEY (`game_id`) REFERENCES `game_state` (`id`),
-  ADD CONSTRAINT `game_event_ibfk_2` FOREIGN KEY (`player_id`) REFERENCES `player` (`id`);
+  ADD CONSTRAINT `game_event_ibfk_1` FOREIGN KEY (`game_id`) REFERENCES `game_state` (`id`);
 
 --
--- Contraintes pour la table `game_state`
+-- Constraints for table `game_state`
 --
 ALTER TABLE `game_state`
   ADD CONSTRAINT `game_state_ibfk_1` FOREIGN KEY (`map_id`) REFERENCES `maps` (`id`);
