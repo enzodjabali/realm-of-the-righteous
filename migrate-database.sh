@@ -1,4 +1,4 @@
-docker exec mysql mysql -uroot -padmin -e "DROP DATABASE IF EXISTS mydatabase1;"
-docker exec mysql mysql -uroot -padmin -e "CREATE DATABASE mydatabase1;"
-docker cp ./database.sql mysql:/
-docker exec mysql mysql -uroot -padmin -e "use mydatabase1; SET autocommit=0; source database.sql; COMMIT;"
+docker exec rotr_mysql mysql -uroot -pChangeMe -e "DROP DATABASE IF EXISTS rotr;"
+docker exec rotr_mysql mysql -uroot -pChangeMe -e "CREATE DATABASE rotr;"
+docker cp ./rotr.sql rotr_mysql:/
+docker exec rotr_mysql mysql -uroot -pChangeMe -e "use rotr; SET autocommit=0; source rotr.sql; COMMIT;"
