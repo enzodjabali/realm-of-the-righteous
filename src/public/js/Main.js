@@ -1,5 +1,9 @@
-import {Model} from "./Model/Model.js";
 import {Display} from "./Vue/Display.js";
-let game = new Model();
+import {Controller} from "./Controller/Controller.js";
+
+let controller = new Controller()
+
+controller.createEnnemies();
 let display = new Display();
-display.displayBoard(game.getMatrice());
+display.initializeGame(controller.model.getMatrice());
+
