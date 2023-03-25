@@ -1,4 +1,4 @@
-// affiche tour par tour en fonction de la logique de game
+// Display to the users the game
 class Display{
     constructor() {
     }

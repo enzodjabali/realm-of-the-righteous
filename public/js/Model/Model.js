@@ -1,4 +1,5 @@
-export class Game{
+//Permit to store data of the game (Matrice, Enemies, Towers, Money, Life)
+export class Model {
     constructor() {
         this.matrice =
             [[2,1,2,0,0,0,0,0,0,0],
@@ -14,13 +15,6 @@ export class Game{
             [2,1,2,0,0,0,0,0,0,0],
             [2,1,2,0,0,0,0,0,0,0,]
             ]
-    }
-    initializeMatrice(){
-        for(let x=0 ; x < 20 ; x++){
-            for(let y=0 ; y < 20 ; y++){
-                this.matrice[x][y] = 0;
-            }
-        }
     }
     getMatrice(){
         return this.matrice;
