@@ -11,18 +11,6 @@ services:
     depends_on:
       - database
 
-  #httpd:
-  #  container_name: rotr_apache2
-  #  image: httpd:2.4
-  #  ports:
-  #    - '8080:80'
-  #  volumes:
-  #    - .:/var/www
-  #    - ./docker/apache2/httpd.conf:/usr/local/apache2/conf/httpd.conf
-  #  depends_on:
-  #    - php
-  #    - database
-
   httpd:
     container_name: rotr_nginx
     image: nginx:1.23.3
