@@ -7,13 +7,13 @@ assignees: ''
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**What is an issue on GitHub**
+Issues let you track your work on GitHub, where development happens. When you mention an issue in another issue or pull request, the issue's timeline reflects the cross-reference so that you can keep track of related work.
 
-**To Reproduce**
+**How to create an issue**
 Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
+1. Go to 'Issues'
+2. Click on 'Create new'
 3. Scroll down to '....'
 4. See error
 
