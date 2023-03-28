@@ -48,7 +48,7 @@ class PlayerUtils
 			// Insert the new player into the database
 			DbUtils::insert(DbTable::TABLE_PLAYER,
 				["username", "password", "email", "score", "level", "coins"],
-				[$username, $password, $email, $score, $level, $coins]
+				[$username, sha1($password), $email, $score, $level, $coins]
 			);
 			return true;
 		} catch (Exception $e) {
