@@ -28,7 +28,8 @@ class DbUtils {
 	 */
     public static function insert(DbTable $table, array $columns = [], array $values = [], string $extra = ""): bool
     {
-		if (count($columns) != count($values)) {
+		if (count($columns) == count($values)) {
+			$table = $table->value;
 			$implodedColumns = implode(", ", $columns);
 			$dynamicValues = "";
 
