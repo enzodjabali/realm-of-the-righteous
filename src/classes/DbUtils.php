@@ -18,7 +18,7 @@ class DbUtils {
     }
 
 	/**
-	 * This function makes an insertion into the database
+	 * This method makes an insertion into the database
 	 * @param DbTable $table the table that will receive the insertion
 	 * @param array $columns array of columns that will be affected by the insertion
 	 * @param array $values array of values that will be inserted into the columns
@@ -46,4 +46,24 @@ class DbUtils {
 			throw new Exception("The columns and the values aren't the same size");
 		}
     }
+
+	/**
+	 * This method makes a simple deletion of a row in the database
+	 * @param DbTable $table the table that will receive the deletion
+	 * @param int $id the id of the element that will be deleted
+	 * @return bool returns true is the operation succeed, false if it failed
+	 * @throws Exception
+	 */
+	public static function simpleDelete(DbTable $table, int $id): bool
+	{
+		if ($id) {
+			$table = $table->value;
+			$queryBuilder = "DELETE FROM $table WHERE id = $id;";
+			$query = self::initialize()->prepare($queryBuilder);
+
+			return $query->execute();
+		} else {
+			throw new Exception("The id must not be empty");
+		}
+	}
 }
