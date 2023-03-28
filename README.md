@@ -8,7 +8,6 @@ to automatically impede, attack, or destroy enemies. Strategic choice and positi
 of defensive elements is an essential strategy of the genre.
 
 ## Deploy project with docker 🐳
-
-https://github.com/enzodjabali/realm-of-the-righteous/wiki/Installing-Docker-on-Linux-and-Windows
+[Installing Docker on Linux and Windows](https://github.com/enzodjabali/realm-of-the-righteous/wiki/Installing-Docker-on-Linux-and-Windows)
 
 <i>Thanks and enjoy 👋</i>
