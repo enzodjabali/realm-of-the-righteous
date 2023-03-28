@@ -3,7 +3,8 @@ import {Controller} from "./Controller/Controller.js";
 
 let controller = new Controller()
 
-controller.createEnnemies();
-let display = new Display();
-display.initializeGame(controller.model.getMatrice());
+controller.run()
+
+
+
 

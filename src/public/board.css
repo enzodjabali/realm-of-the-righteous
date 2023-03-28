@@ -1,3 +1,6 @@
+html{
+    background: #24292F;
+}
 #board-container{
     display: grid;
     z-index: 0;
@@ -6,7 +9,6 @@
 }
 #container-enemies{
     position: absolute;
-    z-index: 10;
     border: 1px solid red;
 }
 
