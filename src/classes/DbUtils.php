@@ -5,6 +5,7 @@ namespace App\classes;
 
 use Exception;
 use PDO;
+use PDOStatement;
 
 class DbUtils {
     /**
@@ -37,7 +38,7 @@ class DbUtils {
 				$dynamicValues .= count($values) == $i ? "?" : "?, ";
 			}
 
-			$queryExtra = !empty($condition) ? " $extra" : "";
+			$queryExtra = !empty($extra) ? " $extra" : "";
 			$queryBuilder = "INSERT INTO $table($implodedColumns) VALUES($dynamicValues)$queryExtra;";
 			$query = self::initialize()->prepare($queryBuilder);
 
@@ -54,7 +55,7 @@ class DbUtils {
 	 * @return bool returns true is the operation succeed, false if it failed
 	 * @throws Exception
 	 */
-	public static function simpleDelete(DbTable $table, int $id): bool
+	public static function delete(DbTable $table, int $id): bool
 	{
 		if ($id) {
 			$table = $table->value;
@@ -64,6 +65,28 @@ class DbUtils {
 			return $query->execute();
 		} else {
 			throw new Exception("The id must not be empty");
+		}
+	}
+
+	/**
+	 * This method makes a simple select query into to the database
+	 * @param DbTable $table the table that will receive the insertion
+	 * @param array $columns array of columns that will be selected
+	 * @param string $condition adds SQL condition to the selection query
+	 * @return false|PDOStatement returns the PDO statement of the query if it succeeds, false if the query failed
+	 * @throws Exception
+	 */
+	public static function select(DbTable $table, array $columns = ["*"], string $condition = ""): false|PDOStatement
+	{
+		if (count($columns) > 0) {
+			$table = $table->value;
+			$implodedColumns = implode(", ", $columns);
+			$queryCondition = !empty($condition) ? " $condition" : "";
+			$queryBuilder = "SELECT $implodedColumns FROM $table$queryCondition;";
+
+			return self::initialize()->query($queryBuilder);
+		} else {
+			throw new Exception("At least one column is required to make a selection");
 		}
 	}
 }

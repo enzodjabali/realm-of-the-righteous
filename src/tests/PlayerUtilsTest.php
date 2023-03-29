@@ -25,4 +25,14 @@ final class PlayerUtilsTest extends TestCase
 		$isUserInserted = PlayerUtils::insertPlayer("test_fail", "test_fail", "not_a_valid_email");
 		$this->assertIsString($isUserInserted);
 	}
+
+	/**
+	 * @throws \Exception
+	 */
+	public function testLoginPlayer(): void
+	{
+		$userId = PlayerUtils::loginPlayer("test", "test");
+		$this->assertIsInt($userId);
+	}
+
 }
