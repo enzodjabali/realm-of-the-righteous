@@ -20,17 +20,17 @@ jobs:
     - name: Run the containers
       run: docker-compose up -d
 
-    - name: Install the composer dependencies
-      run: sh ./docker/scripts/install-composer-dependencies.sh
-
     - name: Check the containers status
       run: docker ps
 
-    - name: Wait 20s for the MySQL service to be ready for connections
+    - name: Install the composer dependencies
+      run: sh ./docker/scripts/install-composer-dependencies.sh
+
+    - name: Wait 10s for the MySQL service to be ready for connections
       run: sleep 10
 
     - name: Migrate the test database
       run: sh ./docker/scripts/migrate-database-test.sh
 
-    - name: Run phpunit tests
+    - name: Run the PHPUnit tests
       run: sh ./docker/scripts/run-phpunit.sh
