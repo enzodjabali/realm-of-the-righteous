@@ -21,7 +21,7 @@ export class Display{
             this.tilesSize = xRatio
         }
         for (let a = 0 ; a < matrice[0].length ; a++){
-           columns += `${this.tilesSize-1}px `
+            columns += `${this.tilesSize-1}px `
 
         }
         let container = document.getElementById('board-container');
@@ -104,4 +104,4 @@ export class Display{
         }
 
     }
-    }
+}

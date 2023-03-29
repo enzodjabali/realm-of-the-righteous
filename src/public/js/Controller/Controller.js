@@ -1,6 +1,7 @@
 import {EnemiesController} from "./EnemiesController.js";
 import {Model} from "../Model/Model.js";
 import {Display} from "../Vue/Display.js";
+
 export class Controller{
     constructor() {
         this.model = new Model();
@@ -20,9 +21,9 @@ export class Controller{
                     id++;
                 }
             //Implement a win wave condition
-            }
-        this.enemiesController.placeEnemiesInMatrice();
         }
+        this.enemiesController.placeEnemiesInMatrice();
+    }
 
     updateEnemies(){
         console.log(this.model.getMatrice())
@@ -41,7 +42,7 @@ export class Controller{
                 }
             }
         }
-        
+
 
         //console.log(this.model.getMatrice())
         this.model.updateMatrice(newMatrice);
@@ -55,7 +56,5 @@ export class Controller{
         this.updateEnemies()
         display.nextMoveEnemies(this.model.getMatrice())
     }
-
-
 
 }
