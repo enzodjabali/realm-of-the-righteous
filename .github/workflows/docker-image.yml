@@ -18,5 +18,7 @@ jobs:
       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
     - name: Run the containers
       run: docker-compose up -d
+    - name: Install the composer dependencies
+      run: docker exec rotr_php composer install
     - name: Run phpunit tests
       run: docker exec rotr_php ./vendor/bin/phpunit tests
