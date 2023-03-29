@@ -74,4 +74,21 @@ class PlayerUtils
 		}
 	}
 
+	/**
+	 * This method deletes a player from the database
+	 * @param int $id the id of the player
+	 * @return bool returns true if the operation succeed, false if it failed
+	 * @throws \Exception
+	 */
+	public static function deleteUser(int $id): bool
+	{
+		try {
+			DbUtils::delete(DbTable::TABLE_PLAYER, $id);
+			return true;
+		} catch (Exception $e) {
+			echo $e->getMessage();
+			return false;
+		}
+	}
+
 }
