@@ -1,0 +1,70 @@
+body,h1,h2{font-family: "Raleway", sans-serif}
+body{height: 100%}
+p {line-height: 2}
+
+.bgimg{
+    min-height: 100%;
+    background-position: center;
+    background-size: cover;
+}
+
+.bgimg {background-image: url("../images/frame.jpg")}
+
+p{font-family: 'Old English Text MT';
+  /*font-size: 50px*/}
+
+  *{
+    margin: 0;
+    padding:0;
+}
+
+img{
+    width:100px;
+    margin-left: 80%;
+}
+
+.bar{
+    display: grid;
+    background-color: black;
+    size: 20px;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 25%;
+    padding-top: 2em;
+}
+.bar a{
+    color: white;
+    font-style: none;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+header{
+    padding-left: 40%;
+    padding-bottom: 2em;
+}
+
+
+/*La page story*/
+
+.sign{
+    margin-left: 5%;
+}
+h1{
+    font-family: 'Old English Text MT';
+    font-size: 50px;
+    padding-left: 40%;
+    padding-top: 2em;
+}
+.story{
+    font-size: 25px;
+    padding: 10em;
+}
+
+.body-story{
+    background-image: url("../images/frame.jpg");
+    min-height: 100%;
+    background-position: center;
+    background-size: cover;
+}
