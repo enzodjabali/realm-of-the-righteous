@@ -28,7 +28,7 @@ export class Display{
         let containerEnemies = document.getElementById('container-enemies');
         container.style.gridTemplateColumns = columns;
 
-        let imgArray = ["img/chemin.png", "img/herbe.png", "img/tour.png"];
+        let imgArray = ["../../assets/img/chemin.png", "../../assets/img/herbe.png", "../../assets/img/tour.png"];
 
         for (let x = 0 ; x < matrice.length ; x++){
             for (let y = 0 ; y < matrice[x].length ; y++){
