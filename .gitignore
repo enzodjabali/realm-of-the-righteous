@@ -1,3 +1,4 @@
 .idea/
 src/vendor/
 src/.phpunit.result.cache
+src/public/node_modules

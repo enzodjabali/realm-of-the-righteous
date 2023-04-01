@@ -4,6 +4,7 @@ services:
     container_name: rotr_php
     build:
       context: .
+      dockerfile: Dockerfile-php
     ports:
       - "9000:9000"
     volumes:
@@ -13,7 +14,9 @@ services:
 
   httpd:
     container_name: rotr_nginx
-    image: nginx:1.23.3
+    build:
+      context: .
+      dockerfile: Dockerfile-httpd
     ports:
       - '8080:80'
     volumes:
