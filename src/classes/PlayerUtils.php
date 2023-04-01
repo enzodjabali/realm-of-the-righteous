@@ -45,6 +45,14 @@ class PlayerUtils
 			return "The password can't have less than 4 characters";
 		}
 
+        if (!DbUtils::doesThisValueExist(DbTable::TABLE_PLAYER, "username", $username)) {
+            return "This username is already used";
+        }
+
+        if (!DbUtils::doesThisValueExist(DbTable::TABLE_PLAYER, "email", $email)) {
+            return "This email is already used";
+        }
+
 		try {
 			// Insert the new player into the database
 			DbUtils::insert(DbTable::TABLE_PLAYER,

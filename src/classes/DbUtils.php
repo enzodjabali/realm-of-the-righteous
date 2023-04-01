@@ -89,4 +89,22 @@ class DbUtils {
 			throw new Exception("At least one column is required to make a selection");
 		}
 	}
+
+    /**
+     * This method checks if a value already exists in a specified column
+     * @param DbTable $table the table that will be checked
+     * @param string $column the column that will be checked
+     * @param string $value the value that will be checked
+     * @return bool returns true if the value already exists, false if it doesn't
+     */
+    public static function doesThisValueExist(DbTable $table, string $column, string $value): bool {
+        if (!empty($column)) {
+            $table = $table->value;
+            $queryBuilder = "SELECT $column FROM $table WHERE $column = '$value';";
+
+            return !(self::initialize()->query($queryBuilder)->rowCount() > 0);
+        } else {
+            throw new Exception("The column can't be empty");
+        }
+    }
 }
