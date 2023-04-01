@@ -1,0 +1,1 @@
+docker exec rotr_nginx npm install --prefix /var/www/public/
