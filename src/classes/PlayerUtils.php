@@ -9,16 +9,17 @@ class PlayerUtils
 {
 	/**
 	 * This method inserts a new player into the database
-	 * @param string $username The username of the player
-	 * @param string $password The password of the player
-	 * @param string $email The email of the player
-	 * @param int $score The score of the player
-	 * @param int $level The level of the player
-	 * @param int $coins The coins of the player
-	 * @return string|bool Returns true if the operation succeed, and returns a string containing an error message if it failed
+	 * @param string $username the username of the player
+	 * @param string $password the password of the player
+	 * @param string $email the email of the player
+	 * @param int $score the score of the player
+	 * @param int $level the level of the player
+	 * @param int $coins the coins of the player
+	 * @return string|bool returns true if the operation succeed, and returns a string containing an error message if it failed
 	 * @throws \Exception
 	 */
-	public static function insertPlayer(string $username = "", string $password = "", string $email = "", int $score = 0, int $level = 0, int $coins = 25): string|bool {
+	public static function insertPlayer(string $username = "", string $password = "", string $email = "", int $score = 0, int $level = 0, int $coins = 25): string|bool
+	{
 		// Check if the username isn't empty
 		if (empty($username)) {
 			return "The username can't be empty";
@@ -55,4 +56,39 @@ class PlayerUtils
 			return $e->getMessage();
 		}
 	}
+
+	/**
+	 * This method logs a user in
+	 * @param string $username the username of the player
+	 * @param string $password the password of the player
+	 * @return int returns the id of the player if it exists, returns 0 if it doesn't
+	 * @throws \Exception
+	 */
+	public static function loginPlayer(string $username = "", string $password= ""): int
+	{
+		try {
+			return intval(DbUtils::select(DbTable::TABLE_PLAYER, ["id"], "WHERE username = '$username' AND password = '" . sha1($password) . "'")->fetch()["id"]);
+		} catch (Exception $e) {
+			echo $e->getMessage();
+			return 0;
+		}
+	}
+
+	/**
+	 * This method deletes a player from the database
+	 * @param int $id the id of the player
+	 * @return bool returns true if the operation succeed, false if it failed
+	 * @throws \Exception
+	 */
+	public static function deleteUser(int $id): bool
+	{
+		try {
+			DbUtils::delete(DbTable::TABLE_PLAYER, $id);
+			return true;
+		} catch (Exception $e) {
+			echo $e->getMessage();
+			return false;
+		}
+	}
+
 }
