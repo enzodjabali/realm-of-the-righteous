@@ -1,5 +1,14 @@
+html{
+    background: #24292F;
+}
 #board-container{
     display: grid;
-    grid-template-columns: 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px;
+    z-index: 0;
+
+
+}
+#container-enemies{
+    position: absolute;
+    border: 1px solid red;
 }
 
