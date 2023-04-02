@@ -11,6 +11,7 @@
     <!--<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">-->
     <link rel="stylesheet" href="assets/css/login-register-forms.css">
+    <link rel="stylesheet" href="assets/css/modal.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
 </head>
@@ -45,8 +46,18 @@
     </div>
 </div>
 
+<!-- Error login modal -->
+<div id="modal" class="modal">
+
+<div class="modal-content">
+    <span class="close">&times;</span>
+    <p id="modalMessage"></p>
+</div>
+<!---->
+
 </body>
 
+<script src="js/modal.js"></script>
 <script type="text/javascript">
     $(function(){
         $("#login-form").submit(function(){
@@ -56,10 +67,15 @@
             $.post("methods/loginMethod.php", {username: username, password: password}, function(result){
 
                 if (result > 0) {
+                    //success
                     window.location.href = "index.php?player_id=" + result;
                 } else {
                     // error
-                    console.log("error");
+                    let modal = document.getElementById("modal");
+                    let modalMessage = document.getElementById("modalMessage");
+
+                    modalMessage.innerHTML = "Wrong username or password, please try again.";
+                    modal.style.display = "block"
                 }
             });
             return false;
