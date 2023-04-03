@@ -8,7 +8,7 @@ p {line-height: 2}
     background-size: cover;
 }
 
-.bgimg {background-image: url("../images/frame.jpg")}
+.bgimg {background-image: url("frame-2851307.jpg")}
 
 p{font-family: 'Old English Text MT';
   /*font-size: 50px*/}
@@ -32,12 +32,14 @@ img{
     align-items: center;
     padding-left: 25%;
     padding-top: 2em;
+    padding-bottom: 2em;
 }
 .bar a{
     color: white;
     font-style: none;
     font-size: 20px;
     text-decoration: none;
+    width: auto;
 }
 
 header{
@@ -59,12 +61,21 @@ h1{
 }
 .story{
     font-size: 25px;
-    padding: 10em;
+    padding-left: 10em;
+    padding-right: 10em;
+    padding-bottom: 10em;
+    
 }
 
 .body-story{
-    background-image: url("../images/frame.jpg");
+    background-image: url("frame-2851307.jpg");
     min-height: 100%;
     background-position: center;
     background-size: cover;
+    
+}
+.body-story h1{
+    padding-bottom: 1em;
+    padding-top: 2em;
+    font-size: 5em;
 }
