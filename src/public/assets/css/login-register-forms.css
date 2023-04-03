@@ -1,5 +1,5 @@
 
-body,h1,h2{font-family: "Raleway", sans-serif}
+body,h1,h2{font-family: "Old English Text MT"}
 body{height: 100%;
 background-color: black;}
 p {line-height: 2}
@@ -25,25 +25,25 @@ img{
     margin-left: -7%;
 }
 
-.bar{
+.bar {
     display: grid;
     background-color: black;
-    
+    height: 20px;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     justify-content: space-between;
+    align-items: center;
     padding-left: 25%;
     padding-top: 2em;
-    padding-bottom: 2em;;
+    padding-bottom: 2em;
 
 }
-.bar a{
+.bar a {
     color: white;
-    
+    font-style: none;
     font-size: 20px;
     text-decoration: none;
-    display: inline-block;
-    width: auto;}
-
+    width: auto;
+}
 header{
     padding-left: 45%;
     padding-bottom: 2em;
