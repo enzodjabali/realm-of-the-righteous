@@ -26,19 +26,19 @@ export class Controller{
     }
 
     updateEnemies(){
-        console.log(this.model.getMatrice())
         //Probleme avec la liste du chemin pathfinding revoir avec baba HELP ME
         let matrice = this.model.getMatrice()
         let newMatrice = matrice;
-        for (let x = 0 ; x < matrice.length -1 ; x++){
-            for (let y = 0 ; y < matrice[x].length -1 ; y++){
+        for (let x = 0 ; x < matrice.length; x++){
+            for (let y = 0 ; y < matrice[x].length; y++){
                 for (let j = 0 ; matrice[x][y].enemies.length > j ; j++){
-                    //Moving Monster down by 1
+                    // Moving Monster down by 1
                     let movingMonster = matrice[x][y].enemies[j]
 
                     newMatrice[x][y].enemies.splice(j)
-                    newMatrice[x+1][y].enemies.push(movingMonster)
-                    break
+
+                    // newMatrice[x][y+1].enemies.push(movingMonster)
+                    console.log(newMatrice[x][y+1])
                 }
             }
         }

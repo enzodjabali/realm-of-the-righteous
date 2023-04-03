@@ -23,7 +23,7 @@ export class EnemiesController {
         for (let j = 0; j < this.model.enemiesToPlace.length ; j++){
             let x = this.model.enemiesToPlace[j].position.x
             let y = this.model.enemiesToPlace[j].position.y
-
+            console.log('x | y '+x+' | '+y)
             this.modifyMatrice(x, y, this.model.enemiesToPlace[j]);
         }
         //Empty this.model.enemiesToPlace
@@ -35,7 +35,6 @@ export class EnemiesController {
          * @param {number} y y position of matrice.
          * @param {Enemy} enemyObject Enemy object.
          */
-        console.log(this.model.matrice[x][y]);
         this.model.matrice[x][y].enemies.push(enemyObject) ;
     }
 }
