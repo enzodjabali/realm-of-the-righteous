@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace App\classes;
 
-use PHPUnit\Logging\Exception;
+use Exception;
 
 class PlayerUtils
 {
