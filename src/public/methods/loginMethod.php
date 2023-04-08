@@ -33,7 +33,7 @@ class loginMethod
     {
         (new DotEnv('./.env'))->load();
         $playerId = PlayerUtils::loginPlayer($username, $password);
-        $_SESSION["player_id"] = $playerId > 0 ?? $playerId;
+        $_SESSION["player_id"] = max($playerId, 0);
         echo $playerId;
     }
 }
