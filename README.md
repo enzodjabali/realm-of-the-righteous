@@ -1,5 +1,15 @@
 ## Realm of the righteous
 
+<img src="https://cdn.discordapp.com/attachments/774340712585625603/1094390740659998800/realm-of-the-righteous-logo.png" width="150" />
+<br><br>
+
+<p float="left">
+    <img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white" />
+    <img src="https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white" />
+    <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white" />
+    <img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E" />
+</p>
+
 Realm of the righteous is Tower Defense game. It is a subgenre of strategy games where 
 the goal is to defend a player's territories or possessions by stopping enemies from 
 reaching the exits, usually achieved by placing defensive structures along their path 
