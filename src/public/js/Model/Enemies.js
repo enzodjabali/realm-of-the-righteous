@@ -8,6 +8,7 @@ export class Enemy{
         this.position = position;
         this.path = '../../assets/images/zombie.gif';
         this.typeOfEnemies = typeOfEnemies;
+        this.step = 0;
     }
     getLife(){
         return this.life;

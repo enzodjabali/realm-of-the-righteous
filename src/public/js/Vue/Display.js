@@ -1,4 +1,4 @@
-// Display to the users the game
+import {Controller} from "../Controller/Controller.js";
 export class Display{
     constructor() {
         this.enemiesIds = [];
@@ -58,7 +58,6 @@ export class Display{
                     default:
                         break;
                 }
-
                 for (let j = 0 ; matrice[x][y].enemies.length > j ; j++){
                     var imgEnemy = new Image();
                     imgEnemy.src = matrice[x][y].enemies[j].path;
@@ -77,29 +76,26 @@ export class Display{
         }
 
     }
-    nextMoveEnemies(matrice){
+    nextMoveEnemy(enemy){
         /**
          * @param {list[list]} matrice Logical board of the game.
          * Make enemies move to their n+1 positions.
          * HELP ME --> ennemies IMGs use with STATIC width and height
          */
-        for (let x = 0 ; x < matrice.length ; x++){
-            for (let y = 0 ; y < matrice[x].length ; y++){
-                for (let j = 0 ; matrice[x][y].enemies.length > j ; j++){
-                    let enemy = document.getElementById(matrice[x][y].enemies[j].getId())
-                    enemy.style.position = 'absolute';
-                    anime({
-                        targets: enemy,
-                        translateX: matrice[x][y].enemies[j].position.y * this.tilesSize,
-                        translateY: matrice[x][y].enemies[j].position.x * this.tilesSize,
-                        easing: 'linear',
-                        duration: 1000
-                    })
+        let enemyId = enemy.id;
+        let enemyImage = document.getElementById(enemyId)
+        enemyImage.style.position = 'absolute';
+        return new Promise((resolve) => {
+            anime({
+                targets: enemyImage,
+                translateY: enemy.position.x * this.tilesSize,
+                translateX: enemy.position.y * this.tilesSize,
+                easing: 'linear',
+                duration: 2000,
+                complete: function (){
+                    resolve('all good')
                 }
-
-            }
-
-        }
-
+            })
+        })
     }
 }
