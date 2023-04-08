@@ -83,11 +83,10 @@ export class Display{
          * Make enemies move to their n+1 positions.
          * HELP ME --> ennemies IMGs use with STATIC width and height
          */
-        for (let x = 0 ; x < matrice.length-1 ; x++){
-            for (let y = 0 ; y < matrice[x].length-1 ; y++){
+        for (let x = 0 ; x < matrice.length ; x++){
+            for (let y = 0 ; y < matrice[x].length ; y++){
                 for (let j = 0 ; matrice[x][y].enemies.length > j ; j++){
                     let enemy = document.getElementById(matrice[x][y].enemies[j].getId())
-                    console.log(matrice[x][y].enemies[j].position.x, matrice[x][y].enemies[j].position.y);
                     enemy.style.position = 'absolute';
                     anime({
                         targets: enemy,

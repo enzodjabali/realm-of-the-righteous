@@ -34,9 +34,10 @@ export class Controller{
             for (let y = 0 ; y < matrice[x].length; y++){
                 for(let j = matrice[x][y].enemies.length - 1; j >= 0; j--){
                     let enemy = matrice[x][y].enemies[0];
-                    enemy.position.y += 0 // put the path finding function here
-                    matrice[x][y].enemies.splice(enemy,1)
-                    enemiesToMove.push(enemy);
+                        enemy.position.y += 1 // put the path finding function here
+                        enemy.position.x += 1 // put the path finding function here
+                        matrice[x][y].enemies.splice(enemy,1)
+                        enemiesToMove.push(enemy);
                 }
             }
         }
@@ -46,7 +47,8 @@ export class Controller{
         //Update enemy in matrice by its position in its object (enemy.position.x / enemy.position.y)
         let matrice = this.model.getMatrice()
         enemiesToMove.map(data => {
-            matrice[data.position.x][data.position.y].enemies.push(data);
+            console.log('Position enemy', data.position.x, data.position.y)
+                matrice[data.position.x][data.position.y].enemies.push(data);
         })
     }
 
@@ -54,8 +56,11 @@ export class Controller{
         this.createEnnemies();
         let display = new Display();
         display.initializeGame(this.model.getMatrice());
-        // this.updateEnemiesPosition()
-        display.nextMoveEnemies(this.model.getMatrice())
+        for(let i = 0; i < 5 ; i++){
+            console.log('rouge')
+            this.updateEnemiesPosition();
+            display.nextMoveEnemies(this.model.getMatrice());
+        }
         // Probleme : si la position de départ n'est pas 0,0 --> se déplace automatiquement dès le départ (x,y inversé ?? )
     }
 }
