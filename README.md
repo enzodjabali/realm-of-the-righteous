@@ -1,7 +1,7 @@
 ## Realm of the righteous
 
 <img src="https://cdn.discordapp.com/attachments/774340712585625603/1094390740659998800/realm-of-the-righteous-logo.png" width="150" />
-<br><br>
+<br>
 
 <p float="left">
     <img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white" />
