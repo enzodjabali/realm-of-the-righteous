@@ -69,11 +69,9 @@ export class Display{
 
                     //Set an ID to the enemy. Permits to get it later
                     imgEnemy.setAttribute('id', matrice[x][y].enemies[j].getId());
-
                     containerEnemies.style.top = (matrice[x][y].enemies[j].position.x * this.tilesSize + 0.5*this.tilesSize - 32).toString()+'px';
                     containerEnemies.style.left = (matrice[x][y].enemies[j].position.y * this.tilesSize + 0.5*this.tilesSize - 32).toString()+'px';
                     document.getElementById('container-enemies').appendChild(imgEnemy);
-
                 }
             }
         }
@@ -89,16 +87,16 @@ export class Display{
             for (let y = 0 ; y < matrice[x].length ; y++){
                 for (let j = 0 ; matrice[x][y].enemies.length > j ; j++){
                     let enemy = document.getElementById(matrice[x][y].enemies[j].getId())
+                    enemy.style.position = 'absolute';
                     anime({
                         targets: enemy,
-                        translateX: matrice[x][y].enemies[j].position.x * this.tilesSize + 0.5*this.tilesSize,
-                        translateY: matrice[x][y].enemies[j].position.y * this.tilesSize + 0.5*this.tilesSize,
+                        translateX: matrice[x][y].enemies[j].position.y * this.tilesSize,
+                        translateY: matrice[x][y].enemies[j].position.x * this.tilesSize,
                         easing: 'linear',
                         duration: 1000
                     })
-
-
                 }
+
             }
 
         }
