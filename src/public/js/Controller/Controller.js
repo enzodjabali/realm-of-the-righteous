@@ -9,7 +9,7 @@ export class Controller{
     }
     createEnnemies(){
         // Creates enemies with this.waves.
-        //ID of each enemy
+        // ID of each enemy
         let id = 0;
         let waves = this.model.getWaves()
         for(var wave of waves){
@@ -25,36 +25,37 @@ export class Controller{
         this.enemiesController.placeEnemiesInMatrice();
     }
 
-    updateEnemies(){
-        //Probleme avec la liste du chemin pathfinding revoir avec baba HELP ME
-        let matrice = this.model.getMatrice()
-        let newMatrice = matrice;
+    updateEnemiesPosition(){
+        //Update enemy position within its object (enemy.position) by tick
+        let enemiesToMove = [];
+        const matrice = this.model.getMatrice();
+        console.log(matrice)
         for (let x = 0 ; x < matrice.length; x++){
             for (let y = 0 ; y < matrice[x].length; y++){
-                for (let j = 0 ; matrice[x][y].enemies.length > j ; j++){
-                    // Moving Monster down by 1
-                    let movingMonster = matrice[x][y].enemies[j]
-
-                    newMatrice[x][y].enemies.splice(j)
-
-                    // newMatrice[x][y+1].enemies.push(movingMonster)
-                    console.log(newMatrice[x][y+1])
+                for(let j = matrice[x][y].enemies.length - 1; j >= 0; j--){
+                    let enemy = matrice[x][y].enemies[0];
+                    enemy.position.y += 0 // put the path finding function here
+                    matrice[x][y].enemies.splice(enemy,1)
+                    enemiesToMove.push(enemy);
                 }
             }
         }
-
-
-        //console.log(this.model.getMatrice())
-        this.model.updateMatrice(newMatrice);
-        //console.log(this.model.getMatrice())
+        this.updateEnemyInMatrice(enemiesToMove);
+    }
+    updateEnemyInMatrice(enemiesToMove) {
+        //Update enemy in matrice by its position in its object (enemy.position.x / enemy.position.y)
+        let matrice = this.model.getMatrice()
+        enemiesToMove.map(data => {
+            matrice[data.position.x][data.position.y].enemies.push(data);
+        })
     }
 
     run(){
         this.createEnnemies();
         let display = new Display();
         display.initializeGame(this.model.getMatrice());
-        this.updateEnemies()
+        // this.updateEnemiesPosition()
         display.nextMoveEnemies(this.model.getMatrice())
+        // Probleme : si la position de départ n'est pas 0,0 --> se déplace automatiquement dès le départ (x,y inversé ?? )
     }
-
 }

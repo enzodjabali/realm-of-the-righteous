@@ -2,23 +2,23 @@
 export class Model {
     constructor() {
         this.matrice =
-            [[{tile: 2, enemies: []},{tile: 1, enemies: []},{tile: 2, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
+            [[{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 2, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
                 [{tile: 2, enemies: []},{tile: 1, enemies: []},{tile: 2, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
                 [{tile: 2, enemies: []},{tile: 1, enemies: []},{tile: 2, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
                 [{tile: 2, enemies: []},{tile: 1, enemies: []},{tile: 2, enemies: []},{tile: 2, enemies: []},{tile: 2, enemies: []},{tile: 2, enemies: []},{tile: 2, enemies: []},{tile: 2, enemies: []},{tile: 2, enemies: []},{tile: 2, enemies: []}],
                 [{tile: 2, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 2, enemies: []},{tile: 2, enemies: []}],
             ]
         // [wave 0 --> [[quantity], [type]]]
-        this.waves = [[[5,100],[0,110]]];
+        this.waves = [[[1,100],[0,110]]];
         this.enemiesToPlace = []; //List where enemy are waiting to be put in the matrice
-        this.entryPoints = [[0,1]];
+        this.entryPoints = [[0,0]];
         this.endPoints = [];
 
     }
     getMatrice(){
         return this.matrice;
     }
-
+    
     updateMatrice(newMatrice){
         this.matrice = newMatrice;
     }
