@@ -13,3 +13,8 @@ of defensive elements is an essential strategy of the genre.
 [Deploy the Docker containers](https://github.com/enzodjabali/realm-of-the-righteous/wiki/Deploy-the-containers)
 <br>
 [Run the Docker scripts](https://github.com/enzodjabali/realm-of-the-righteous/wiki/Run-the-Docker-scripts)
+
+## Production
+[Installing the production server on Debian 11](https://github.com/enzodjabali/realm-of-the-righteous/wiki/Installing-the-production-server-on-Debian-11)
+<br>
+[Triggering the project deployment script through Apple Shortcuts](https://github.com/enzodjabali/realm-of-the-righteous/wiki/Triggering-the-project-deployment-script-through-Apple-Shortcuts)
