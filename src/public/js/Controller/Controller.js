@@ -5,7 +5,9 @@ import {Display} from "../Vue/Display.js";
 export class Controller{
     constructor() {
         this.model = new Model();
+        this.display = new Display();
         this.enemiesController = new EnemiesController(this.model);
+
     }
     createEnnemies(){
         // Creates enemies with this.waves.
@@ -25,42 +27,53 @@ export class Controller{
         this.enemiesController.placeEnemiesInMatrice();
     }
 
-    updateEnemiesPosition(){
+    updateEnemiesPosition(enemy, nextPosition){
         //Update enemy position within its object (enemy.position) by tick
-        let enemiesToMove = [];
         const matrice = this.model.getMatrice();
-        console.log(matrice)
-        for (let x = 0 ; x < matrice.length; x++){
-            for (let y = 0 ; y < matrice[x].length; y++){
-                for(let j = matrice[x][y].enemies.length - 1; j >= 0; j--){
-                    let enemy = matrice[x][y].enemies[0];
-                        enemy.position.y += 1 // put the path finding function here
-                        enemy.position.x += 1 // put the path finding function here
-                        matrice[x][y].enemies.splice(enemy,1)
-                        enemiesToMove.push(enemy);
-                }
-            }
-        }
-        this.updateEnemyInMatrice(enemiesToMove);
+        enemy.position.x = nextPosition[0]
+        enemy.position.y = nextPosition[1]
+        //supprime enemy dans matrice
+        matrice[enemy.position.x][enemy.position.y].enemies.splice(enemy,1)
+
+        // doit ajouter enemy dans matrice a nouvelle position
+        this.updateEnemyInMatrice(enemy);
     }
-    updateEnemyInMatrice(enemiesToMove) {
+    updateEnemyInMatrice(enemy) {
         //Update enemy in matrice by its position in its object (enemy.position.x / enemy.position.y)
-        let matrice = this.model.getMatrice()
-        enemiesToMove.map(data => {
-            console.log('Position enemy', data.position.x, data.position.y)
-                matrice[data.position.x][data.position.y].enemies.push(data);
-        })
+        let matrice = this.model.getMatrice();
+        matrice[enemy.position.x][enemy.position.y].enemies.push(enemy);
+    }
+    setup(){
+        this.createEnnemies();
+        this.display.initializeGame(this.model.getMatrice());
     }
 
-    run(){
-        this.createEnnemies();
-        let display = new Display();
-        display.initializeGame(this.model.getMatrice());
-        for(let i = 0; i < 5 ; i++){
-            console.log('rouge')
-            this.updateEnemiesPosition();
-            display.nextMoveEnemies(this.model.getMatrice());
+    async loop(){
+        let path = this.model.findPathForWaves(this.model.getMatrice(), this.model.entryPoints, this.model.endPoints)
+        for(let enemy of this.enemiesController.enemies){
+            console.log(`runing enemy `,enemy)
+            this.run(enemy, path);
+            await new Promise(r => setTimeout(r, 500));
         }
-        // Probleme : si la position de départ n'est pas 0,0 --> se déplace automatiquement dès le départ (x,y inversé ?? )
     }
+    
+    async run(enemy, path){
+        enemy.step += 1;
+        this.updateEnemiesPosition(enemy, path[enemy.step]);
+        let test = this.display.nextMoveEnemy(enemy)
+        test.then(value => {
+            if(enemy.step != path.length -1){
+                console.log(enemy)
+                this.run(enemy, path)
+            } else {
+                //HELP perte de Live point
+                console.log('complete')
+            }
+
+        })
+
+    }
+
+
+
 }
