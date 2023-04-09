@@ -28,3 +28,4 @@ of defensive elements is an essential strategy of the genre.
 [Installing the production server on Debian 11](https://github.com/enzodjabali/realm-of-the-righteous/wiki/Installing-the-production-server-on-Debian-11)
 <br>
 [Triggering the project deployment script through Apple Shortcuts](https://github.com/enzodjabali/realm-of-the-righteous/wiki/Triggering-the-project-deployment-script-through-Apple-Shortcuts)
+
