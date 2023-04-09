@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace App\Tests;
+namespace App\tests;
 
 use App\classes\PlayerUtils;
 use Exception;
@@ -14,7 +14,7 @@ final class PlayerUtilsTest extends TestCase
 	 */
 	public function testInsertUser(): void
 	{
-		$isUserInserted = PlayerUtils::insertPlayer("test83163", "1234", "test83163@test.dev", 150, 5, 50);
+		$isUserInserted = PlayerUtils::insertPlayer("test83163", "1234", "test83163@test.dev");
 		$this->assertTrue($isUserInserted);
 	}
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : database
--- Généré le : dim. 09 avr. 2023 à 12:44
+-- Généré le : dim. 09 avr. 2023 à 16:27
 -- Version du serveur : 8.0.32
 -- Version de PHP : 8.1.17
 
@@ -32,6 +32,7 @@ CREATE TABLE `game` (
   `name` varchar(25) DEFAULT NULL,
   `player_id` int NOT NULL,
   `map_id` int NOT NULL,
+  `difficulty` int NOT NULL DEFAULT '1',
   `current_wave` int DEFAULT '1',
   `is_over` tinyint(1) DEFAULT '0',
   `is_won` tinyint(1) DEFAULT '0'
@@ -41,8 +42,8 @@ CREATE TABLE `game` (
 -- Déchargement des données de la table `game`
 --
 
-INSERT INTO `game` (`id`, `name`, `player_id`, `map_id`, `current_wave`, `is_over`, `is_won`) VALUES
-(2, 'My test game', 1, 1, 1, 0, 0);
+INSERT INTO `game` (`id`, `name`, `player_id`, `map_id`, `difficulty`, `current_wave`, `is_over`, `is_won`) VALUES
+(2, 'My test game', 1, 1, 1, 1, 0, 0);
 
 -- --------------------------------------------------------
 
