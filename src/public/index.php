@@ -143,10 +143,17 @@
                             <input type="radio" id="hard" name="difficulty">
                             <label for="hard"> Hard</label>
                         </form>
-                        <a href="">
-
-                            <div class="w3-center" style="background-color: maroon;color: white;width: 35% ;border-radius: 7px;">  Let's go !  </div>
+                        <div>
+                        <a href="#popup-box" style="float: left">
+                            <div class="w3-center" style="background-color: maroon;color: white;border-radius: 7px;">  Go back  </div>
                         </a>
+
+                        <a href="" style="float: right">
+
+                            <div class="w3-center" style="background-color: maroon;color: white;border-radius: 7px;">  Let's go !  </div>
+
+                        </a>
+                </div>
                     </b>
                     <a href="#"
                        class="box-close">
@@ -155,7 +162,24 @@
                 </div>
             </div>
             <br>
-            <div class="w3-center search">Current Games</div>
+            <div class="w3-center search" style="overflow-y: scroll;">Current Games
+                <br>
+                GAME NAME | WAVE NUMBER | MAP NAME<i class="fa-regular fa-trash"></i><br><hr>
+                AMANDA GAME | 3 | CITY STREETS<i class="fa-regular fa-trash"></i><br><hr>
+                LEO GAME | 2 | UNDERGROUND FACILITY<i class="fa-regular fa-trash"></i><br><hr>
+                HANNAH GAME | 7 | ABANDONED LAB<i class="fa-regular fa-trash"></i><br><hr>
+                JACOB GAME | 20 | OASIS TOWN<i class="fa-regular fa-trash"></i><br><hr>
+                EMMA GAME | 5 | DARK CASTLE<i class="fa-regular fa-trash"></i><br><hr>
+                NATHAN GAME | 4 | MYSTIC LANDS<i class="fa-regular fa-trash"></i><br><hr>
+                LILA GAME | 12 | SPACE STATION<i class="fa-regular fa-trash"></i><br><hr>
+                ETHAN GAME | 8 | UNDERWATER RUINS<i class="fa-regular fa-trash"></i><br><hr>
+                ELLA GAME | 15 | FAIRY FOREST<i class="fa-regular fa-trash"></i><br><hr>
+                SEBASTIAN GAME | 3 | TROPICAL BEACH<i class="fa-regular fa-trash"></i>
+
+
+
+
+            </div>
 
         </header>
 
