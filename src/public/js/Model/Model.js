@@ -15,7 +15,7 @@ export class Model {
             ]
         // [wave 0 --> [[quantity], [type]]]
 
-        this.waves = {easy:[[[10,100],[10,110],[10,110],[10,110],[10,100],[10,110],[10,110],[10,110]],[[10,100],[10,110]]],
+        this.waves = {easy:[[[2,100],[10,110],[10,110],[10,110],[10,100],[10,110],[10,110],[10,110]],[[10,100],[10,110]]],
                       medium:[[[1,100],[0,110]]],
                       hard:[[[1,100],[0,110]]],}
 
@@ -27,8 +27,8 @@ export class Model {
         this.currentGroup = 0;
         this.mobId = 0;
         this.enemiesToPlace = []; //List where enemy are waiting to be put in the matrice
-        this.entryPoints = [[9,8],[9,1],[0,8],[0,1]];
-        this.endPoints = [[9,8],[9,1],[0,8],[0,1]];
+        this.entryPoints = [[0,1],[0,8]];
+        this.endPoints = [[9,1],[9,8]];
 
     }
     getMatrice(){

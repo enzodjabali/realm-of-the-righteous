@@ -86,7 +86,7 @@ export class Display{
         enemyCss.style.left = (enemy.position.y * this.tilesSize + 0.5*this.tilesSize - imgEnemy.height/2).toString()+'px';
 
     }
-    nextMoveEnemy(enemy, path_enemy_step){
+    nextMoveEnemy(enemy){
         let enemyId = enemy.id;
         let enemyImage = document.getElementById(enemyId)
         return new Promise((resolve) => {
@@ -102,6 +102,11 @@ export class Display{
                 }
             });
         });
+    }
+    removeEnemy(enemy){
+        let enemyId = enemy.id;
+        let enemyImage = document.getElementById(enemyId)
+        enemyImage.parentNode.removeChild(enemyImage)
     }
 
 }

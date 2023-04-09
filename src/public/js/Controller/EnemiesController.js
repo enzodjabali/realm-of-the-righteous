@@ -19,10 +19,7 @@ export class EnemiesController {
         }
     }
 
-    placeEnemiesInMatrice(){
-        /**
-         * @param {Enemy} enemyObject instance of an enemy
-         * */
+    /*placeEnemiesInMatrice(){
         for (let j = 0; j < this.model.enemiesToPlace.length ; j++){
             let x = this.model.enemiesToPlace[j].position.x
             let y = this.model.enemiesToPlace[j].position.y
@@ -30,7 +27,7 @@ export class EnemiesController {
         }
         //Empty this.model.enemiesToPlace
         this.model.enemiesToPlace.length = 0;
-    }
+    }*/
 
     modifyMatrice(x, y, enemyObject){
         /**
