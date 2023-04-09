@@ -10,6 +10,6 @@ enum DbTable: string
 {
 	case TABLE_PLAYER = "player";
 	case TABLE_MAPS = "maps";
-	case TABLE_GAME_STATE = "game_state";
+	case TABLE_GAME = "game";
 	case TABLE_GAME_EVENT = "game_event";
 }
