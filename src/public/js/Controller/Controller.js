@@ -58,6 +58,10 @@ export class Controller{
                 let indexOfEndPoints = (waves.indexOf(group)) % (this.model.endPoints.length);
                 let path = this.model.findPathForWaves(this.model.getMatrice(), this.model.entryPoints[indexOfEntryPoints], this.model.endPoints[indexOfEndPoints]);
 
+                if(path == 0){
+                    console.log('can not find path')
+                    return
+                }
                 for (let mob = 0; mob < group[0]; mob++){
                     let enemy = this.enemiesController.createEnnemyObject(this.model.mobId, path,this.model.entryPoints[indexOfEntryPoints], group[1])
 
@@ -82,15 +86,18 @@ export class Controller{
                     return
                 }
 
+                if (path[step][1] < 0){
+                    this.display.flipItLeft(enemy);
+                }
+                if (path[step][1] > 0){
+                    this.display.flipItLeftRight(enemy);
+                }
+
                 if (enemy.life <= 0){
                     console.log('enemy killed');                    
                     this.display.removeEnemy(enemy);
                     this.model.matrice[enemy.position.x][enemy.position.y].enemies.splice(enemy,1)
                     return
-                }
-
-                if (step == 4){
-                    enemy.life = -10;
                 }
 
                 if (step <= path.length-1) {
