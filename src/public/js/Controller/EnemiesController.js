@@ -9,7 +9,6 @@ export class EnemiesController {
     createEnnemyObject(id ,path ,entry, typeOfEnemies){
         // Create enmies for a wave. Call it once. If not, last instance will be the one the one with the id
         if (this.model.entryPoints) {
-            console.log(entry, 'entry')
             let xCord = entry[0]
             let yCord = entry[1]
             let position = {x: xCord,  y: yCord};

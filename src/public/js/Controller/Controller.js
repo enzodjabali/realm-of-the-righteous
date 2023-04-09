@@ -10,24 +10,6 @@ export class Controller{
 
     }
     
-    /*createEnnemy(){
-        // Creates enemies with this.waves.
-        // ID of each enemy
-        let id = 0;
-        let waves = this.model.getWaves()
-        for(var wave of waves){
-            //For each wave of enemies
-            for(var groups of wave)
-                // For each type of enemy + its quantity
-                for(let test = 0; test < groups[0]; test++){
-                    this.enemiesController.createEnemiesIntoToPlaceList(id, groups[1])
-                    id++;
-                }
-            //Implement a win wave condition
-        }
-        this.enemiesController.placeEnemiesInMatrice();
-    }*/
-
     updateEnemiesPosition(enemy, nextPosition){
         //Update enemy position within its object (enemy.position) by tick
         const matrice = this.model.getMatrice();
@@ -70,13 +52,20 @@ export class Controller{
                     await new Promise(r => setTimeout(r, this.model.timeBetweenGroups));
                     }
                     this.model.currentGroup++;
-            
+                    
+                    let i = (waves.indexOf(group)) % (this.model.entryPoints.length);
+                    let y = (waves.indexOf(group)+1) % (this.model.endPoints.length);
+
+                    console.log(i)
+                    console.log(y)
+
+                    let path = this.model.findPathForWaves(this.model.getMatrice(), this.model.entryPoints[i], this.model.endPoints[y]);
+
+
                 for (let mob = 0; mob < group[0]; mob++){
                     console.log(this.model.mobId, '<<<<<')
-                    let path = this.model.findPathForWaves(this.model.getMatrice(), this.model.entryPoints[0], this.model.endPoints[1]);
 
-
-                    let enemy = this.enemiesController.createEnnemyObject(this.model.mobId, path,this.model.entryPoints[0], group[1])
+                    let enemy = this.enemiesController.createEnnemyObject(this.model.mobId, path,this.model.entryPoints[i], group[1])
 
                     this.display.initializeEnemy(enemy);
                     
