@@ -11,10 +11,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>W3.CSS Template</title>
+    <title>Realm of the righteous - Lobby</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="icon" type="image/x-icon" href="assets/images/website/favicon.ico">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
     <link rel="stylesheet" href="assets/css/gamesearch.css">
     <style>
@@ -162,7 +163,7 @@
         <div class="w3-bottom w3-hide-small">
             <div class="w3-bar w3-black w3-center w3-padding w3-opacity-min">
                 <a href="story.html" style="width:25%" class="w3-bar-item w3-button">The Story</a>
-                <a href="" style="width:50%" class="w3-bar-item w3-button">Match History</a>
+                <a href="#" style="width:50%" class="w3-bar-item w3-button">Match History</a>
                 <a href="credits.html" style="width:25%" class="w3-bar-item w3-button">Credits</a>
             </div>
         </div>
