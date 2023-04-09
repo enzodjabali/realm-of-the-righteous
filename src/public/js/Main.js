@@ -1,6 +1,12 @@
 import {Controller} from "./Controller/Controller.js";
+async function main(){
+	let controller = new Controller()
 
-let controller = new Controller()
+	//diffculty = homepage()
 
-controller.setup()
-controller.loop()
+	const diffculty = 'easy';
+
+	controller.setup();
+	controller.loop(diffculty);
+}
+main();

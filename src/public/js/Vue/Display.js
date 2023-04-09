@@ -7,7 +7,7 @@ export class Display{
         this.tilesSize = 0;
 
     }
-    initializeGame(matrice){
+    initializeBoard(matrice){
         let columns = '';
         // HELP ME
         let xRatio;
@@ -28,6 +28,10 @@ export class Display{
         }
         let container = document.getElementById('board-container');
         let containerEnemies = document.getElementById('container-enemies');
+                            
+        containerEnemies.style.top = 0;
+        containerEnemies.style.left = 0;
+
         container.style.gridTemplateColumns = columns;
 
         let imgArray = ["../../assets/images/chemin.png", "../../assets/images/herbe.png", "../../assets/images/tour.png"];
@@ -59,32 +63,30 @@ export class Display{
                         break;
                     default:
                         break;
-                }
-                for (let j = 0 ; matrice[x][y].enemies.length > j ; j++){
-                    var imgEnemy = new Image();
-                    imgEnemy.src = matrice[x][y].enemies[j].path;
-
-                    // Maybe put img size in Json to make it dynamic --> HELP ME
-                    imgEnemy.width = this.tilesSize;
-                    imgEnemy.height = this.tilesSize;
-                    //Set an ID to the enemy. Permits to get it later
-                    imgEnemy.setAttribute('id', matrice[x][y].enemies[j].getId());
-                    
-                    containerEnemies.style.top = 0;
-                    containerEnemies.style.left = 0;
-                    
-                    document.getElementById('container-enemies').appendChild(imgEnemy);
-                    let enemy = document.getElementById(matrice[x][y].enemies[j].getId());
-                    enemy.style.position = 'absolute';
-                    enemy.style.top = (matrice[x][y].enemies[j].position.x * this.tilesSize + 0.5*this.tilesSize - imgEnemy.width/2).toString()+'px';
-                    enemy.style.left = (matrice[x][y].enemies[j].position.y * this.tilesSize + 0.5*this.tilesSize - imgEnemy.height/2).toString()+'px';
-                    
                 }   
             }
         }
 
     }
-    nextMoveEnemy(enemy, path_enemy_step){
+    initializeEnemy(enemy){
+        let imgEnemy = new Image();
+        console.log(enemy)
+        imgEnemy.src = enemy.path;
+
+        // Maybe put img size in Json to make it dynamic --> HELP ME
+        imgEnemy.width = this.tilesSize;
+        imgEnemy.height = this.tilesSize;
+        //Set an ID to the enemy. Permits to get it later
+        imgEnemy.setAttribute('id', enemy.getId());
+      
+        document.getElementById('container-enemies').appendChild(imgEnemy);
+        let enemyCss = document.getElementById(enemy.getId());
+        enemyCss.style.position = 'absolute';
+        enemyCss.style.top = (enemy.position.x * this.tilesSize + 0.5*this.tilesSize - imgEnemy.width/2).toString()+'px';
+        enemyCss.style.left = (enemy.position.y * this.tilesSize + 0.5*this.tilesSize - imgEnemy.height/2).toString()+'px';
+
+    }
+    nextMoveEnemy(enemy){
         let enemyId = enemy.id;
         let enemyImage = document.getElementById(enemyId)
         return new Promise((resolve) => {
@@ -100,6 +102,11 @@ export class Display{
                 }
             });
         });
+    }
+    removeEnemy(enemy){
+        let enemyId = enemy.id;
+        let enemyImage = document.getElementById(enemyId)
+        enemyImage.parentNode.removeChild(enemyImage)
     }
 
 }

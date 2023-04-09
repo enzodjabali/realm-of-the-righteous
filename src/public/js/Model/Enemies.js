@@ -4,7 +4,7 @@
 export class Enemy{
     constructor(enemyId, typeOfEnemies, position) {
         this.id = enemyId;
-        this.life = 0;
+        this.life = 10;
         this.position = position;
         this.path = '../../assets/images/zombie.gif';
         this.typeOfEnemies = typeOfEnemies;
