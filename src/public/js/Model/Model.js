@@ -2,17 +2,22 @@
 export class Model {
     constructor() {
         this.matrice =
-            [[{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 2, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
-                [{tile: 2, enemies: []},{tile: 1, enemies: []},{tile: 2, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
-                [{tile: 2, enemies: []},{tile: 1, enemies: []},{tile: 2, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
-                [{tile: 2, enemies: []},{tile: 1, enemies: []},{tile: 2, enemies: []},{tile: 2, enemies: []},{tile: 2, enemies: []},{tile: 2, enemies: []},{tile: 2, enemies: []},{tile: 2, enemies: []},{tile: 2, enemies: []},{tile: 2, enemies: []}],
-                [{tile: 2, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 2, enemies: []},{tile: 2, enemies: []}],
+               [[{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []}],
+                [{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []}],
+                [{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []}],
+                [{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []}],
+                [{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []}],
+                [{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []}],
+                [{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []}],
+                [{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []}],
+                [{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []}],
+                [{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []}],
             ]
         // [wave 0 --> [[quantity], [type]]]
-        this.waves = [[[3,100],[0,110]]];
+        this.waves = [[[1,100],[0,110]]];
         this.enemiesToPlace = []; //List where enemy are waiting to be put in the matrice
-        this.entryPoints = [0,0];
-        this.endPoints = [4,5];
+        this.entryPoints = [[1,1],[0,8]];
+        this.endPoints = [[9,1],[9,8]];
 
     }
     getMatrice(){
@@ -29,68 +34,83 @@ export class Model {
     getWaves(){
         return this.waves;
     }
-    findPathForWaves(matrix, start, end){
-        /*Cette fonction trouve un chemin pour les vagues sur une matrice, d'un point de départ donné à un point final.
-        Il utilise un algorithme de recherche en largeur d'abord pour explorer les cellules voisines dans quatre directions: Nord, Est, Sud et Ouest.
-        La fonction garde une trace des cellules visitées pour éviter les cycles et utilise une file d'attente pour maintenir l'ordre d'exploration.
-        Si le point final est trouvé, la fonction génère une liste de mouvements à effectuer pour atteindre le point final.
-        La fonction inclut également une fonction d'assistance "isVisited" pour vérifier si une cellule a déjà été visitée.
 
-        Saisir:
-        - matrice : un tableau 2D représentant la matrice
-        - start : un tableau de deux entiers représentant le point de départ [x, y]
-        - end : un tableau de deux entiers représentant le point final [x, y]
-
-        Sortir:
-        - moveToDo: un tableau de mouvements [dx, dy] à effectuer pour atteindre le point final à partir du point de départ,
-        ou un tableau vide si aucun chemin n'est trouvé.*/
-        const DIRECTIONTABLE = [[0, -1], [1, 0], [0, 1], [-1, 0]]; //North, East, South, West
-        const visited = [];
-        const movesToDo = [];
-        const queue = [start];
-
-        while (queue.length > 0){
-            const current = queue.shift();
-            const [x, y] = current;
-            /*console.log('current');
-            console.log(current);
-            console.log(matrix[x][y].tile);*/
-            visited.push(current)
-            if (current[0] === end[0] && current[1] === end[1]) {
-                console.log('end found')
-                // for (var i = visited.length-1; i >= 1; i--) {
-                //     const tempX = visited[i][0] - visited[i-1][0]
-                //     const tempY = visited[i][1] - visited[i-1][1]
-                //     /*console.log(tempX)
-                //     console.log(tempY)*/
-                //     movesToDo.push([tempX, tempY])
-                // }
-                //console.log(movesToDo)
-                return visited;
-            }
-            for (const direction of DIRECTIONTABLE){
-                const [dx, dy] = direction;
-                const [nx, ny] = [x+dx, y+dy];
-
-                if (nx < 0 || nx >= matrix.length || ny < 0 || ny >= matrix[0].length) {
-                    continue;
-                }
-
-                if (matrix[nx][ny].tile == 1 && !isVisited([nx,ny], visited)) {
-                    //console.log('[nx, ny]');
-                    //console.log([nx, ny]);
-                    queue.push([nx,ny]);
-                }
-            }
-        }
-        function isVisited(coord, visitedArray) {
-            for (const visitedCoord of visitedArray) {
-                if (visitedCoord[0] === coord[0] && visitedCoord[1] === coord[1]) {
-                    return true;
-                }
-            }
-            return false;
-        }
+    // Define a function for the heuristic (H) cost
+    heuristic(coord, end) {
+      // In this example, we use the Manhattan distance as the heuristic
+      return Math.abs(coord[0] - end[0]) + Math.abs(coord[1] - end[1]);
     }
 
+    // Define a function to check if two coordinates are equal
+    coordEquals(coord1, coord2) {
+      return coord1[0] === coord2[0] && coord1[1] === coord2[1];
+    }
+
+    // Define a function to convert a coordinate to a string for use as a key in a map
+    coordToString(coord) {
+      return coord.join(",");
+    }
+
+    // Define the A* algorithm function
+    findPathForWaves(matrix, start, end) {
+      const DIRECTIONTABLE = [[0, -1], [1, 0], [0, 1], [-1, 0]]; // North, East, South, West
+      const openList = [];
+      const gCosts = {};
+      const fCosts = {};
+      const movesToDo = [];
+      const startNode = { coord: start, gCost: 0, fCost: 0 + this.heuristic(start, end), parent: null };
+      openList.push(startNode);
+      gCosts[this.coordToString(start)] = 0;
+      fCosts[this.coordToString(start)] = startNode.fCost;
+
+      while (openList.length > 0) {
+        openList.sort((a, b) => a.fCost - b.fCost);
+        //console.log(openList)
+        const currentNode = openList.shift();
+        const { coord } = currentNode;
+        //console.log(coord)
+        if (this.coordEquals(coord, end)) {
+          // Path found, generate list of moves
+          let current = currentNode;
+          while (current.parent) {
+            const dx = current.coord[0] - current.parent.coord[0];
+            const dy = current.coord[1] - current.parent.coord[1];
+            movesToDo.unshift([dx, dy]);
+            current = current.parent;
+          }
+          return movesToDo;
+        }
+
+        for (const direction of DIRECTIONTABLE) {
+          const [dx, dy] = direction;
+          const nx = coord[0] + dx;
+          const ny = coord[1] + dy;
+
+          if (nx < 0 || nx >= matrix.length || ny < 0 || ny >= matrix[0].length) {
+            continue;
+          }
+          if (matrix[nx][ny].tile == 1) {
+            const tentativeGCost = currentNode.gCost + 1; // Cost of moving to the neighbor (always 1 in this example)
+            const neighborCoord = [nx, ny];
+            const neighborGCost = gCosts[this.coordToString(neighborCoord)] || Infinity;
+
+            if (tentativeGCost < neighborGCost) {
+              const neighborNode = openList.find(node => this.coordEquals(node.coord, neighborCoord)) ||
+                { coord: neighborCoord, gCost: Infinity, fCost: Infinity, parent: null };
+              neighborNode.gCost = tentativeGCost;
+              neighborNode.fCost = tentativeGCost + this.heuristic(neighborCoord, end);
+              neighborNode.parent = currentNode;
+
+              if (!openList.some(node => this.coordEquals(node.coord, neighborCoord))) {
+                openList.push(neighborNode);
+              }
+            }
+          }
+        }
+      }
+
+      // No path found
+      console.log('loooser')
+      return [];
+    }
 }

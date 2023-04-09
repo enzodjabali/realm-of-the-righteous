@@ -30,8 +30,10 @@ export class Controller{
     updateEnemiesPosition(enemy, nextPosition){
         //Update enemy position within its object (enemy.position) by tick
         const matrice = this.model.getMatrice();
-        enemy.position.x = nextPosition[0]
-        enemy.position.y = nextPosition[1]
+
+        enemy.position.x += nextPosition[0]
+        enemy.position.y += nextPosition[1]
+
         //supprime enemy dans matrice
         matrice[enemy.position.x][enemy.position.y].enemies.splice(enemy,1)
 
@@ -49,30 +51,34 @@ export class Controller{
     }
 
     async loop(){
-        let path = this.model.findPathForWaves(this.model.getMatrice(), this.model.entryPoints, this.model.endPoints)
+        // Find path for waves using model's matrice, entry and end points
+        let path = this.model.findPathForWaves(this.model.getMatrice(), this.model.entryPoints[0], this.model.endPoints[1]);
         for(let enemy of this.enemiesController.enemies){
-            console.log(`runing enemy `,enemy)
-            this.run(enemy, path);
-            await new Promise(r => setTimeout(r, 500));
+            this.run(enemy, path); // Run the movement loop for each enemy
+            await new Promise(r => setTimeout(r, 500)); // Delay 500ms between each enemy's movement for smoother animation
         }
     }
+
     
-    async run(enemy, path){
-        enemy.step += 1;
-        this.updateEnemiesPosition(enemy, path[enemy.step]);
-        let test = this.display.nextMoveEnemy(enemy)
-        test.then(value => {
-            if(enemy.step != path.length -1){
-                console.log(enemy)
-                this.run(enemy, path)
-            } else {
-                //HELP perte de Live point
-                console.log('complete')
+    async run(enemy, path) {
+        try {
+            for (let step = 0; step <= path.length; step++) {
+                let test = await this.display.nextMoveEnemy(enemy, path[step]); // Await the next move of the enemy using the nextMoveEnemy() method
+                if (step <= path.length-1) {
+                    await this.updateEnemiesPosition(enemy, path[step]); // Await the update of the enemy's position
+                }
+                
+                //console.log(enemy.position.x, enemy.position.y); // Log the enemy's current position
             }
-
-        })
-
+            console.log('complete');
+            // Add your code to handle end of path reached
+        } catch (error) {
+            // Handle any errors that may occur during the enemy's movement
+            console.error('Error:', error);
+        }
     }
+
+
 
 
 
