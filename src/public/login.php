@@ -45,15 +45,7 @@
             </div>
         </header>
 
-        <!-- Navbar (sticky bottom) -->
-        <div class="w3-bottom w3-hide-small">
-            <div class="w3-bar w3-black w3-center w3-padding w3-opacity-min">
-                <a href="login.html" class="w3-bar-item w3-button" style="width:25%">Login</a>
-                <a href="register.html"  class="w3-bar-item w3-button" style="width:25%">Register</a>
-                <a href="story.html" class="w3-bar-item w3-button" style="width:25%">The Story</a>
-                <a href="credits.html"class="w3-bar-item w3-button" style="width:25%">Credits</a>
-            </div>
-        </div>
+        <?php include_once("includes/menu.php") ?>
 
         <!-- Error login modal -->
         <div id="modal" class="modal">
