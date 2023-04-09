@@ -1,4 +1,6 @@
 import {Controller} from "../Controller/Controller.js";
+import anime from '../../node_modules/animejs/lib/anime.es.js';
+
 export class Display{
     constructor() {
         this.enemiesIds = [];
