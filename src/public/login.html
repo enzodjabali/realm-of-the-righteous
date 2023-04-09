@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="assets/css/login-register-forms.css">
         <link rel="stylesheet" href="assets/css/modal.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="node_modules/jquery/dist/jquery.js"></script>
     </head>
 
     <body>
@@ -34,7 +34,7 @@
             <div class="bar">
                 <a href="login.html" class="w3-bar-item w3-button">Login</a>
                 <a href="register.html"  class="w3-bar-item w3-button">Register</a>
-                <a href="the-story.html" class="w3-bar-item w3-button">The Story</a>
+                <a href="story.html" class="w3-bar-item w3-button">The Story</a>
                 <a href="credits.html"class="w3-bar-item w3-button">Credits</a>
             </div>
         </div>
@@ -52,7 +52,7 @@
     </body>
 
     <script src="js/modal.js"></script>
-    <script type="text/javascript">
+    <script>
         $(function(){
             $("#login-form").submit(function(){
                 let username = $(this).find("input[name=username]").val();
