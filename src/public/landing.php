@@ -27,7 +27,7 @@
         <img src="assets/images/website/logo.png" height="400px">
         <h1 class="w3-jumbo" style="color: navy;font-family: 'Old English Text MT'">Realm Of The Righteous</h1>
         <h2 style="color: navy">The best tower defense in all the realm</h2>
-        <button onclick="location.href = 'login.html';" style="border-radius: 25px;background-color: maroon;border: none;color: antiquewhite; width: 150px;height: 50px; font-size: 1.3em; cursor: pointer;">Start now</button>
+        <button onclick="location.href = '/lobby';" style="border-radius: 25px;background-color: maroon;border: none;color: antiquewhite; width: 150px;height: 50px; font-size: 1.3em; cursor: pointer;">Start now</button>
         <h2><b></b></h2>
       </div>
     </header>

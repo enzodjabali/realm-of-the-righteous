@@ -1,3 +1,14 @@
+<?php
+    session_start();
+
+    $sessionId = $_SESSION["player_id"] ?? 0;
+
+    if ($sessionId > 0) {
+        header("Location:/lobby");
+    }
+
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -66,11 +77,11 @@
                 let username = $(this).find("input[name=username]").val();
                 let password = $(this).find("input[name=password]").val();
 
-                $.post("methods/loginMethod.php", {username: username, password: password}, function(result){
+                $.post("methods/LoginPlayerMethod.php", {username: username, password: password}, function(result){
 
                     if (result > 0) {
                         //success
-                        window.location.href = "index.php?player_id=" + result;
+                        window.location.href = "/lobby";
                     } else {
                         // error
                         let modal = document.getElementById("modal");

@@ -12,13 +12,10 @@ class PlayerUtils
 	 * @param string $username the username of the player
 	 * @param string $password the password of the player
 	 * @param string $email the email of the player
-	 * @param int $score the score of the player
-	 * @param int $level the level of the player
-	 * @param int $coins the coins of the player
 	 * @return string|bool returns true if the operation succeed, and returns a string containing an error message if it failed
 	 * @throws \Exception
 	 */
-	public static function insertPlayer(string $username = "", string $password = "", string $email = "", int $score = 0, int $level = 0, int $coins = 25): string|bool
+	public static function insertPlayer(string $username = "", string $password = "", string $email = ""): string|bool
 	{
 		// Check if the username isn't empty
 		if (empty($username)) {
@@ -56,8 +53,8 @@ class PlayerUtils
 		try {
 			// Insert the new player into the database
 			DbUtils::insert(DbTable::TABLE_PLAYER,
-				["username", "password", "email", "score", "level", "coins"],
-				[$username, sha1($password), $email, $score, $level, $coins]
+				["username", "password", "email"],
+				[$username, sha1($password), $email]
 			);
 			return true;
 		} catch (Exception $e) {

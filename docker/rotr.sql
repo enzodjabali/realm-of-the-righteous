@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : database
--- Généré le : lun. 03 avr. 2023 à 14:08
+-- Généré le : dim. 09 avr. 2023 à 16:27
 -- Version du serveur : 8.0.32
 -- Version de PHP : 8.1.17
 
@@ -24,6 +24,30 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `game`
+--
+
+CREATE TABLE `game` (
+  `id` int NOT NULL,
+  `name` varchar(25) DEFAULT NULL,
+  `player_id` int NOT NULL,
+  `map_id` int NOT NULL,
+  `difficulty` int NOT NULL DEFAULT '1',
+  `current_wave` int DEFAULT '1',
+  `is_over` tinyint(1) DEFAULT '0',
+  `is_won` tinyint(1) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `game`
+--
+
+INSERT INTO `game` (`id`, `name`, `player_id`, `map_id`, `difficulty`, `current_wave`, `is_over`, `is_won`) VALUES
+(2, 'My test game', 1, 1, 1, 1, 0, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `game_event`
 --
 
@@ -38,33 +62,20 @@ CREATE TABLE `game_event` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `game_state`
---
-
-CREATE TABLE `game_state` (
-  `id` int NOT NULL,
-  `map_id` int DEFAULT NULL,
-  `current_wave` int DEFAULT NULL,
-  `game_over` tinyint(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `maps`
 --
 
 CREATE TABLE `maps` (
   `id` int NOT NULL,
-  `map_name` varchar(50) DEFAULT NULL,
-  `map_matrix` text
+  `name` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `matrix` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `maps`
 --
 
-INSERT INTO `maps` (`id`, `map_name`, `map_matrix`) VALUES
+INSERT INTO `maps` (`id`, `name`, `matrix`) VALUES
 (1, 'Example Map', '[[2,1,2,0,0,0,0,0,0,0],[2,1,2,0,0,0,0,0,0,0],[2,1,2,0,0,0,0,0,0,0],[2,1,2,2,2,2,2,2,2,2],[2,1,1,1,1,1,1,1,1,2],[2,2,2,2,2,2,2,2,1,2],[2,1,1,1,1,1,1,1,1,2],[2,1,2,2,2,2,2,2,2,2],[2,1,2,0,0,0,0,0,0,0],[2,1,2,0,0,0,0,0,0,0],[2,1,2,0,0,0,0,0,0,0],[2,1,2,0,0,0,0,0,0,0]]');
 
 -- --------------------------------------------------------
@@ -77,22 +88,28 @@ CREATE TABLE `player` (
   `id` int NOT NULL,
   `username` varchar(50) DEFAULT NULL,
   `password` varchar(50) DEFAULT NULL,
-  `email` varchar(50) DEFAULT NULL,
-  `score` int DEFAULT NULL,
-  `level` int DEFAULT NULL,
-  `coins` int DEFAULT NULL
+  `email` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `player`
 --
 
-INSERT INTO `player` (`id`, `username`, `password`, `email`, `score`, `level`, `coins`) VALUES
-(1, 'test', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', 'test@test.dev', 2300, 2, 50);
+INSERT INTO `player` (`id`, `username`, `password`, `email`) VALUES
+(1, 'test', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', 'test@test.dev'),
+(2, 'test2', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', 'test2@dev.dev'),
+(3, 'test3', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', 'test3@dev.fr'),
+(4, 'test4', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', 'test4@dev.fr');
 
 --
 -- Index pour les tables déchargées
 --
+
+--
+-- Index pour la table `game`
+--
+ALTER TABLE `game`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `game_event`
@@ -101,13 +118,6 @@ ALTER TABLE `game_event`
   ADD PRIMARY KEY (`id`),
   ADD KEY `game_id` (`game_id`),
   ADD KEY `player_id` (`player_id`);
-
---
--- Index pour la table `game_state`
---
-ALTER TABLE `game_state`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `map_id` (`map_id`);
 
 --
 -- Index pour la table `maps`
@@ -126,26 +136,16 @@ ALTER TABLE `player`
 --
 
 --
+-- AUTO_INCREMENT pour la table `game`
+--
+ALTER TABLE `game`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT pour la table `player`
 --
 ALTER TABLE `player`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- Contraintes pour les tables déchargées
---
-
---
--- Contraintes pour la table `game_event`
---
-ALTER TABLE `game_event`
-  ADD CONSTRAINT `game_event_ibfk_1` FOREIGN KEY (`game_id`) REFERENCES `game_state` (`id`);
-
---
--- Contraintes pour la table `game_state`
---
-ALTER TABLE `game_state`
-  ADD CONSTRAINT `game_state_ibfk_1` FOREIGN KEY (`map_id`) REFERENCES `maps` (`id`);
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
