@@ -5,7 +5,7 @@ export class Display{
     constructor() {
         this.enemiesIds = [];
         this.tilesSize = 0;
-
+        this.pile = -1;
     }
     initializeBoard(matrice){
         let columns = '';
@@ -15,7 +15,6 @@ export class Display{
 
         xRatio = (0.95*window.innerWidth) / (matrice[0].length);
         yRatio = (0.95*window.innerHeight) / (matrice.length);
-
 
         if (xRatio >= yRatio){
             this.tilesSize = yRatio
@@ -51,6 +50,7 @@ export class Display{
 
         for (let x = 0 ; x < matrice.length ; x++){
             for (let y = 0 ; y < matrice[x].length ; y++){
+<<<<<<< refs/remotes/origin/main
                 for(let [img_tile, path] of Object.entries(imgDict)){
                     if(matrice[x][y].tile == img_tile){
                         var img = document.createElement("img");
@@ -60,6 +60,44 @@ export class Display{
                         document.getElementById('board-container').appendChild(img);
                     }
                 }
+=======
+                switch (matrice[x][y].tile){
+                    case 1:
+                        let img = document.createElement("img");
+                        img.src = imgArray[0];
+                        img.width = this.tilesSize;
+                        img.height = this.tilesSize;
+                        document.getElementById('board-container').appendChild(img);
+                        break;
+                    case 0:
+                        let img1 = document.createElement("img");
+                        img1.src = imgArray[1];
+                        img1.width = this.tilesSize;
+                        img1.height = this.tilesSize;
+                        document.getElementById('board-container').appendChild(img1);
+                        img1.onclick = () => {
+                            if(this.pile == -1){
+                                this.pile = img1;
+                            } else {
+                                this.pile.classList.remove('tile-shadow'); // remove class (not selected anymore)
+                                this.pile = img1
+                            }
+                            this.pile.setAttribute('class', 'tile-shadow');
+
+                        }
+
+                        break;
+                    case 2:
+                        let img2 = document.createElement("img");
+                        img2.src = imgArray[2];
+                        img2.width = this.tilesSize;
+                        img2.height = this.tilesSize;
+                        document.getElementById('board-container').appendChild(img2);
+                        break;
+                    default:
+                        break;
+                }   
+>>>>>>> WIP
             }
         }
 

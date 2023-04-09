@@ -1,4 +1,6 @@
 import {EnemiesController} from "./EnemiesController.js";
+import {TowerController} from "./TowerController.js";
+import {HUDController} from "./HUDController.js";
 import {Model} from "../Model/Model.js";
 import {Display} from "../Vue/Display.js";
 import {enumEnemies} from '../Model/enumEnemies.js';
@@ -8,6 +10,8 @@ export class Controller{
         this.model = new Model();
         this.display = new Display();
         this.enemiesController = new EnemiesController(this.model);
+        this.towerController = new TowerController(this.model, this.display)
+        this.HUDController = new HUDController(this.model, this.display, this.towerController)
     }
     
     updateEnemiesPosition(enemy, nextPosition){
