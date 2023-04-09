@@ -9,12 +9,8 @@ export class Controller{
         this.enemiesController = new EnemiesController(this.model);
 
     }
-    createEnnemies(){
-
-    }
-
-
-    /*createEnnemies(){
+    
+    /*createEnnemy(){
         // Creates enemies with this.waves.
         // ID of each enemy
         let id = 0;
@@ -54,17 +50,41 @@ export class Controller{
         this.display.initializeBoard(this.model.getMatrice());
     }
 
-    async loop(){
+    async loop(diffculty){
         // Find path for waves using model's matrice, entry and end points
-        let path = this.model.findPathForWaves(this.model.getMatrice(), this.model.entryPoints[0], this.model.endPoints[1]);
-        for(let enemy of this.enemiesController.enemies){
+
+        console.log('wait timeBeforeStart', this.model.timeBeforeStart)
+        await new Promise(r => setTimeout(r, this.model.timeBeforeStart));
+                
+
+        for(let waves of this.model.waves[diffculty]){
+            if (this.model.waves[diffculty].indexOf(waves) != 0)
+                {console.log('wait timeBetweenWaves', this.model.timeBetweenWaves)
+                await new Promise(r => setTimeout(r, this.model.timeBetweenWaves));
+                }
+                this.model.currentWave++;
+
+            for (let group of waves){
+                if (waves.indexOf(group) != 0)
+                    {console.log('wait timeBetweenGroups', this.model.timeBetweenGroups)
+                    await new Promise(r => setTimeout(r, this.model.timeBetweenGroups));
+                    }
+                    this.model.currentGroup++;
             
-            console.log(enemy)
-            
-            this.display.initializeEnemy(enemy);
-            
-            this.run(enemy, path); // Run the movement loop for each enemy
-            await new Promise(r => setTimeout(r, 500)); // Delay 500ms between each enemy's movement for smoother animation
+                for (let mob = 0; mob < group[0]; mob++){
+                    console.log(this.model.mobId, '<<<<<')
+                    let path = this.model.findPathForWaves(this.model.getMatrice(), this.model.entryPoints[0], this.model.endPoints[1]);
+
+
+                    let enemy = this.enemiesController.createEnnemyObject(this.model.mobId, path,this.model.entryPoints[0], group[1])
+
+                    this.display.initializeEnemy(enemy);
+                    
+                    this.run(enemy, path); // Run the movement loop for each enemy
+                    await new Promise(r => setTimeout(r, 500)); // Delay 500ms between each enemy's movement for smoother animation
+                    this.model.mobId++;
+                }
+            }
         }
     }
 

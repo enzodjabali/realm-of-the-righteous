@@ -15,13 +15,17 @@ export class Model {
             ]
         // [wave 0 --> [[quantity], [type]]]
 
-        this.waves = {easy:[[[1,100],[0,110]]],
+        this.waves = {easy:[[[10,100],[10,110]],[[10,100],[10,110]]],
                       medium:[[[1,100],[0,110]]],
                       hard:[[[1,100],[0,110]]],}
 
-        this.timeBetweenWaves = 10000; //time in ms
+        this.timeBetweenWaves = 5000; //time in ms
+        this.timeBetweenGroups = 1000; //time in ms
         this.difficulty = 'easy';
+        this.timeBeforeStart = 1500; //time in ms
         this.currentWave = 0;
+        this.currentGroup = 0;
+        this.mobId = 0;
         this.enemiesToPlace = []; //List where enemy are waiting to be put in the matrice
         this.entryPoints = [[1,1],[0,8]];
         this.endPoints = [[9,1],[9,8]];

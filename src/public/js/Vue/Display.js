@@ -70,6 +70,7 @@ export class Display{
     }
     initializeEnemy(enemy){
         let imgEnemy = new Image();
+        console.log(enemy)
         imgEnemy.src = enemy.path;
 
         // Maybe put img size in Json to make it dynamic --> HELP ME
