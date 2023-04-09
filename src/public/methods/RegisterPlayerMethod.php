@@ -18,26 +18,25 @@ require_once('../../classes/DbTable.php');
 
 extract($_POST);
 
-class registerMethod
+class RegisterPlayerMethod
 {
     /**
-     * This method echos the result of the registerMethod to the javascript
+     * This method echos the result of the RegisterPlayerMethod to the javascript
      * @param string $username the username to register with
      * @param string $password the password to register with
      * @param string $email the email to register with
      * @return void
      * @throws Exception
      */
-    public static function register(string $username = "", string $password = "", string $email = ""): void
+    public static function do(string $username = "", string $password = "", string $email = ""): void
     {
         (new DotEnv('./.env'))->load();
-        $result = PlayerUtils::insertPlayer($username, $password, $email);
-        echo $result;
+        echo PlayerUtils::insertPlayer($username, $password, $email);
     }
 }
 
 try {
-    registerMethod::register(htmlspecialchars($username), $password, htmlspecialchars($email));
+    RegisterPlayerMethod::do(htmlspecialchars($username), $password, htmlspecialchars($email));
 } catch (Exception $e) {
     echo $e;
 }

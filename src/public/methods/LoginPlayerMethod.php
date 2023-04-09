@@ -20,16 +20,16 @@ require_once('../../classes/DbTable.php');
 
 extract($_POST);
 
-class loginMethod
+class LoginPlayerMethod
 {
     /**
-     * This method echos the result of the loginMethod to the javascript
+     * This method echos the result of the LoginPlayerMethod to the javascript
      * @param string $username the username to log in with
      * @param string $password the password to log in with
      * @return void
      * @throws Exception
      */
-    public static function login(string $username = "", string $password = ""): void
+    public static function do(string $username = "", string $password = ""): void
     {
         (new DotEnv('./.env'))->load();
         $playerId = PlayerUtils::loginPlayer($username, $password);
@@ -40,7 +40,7 @@ class loginMethod
 
 if (!empty($username) && !empty($password)) {
     try {
-        loginMethod::login(htmlspecialchars($username), $password);
+        LoginPlayerMethod::do(htmlspecialchars($username), $password);
     } catch (Exception $e) {
         echo $e;
     }

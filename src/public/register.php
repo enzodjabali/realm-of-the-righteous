@@ -68,14 +68,14 @@
                 let password = $(this).find("input[name=password]").val();
                 let email = $(this).find("input[name=email]").val();
 
-                $.post("methods/registerMethod.php", {username: username, password: password, email: email}, function(result){
+                $.post("methods/RegisterPlayerMethod.php", {username: username, password: password, email: email}, function(result){
 
                     if (result === "1") {
                         //success
                         let modal = document.getElementById("modal");
                         let modalMessage = document.getElementById("modalMessage");
 
-                        modalMessage.innerHTML = "You have been successfully registered, <a href='login.php'>click here to login.</a>";
+                        modalMessage.innerHTML = "You have been successfully registered, <a href='/login'>click here to login.</a>";
                         modal.style.display = "block"
                     } else {
                         // error
