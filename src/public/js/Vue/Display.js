@@ -34,19 +34,19 @@ export class Display{
 
         container.style.gridTemplateColumns = columns;
 
-        let imgArray = ["../../assets/images/chemin.png", "../../assets/images/herbe.png", "../../assets/images/tour.png"];
+        let imgArray = ["../../assets/images/tiles/basepath.png", "../../assets/images/tiles/basegrass.png", "../../assets/images/tiles/bordernorth.png"];
 
         for (let x = 0 ; x < matrice.length ; x++){
             for (let y = 0 ; y < matrice[x].length ; y++){
                 switch (matrice[x][y].tile){
-                    case 0:
+                    case 1:
                         var img = document.createElement("img");
                         img.src = imgArray[0];
                         img.width = this.tilesSize;
                         img.height = this.tilesSize;
                         document.getElementById('board-container').appendChild(img);
                         break;
-                    case 1:
+                    case 0:
                         var img = document.createElement("img");
                         img.src = imgArray[1];
                         img.width = this.tilesSize;
@@ -70,20 +70,20 @@ export class Display{
     }
     initializeEnemy(enemy){
         let imgEnemy = new Image();
-        console.log(enemy)
+        //console.log(enemy)
         imgEnemy.src = enemy.path;
 
         // Maybe put img size in Json to make it dynamic --> HELP ME
-        imgEnemy.width = this.tilesSize;
         imgEnemy.height = this.tilesSize;
+        imgEnemy.width = this.tilesSize;
         //Set an ID to the enemy. Permits to get it later
         imgEnemy.setAttribute('id', enemy.getId());
       
         document.getElementById('container-enemies').appendChild(imgEnemy);
         let enemyCss = document.getElementById(enemy.getId());
         enemyCss.style.position = 'absolute';
-        enemyCss.style.top = (enemy.position.x * this.tilesSize + 0.5*this.tilesSize - imgEnemy.width/2).toString()+'px';
-        enemyCss.style.left = (enemy.position.y * this.tilesSize + 0.5*this.tilesSize - imgEnemy.height/2).toString()+'px';
+        enemyCss.style.top = (enemy.position.x * this.tilesSize + 0.5*this.tilesSize - imgEnemy.height/2).toString()+'px';
+        enemyCss.style.left = (enemy.position.y * this.tilesSize + 0.5*this.tilesSize - imgEnemy.width/2).toString()+'px';
 
     }
     nextMoveEnemy(enemy){
@@ -109,4 +109,14 @@ export class Display{
         enemyImage.parentNode.removeChild(enemyImage)
     }
 
+    flipItLeft(enemy){
+        let enemyId = enemy.id;
+        let enemyImage = document.getElementById(enemyId)
+        enemyImage.style.transform = 'scaleX(-1)';
+    }
+    flipItLeftRight(enemy){
+        let enemyId = enemy.id;
+        let enemyImage = document.getElementById(enemyId)
+        enemyImage.style.transform = 'scaleX(1)';
+    }
 }

@@ -2,22 +2,25 @@
 export class Model {
     constructor() {
         this.matrice =
-               [[{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []}],
-                [{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []}],
-                [{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []}],
-                [{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []}],
-                [{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []}],
-                [{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []}],
-                [{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []}],
-                [{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []}],
-                [{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []}],
-                [{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []}],
-            ]
-        // [wave 0 --> [[quantity], [type]]]
 
-        this.waves = {easy:[[[2,100],[10,110],[10,110],[10,110],[10,100],[10,110],[10,110],[10,110]],[[10,100],[10,110]]],
-                      medium:[[[1,100],[0,110]]],
-                      hard:[[[1,100],[0,110]]],}
+               [[{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
+                [{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
+                [{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 2, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
+                [{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
+                [{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 2, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
+                [{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
+                [{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 2, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
+                [{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
+                [{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 2, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
+                [{tile: 0, ene1ies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
+                [{tile: 0, ene1ies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
+            ]
+        // [wave 0 --> [[quantity], [type]]1
+
+        this.waves = {easy:[[[2,100],[10,111],[10,110],[10,110],[10,100],[10,110],[10,110],[10,110]],[[10,100],[10,110]]],
+                    medium:[[[1,100],[0,110]]],
+                      hard:[[[1,100],[0,1101]]],
+                  }
 
         this.timeBetweenWaves = 5000; //time in ms
         this.timeBetweenGroups = 1000; //time in ms
@@ -27,8 +30,8 @@ export class Model {
         this.currentGroup = 0;
         this.mobId = 0;
         this.enemiesToPlace = []; //List where enemy are waiting to be put in the matrice
-        this.entryPoints = [[0,1],[0,8]];
-        this.endPoints = [[9,1],[9,8]];
+        this.entryPoints = [[9,3]];
+        this.endPoints = [[1,1]];
 
     }
     getMatrice(){
@@ -64,15 +67,25 @@ export class Model {
 
     // Define the A* algorithm function
     findPathForWaves(matrix, start, end) {
-      const DIRECTIONTABLE = [[0, -1], [1, 0], [0, 1], [-1, 0]]; // North, East, South, West
-      const openList = [];
-      const gCosts = {};
-      const fCosts = {};
-      const movesToDo = [];
-      const startNode = { coord: start, gCost: 0, fCost: 0 + this.heuristic(start, end), parent: null };
-      openList.push(startNode);
-      gCosts[this.coordToString(start)] = 0;
-      fCosts[this.coordToString(start)] = startNode.fCost;
+        const DIRECTIONTABLE = [[0, -1], [1, 0], [0, 1], [-1, 0]]; // North, East, South, West
+        const openList = [];
+        const gCosts = {};
+        const fCosts = {};
+        const movesToDo = [];
+        const startNode = { coord: start, gCost: 0, fCost: 0 + this.heuristic(start, end), parent: null };
+        openList.push(startNode);
+        gCosts[this.coordToString(start)] = 0;
+        fCosts[this.coordToString(start)] = startNode.fCost;
+
+        if(matrix[start[0]][start[1]].tile != 1){
+            console.log(start, ' n\'est pas un début')
+            return 0;
+        }
+        if(matrix[end[0]][end[1]].tile != 1){
+            console.log(start, ' n\'est pas une fin')
+            return 0;
+        }
+
 
       while (openList.length > 0) {
         openList.sort((a, b) => a.fCost - b.fCost);
