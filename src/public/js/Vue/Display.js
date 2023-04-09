@@ -63,39 +63,41 @@ export class Display{
                     imgEnemy.src = matrice[x][y].enemies[j].path;
 
                     // Maybe put img size in Json to make it dynamic --> HELP ME
-                    imgEnemy.width = 64;
-                    imgEnemy.height = 64;
-
+                    imgEnemy.width = this.tilesSize;
+                    imgEnemy.height = this.tilesSize;
                     //Set an ID to the enemy. Permits to get it later
                     imgEnemy.setAttribute('id', matrice[x][y].enemies[j].getId());
-                    containerEnemies.style.top = (matrice[x][y].enemies[j].position.x * this.tilesSize + 0.5*this.tilesSize - 32).toString()+'px';
-                    containerEnemies.style.left = (matrice[x][y].enemies[j].position.y * this.tilesSize + 0.5*this.tilesSize - 32).toString()+'px';
+                    
+                    containerEnemies.style.top = 0;
+                    containerEnemies.style.left = 0;
+                    
                     document.getElementById('container-enemies').appendChild(imgEnemy);
-                }
+                    let enemy = document.getElementById(matrice[x][y].enemies[j].getId());
+                    enemy.style.position = 'absolute';
+                    enemy.style.top = (matrice[x][y].enemies[j].position.x * this.tilesSize + 0.5*this.tilesSize - imgEnemy.width/2).toString()+'px';
+                    enemy.style.left = (matrice[x][y].enemies[j].position.y * this.tilesSize + 0.5*this.tilesSize - imgEnemy.height/2).toString()+'px';
+                    
+                }   
             }
         }
 
     }
-    nextMoveEnemy(enemy){
-        /**
-         * @param {list[list]} matrice Logical board of the game.
-         * Make enemies move to their n+1 positions.
-         * HELP ME --> ennemies IMGs use with STATIC width and height
-         */
+    nextMoveEnemy(enemy, path_enemy_step){
         let enemyId = enemy.id;
         let enemyImage = document.getElementById(enemyId)
-        enemyImage.style.position = 'absolute';
         return new Promise((resolve) => {
+            // Use the anime.js library to animate the enemyImage's top and left properties
             anime({
                 targets: enemyImage,
-                translateY: enemy.position.x * this.tilesSize,
-                translateX: enemy.position.y * this.tilesSize,
-                easing: 'linear',
-                duration: 2000,
+                top: (enemy.position.x) * this.tilesSize, // Set the top property to the new position's x coordinate
+                left: (enemy.position.y) * this.tilesSize, // Set the left property to the new position's y coordinate
+                easing: 'linear', // Use linear easing for smooth movement
+                duration: 300, // Set the duration of the animation to 300 milliseconds
                 complete: function (){
-                    resolve('all good')
+                    resolve('all good'); // Resolve the promise when the animation is complete
                 }
-            })
-        })
+            });
+        });
     }
+
 }

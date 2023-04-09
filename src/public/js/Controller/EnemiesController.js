@@ -8,9 +8,8 @@ export class EnemiesController {
     createEnemiesIntoToPlaceList(id, typeOfEnemies){
         // Create enmies for a wave. Call it once. If not, last instance will be the one the one with the id
         if (this.model.entryPoints) {
-            console.log('je passe entrypoints')
-            let xCord = this.model.entryPoints[0]
-            let yCord = this.model.entryPoints[1]
+            let xCord = this.model.entryPoints[0][0]
+            let yCord = this.model.entryPoints[0][1]
             let position = {x: xCord,  y: yCord};
             let enemy = new Enemy(id, typeOfEnemies, position);
             this.enemies.push(enemy);
@@ -35,8 +34,6 @@ export class EnemiesController {
          * @param {number} y y position of matrice.
          * @param {Enemy} enemyObject Enemy object.
          */
-        //console.log(this.model.matrice[x][y])
-        //console.log(enemyObject)
         this.model.matrice[x][y].enemies.push(enemyObject);
     }
 }
