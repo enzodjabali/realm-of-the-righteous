@@ -10,6 +10,11 @@ export class Controller{
 
     }
     createEnnemies(){
+
+    }
+
+
+    /*createEnnemies(){
         // Creates enemies with this.waves.
         // ID of each enemy
         let id = 0;
@@ -25,7 +30,7 @@ export class Controller{
             //Implement a win wave condition
         }
         this.enemiesController.placeEnemiesInMatrice();
-    }
+    }*/
 
     updateEnemiesPosition(enemy, nextPosition){
         //Update enemy position within its object (enemy.position) by tick
@@ -46,14 +51,18 @@ export class Controller{
         matrice[enemy.position.x][enemy.position.y].enemies.push(enemy);
     }
     setup(){
-        this.createEnnemies();
-        this.display.initializeGame(this.model.getMatrice());
+        this.display.initializeBoard(this.model.getMatrice());
     }
 
     async loop(){
         // Find path for waves using model's matrice, entry and end points
         let path = this.model.findPathForWaves(this.model.getMatrice(), this.model.entryPoints[0], this.model.endPoints[1]);
         for(let enemy of this.enemiesController.enemies){
+            
+            console.log(enemy)
+            
+            this.display.initializeEnemy(enemy);
+            
             this.run(enemy, path); // Run the movement loop for each enemy
             await new Promise(r => setTimeout(r, 500)); // Delay 500ms between each enemy's movement for smoother animation
         }

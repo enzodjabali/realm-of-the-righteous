@@ -14,7 +14,14 @@ export class Model {
                 [{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []}],
             ]
         // [wave 0 --> [[quantity], [type]]]
-        this.waves = [[[1,100],[0,110]]];
+
+        this.waves = {easy:[[[1,100],[0,110]]],
+                      medium:[[[1,100],[0,110]]],
+                      hard:[[[1,100],[0,110]]],}
+
+        this.timeBetweenWaves = 10000; //time in ms
+        this.difficulty = 'easy';
+        this.currentWave = 0;
         this.enemiesToPlace = []; //List where enemy are waiting to be put in the matrice
         this.entryPoints = [[1,1],[0,8]];
         this.endPoints = [[9,1],[9,8]];
