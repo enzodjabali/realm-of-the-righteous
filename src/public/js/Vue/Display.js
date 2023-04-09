@@ -34,40 +34,37 @@ export class Display{
 
         container.style.gridTemplateColumns = columns;
 
-        let imgArray = ["../../assets/images/tiles/basepath.png", "../../assets/images/tiles/basegrass.png", "../../assets/images/tiles/bordernorth.png"];
-
+        let imgDict = {
+            'basegrass': "../../assets/images/tiles/basegrass.png",
+            'basepath':"../../assets/images/tiles/basepath.png",
+            'basepathrockhorizontal': "../../assets/images/tiles/basepathrockhorizontal.png",
+            'basepathrockvertical': "../../assets/images/tiles/basepathrockvertical.png",
+            'bordereast': "../../assets/images/tiles/bordereast.png",
+            'bordernorth': "../../assets/images/tiles/bordernorth.png",
+            'bordersouth': "../../assets/images/tiles/bordersouth.png",
+            'borderwest': "../../assets/images/tiles/borderwest.png",
+            'towereast': "../../assets/images/tiles/towereast.png",
+            'towernorth': "../../assets/images/tiles/towernorth.png",
+            'towersouth': "../../assets/images/tiles/towersouth.png",
+            'towerwest': "../../assets/images/tiles/towerwest.png",
+        }
+        
         for (let x = 0 ; x < matrice.length ; x++){
             for (let y = 0 ; y < matrice[x].length ; y++){
-                switch (matrice[x][y].tile){
-                    case 1:
+                for(let [img_tile, path] of Object.entries(imgDict)){
+                    if(matrice[x][y].tile == img_tile){
                         var img = document.createElement("img");
-                        img.src = imgArray[0];
+                        img.src = path;
                         img.width = this.tilesSize;
                         img.height = this.tilesSize;
                         document.getElementById('board-container').appendChild(img);
-                        break;
-                    case 0:
-                        var img = document.createElement("img");
-                        img.src = imgArray[1];
-                        img.width = this.tilesSize;
-                        img.height = this.tilesSize;
-                        document.getElementById('board-container').appendChild(img);
-
-                        break;
-                    case 2:
-                        var img = document.createElement("img");
-                        img.src = imgArray[2];
-                        img.width = this.tilesSize;
-                        img.height = this.tilesSize;
-                        document.getElementById('board-container').appendChild(img);
-                        break;
-                    default:
-                        break;
-                }   
+                    }
+                }
             }
         }
 
     }
+
     initializeEnemy(enemy){
         let imgEnemy = new Image();
         //console.log(enemy)

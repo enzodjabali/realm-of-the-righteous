@@ -3,17 +3,17 @@ export class Model {
     constructor() {
         this.matrice =
 
-               [[{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
-                [{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
-                [{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 2, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
-                [{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
-                [{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 2, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
-                [{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
-                [{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 2, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
-                [{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
-                [{tile: 0, enemies: []},{tile: 1, enemies: []},{tile: 2, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
-                [{tile: 0, ene1ies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 1, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
-                [{tile: 0, ene1ies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []},{tile: 0, enemies: []}],
+               [[{tile: 'borderwest', enemies: [], tower: null},{tile: 'basepath', enemies: [], tower: null},{tile: 'bordereast', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null}],
+                [{tile: 'borderwest', enemies: [], tower: null},{tile: 'basepath', enemies: [], tower: null},{tile: 'bordereast', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null}],
+                [{tile: 'borderwest', enemies: [], tower: null},{tile: 'basepath', enemies: [], tower: null},{tile: 'bordereast', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null}],
+                [{tile: 'borderwest', enemies: [], tower: null},{tile: 'basepath', enemies: [], tower: null},{tile: 'bordereast', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null}],
+                [{tile: 'borderwest', enemies: [], tower: null},{tile: 'basepath', enemies: [], tower: null},{tile: 'bordereast', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null}],
+                [{tile: 'borderwest', enemies: [], tower: null},{tile: 'basepath', enemies: [], tower: null},{tile: 'bordereast', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null}],
+                [{tile: 'borderwest', enemies: [], tower: null},{tile: 'basepath', enemies: [], tower: null},{tile: 'bordereast', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null}],
+                [{tile: 'borderwest', enemies: [], tower: null},{tile: 'basepath', enemies: [], tower: null},{tile: 'bordereast', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null}],
+                [{tile: 'borderwest', enemies: [], tower: null},{tile: 'basepath', enemies: [], tower: null},{tile: 'bordereast', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null}],
+                [{tile: 'borderwest', enemies: [], tower: null},{tile: 'basepath', enemies: [], tower: null},{tile: 'bordereast', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null}],
+                [{tile: 'borderwest', enemies: [], tower: null},{tile: 'basepath', enemies: [], tower: null},{tile: 'bordereast', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null}],
             ]
         // [wave 0 --> [[quantity], [type]]1
 
@@ -30,8 +30,8 @@ export class Model {
         this.currentGroup = 0;
         this.mobId = 0;
         this.enemiesToPlace = []; //List where enemy are waiting to be put in the matrice
-        this.entryPoints = [[9,3]];
-        this.endPoints = [[1,1]];
+        this.entryPoints = [[0,1]];
+        this.endPoints = [[10,1]];
 
     }
     getMatrice(){
@@ -77,11 +77,11 @@ export class Model {
         gCosts[this.coordToString(start)] = 0;
         fCosts[this.coordToString(start)] = startNode.fCost;
 
-        if(matrix[start[0]][start[1]].tile != 1){
+        if(matrix[start[0]][start[1]].tile != 'basepath'){
             console.log(start, ' n\'est pas un début')
             return 0;
         }
-        if(matrix[end[0]][end[1]].tile != 1){
+        if(matrix[end[0]][end[1]].tile != 'basepath'){
             console.log(start, ' n\'est pas une fin')
             return 0;
         }
@@ -113,7 +113,7 @@ export class Model {
           if (nx < 0 || nx >= matrix.length || ny < 0 || ny >= matrix[0].length) {
             continue;
           }
-          if (matrix[nx][ny].tile == 1) {
+          if (matrix[nx][ny].tile == 'basepath') {
             const tentativeGCost = currentNode.gCost + 1; // Cost of moving to the neighbor (always 1 in this example)
             const neighborCoord = [nx, ny];
             const neighborGCost = gCosts[this.coordToString(neighborCoord)] || Infinity;
