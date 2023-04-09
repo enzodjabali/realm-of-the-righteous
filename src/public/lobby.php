@@ -133,7 +133,7 @@
                 <br><h2 style="color: navy">Your games</h2>
 
                 <a href="#name">
-                    <div style="background-color: maroon;width: 20%;position: absolute;left: 40%;padding: 20px;border-radius: 25px">Create a new game</div>
+                    <div style="background-color: maroon;width: 20%;position: absolute;left: 40%;padding: 20px;border-radius: 25px">New game</div>
                 </a>
             </div>
 
@@ -187,21 +187,7 @@
             </div>
 
             <br>
-            <div class="w3-center search" style="overflow-y: scroll;">Current Games
-                <br>
-                GAME NAME | WAVE NUMBER | MAP NAME<i class="fa-regular fa-trash"></i><br><hr>
-                AMANDA GAME | 3 | CITY STREETS<i class="fa-regular fa-trash"></i><br><hr>
-                LEO GAME | 2 | UNDERGROUND FACILITY<i class="fa-regular fa-trash"></i><br><hr>
-                HANNAH GAME | 7 | ABANDONED LAB<i class="fa-regular fa-trash"></i><br><hr>
-                JACOB GAME | 20 | OASIS TOWN<i class="fa-regular fa-trash"></i><br><hr>
-                EMMA GAME | 5 | DARK CASTLE<i class="fa-regular fa-trash"></i><br><hr>
-                NATHAN GAME | 4 | MYSTIC LANDS<i class="fa-regular fa-trash"></i><br><hr>
-                LILA GAME | 12 | SPACE STATION<i class="fa-regular fa-trash"></i><br><hr>
-                ETHAN GAME | 8 | UNDERWATER RUINS<i class="fa-regular fa-trash"></i><br><hr>
-                ELLA GAME | 15 | FAIRY FOREST<i class="fa-regular fa-trash"></i><br><hr>
-                SEBASTIAN GAME | 3 | TROPICAL BEACH<i class="fa-regular fa-trash"></i>
-            </div>
-
+            <div id="game-list" class="w3-center search" style="overflow-y: scroll;"><b>Current games:</b></div>
         </header>
 
         <!-- Navbar (sticky bottom) -->
@@ -215,20 +201,27 @@
     </body>
 
     <script>
+        /**
+         * This function gets all the user's game and display them
+         */
         $(function(){
-            console.log('heyy!!');
-
             let playerId = <?= $sessionId ?>;
 
             $.post("methods/GetGameInformation.php", {playerId: playerId}, function(response){
+                let games = JSON.parse(JSON.stringify(response));
 
-                //console.log("result" + result);
-                let data = JSON.parse(JSON.stringify(response));
-                //console.log(test);
+                for (let i = 0; i < games.length; i++) {
+                    let id = games[i]['id'];
+                    let name = games[i]['name'];
+
+                    document.getElementById('game-list').innerHTML += '<br><a href="game.php?game_id=' + id + '">' + name + '</a>';
+                }
             });
         });
 
-
+        /**
+         * This function makes a call to create a new game
+         */
         $(function(){
             $("#create-game-form").submit(function(){
                 let name = $(this).find("input[name=name]").val();

@@ -50,24 +50,21 @@ class GameUtils
     }
 
     /**
+     * This method return the fetched information of the games
+     * @param int $playerId the player's ID
+     * @return bool|string returns the json encoded data of the games information
      * @throws Exception
      */
-    public static function getGameInformation(int $playerId)
+    public static function getGameInformation(int $playerId): bool|string
     {
         $result = DbUtils::select(DbTable::TABLE_GAME, ["id", "name"], "WHERE player_id = '$playerId'");
         $result_array = [];
 
         while($row = $result->fetch()) {
-            array_push($result_array, $row);
+            $result_array[] = $row;
         }
 
         header('Content-type: application/json');
         return json_encode($result_array);
-
-        //while($info = $test->fetch()) {
-        //    var_dump($info["id"]);
-        //    var_dump($info["name"]);
-        //}
     }
-
 }

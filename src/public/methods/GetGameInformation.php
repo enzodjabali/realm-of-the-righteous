@@ -20,21 +20,16 @@ extract($_POST);
 
 class GetGameInformation
 {
-
     /**
+     * This method echos the fetched game information to the javascript
+     * @param int $playerId the player's ID
+     * @return void
      * @throws Exception
      */
     public static function do(int $playerId): void
     {
         (new DotEnv('./.env'))->load();
         echo(GameUtils::getGameInformation($playerId));
-
-
-
-        //while($info = $test) {
-        //    var_dump($info["name"]);
-        //}
-
     }
 }
 
