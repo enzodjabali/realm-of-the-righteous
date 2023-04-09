@@ -12,16 +12,7 @@ body {
 p {
     line-height: 2;
 }
-.bgimg {
-    min-height: 100%;
-    background-position: center;
-    background-size: cover;
-    background-image: url("../images/frame.jpg");
-}
-img {
-    width: 100px;
-    margin-left: 80%;
-}
+
 .bar {
     display: grid;
     background-color: black;

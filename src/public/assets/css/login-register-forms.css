@@ -4,13 +4,8 @@ body{height: 100%;
 background-color: black;}
 p {line-height: 2}
 
-.bgimg{
-    min-height: 100%;
-    background-position: center;
-    background-size: cover;
-}
 
-.bgimg {background-image: url("../images/frame.jpg")}
+
 
 p{font-family: 'Old English Text MT';
   font-size: 50px}
