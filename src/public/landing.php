@@ -32,15 +32,7 @@
       </div>
     </header>
 
-    <!-- Navbar (sticky bottom) -->
-    <div class="w3-bottom w3-hide-small">
-      <div class="w3-bar w3-black w3-center w3-padding w3-opacity-min">
-        <a href="login.html" style="width:25%" class="w3-bar-item w3-button">Login</a>
-        <a href="register.html" style="width:25%" class="w3-bar-item w3-button">Register</a>
-        <a href="story.html" style="width:25%" class="w3-bar-item w3-button">The Story</a>
-        <a href="credits.html" style="width:25%" class="w3-bar-item w3-button">Credits</a>
-      </div>
-    </div>
+    <?php include_once("includes/menu.php") ?>
 
   </body>
 </html>
