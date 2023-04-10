@@ -3,7 +3,7 @@ export class Tower{
         this.id = towerId;
         this.damage = damage;
         this.towerLevel = towerLevel;
-        this.range = 1;
+        this.range = 3;
         this.position = position
         this.path = path;
     }

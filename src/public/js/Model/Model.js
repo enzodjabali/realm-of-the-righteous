@@ -16,7 +16,7 @@ export class Model {
             ]
         // [wave 0 --> [[quantity], [type]]1
 
-        this.waves = {easy:[[[1,'bat'],[1,'golem'],[1,'knight'],[1,'witch'],[1,'wolf']]],
+        this.waves = {easy:[[[1,'bat'],[2,'golem'],[2,'knight'],[2,'witch'],[2,'wolf']]],
                     medium:[[[1,100],[0,110]]],
                       hard:[[[1,100],[0,110]]],
                   }
