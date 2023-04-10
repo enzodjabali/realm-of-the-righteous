@@ -223,7 +223,7 @@
                     let id = games[i]['id'];
                     let name = games[i]['name'];
 
-                    document.getElementById('game-list').innerHTML += '<br><a href="game.php?game_id=' + id + '">' + name + '</a>';
+                    document.getElementById('game-list').innerHTML += '<br><a href="/game?game_id=' + id + '">' + name + '</a>';
                     document.getElementById('total-games').innerHTML = 'Total games: ' + games.length;
                 }
             });
