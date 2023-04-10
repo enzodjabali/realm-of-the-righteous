@@ -4,7 +4,7 @@ async function main(){
 
 	//diffculty = homepage()
 
-	const diffculty = 'medium';
+	const diffculty = 'easy';
 
 	controller.setup();
 
