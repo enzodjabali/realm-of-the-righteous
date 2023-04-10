@@ -1,11 +1,10 @@
-import {Controller} from "../Controller/Controller.js";
 import anime from '../../node_modules/animejs/lib/anime.es.js';
 
 export class Display{
     constructor() {
         this.enemiesIds = [];
         this.tilesSize = 0;
-
+        this.pile = -1;
     }
     initializeBoard(matrice){
         let columns = '';
@@ -15,7 +14,6 @@ export class Display{
 
         xRatio = (0.95*window.innerWidth) / (matrice[0].length);
         yRatio = (0.95*window.innerHeight) / (matrice.length);
-
 
         if (xRatio >= yRatio){
             this.tilesSize = yRatio
@@ -27,10 +25,14 @@ export class Display{
 
         }
         let container = document.getElementById('board-container');
+
         let containerEnemies = document.getElementById('container-enemies');
-                            
         containerEnemies.style.top = 0;
         containerEnemies.style.left = 0;
+
+        let containerTowers = document.getElementById('container-towers');
+        containerTowers.style.top = 0;
+        containerTowers.style.left = 0;
 
         container.style.gridTemplateColumns = columns;
 
@@ -53,16 +55,27 @@ export class Display{
             for (let y = 0 ; y < matrice[x].length ; y++){
                 for(let [img_tile, path] of Object.entries(imgDict)){
                     if(matrice[x][y].tile == img_tile){
-                        var img = document.createElement("img");
+                        let img = document.createElement("img");
                         img.src = path;
                         img.width = this.tilesSize;
                         img.height = this.tilesSize;
                         document.getElementById('board-container').appendChild(img);
+                        //HELP ME Revoir avec Baba
+                        if(img_tile = 'basegrass'){
+                            img.onclick = () => {
+                                if(this.pile == -1){
+                                    this.pile = [img, [x,y]];
+                                } else {
+                                    this.pile[0].classList.remove('tile-shadow'); // remove class (not selected anymore)
+                                    this.pile = [img, [x,y]]
+                                }
+                                this.pile[0].setAttribute('class', 'tile-shadow');
+                            }
+                        }
                     }
                 }
             }
         }
-
     }
 
     initializeEnemy(enemy){
@@ -80,6 +93,23 @@ export class Display{
         enemyCss.style.position = 'absolute';
         enemyCss.style.top = (enemy.position.x * this.tilesSize + 0.5*this.tilesSize - imgEnemy.height/2).toString()+'px';
         enemyCss.style.left = (enemy.position.y * this.tilesSize + 0.5*this.tilesSize - imgEnemy.width/2).toString()+'px';
+    }
+
+    initializeTower(tower){
+        let imgTower = new Image();
+        imgTower.src = tower.path;
+
+        imgTower.height = this.tilesSize;
+        imgTower.width = this.tilesSize;
+
+        //Set an ID to the enemy. Permits to get it later
+        imgTower.setAttribute('id', tower.getId());
+
+        document.getElementById('container-towers').appendChild(imgTower);
+        let towerCss = document.getElementById(tower.getId());
+        towerCss.style.position = 'absolute';
+        towerCss.style.top = (tower.position.x * this.tilesSize + 0.5*this.tilesSize - imgTower.height/2).toString()+'px';
+        towerCss.style.left = (tower.position.y * this.tilesSize + 0.5*this.tilesSize - imgTower.width/2).toString()+'px';
 
     }
     nextMoveEnemy(enemy){
