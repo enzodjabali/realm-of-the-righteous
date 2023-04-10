@@ -1,13 +1,9 @@
 <?php
     session_start();
 
-    $sessionId = $_SESSION["player_id"] ?? 0;
+    $sessionId = intval($_SESSION["player_id"]) ?? 0;
 
-    if ($sessionId > 0) {
-        echo "My ID:" . $_SESSION["player_id"];
-        echo "<br>You're connected!";
-        echo "<br><a href='/logout'>Logout</a>";
-    } else {
+    if (!$sessionId > 0) {
         header("Location:/login");
     }
 
@@ -59,7 +55,7 @@
             transition: all 0.4s;
             visibility: hidden;
             opacity: 0;
-            z-index:999;
+            z-index:1;
         }
 
         .modal-difficulty {
@@ -75,7 +71,7 @@
             transition: all 0.4s;
             visibility: hidden;
             opacity: 0;
-            z-index:999;
+            z-index:1;
         }
 
         .modal-result {
@@ -91,7 +87,7 @@
             transition: all 0.4s;
             visibility: hidden;
             opacity: 0;
-            z-index:999;
+            z-index:1;
         }
 
         .content {
@@ -120,17 +116,37 @@
             color: #fe0606;
             text-decoration: none;
             font-size: 30px;
+        }
 
+        #player-information {
+            position: absolute;
+            background-color: #fefefe;
+            z-index: 1;
+            margin-left: 10px;
+            margin-top: 10px;
+            padding: 20px;
+            border-radius: 15px;
+        }
     </style>
 </head>
     <body>
+        <div id="player-information">
+            <?php
+                echo "My ID: " . $_SESSION["player_id"];
+                echo "<br>" . $_SESSION["player_username"];
+                echo "<br>" . $_SESSION["player_email"];
+                ?>
+                    <br><a id="total-games"></a>
+                <?php
+                echo "<br><a href='/logout'>Logout</a>";
+            ?>
+        </div>
+
         <!-- Header / Home-->
         <header class="w3-display-container w3-wide bgimg w3-grayscale-min" id="home">
             <div class="w3-display-topmiddle w3-text-white w3-center">
 
                 <h1 class="w3-jumbo" style="color: navy;font-family: 'Old English Text MT'">Realm Of The Righteous</h1>
-                <h2 class="w3-center" style="color: navy">The best tower defense in all the realm</h2>
-                <br><h2 style="color: navy">Your games</h2>
 
                 <a href="#name">
                     <div style="background-color: maroon;width: 20%;position: absolute;left: 40%;padding: 20px;border-radius: 25px">New game</div>
@@ -147,7 +163,7 @@
                                 <div class="w3-center" style="background-color: maroon;color: white;width: 20%; border-radius: 25px;">Next</div>
                             </a>
                         </b>
-                        <a href="#" class="box-close">×</a>
+                        <a href="" class="box-close">×</a>
                     </div>
                 </div>
                 <div id="difficulty" class="modal-difficulty">
@@ -173,7 +189,7 @@
                             </div>
                     </div>
                         </b>
-                        <a href="#" class="box-close">×</a>
+                        <a href="" class="box-close">×</a>
                     </div>
                 </div>
             </form>
@@ -182,7 +198,7 @@
                 <div class="content">
                     <a id="result-message"></a>
                     <div id="go-back-if-failed"></div>
-                    <a href="#" class="box-close">×</a>
+                    <a href="" class="box-close">×</a>
                 </div>
             </div>
 
@@ -190,14 +206,7 @@
             <div id="game-list" class="w3-center search" style="overflow-y: scroll;"><b>Current games:</b></div>
         </header>
 
-        <!-- Navbar (sticky bottom) -->
-        <div class="w3-bottom w3-hide-small">
-            <div class="w3-bar w3-black w3-center w3-padding w3-opacity-min">
-                <a href="/story" style="width:25%" class="w3-bar-item w3-button">The Story</a>
-                <a href="#" style="width:50%" class="w3-bar-item w3-button">Match History</a>
-                <a href="/credits" style="width:25%" class="w3-bar-item w3-button">Credits</a>
-            </div>
-        </div>
+        <?php include_once("includes/menu.php") ?>
     </body>
 
     <script>
@@ -214,7 +223,8 @@
                     let id = games[i]['id'];
                     let name = games[i]['name'];
 
-                    document.getElementById('game-list').innerHTML += '<br><a href="game.php?game_id=' + id + '">' + name + '</a>';
+                    document.getElementById('game-list').innerHTML += '<br><a href="/game?game_id=' + id + '">' + name + '</a>';
+                    document.getElementById('total-games').innerHTML = 'Total games: ' + games.length;
                 }
             });
         });
@@ -228,9 +238,9 @@
                 let playerId = <?= $sessionId ?>;
                 let difficulty = $('input[name="difficulty"]:checked').val();
 
-                $.post("methods/CreateGameMethod.php", {name: name, playerId: playerId, difficulty: difficulty}, function(result){
+                $.post("methods/CreateGameMethod.php", {name: name, playerId: playerId, difficulty: difficulty}, function(response){
 
-                    if (result === "1") {
+                    if (response === "1") {
                         //success
                        console.log('succeed!');
                        let modalResult = document.getElementById("result-message");
@@ -244,7 +254,7 @@
                         let modalResult = document.getElementById("result-message");
                         let goBackIfFailedButton = document.getElementById("go-back-if-failed");
 
-                        modalResult.innerHTML = result;
+                        modalResult.innerHTML = response;
                         goBackIfFailedButton.innerHTML = '<a href="#difficulty" style="float: left"><div class="w3-center" style="background-color: maroon;color: white;border-radius: 7px;">Go back</div></a>';
 
                         window.location = "#result";

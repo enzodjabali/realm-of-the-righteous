@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -62,15 +66,18 @@
 
     <script src="js/modal.js"></script>
     <script>
+        /**
+         * This function calls the register player method
+         */
         $(function(){
             $("#register-form").submit(function(){
                 let username = $(this).find("input[name=username]").val();
                 let password = $(this).find("input[name=password]").val();
                 let email = $(this).find("input[name=email]").val();
 
-                $.post("methods/RegisterPlayerMethod.php", {username: username, password: password, email: email}, function(result){
+                $.post("methods/RegisterPlayerMethod.php", {username: username, password: password, email: email}, function(response){
 
-                    if (result === "1") {
+                    if (response === "1") {
                         //success
                         let modal = document.getElementById("modal");
                         let modalMessage = document.getElementById("modalMessage");
@@ -82,7 +89,7 @@
                         let modal = document.getElementById("modal");
                         let modalMessage = document.getElementById("modalMessage");
 
-                        modalMessage.innerHTML = result;
+                        modalMessage.innerHTML = response;
                         modal.style.display = "block"
                     }
                 });

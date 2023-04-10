@@ -8,7 +8,8 @@
     },
     "require": {
       "ext-pdo": "*",
-        "devcoder-xyz/php-dotenv": "^2.1"
+      "devcoder-xyz/php-dotenv": "^2.1",
+      "ext-curl": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.0",

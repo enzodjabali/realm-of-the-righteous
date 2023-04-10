@@ -18,4 +18,10 @@ final class GameUtilsTest extends TestCase
         $isUserInserted = GameUtils::createGame("a phpunit game", 1, 1, GameDifficulties::DIFFICULTY_HARD);
         $this->assertTrue($isUserInserted);
     }
+
+    public function testDoesGameBelongToPlayer(): void
+    {
+        $doesGameBelongToPlayer = GameUtils::doesGameBelongToPlayer(2, 1);
+        $this->assertTrue($doesGameBelongToPlayer);
+    }
 }
