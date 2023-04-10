@@ -34,7 +34,6 @@ export class Controller{
         //Update enemy in matrice by its position in its object (enemy.position.x / enemy.position.y)
         let matrice = this.model.getMatrice();
         matrice[enemy.position.x][enemy.position.y].enemies.push(enemy);
-        console.log(this.model.matrice[enemy.position.x][enemy.position.y])
     }
 
     setup(){
