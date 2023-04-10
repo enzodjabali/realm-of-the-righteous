@@ -15,34 +15,44 @@ export class Controller{
     }
     
     updateEnemiesPosition(enemy, nextPosition){
-        //Update enemy position within its object (enemy.position) by tick
+        /**
+         * Permit to update the enemy coordinates
+         * @param {Enemy} enemy instance of enemy.
+         * @param {number} nextPosition[0] new x coordinate.
+         * @param {number} nextPosition[1] new y coordinate.
+         */
         const matrice = this.model.getMatrice();
 
-        //supprime enemy dans matrice
         matrice[enemy.position.x][enemy.position.y].enemies.splice(enemy,1)
 
         enemy.position.x += nextPosition[0]
         enemy.position.y += nextPosition[1]
 
-
-
-        // doit ajouter enemy dans matrice a nouvelle position
         this.updateEnemyInMatrice(enemy);
     }
 
     updateEnemyInMatrice(enemy) {
+        /**
+         * Permit to update the matrice with the new enemy coordinates
+         * @param {Enemy} enemy instance of enemy.
+         */
         //Update enemy in matrice by its position in its object (enemy.position.x / enemy.position.y)
         let matrice = this.model.getMatrice();
         matrice[enemy.position.x][enemy.position.y].enemies.push(enemy);
     }
 
     setup(){
+        /**
+         * Permit to setup the base board (tiles)
+         */
         this.display.initializeBoard(this.model.getMatrice());
     }
 
     async loop(diffculty){
-        // Find path for waves using model's matrice, entry and end points
-
+        /**
+         * Main loop of the enemies, permit make them run wioth their logic
+         * @param {String} diffculty chosen difficulty.
+         */
         console.log('wait timeBeforeStart', this.model.timeBeforeStart)
         await new Promise(r => setTimeout(r, this.model.timeBeforeStart));
 
@@ -86,6 +96,12 @@ export class Controller{
     }
 
     async run(enemy, path, endPoints) {
+        /**
+         * Main loop of the enemies, permit make them run wioth their logic
+         * @param {Enemy} enemy instance of enemy.
+         * @param {Enemy} path pathfinding list of cords.
+         * @param {Enemy} endPoints couple of end coordinates.
+         */
         try {
             for (let step = 0; step <= path.length; step++) {
                 // Add your code to handle end of path reached
@@ -121,8 +137,5 @@ export class Controller{
             // Handle any errors that may occur during the enemy's movement
             console.error('Error:', error);
         }
-    }
-    async towerLoop(){
-
     }
 }

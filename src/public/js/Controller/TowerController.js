@@ -6,6 +6,10 @@ export class TowerController{
         this.display = display;
     }
     placeTowerInMatrice(towerData){
+        /**
+         * @param {number} towerData dictionnary of data about tower.
+         * Permit to place tower in the matrice
+         */
         this.display.pile[0].classList.remove('tile-shadow'); // remove class (not selected anymore)
         if(this.model.matrice[this.display.pile[1][0]][this.display.pile[1][1]].tower == null){
             let towerId = 'tower'+this.model.towerId;
@@ -25,6 +29,10 @@ export class TowerController{
         this.display.pile = -1;
     }
     async runTower(tower){
+        /**
+         * @param {Tower} tower instance of Tower.
+         * Permit to make the logic of the tower works
+         */
         let DIRECTIONS = [[0, -1], [1, 0], [0, 1], [-1, 0]]; // North, East, South, West
         let DIRECTIONDIAG = [[-1,-1], [-1,1], [1,-1], [1,1]];
         while(true){

@@ -7,6 +7,10 @@ export class Display{
         this.pile = -1;
     }
     initializeBoard(matrice){
+        /**
+         * @param {Dict} matrice dictionnary of all the data about the game.
+         * Permit to initialize board
+         */
         let columns = '';
         // HELP ME
         let xRatio;
@@ -87,6 +91,10 @@ export class Display{
     }
 
     initializeEnemy(enemy){
+        /**
+         * @param {Enemy} enemy instance of enemy.
+         * Permit to initialize the enemy
+         */
         let imgEnemy = new Image();
         imgEnemy.src = enemy.path_img;
 
@@ -104,6 +112,10 @@ export class Display{
     }
 
     initializeTower(tower){
+        /**
+         * @param {Tower} tower instance of tower.
+         * Permit to initialize the tower
+         */
         let imgTower = new Image();
         imgTower.src = tower.path;
 
@@ -121,6 +133,10 @@ export class Display{
 
     }
     nextMoveEnemy(enemy){
+        /**
+         * @param {enemy} enemy instance of enemy.
+         * Permit to make move the enemy by its coordinates in matrice
+         */
         let enemyId = enemy.id;
         let enemyImage = document.getElementById(enemyId)
         return new Promise((resolve) => {
@@ -138,17 +154,29 @@ export class Display{
         });
     }
     removeEnemy(enemy){
+        /**
+         * @param {enemy} enemy instance of enemy.
+         * Permit to remove the enemy from matrice
+         */
         let enemyId = enemy.id;
         let enemyImage = document.getElementById(enemyId)
         enemyImage.parentNode.removeChild(enemyImage)
     }
 
     flipItLeft(enemy){
+        /**
+         * @param {enemy} enemy instance of enemy.
+         * Permit to flip left enemy
+         */
         let enemyId = enemy.id;
         let enemyImage = document.getElementById(enemyId)
         enemyImage.style.transform = 'scaleX(-1)';
     }
     flipItLeftRight(enemy){
+        /**
+         * @param {enemy} enemy instance of enemy.
+         * Permit to flip left to right enemy
+         */
         let enemyId = enemy.id;
         let enemyImage = document.getElementById(enemyId)
         enemyImage.style.transform = 'scaleX(1)';
