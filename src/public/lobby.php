@@ -190,14 +190,7 @@
             <div id="game-list" class="w3-center search" style="overflow-y: scroll;"><b>Current games:</b></div>
         </header>
 
-        <!-- Navbar (sticky bottom) -->
-        <div class="w3-bottom w3-hide-small">
-            <div class="w3-bar w3-black w3-center w3-padding w3-opacity-min">
-                <a href="/story" style="width:25%" class="w3-bar-item w3-button">The Story</a>
-                <a href="#" style="width:50%" class="w3-bar-item w3-button">Match History</a>
-                <a href="/credits" style="width:25%" class="w3-bar-item w3-button">Credits</a>
-            </div>
-        </div>
+        <?php include_once("includes/menu.php") ?>
     </body>
 
     <script>
