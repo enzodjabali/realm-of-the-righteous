@@ -48,7 +48,7 @@ export class Display{
             'towersouth': "../../assets/images/tiles/towersouth.png",
             'towerwest': "../../assets/images/tiles/towerwest.png",
         }
-        
+
         for (let x = 0 ; x < matrice.length ; x++){
             for (let y = 0 ; y < matrice[x].length ; y++){
                 for(let [img_tile, path] of Object.entries(imgDict)){
@@ -67,8 +67,7 @@ export class Display{
 
     initializeEnemy(enemy){
         let imgEnemy = new Image();
-        //console.log(enemy)
-        imgEnemy.src = enemy.path;
+        imgEnemy.src = enemy.path_img;
 
         // Maybe put img size in Json to make it dynamic --> HELP ME
         imgEnemy.height = this.tilesSize;

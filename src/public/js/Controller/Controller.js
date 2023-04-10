@@ -63,7 +63,11 @@ export class Controller{
                     return
                 }
                 for (let mob = 0; mob < group[0]; mob++){
-                    let enemy = this.enemiesController.createEnnemyObject(this.model.mobId, path,this.model.entryPoints[indexOfEntryPoints], group[1])
+
+                    /*console.log('path')
+                    console.log(path)*/
+
+                    let enemy = this.enemiesController.createEnnemyObject(this.model.mobId, path, this.model.entryPoints[indexOfEntryPoints], group[1])
 
                     this.display.initializeEnemy(enemy);
                     
@@ -80,7 +84,7 @@ export class Controller{
             for (let step = 0; step <= path.length; step++) {
                 // Add your code to handle end of path reached
                 if (enemy.position.x == endPoints[0] && enemy.position.y == endPoints[1] ){
-                    console.log('-1 pv - end reach - enemy dead');                    
+                    console.log('-1 pv - end reach - enemy dead', enemy.typeOfEnemies);                    
                     this.display.removeEnemy(enemy);
                     this.model.matrice[enemy.position.x][enemy.position.y].enemies.splice(enemy,1)
                     return

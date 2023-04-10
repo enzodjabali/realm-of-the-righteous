@@ -17,13 +17,13 @@ export class Model {
             ]
         // [wave 0 --> [[quantity], [type]]1
 
-        this.waves = {easy:[[[2,100],[10,111],[10,110],[10,110],[10,100],[10,110],[10,110],[10,110]],[[10,100],[10,110]]],
+        this.waves = {easy:[[[10,'bat'],[10,'golem'],[10,'knight'],[10,'witch'],[10,'wolf']]],
                     medium:[[[1,100],[0,110]]],
-                      hard:[[[1,100],[0,1101]]],
+                      hard:[[[1,100],[0,110]]],
                   }
 
         this.timeBetweenWaves = 5000; //time in ms
-        this.timeBetweenGroups = 1000; //time in ms
+        this.timeBetweenGroups = 500; //time in ms
         this.difficulty = 'easy';
         this.timeBeforeStart = 1500; //time in ms
         this.currentWave = 0;
