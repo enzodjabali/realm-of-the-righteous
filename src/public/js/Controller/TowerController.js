@@ -29,10 +29,9 @@ export class TowerController{
         while(true){
             await new Promise(r => setTimeout(r, 200)); // frequence de tire
             // console.log(tower.position.x-1, tower.position.y-1, 'POSITION TOUR -1')
-            
             // IMPLEMENTER LE FAIT DE REGARDER LE PERIMETRE
             if(this.model.matrice[tower.position.x-1][tower.position.y-1].enemies.length > 0){
-                this.model.matrice[tower.position.x-1][tower.position.y-1].enemies[0].life -= 1;
+                this.model.matrice[tower.position.x-1][tower.position.y-1].enemies[0].life = 0;
             }
         }
     }
