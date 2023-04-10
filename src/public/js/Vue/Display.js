@@ -113,7 +113,6 @@ export class Display{
 
     }
     nextMoveEnemy(enemy){
-        console.log(enemy)
         let enemyId = enemy.id;
         let enemyImage = document.getElementById(enemyId)
         return new Promise((resolve) => {
