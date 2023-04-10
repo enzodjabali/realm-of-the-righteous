@@ -8,6 +8,9 @@ export class HUDController {
     }
 
     createTower() {
+        /**
+         * Permit to create tower on click
+         */
         let button1 = document.getElementById('buyTower1')
         let button2 = document.getElementById('buyTower2')
         let button3 = document.getElementById('buyTower3')
