@@ -5,13 +5,13 @@ export class TowerController{
         this.model = model;
         this.display = display;
     }
-    placeTowerInMatrice(){
+    placeTowerInMatrice(towerData){
         this.display.pile[0].classList.remove('tile-shadow'); // remove class (not selected anymore)
         if(this.model.matrice[this.display.pile[1][0]][this.display.pile[1][1]].tower == null){
             let towerId = 'tower'+this.model.towerId;
             this.model.towerId++;
             this.model.matrice[this.display.pile[1][0]][this.display.pile[1][1]].tower = new Tower(
-                towerId, 1, {x: this.display.pile[1][0], y: this.display.pile[1][1]}
+                towerId, towerData.damage[0], towerData.shotRate[0], {x: this.display.pile[1][0], y: this.display.pile[1][1]}, 0, towerData.path[0]
             )
             this.display.initializeTower(this.model.matrice[this.display.pile[1][0]][this.display.pile[1][1]].tower)
 
@@ -28,7 +28,7 @@ export class TowerController{
         let DIRECTIONS = [[0, -1], [1, 0], [0, 1], [-1, 0]]; // North, East, South, West
         let DIRECTIONDIAG = [[-1,-1], [-1,1], [1,-1], [1,1]];
         while(true){
-            await new Promise(r => setTimeout(r, 500)); // frequence de tire
+            await new Promise(r => setTimeout(r,tower.shotRate)); // frequence de tire
             //Checks for left, right, top, down
             for(let x = 1; x < tower.range+1; x++) {
                 for (let direction of DIRECTIONS) {
@@ -36,7 +36,7 @@ export class TowerController{
                     let dy = tower.position.y + (direction[1]*x)
                     if (dx >= 0 && dx < this.model.matrice.length && dy >= 0 && dy < this.model.matrice[0].length) {
                         if (this.model.matrice[dx][dy].enemies.length > 0) {
-                            this.model.matrice[dx][dy].enemies[0].life = 0;
+                            this.model.matrice[dx][dy].enemies[0].life -= tower.damage;
                         }
                     }
                 }
@@ -47,7 +47,7 @@ export class TowerController{
                         let dyt = tower.position.y + (directionDiag[1]*(x-1))
                         if (dxt >= 0 && dxt < this.model.matrice.length && dyt >= 0 && dyt < this.model.matrice[0].length) {
                             if (this.model.matrice[dxt][dyt].enemies.length > 0) {
-                                this.model.matrice[dxt][dyt].enemies[0].life = 0;
+                                this.model.matrice[dxt][dyt].enemies[0].life -= tower.damage;
                             }
                         }
                     }
