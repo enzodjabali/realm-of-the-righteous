@@ -12,7 +12,8 @@
     {
         $protocol = (!empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) == 'on' || $_SERVER['HTTPS'] == '1')) ? 'https://' : 'http://';
         $server = $_SERVER['SERVER_NAME'];
-        return $protocol.$server;
+        $port = $_SERVER['SERVER_PORT'] ? ':'.$_SERVER['SERVER_PORT'] : '';
+        return $protocol.$server.$port;
     }
 
     $url = getServerUrl() . "/methods/DoesGameBelongToPlayerMethod.php?player_id=$sessionId&game_id=$gameId";
@@ -20,10 +21,8 @@
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
 
-    if ($_SERVER['HTTP_HOST'] == 'localhost:8080') {
-        // Proxy for Docker
-        curl_setopt($ch, CURLOPT_PROXY, $_SERVER['SERVER_ADDR'] . ':' .  $_SERVER['SERVER_PORT']);
-    }
+    // Proxy for Docker
+    curl_setopt($ch, CURLOPT_PROXY, $_SERVER['SERVER_ADDR'] . ':' .  $_SERVER['SERVER_PORT']);
 
     if (($response = curl_exec($ch)) === false) {
         echo 'Curl error: ' . curl_error($ch);
