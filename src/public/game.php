@@ -1,3 +1,43 @@
+<?php
+    session_start();
+
+    $sessionId = intval($_SESSION["player_id"]) ?? 0;
+    $gameId = intval($_GET["game_id"]) ?? 0;
+
+    if (!$sessionId > 0) {
+        header("Location:/login");
+    }
+
+    function getServerUrl(): string
+    {
+        $protocol = (!empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) == 'on' || $_SERVER['HTTPS'] == '1')) ? 'https://' : 'http://';
+        $server = $_SERVER['SERVER_NAME'];
+        $port = $_SERVER['SERVER_PORT'] ? ':'.$_SERVER['SERVER_PORT'] : '';
+        return $protocol.$server.$port;
+    }
+
+    $url = getServerUrl() . "/methods/DoesGameBelongToPlayerMethod.php?player_id=$sessionId&game_id=$gameId";
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+
+    if ($_SERVER['HTTP_HOST'] == 'localhost:8080') {
+        // Proxy for Docker
+        curl_setopt($ch, CURLOPT_PROXY, $_SERVER['SERVER_ADDR'] . ':' .  $_SERVER['SERVER_PORT']);
+    }
+
+    if (($response = curl_exec($ch)) === false) {
+        echo 'Curl error: ' . curl_error($ch);
+        die();
+    }
+    curl_close($ch);
+
+    if (intval($response) != 1) {
+        header("Location:/lobby");
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <meta charset="UTF-8">
@@ -21,4 +61,23 @@
     </body>
 
     <script src="js/Main.js" type="module"></script>
+
+    <script>
+        $(function(){
+            let playerId = <?= $sessionId ?>;
+            let gameId = <?= $gameId ?>;
+
+            $.post("methods/GetGameInformation.php", {playerId: playerId}, function(response){
+                let games = JSON.parse(JSON.stringify(response));
+
+                for (let i = 0; i < games.length; i++) {
+                    let id = games[i]['id'];
+                    let name = games[i]['name'];
+
+                    document.getElementById('game-list').innerHTML += '<br><a href="/game?game_id=' + id + '">' + name + '</a>';
+                    document.getElementById('total-games').innerHTML = 'Total games: ' + games.length;
+                }
+            });
+        });
+    </script>
 </html>

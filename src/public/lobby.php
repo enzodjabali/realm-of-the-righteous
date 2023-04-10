@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    $sessionId = $_SESSION["player_id"] ?? 0;
+    $sessionId = intval($_SESSION["player_id"]) ?? 0;
 
     if (!$sessionId > 0) {
         header("Location:/login");

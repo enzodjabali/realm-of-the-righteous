@@ -67,4 +67,21 @@ class GameUtils
         header('Content-type: application/json');
         return json_encode($result_array);
     }
+
+    /**
+     * This method checks if a given game belongs to a given player
+     * @param int $gameId the game ID
+     * @param int $playerId the player's ID
+     * @return bool returns true if the game doesn't belong to the player, false if it does
+     */
+    public static function doesGameBelongToPlayer(int $gameId, int $playerId): bool
+    {
+        try {
+            $response = DbUtils::select(DbTable::TABLE_GAME, ["COUNT(player_id)"], "WHERE id = '$gameId' AND player_id = '$playerId'")->fetch()["COUNT(player_id)"];
+            return $response > 0;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
 }
