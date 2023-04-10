@@ -5,7 +5,6 @@
 
     if ($sessionId > 0) {
         ?>
-
             <!-- Navbar (sticky bottom) -->
             <div class="w3-bottom w3-hide-small">
                 <div class="w3-bar w3-black w3-center w3-padding w3-opacity-min">

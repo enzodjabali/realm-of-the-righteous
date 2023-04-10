@@ -34,6 +34,13 @@ class LoginPlayerMethod
         (new DotEnv('./.env'))->load();
         $playerId = PlayerUtils::loginPlayer($username, $password);
         $_SESSION["player_id"] = max($playerId, 0);
+
+        if ($playerId > 0) {
+            $playerInformation = PlayerUtils::getPlayerInformation($playerId);
+            $_SESSION["player_username"] = $playerInformation["username"];
+            $_SESSION["player_email"] = $playerInformation["email"];
+        }
+
         echo $playerId;
     }
 }
