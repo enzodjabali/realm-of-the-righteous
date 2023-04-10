@@ -48,7 +48,7 @@ export class Display{
             'towersouth': "../../assets/images/tiles/towersouth.png",
             'towerwest': "../../assets/images/tiles/towerwest.png",
         }
-        
+
         for (let x = 0 ; x < matrice.length ; x++){
             for (let y = 0 ; y < matrice[x].length ; y++){
                 for(let [img_tile, path] of Object.entries(imgDict)){
@@ -67,8 +67,7 @@ export class Display{
 
     initializeEnemy(enemy){
         let imgEnemy = new Image();
-        //console.log(enemy)
-        imgEnemy.src = enemy.path;
+        imgEnemy.src = enemy.path_img;
 
         // Maybe put img size in Json to make it dynamic --> HELP ME
         imgEnemy.height = this.tilesSize;
@@ -84,6 +83,7 @@ export class Display{
 
     }
     nextMoveEnemy(enemy){
+        console.log(enemy)
         let enemyId = enemy.id;
         let enemyImage = document.getElementById(enemyId)
         return new Promise((resolve) => {
@@ -93,7 +93,7 @@ export class Display{
                 top: (enemy.position.x) * this.tilesSize, // Set the top property to the new position's x coordinate
                 left: (enemy.position.y) * this.tilesSize, // Set the left property to the new position's y coordinate
                 easing: 'linear', // Use linear easing for smooth movement
-                duration: 300, // Set the duration of the animation to 300 milliseconds
+                duration: 10000/enemy.speed, // Set the duration of the animation to 300 milliseconds
                 complete: function (){
                     resolve('all good'); // Resolve the promise when the animation is complete
                 }
