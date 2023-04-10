@@ -13,6 +13,8 @@
         </div>
         <div id="container-enemies">
         </div>
+        <div id="container-towers">
+        </div>
         <div>
             <button style="width: 400px; height: 200px" id="buyTower1">Buy tower</button>
         </div>

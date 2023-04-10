@@ -18,11 +18,13 @@ export class Controller{
         //Update enemy position within its object (enemy.position) by tick
         const matrice = this.model.getMatrice();
 
+        //supprime enemy dans matrice
+        matrice[enemy.position.x][enemy.position.y].enemies.splice(enemy,1)
+
         enemy.position.x += nextPosition[0]
         enemy.position.y += nextPosition[1]
 
-        //supprime enemy dans matrice
-        matrice[enemy.position.x][enemy.position.y].enemies.splice(enemy,1)
+
 
         // doit ajouter enemy dans matrice a nouvelle position
         this.updateEnemyInMatrice(enemy);
@@ -32,6 +34,7 @@ export class Controller{
         //Update enemy in matrice by its position in its object (enemy.position.x / enemy.position.y)
         let matrice = this.model.getMatrice();
         matrice[enemy.position.x][enemy.position.y].enemies.push(enemy);
+        console.log(this.model.matrice[enemy.position.x][enemy.position.y])
     }
 
     setup(){
@@ -43,7 +46,6 @@ export class Controller{
 
         console.log('wait timeBeforeStart', this.model.timeBeforeStart)
         await new Promise(r => setTimeout(r, this.model.timeBeforeStart));
-                
 
         for(let waves of this.model.waves[diffculty]){
             if (this.model.waves[diffculty].indexOf(waves) != 0)
@@ -120,5 +122,8 @@ export class Controller{
             // Handle any errors that may occur during the enemy's movement
             console.error('Error:', error);
         }
+    }
+    async towerLoop(){
+
     }
 }

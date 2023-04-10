@@ -4,14 +4,17 @@ async function main(){
 
 	//diffculty = homepage()
 
-	const diffculty = 'easy';
+	const diffculty = 'medium';
 
 	controller.setup();
+
+	//Enemy
 	controller.loop(diffculty);
-	while(true){
-		console.log('here')
-		await new Promise(r => setTimeout(r, 2000));
-		controller.HUDController.createTower();
-	}
+
+	//Tower
+	await new Promise(r => setTimeout(r, 2000));
+	controller.HUDController.createTower();
+	controller.towerLoop();
+
 }
 main();

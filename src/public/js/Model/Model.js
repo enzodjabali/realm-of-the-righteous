@@ -2,7 +2,6 @@
 export class Model {
     constructor() {
         this.matrice =
-
                [[{tile: 'borderwest', enemies: [], tower: null},{tile: 'basepath', enemies: [], tower: null},{tile: 'bordereast', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null}],
                 [{tile: 'borderwest', enemies: [], tower: null},{tile: 'basepath', enemies: [], tower: null},{tile: 'bordereast', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null}],
                 [{tile: 'borderwest', enemies: [], tower: null},{tile: 'basepath', enemies: [], tower: null},{tile: 'bordereast', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null},{tile: 'basegrass', enemies: [], tower: null}],
@@ -25,10 +24,11 @@ export class Model {
         this.timeBetweenWaves = 5000; //time in ms
         this.timeBetweenGroups = 500; //time in ms
         this.difficulty = 'easy';
-        this.timeBeforeStart = 1500; //time in ms
+        this.timeBeforeStart = 2000; //time in ms
         this.currentWave = 0;
         this.currentGroup = 0;
         this.mobId = 0;
+        this.towerId = 0;
         this.enemiesToPlace = []; //List where enemy are waiting to be put in the matrice
         this.entryPoints = [[0,1]];
         this.endPoints = [[10,1]];
