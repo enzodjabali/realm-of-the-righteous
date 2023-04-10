@@ -61,23 +61,4 @@
     </body>
 
     <script src="js/Main.js" type="module"></script>
-
-    <script>
-        $(function(){
-            let playerId = <?= $sessionId ?>;
-            let gameId = <?= $gameId ?>;
-
-            $.post("methods/GetGameInformation.php", {playerId: playerId}, function(response){
-                let games = JSON.parse(JSON.stringify(response));
-
-                for (let i = 0; i < games.length; i++) {
-                    let id = games[i]['id'];
-                    let name = games[i]['name'];
-
-                    document.getElementById('game-list').innerHTML += '<br><a href="/game?game_id=' + id + '">' + name + '</a>';
-                    document.getElementById('total-games').innerHTML = 'Total games: ' + games.length;
-                }
-            });
-        });
-    </script>
 </html>
