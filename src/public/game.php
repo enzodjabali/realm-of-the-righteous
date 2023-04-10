@@ -55,9 +55,21 @@
         </div>
         <div id="container-towers">
         </div>
-        <div>
-            <button style="width: 400px; height: 200px" id="buyTower1">Buy tower</button>
+        <div style='display:flex'>
+            <div>
+                <button style="width: 100px; height: 100px" id="buyTower1">Buy Brick Tower</button>
+            </div>
+            <div>
+                <button style="width: 100px; height: 100px" id="buyTower2">Buy Old Tower</button>
+            </div>
+            <div>
+                <button style="width: 100px; height: 100px" id="buyTower3">Buy basic tower</button>
+            </div>
+            <div>
+                <button style="width: 100px; height: 100px" id="buyTower4">Buy wooden tower</button>
+            </div>
         </div>
+
     </body>
 
     <script src="js/Main.js" type="module"></script>
