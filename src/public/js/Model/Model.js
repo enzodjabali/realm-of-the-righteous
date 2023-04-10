@@ -17,7 +17,7 @@ export class Model {
             ]
         // [wave 0 --> [[quantity], [type]]1
 
-        this.waves = {easy:[[[10,'bat'],[10,'golem'],[10,'knight'],[10,'witch'],[10,'wolf']]],
+        this.waves = {easy:[[[1,'bat'],[1,'golem'],[1,'knight'],[1,'witch'],[1,'wolf']]],
                     medium:[[[1,100],[0,110]]],
                       hard:[[[1,100],[0,110]]],
                   }
@@ -34,6 +34,7 @@ export class Model {
         this.endPoints = [[10,1]];
 
     }
+    
     getMatrice(){
         return this.matrice;
     }

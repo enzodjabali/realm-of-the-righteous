@@ -2,7 +2,7 @@
  * Base class for enemies
  * ! Les images doivent être en 64x64, sinon voir class display ! */
 export class Enemy{
-    constructor(enemyId, typeOfEnemies,path, path_img, position, life, armor) {
+    constructor(enemyId, typeOfEnemies,path, path_img, position, life, armor, speed) {
         this.id = enemyId;
         this.life = life;
         this.armor = armor;
@@ -11,6 +11,7 @@ export class Enemy{
         this.path = path;
         this.typeOfEnemies = typeOfEnemies;
         this.step = 0;
+        this.speed = speed;
     }
 
     static mobDict = {
@@ -19,30 +20,35 @@ export class Enemy{
             pathDead: '../../assets/images/mobs/batdeath.gif', 
             life: 10,  
             armor: 0,
+            speed: 20,
         },
         'golem':{
             pathAlive: '../../assets/images/mobs/golemwalk.gif',
             pathDead: '../../assets/images/mobs/golemdeath.gif', 
             life: 10, 
             armor: 0,
+            speed: 10,
         },
         'knight':{
             pathAlive: '../../assets/images/mobs/knightrun.gif', 
             pathDead: '../../assets/images/mobs/knightdeath.gif', 
             life: 10, 
             armor: 0,
+            speed: 15,
         },
         'witch':{
             pathAlive: '../../assets/images/mobs/witchwalk.gif', 
             pathDead: '../../assets/images/mobs/witchdeath.gif', 
             life: 10, 
             armor: 0,
+            speed: 12,
         },
         'wolf':{
             pathAlive: '../../assets/images/mobs/wolfrun.gif', 
             pathDead: '../../assets/images/mobs/wolfdeath.gif', 
             life: 10, 
             armor: 0,
+            speed: 25,
         },
     }
 

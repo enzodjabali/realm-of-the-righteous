@@ -1,6 +1,7 @@
 import {EnemiesController} from "./EnemiesController.js";
 import {Model} from "../Model/Model.js";
 import {Display} from "../Vue/Display.js";
+import {enumEnemies} from '../Model/enumEnemies.js';
 
 export class Controller{
     constructor() {
@@ -67,7 +68,7 @@ export class Controller{
                     /*console.log('path')
                     console.log(path)*/
 
-                    let enemy = this.enemiesController.createEnnemyObject(this.model.mobId, path, this.model.entryPoints[indexOfEntryPoints], group[1])
+                    let enemy = this.enemiesController.createEnnemyObject(this.model.mobId, enumEnemies, path, this.model.entryPoints[indexOfEntryPoints], group[1])
 
                     this.display.initializeEnemy(enemy);
                     
