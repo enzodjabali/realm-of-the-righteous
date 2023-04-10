@@ -238,9 +238,9 @@
                 let playerId = <?= $sessionId ?>;
                 let difficulty = $('input[name="difficulty"]:checked').val();
 
-                $.post("methods/CreateGameMethod.php", {name: name, playerId: playerId, difficulty: difficulty}, function(result){
+                $.post("methods/CreateGameMethod.php", {name: name, playerId: playerId, difficulty: difficulty}, function(response){
 
-                    if (result === "1") {
+                    if (response === "1") {
                         //success
                        console.log('succeed!');
                        let modalResult = document.getElementById("result-message");
@@ -254,7 +254,7 @@
                         let modalResult = document.getElementById("result-message");
                         let goBackIfFailedButton = document.getElementById("go-back-if-failed");
 
-                        modalResult.innerHTML = result;
+                        modalResult.innerHTML = response;
                         goBackIfFailedButton.innerHTML = '<a href="#difficulty" style="float: left"><div class="w3-center" style="background-color: maroon;color: white;border-radius: 7px;">Go back</div></a>';
 
                         window.location = "#result";

@@ -72,14 +72,18 @@
 
     <script src="js/modal.js"></script>
     <script>
+        /**
+         * This function calls the player login method
+         * If the login method success the player is redirected to /lobby, if not an error message is displayed
+         */
         $(function(){
             $("#login-form").submit(function(){
                 let username = $(this).find("input[name=username]").val();
                 let password = $(this).find("input[name=password]").val();
 
-                $.post("methods/LoginPlayerMethod.php", {username: username, password: password}, function(result){
+                $.post("methods/LoginPlayerMethod.php", {username: username, password: password}, function(response){
 
-                    if (result > 0) {
+                    if (response > 0) {
                         //success
                         window.location.href = "/lobby";
                     } else {
