@@ -49,6 +49,14 @@ export class Display{
             'towernorth': "../../assets/images/tiles/towernorth.png",
             'towersouth': "../../assets/images/tiles/towersouth.png",
             'towerwest': "../../assets/images/tiles/towerwest.png",
+            'northeast':"../../assets/images/tiles/northeast.png",
+            'northeastcorner':"../../assets/images/tiles/northeastcorner.png",
+            'northwest':"../../assets/images/tiles/northwest.png",
+            'northwestcorner':"../../assets/images/tiles/northwestcorner.png",
+            'southeast':"../../assets/images/tiles/southeast.png",
+            'southeastcorner':"../../assets/images/tiles/southeastcorner.png",
+            'southwest':"../../assets/images/tiles/southwest.png",
+            'southwestcorner':"../../assets/images/tiles/southwestcorner.png",
         }
 
         for (let x = 0 ; x < matrice.length ; x++){
