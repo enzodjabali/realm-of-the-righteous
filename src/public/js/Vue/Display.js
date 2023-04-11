@@ -118,20 +118,30 @@ export class Display{
          */
         let imgTower = new Image();
         imgTower.src = tower.path;
-
         imgTower.height = this.tilesSize;
         imgTower.width = this.tilesSize;
-
         //Set an ID to the enemy. Permits to get it later
         imgTower.setAttribute('id', tower.getId());
-
         document.getElementById('container-towers').appendChild(imgTower);
         let towerCss = document.getElementById(tower.getId());
         towerCss.style.position = 'absolute';
         towerCss.style.top = (tower.position.x * this.tilesSize + 0.5*this.tilesSize - imgTower.height/2).toString()+'px';
         towerCss.style.left = (tower.position.y * this.tilesSize + 0.5*this.tilesSize - imgTower.width/2).toString()+'px';
-
     }
+
+    initializeWeapon(tower){
+        let imgTowerWeapon = new Image();
+        imgTowerWeapon.src = tower.pathWeapon;
+        imgTowerWeapon.height = this.tilesSize;
+        imgTowerWeapon.width = this.tilesSize;
+        imgTowerWeapon.setAttribute('id', tower.getWeaponId());
+        document.getElementById('container-towers').appendChild(imgTowerWeapon);
+        let towerWeaponCss = document.getElementById(tower.getWeaponId());
+        towerWeaponCss.style.position = 'absolute';
+        towerWeaponCss.style.top = (tower.position.x * this.tilesSize + 0.5*this.tilesSize - towerWeaponCss.height/2).toString()+'px';
+        towerWeaponCss.style.left = (tower.position.y * this.tilesSize + 0.5*this.tilesSize - towerWeaponCss.width/2).toString()+'px';
+    }
+
     nextMoveEnemy(enemy){
         /**
          * @param {enemy} enemy instance of enemy.
@@ -181,4 +191,30 @@ export class Display{
         let enemyImage = document.getElementById(enemyId)
         enemyImage.style.transform = 'scaleX(1)';
     }
+
+    rotateWeapon(direction, imgWeaponId) {
+  // Input direction vector
+  // direction is assumed to be a 2-element array [x, y]
+
+  // Image element
+  const imgWeapon = document.getElementById(imgWeaponId);
+
+  // Calculate center point of the image
+  const imageWidth = imgWeapon.width;
+  const imageHeight = imgWeapon.height;
+  const centerX = imageWidth / 2;
+  const centerY = imageHeight / 2;
+
+  // Convert direction vector to angle in radians
+  //const angle = Math.atan2(direction[1], direction[0]);
+  
+  const angleRad = Math.atan2(direction[1], direction[0]);
+
+  //console.log(angleRad, 'angleRad')
+
+  // Apply rotation transformation to the image
+  imgWeapon.style.transformOrigin = `${centerX}px ${centerY}px`;
+  imgWeapon.style.transform = `rotate(${angleRad}rad) rotate(90deg)`;
+}
+
 }

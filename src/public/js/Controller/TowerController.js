@@ -5,64 +5,92 @@ export class TowerController{
         this.model = model;
         this.display = display;
     }
-    placeTowerInMatrice(towerData){
+    placeTowerInMatrice(towerData) {
         /**
          * @param {number} towerData dictionnary of data about tower.
          * Permit to place tower in the matrice
          */
         this.display.pile[0].classList.remove('tile-shadow'); // remove class (not selected anymore)
-        if(this.model.matrice[this.display.pile[1][0]][this.display.pile[1][1]].tower == null){
-            let towerId = 'tower'+this.model.towerId;
-            this.model.towerId++;
-            this.model.matrice[this.display.pile[1][0]][this.display.pile[1][1]].tower = new Tower(
-                towerId, towerData.damage[0], towerData.shotRate[0], {x: this.display.pile[1][0], y: this.display.pile[1][1]}, 0, towerData.path[0]
-            )
-            this.display.initializeTower(this.model.matrice[this.display.pile[1][0]][this.display.pile[1][1]].tower)
 
-            //appel le boucle pour faire fonctionner la logique des tours.
-            this.runTower(this.model.matrice[this.display.pile[1][0]][this.display.pile[1][1]].tower)
+        const row = this.display.pile[1][0];
+        const col = this.display.pile[1][1];
+
+        if (this.model.matrice[row][col].tower === null) {
+            const towerId = 'tower_' + this.model.towerId;
+            const towerWeaponId = 'towerWeapon_' + this.model.towerWeaponId;
+
+            this.model.towerId++;
+            this.model.towerWeaponId++;
+
+            console.log(towerData,'towerData')
+
+            const tower = new Tower(
+                towerId, towerData.damage[0], towerData.shotRate[0], {x: row, y: col}, 0, towerData.path[0],
+                towerData.pathWeapon, towerWeaponId
+            );
+
+            this.model.matrice[row][col].tower = tower;
+            this.display.initializeTower(tower);
+            this.display.initializeWeapon(tower);
+
+            // appel le boucle pour faire fonctionner la logique des tours.
+            this.runTower(tower);
+
         } else {
-            console.log('il y a déjà une tour sur cette case')
-            return
+            console.log('Il y a déjà une tour sur cette case.');
+            return;
         }
-        console.log(this.model.matrice[this.display.pile[1][0]][this.display.pile[1][1]].tower)
+
         this.display.pile = -1;
     }
-    async runTower(tower){
-        /**
-         * @param {Tower} tower instance of Tower.
-         * Permit to make the logic of the tower works
-         */
-        let DIRECTIONS = [[0, -1], [1, 0], [0, 1], [-1, 0]]; // North, East, South, West
-        let DIRECTIONDIAG = [[-1,-1], [-1,1], [1,-1], [1,1]];
-        while(true){
-            await new Promise(r => setTimeout(r,tower.shotRate)); // frequence de tire
-            //Checks for left, right, top, down
-            for(let x = 1; x < tower.range+1; x++) {
-                for (let direction of DIRECTIONS) {
-                    let dx = tower.position.x + (direction[0]*x)
-                    let dy = tower.position.y + (direction[1]*x)
-                    if (dx >= 0 && dx < this.model.matrice.length && dy >= 0 && dy < this.model.matrice[0].length) {
-                        if (this.model.matrice[dx][dy].enemies.length > 0) {
-                            this.model.matrice[dx][dy].enemies[0].life -= tower.damage;
-                        }
+
+async runTower(tower) {
+    /**
+     * @param {Tower} tower instance of Tower.
+     * Permit to make the logic of the tower works
+     */
+    const DIRECTIONS = [[0, -1], [1, 0], [0, 1], [-1, 0]]; // North, East, South, West
+    const DIRECTIONDIAG = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
+    while (true) {
+        //console.log(tower.id ,tower.shotRate, 'setTimeout');
+        await new Promise(r => setTimeout(r, tower.shotRate)); // frequency of fire
+        const { x, y } = tower.position;
+        const { range, damage } = tower;
+        for (let x = 1; x <= range; x++) {
+            for (let direction of DIRECTIONS) {
+                const dx = x * direction[0];
+                const dy = x * direction[1];
+                const nx = x + dx;
+                const ny = y + dy;
+                if (nx >= 0 && nx < this.model.matrice.length && ny >= 0 && ny < this.model.matrice[0].length) {
+                    const cell = this.model.matrice[nx][ny];
+                    if (cell.enemies.length > 0) {
+                        cell.enemies[0].life -= damage;
+                        this.display.rotateWeapon(direction, tower.WeaponId);
                     }
                 }
-                //Checks for diagonals
-                if(x > 1){
-                    for (let directionDiag of DIRECTIONDIAG){
-                        let dxt = tower.position.x + (directionDiag[0]*(x-1))
-                        let dyt = tower.position.y + (directionDiag[1]*(x-1))
-                        if (dxt >= 0 && dxt < this.model.matrice.length && dyt >= 0 && dyt < this.model.matrice[0].length) {
-                            if (this.model.matrice[dxt][dyt].enemies.length > 0) {
-                                this.model.matrice[dxt][dyt].enemies[0].life -= tower.damage;
-                            }
+            }
+            if (x > 1) {
+                for (let directionDiag of DIRECTIONDIAG) {
+                    const dxt = (x - 1) * directionDiag[0];
+                    const dyt = (x - 1) * directionDiag[1];
+                    const ndxt = x + dxt;
+                    const ndyt = y + dyt;
+                    if (ndxt >= 0 && ndxt < this.model.matrice.length && ndyt >= 0 && ndyt < this.model.matrice[0].length) {
+                        const cell = this.model.matrice[ndxt][ndyt];
+                        if (cell.enemies.length > 0) {
+                            cell.enemies[0].life -= damage;
+
+                            console.log('shooting',cell.enemies[0].typeOfEnemies)
+                            this.display.rotateWeapon(directionDiag, tower.WeaponId);
                         }
                     }
                 }
             }
         }
     }
+}
+
 }
 
 

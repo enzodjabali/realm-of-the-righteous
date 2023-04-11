@@ -85,6 +85,7 @@ export class Model {
         this.currentGroup = 0;
         this.mobId = 0;
         this.towerId = 0;
+        this.towerWeaponId = 0;
         this.enemiesToPlace = []; //List where enemy are waiting to be put in the matrice
         this.entryPoints = [[0,1]];
         this.endPoints = [[0,7]];

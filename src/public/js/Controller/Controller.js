@@ -120,7 +120,7 @@ export class Controller{
                 }
 
                 if (enemy.life <= 0){
-                    console.log('enemy killed');                    
+                    //console.log(enemy.id, 'enemy killed');                    
                     this.display.removeEnemy(enemy);
                     this.model.matrice[enemy.position.x][enemy.position.y].enemies.splice(enemy,1)
                     return

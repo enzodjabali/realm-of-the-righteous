@@ -1,3 +1,12 @@
+/**
+ * Enum of enemy types with their properties.
+ * @typedef {Object} EnemyType
+ * @property {string} pathAlive - The path to the image for the enemy when alive.
+ * @property {string} pathDead - The path to the image for the enemy when dead.
+ * @property {number} life - The initial life or health of the enemy.
+ * @property {number} armor - The initial armor of the enemy.
+ * @property {number} speed - The initial speed of the enemy.
+ */
 export const enumEnemies = {
     'bat':{
         pathAlive: '../../assets/images/mobs/batvol.gif',
