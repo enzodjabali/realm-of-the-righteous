@@ -14,7 +14,6 @@ async function main(){
 	//Tower
 	await new Promise(r => setTimeout(r, 2000));
 	controller.HUDController.createTower();
-	controller.towerLoop();
 
 }
 main();

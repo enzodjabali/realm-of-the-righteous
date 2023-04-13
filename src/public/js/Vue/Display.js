@@ -118,20 +118,30 @@ export class Display{
          */
         let imgTower = new Image();
         imgTower.src = tower.path;
-
         imgTower.height = this.tilesSize;
         imgTower.width = this.tilesSize;
-
         //Set an ID to the enemy. Permits to get it later
         imgTower.setAttribute('id', tower.getId());
-
         document.getElementById('container-towers').appendChild(imgTower);
         let towerCss = document.getElementById(tower.getId());
         towerCss.style.position = 'absolute';
         towerCss.style.top = (tower.position.x * this.tilesSize + 0.5*this.tilesSize - imgTower.height/2).toString()+'px';
         towerCss.style.left = (tower.position.y * this.tilesSize + 0.5*this.tilesSize - imgTower.width/2).toString()+'px';
-
     }
+
+    initializeWeapon(tower){
+        let imgTowerWeapon = new Image();
+        imgTowerWeapon.src = tower.pathWeapon;
+        imgTowerWeapon.height = this.tilesSize;
+        imgTowerWeapon.width = this.tilesSize;
+        imgTowerWeapon.setAttribute('id', tower.getWeaponId());
+        document.getElementById('container-towers').appendChild(imgTowerWeapon);
+        let towerWeaponCss = document.getElementById(tower.getWeaponId());
+        towerWeaponCss.style.position = 'absolute';
+        towerWeaponCss.style.top = (tower.position.x * this.tilesSize + 0.5*this.tilesSize - towerWeaponCss.height/2).toString()+'px';
+        towerWeaponCss.style.left = (tower.position.y * this.tilesSize + 0.5*this.tilesSize - towerWeaponCss.width/2).toString()+'px';
+    }
+
     nextMoveEnemy(enemy){
         /**
          * @param {enemy} enemy instance of enemy.
@@ -181,4 +191,21 @@ export class Display{
         let enemyImage = document.getElementById(enemyId)
         enemyImage.style.transform = 'scaleX(1)';
     }
+
+    rotateWeapon(tower, cell) {
+        const deltaX = cell[0] - tower.position.x;
+        const deltaY = cell[1] - tower.position.y;
+        let angle = Math.atan2(deltaX, deltaY) * (180 / Math.PI); // Calculate angle in degrees
+        angle += 90
+        // Update the rotation of the weapon element
+        const towerWeaponCss = document.getElementById(tower.getWeaponId());
+        tower.WeaponAngle = angle;
+        towerWeaponCss.style.transform = `rotate(${angle}deg)`;
+    }
+    towerIdle(tower){
+        const towerWeaponCss = document.getElementById(tower.getWeaponId());
+        tower.WeaponAngle += 20;
+        towerWeaponCss.style.transform = `rotate(${tower.WeaponAngle}deg)`;
+    }
+
 }
