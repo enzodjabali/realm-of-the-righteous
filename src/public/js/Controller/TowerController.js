@@ -56,7 +56,7 @@ async runTower(tower) {
         await new Promise(r => setTimeout(r, tower.shotRate)); // frequency of fire
         const { x, y } = tower.position;
         const { range, damage } = tower;
-        for (let x = 1; x <= range; x++) {
+        for (let i = 1; i <= range; i++) {
             for (let direction of DIRECTIONS) {
                 const dx = x * direction[0];
                 const dy = x * direction[1];
@@ -66,14 +66,15 @@ async runTower(tower) {
                     const cell = this.model.matrice[nx][ny];
                     if (cell.enemies.length > 0) {
                         cell.enemies[0].life -= damage;
-                        this.display.rotateWeapon(direction, tower.WeaponId);
+                        console.log('tower',tower.id, 'shooting',cell.enemies[0].typeOfEnemies, cell.enemies[0].id)
+                        this.display.rotateWeapon(tower [nx,ny]);
                     }
                 }
             }
-            if (x > 1) {
+            if (i > 1) {
                 for (let directionDiag of DIRECTIONDIAG) {
-                    const dxt = (x - 1) * directionDiag[0];
-                    const dyt = (x - 1) * directionDiag[1];
+                    const dxt = i * directionDiag[0];
+                    const dyt = i * directionDiag[1];
                     const ndxt = x + dxt;
                     const ndyt = y + dyt;
                     if (ndxt >= 0 && ndxt < this.model.matrice.length && ndyt >= 0 && ndyt < this.model.matrice[0].length) {
@@ -81,11 +82,14 @@ async runTower(tower) {
                         if (cell.enemies.length > 0) {
                             cell.enemies[0].life -= damage;
 
-                            console.log('shooting',cell.enemies[0].typeOfEnemies)
-                            this.display.rotateWeapon(directionDiag, tower.WeaponId);
+                            console.log('tower',tower.id, 'shooting',cell.enemies[0].typeOfEnemies, cell.enemies[0].id)
+                            this.display.rotateWeapon(tower, [ndxt, ndyt]);
                         }
                     }
                 }
+            } else {
+                console.log(tower.id, "towerIdle")
+                this.display.towerIdle(tower);
             }
         }
     }

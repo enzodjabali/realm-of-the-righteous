@@ -192,29 +192,20 @@ export class Display{
         enemyImage.style.transform = 'scaleX(1)';
     }
 
-    rotateWeapon(direction, imgWeaponId) {
-  // Input direction vector
-  // direction is assumed to be a 2-element array [x, y]
-
-  // Image element
-  const imgWeapon = document.getElementById(imgWeaponId);
-
-  // Calculate center point of the image
-  const imageWidth = imgWeapon.width;
-  const imageHeight = imgWeapon.height;
-  const centerX = imageWidth / 2;
-  const centerY = imageHeight / 2;
-
-  // Convert direction vector to angle in radians
-  //const angle = Math.atan2(direction[1], direction[0]);
-  
-  const angleRad = Math.atan2(direction[1], direction[0]);
-
-  //console.log(angleRad, 'angleRad')
-
-  // Apply rotation transformation to the image
-  imgWeapon.style.transformOrigin = `${centerX}px ${centerY}px`;
-  imgWeapon.style.transform = `rotate(${angleRad}rad) rotate(90deg)`;
-}
+    rotateWeapon(tower, cell) {
+        const deltaX = cell[0] - tower.position.x;
+        const deltaY = cell[1] - tower.position.y;
+        let angle = Math.atan2(deltaX, deltaY) * (180 / Math.PI); // Calculate angle in degrees
+        angle += 90
+        // Update the rotation of the weapon element
+        const towerWeaponCss = document.getElementById(tower.getWeaponId());
+        tower.WeaponAngle = angle;
+        towerWeaponCss.style.transform = `rotate(${angle}deg)`;
+    }
+    towerIdle(tower){
+        const towerWeaponCss = document.getElementById(tower.getWeaponId());
+        tower.WeaponAngle += 20;
+        towerWeaponCss.style.transform = `rotate(${tower.WeaponAngle}deg)`;
+    }
 
 }
