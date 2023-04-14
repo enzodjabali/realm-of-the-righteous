@@ -65,7 +65,7 @@ async runTower(tower) {
                 if (nx >= 0 && nx < this.model.matrice.length && ny >= 0 && ny < this.model.matrice[0].length) {
                     const cell = this.model.matrice[nx][ny];
                     if (cell.enemies.length > 0) {
-                        cell.enemies[0].life -= damage;
+                        cell.enemies[0].curent_life -= damage;
                         console.log('tower',tower.id, 'shooting',cell.enemies[0].typeOfEnemies, cell.enemies[0].id)
                         this.display.rotateWeapon(tower [nx,ny]);
                     }
@@ -80,7 +80,7 @@ async runTower(tower) {
                     if (ndxt >= 0 && ndxt < this.model.matrice.length && ndyt >= 0 && ndyt < this.model.matrice[0].length) {
                         const cell = this.model.matrice[ndxt][ndyt];
                         if (cell.enemies.length > 0) {
-                            cell.enemies[0].life -= damage;
+                            cell.enemies[0].curent_life -= damage;
 
                             console.log('tower',tower.id, 'shooting',cell.enemies[0].typeOfEnemies, cell.enemies[0].id)
                             this.display.rotateWeapon(tower, [ndxt, ndyt]);

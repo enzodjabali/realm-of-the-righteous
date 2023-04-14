@@ -84,7 +84,6 @@ export class Controller{
                     console.log(path)*/
 
                     let enemy = this.enemiesController.createEnnemyObject(this.model.mobId, enumEnemies, path, this.model.entryPoints[indexOfEntryPoints], group[1])
-
                     this.display.initializeEnemy(enemy);
                     
                     this.run(enemy, path, this.model.endPoints[indexOfEndPoints]); // Run the movement loop for each enemy
@@ -119,7 +118,7 @@ export class Controller{
                     this.display.flipItLeftRight(enemy);
                 }
 
-                if (enemy.life <= 0){
+                if (enemy.curent_life <= 0){
                     //console.log(enemy.id, 'enemy killed');                    
                     this.display.removeEnemy(enemy);
                     this.model.matrice[enemy.position.x][enemy.position.y].enemies.splice(enemy,1)
@@ -128,6 +127,7 @@ export class Controller{
 
                 if (step <= path.length-1) {
                     await this.updateEnemiesPosition(enemy, path[step]); // Await the update of the enemy's position
+                    await this.display.updateEnemyHealthBar(enemy);
                 } 
 
                 await this.display.nextMoveEnemy(enemy, path[step]); // Await the next move of the enemy using the nextMoveEnemy() method
