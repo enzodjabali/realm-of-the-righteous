@@ -57,8 +57,8 @@ async runTower(tower) {
         const { range, damage } = tower;
         for (let i = 1; i <= range; i++) {
             for (let direction of DIRECTIONS) {
-                const dx = x * direction[0];
-                const dy = x * direction[1];
+                const dx = i * direction[0];
+                const dy = i * direction[1];
                 const nx = x + dx;
                 const ny = y + dy;
                 if (nx >= 0 && nx < this.model.matrice.length && ny >= 0 && ny < this.model.matrice[0].length) {
@@ -66,7 +66,7 @@ async runTower(tower) {
                     if (cell.enemies.length > 0) {
                         cell.enemies[0].curent_life -= damage;
                         console.log('tower',tower.id, 'shooting',cell.enemies[0].typeOfEnemies, cell.enemies[0].id)
-                        this.display.rotateWeapon(tower [nx,ny]);
+                        this.display.rotateWeapon(tower, [nx,ny]);
                     }
                 }
             }
@@ -80,14 +80,13 @@ async runTower(tower) {
                         const cell = this.model.matrice[ndxt][ndyt];
                         if (cell.enemies.length > 0) {
                             cell.enemies[0].curent_life -= damage;
-
                             console.log('tower',tower.id, 'shooting',cell.enemies[0].typeOfEnemies, cell.enemies[0].id)
                             this.display.rotateWeapon(tower, [ndxt, ndyt]);
                         }
                     }
                 }
             } else {
-                console.log(tower.id, "towerIdle")
+                //console.log(tower.id, "towerIdle")
                 this.display.towerIdle(tower);
             }
         }

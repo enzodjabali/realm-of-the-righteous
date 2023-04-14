@@ -110,7 +110,7 @@ export class Display{
         enemyImg.width = this.tilesSize;
         enemyImg.id = `enemyImg_${enemyId}`;
         enemyDiv.appendChild(enemyImg);
-        
+
         let healthBar = document.createElement('div');
         let healthBarId = `health_enemy_${enemyId}`;
         healthBar.id = healthBarId;
@@ -224,7 +224,7 @@ export class Display{
 
     towerIdle(tower){
         const towerWeaponCss = document.getElementById(`towerWeaponImg_${tower.getId()}`);
-        tower.WeaponAngle += 20;
+        tower.WeaponAngle += 10;
         towerWeaponCss.style.transform = `rotate(${tower.WeaponAngle}deg)`;
     }
     updateEnemyHealthBar(enemy){
