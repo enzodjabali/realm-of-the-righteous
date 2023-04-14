@@ -95,20 +95,30 @@ export class Display{
          * @param {Enemy} enemy instance of enemy.
          * Permit to initialize the enemy
          */
-        let imgEnemy = new Image();
-        imgEnemy.src = enemy.path_img;
+        let enemyDiv = document.createElement('div');
+        let enemyId = enemy.getId();
+        enemyDiv.id = `enemy_${enemyId}`;
+        enemyDiv.className = 'enemy';
+        enemyDiv.style.position = 'absolute';
+        enemyDiv.style.top = (enemy.position.x * this.tilesSize).toString() + 'px';
+        enemyDiv.style.left = (enemy.position.y * this.tilesSize).toString() + 'px';
+        document.getElementById('container-enemies').appendChild(enemyDiv);
 
-        // Maybe put img size in Json to make it dynamic --> HELP ME
-        imgEnemy.height = this.tilesSize;
-        imgEnemy.width = this.tilesSize;
-        //Set an ID to the enemy. Permits to get it later
-        imgEnemy.setAttribute('id', enemy.getId());
-      
-        document.getElementById('container-enemies').appendChild(imgEnemy);
-        let enemyCss = document.getElementById(enemy.getId());
-        enemyCss.style.position = 'absolute';
-        enemyCss.style.top = (enemy.position.x * this.tilesSize + 0.5*this.tilesSize - imgEnemy.height/2).toString()+'px';
-        enemyCss.style.left = (enemy.position.y * this.tilesSize + 0.5*this.tilesSize - imgEnemy.width/2).toString()+'px';
+        let enemyImg = new Image();
+        enemyImg.src = enemy.path_img;
+        enemyImg.height = this.tilesSize;
+        enemyImg.width = this.tilesSize;
+        enemyImg.id = `enemyImg_${enemyId}`;
+        enemyDiv.appendChild(enemyImg);
+        
+        let healthBar = document.createElement('div');
+        let healthBarId = `health_enemy_${enemyId}`;
+        healthBar.id = healthBarId;
+        healthBar.className = 'health-bar';
+        healthBar.style.backgroundColor = 'green';
+        healthBar.style.height = this.tilesSize/8+'px'; // Set initial health to 100%
+        healthBar.style.width = (enemy.max_life/enemy.curent_life)*100 +'%'; // Set initial health to 100%
+        enemyDiv.appendChild(healthBar);
     }
 
     initializeTower(tower){
@@ -152,12 +162,14 @@ export class Display{
          * @param {enemy} enemy instance of enemy.
          * Permit to make move the enemy by its coordinates in matrice
          */
+
         let enemyId = enemy.id;
-        let enemyImage = document.getElementById(enemyId)
+        let enemyDiv = document.getElementById(`enemy_${enemyId}`);
+
         return new Promise((resolve) => {
             // Use the anime.js library to animate the enemyImage's top and left properties
             anime({
-                targets: enemyImage,
+                targets: enemyDiv,
                 top: (enemy.position.x) * this.tilesSize, // Set the top property to the new position's x coordinate
                 left: (enemy.position.y) * this.tilesSize, // Set the left property to the new position's y coordinate
                 easing: 'linear', // Use linear easing for smooth movement
@@ -168,14 +180,17 @@ export class Display{
             });
         });
     }
+
     removeEnemy(enemy){
         /**
          * @param {enemy} enemy instance of enemy.
          * Permit to remove the enemy from matrice
          */
         let enemyId = enemy.id;
-        let enemyImage = document.getElementById(enemyId)
-        enemyImage.parentNode.removeChild(enemyImage)
+        let enemyDiv = document.getElementById(`enemy_${enemyId}`);
+        const parentElement = enemyDiv.parentNode; // Get the parent element of the div
+        parentElement.removeChild(enemyDiv); // Remove the div element from its parent
+    
     }
 
     flipItLeft(enemy){
@@ -184,7 +199,7 @@ export class Display{
          * Permit to flip left enemy
          */
         let enemyId = enemy.id;
-        let enemyImage = document.getElementById(enemyId)
+        let enemyImage = document.getElementById(`enemy_${enemyId}`)
         enemyImage.style.transform = 'scaleX(-1)';
     }
     flipItLeftRight(enemy){
@@ -193,10 +208,9 @@ export class Display{
          * Permit to flip left to right enemy
          */
         let enemyId = enemy.id;
-        let enemyImage = document.getElementById(enemyId)
+        let enemyImage = document.getElementById(`enemy_${enemyId}`)
         enemyImage.style.transform = 'scaleX(1)';
     }
-
     rotateWeapon(tower, cell) {
         const deltaX = cell[0] - tower.position.x;
         const deltaY = cell[1] - tower.position.y;
@@ -212,6 +226,12 @@ export class Display{
         const towerWeaponCss = document.getElementById(`towerWeaponImg_${tower.getId()}`);
         tower.WeaponAngle += 20;
         towerWeaponCss.style.transform = `rotate(${tower.WeaponAngle}deg)`;
+    }
+    updateEnemyHealthBar(enemy){
+        const enemyId = `enemy_${enemy.id}`;
+        const enemyDiv = document.getElementById(enemyId);
+        let healthBar = enemyDiv.querySelector(`#health_${enemyId}`);
+        healthBar.style.width = (enemy.curent_life/enemy.max_life)*100 +'%';        
     }
 
 }
