@@ -1,8 +1,20 @@
 import {Controller} from "./Controller/Controller.js";
-async function main(){
-	let controller = new Controller()
 
-	//diffculty = homepage()
+const gameId =  new URLSearchParams(window.location.search).get('game_id');
+
+function getGameMatrix() {
+	const request = new XMLHttpRequest();
+	request.open('GET', '/methods/GetGameMatrixMethod.php?gameId='+gameId, false);  // `false` makes the request synchronous
+	request.send(null);
+
+	if (request.status === 200) {
+		return JSON.parse(request.responseText);
+	}
+	return "";
+}
+
+async function main(){
+	let controller = new Controller(getGameMatrix())
 
 	const diffculty = 'medium';
 

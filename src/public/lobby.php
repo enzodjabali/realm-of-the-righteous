@@ -211,7 +211,7 @@
 
     <script>
         /**
-         * This function gets all the user's game and display them
+         * This function gets all the user's games and display them
          */
         $(function(){
             let playerId = <?= $sessionId ?>;

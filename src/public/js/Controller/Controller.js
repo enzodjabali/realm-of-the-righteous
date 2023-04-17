@@ -6,8 +6,8 @@ import {Display} from "../Vue/Display.js";
 import {enumEnemies} from '../Model/enumEnemies.js';
 
 export class Controller{
-    constructor() {
-        this.model = new Model();
+    constructor(matrix) {
+        this.model = new Model(matrix);
         this.display = new Display();
         this.enemiesController = new EnemiesController(this.model);
         this.towerController = new TowerController(this.model, this.display)

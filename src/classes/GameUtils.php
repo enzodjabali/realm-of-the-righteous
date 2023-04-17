@@ -84,4 +84,19 @@ class GameUtils
             return false;
         }
     }
+
+    /**
+     * This method gets the matrix of a given game ID
+     * @param int $gameId the game ID
+     * @return string returns a string containing the matrix if it exists, returns an empty string if it doesn't
+     */
+    public static function getMatrix(int $gameId): string
+    {
+        try {
+            return DbUtils::select(DbTable::TABLE_GAME, ["matrix"], "WHERE id = '$gameId'")->fetch()["matrix"] ?? "";
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            return "";
+        }
+    }
 }

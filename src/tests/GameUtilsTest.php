@@ -24,4 +24,10 @@ final class GameUtilsTest extends TestCase
         $doesGameBelongToPlayer = GameUtils::doesGameBelongToPlayer(2, 1);
         $this->assertTrue($doesGameBelongToPlayer);
     }
+
+    public function testGetMatrix(): void
+    {
+        $doesMatrixExist = GameUtils::getMatrix(2);
+        $this->assertIsString($doesMatrixExist);
+    }
 }
