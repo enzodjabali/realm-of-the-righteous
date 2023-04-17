@@ -64,6 +64,14 @@ export class Controller{
                 this.model.currentWave++;
 
             for (let group of waves){
+                let matrice = this.model.getMatrice();
+                console.log(matrice);
+                const gameId =  new URLSearchParams(window.location.search).get('game_id');
+
+                $.post("/methods/UpdateGameMatrixMethod.php", {gameId: gameId, newMatrix: JSON.stringify(matrice)}, function(response){
+                    console.log(response);
+                });
+
                 if (waves.indexOf(group) != 0)
                     {console.log('wait timeBetweenGroups', this.model.timeBetweenGroups)
                     await new Promise(r => setTimeout(r, this.model.timeBetweenGroups));

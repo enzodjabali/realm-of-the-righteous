@@ -30,4 +30,10 @@ final class GameUtilsTest extends TestCase
         $doesMatrixExist = GameUtils::getMatrix(2);
         $this->assertIsString($doesMatrixExist);
     }
+
+    public function testUpdateMatrix(): void
+    {
+        $isMatrixUpdated = GameUtils::updateMatrix(2, "new matrix");
+        $this->assertTrue($isMatrixUpdated);
+    }
 }

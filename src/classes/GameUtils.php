@@ -99,4 +99,20 @@ class GameUtils
             return "";
         }
     }
+
+    /**
+     * This method updates the matrix of a given game ID
+     * @param int $gameId the game ID
+     * @return bool returns true is the operation succeed, false if it failed
+     */
+    public static function updateMatrix(int $gameId, string $newMatrix): bool
+    {
+        try {
+            return DbUtils::update(DbTable::TABLE_GAME, "matrix", $newMatrix, "WHERE id = '$gameId'");
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
 }
