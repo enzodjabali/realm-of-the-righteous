@@ -216,7 +216,7 @@
         $(function(){
             let playerId = <?= $sessionId ?>;
 
-            $.post("methods/GetGameInformation.php", {playerId: playerId}, function(response){
+            $.post("api/GetGameInformation.php", {playerId: playerId}, function(response){
                 let games = JSON.parse(JSON.stringify(response));
 
                 for (let i = 0; i < games.length; i++) {
@@ -238,7 +238,7 @@
                 let playerId = <?= $sessionId ?>;
                 let difficulty = $('input[name="difficulty"]:checked').val();
 
-                $.post("methods/CreateGameMethod.php", {name: name, playerId: playerId, difficulty: difficulty}, function(response){
+                $.post("api/CreateGame.php", {name: name, playerId: playerId, difficulty: difficulty}, function(response){
 
                     if (response === "1") {
                         //success
@@ -246,7 +246,7 @@
                        let modalResult = document.getElementById("result-message");
                        let goBackIfFailedButton = document.getElementById("go-back-if-failed");
 
-                       modalResult.innerHTML = "Your game had been successfully created";
+                       modalResult.innerHTML = "Your game has been successfully created";
                        goBackIfFailedButton.innerHTML = '';
 
                         window.location = "#result";

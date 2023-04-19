@@ -75,7 +75,7 @@
                 let password = $(this).find("input[name=password]").val();
                 let email = $(this).find("input[name=email]").val();
 
-                $.post("methods/RegisterPlayerMethod.php", {username: username, password: password, email: email}, function(response){
+                $.post("api/RegisterPlayer.php", {username: username, password: password, email: email}, function(response){
 
                     if (response === "1") {
                         //success

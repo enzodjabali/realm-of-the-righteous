@@ -16,7 +16,7 @@
         return $protocol.$server.$port;
     }
 
-    $url = getServerUrl() . "/methods/DoesGameBelongToPlayerMethod.php?player_id=$sessionId&game_id=$gameId";
+    $url = getServerUrl() . "/api/DoesGameBelongToPlayer.php?player_id=$sessionId&game_id=$gameId";
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);

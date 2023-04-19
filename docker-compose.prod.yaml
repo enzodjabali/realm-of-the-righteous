@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile-php
     ports:
-      - "9000:9000"
+      - '9000:9000'
     volumes:
       - ./src:/var/www
     depends_on:

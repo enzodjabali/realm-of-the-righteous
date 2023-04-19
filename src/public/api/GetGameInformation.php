@@ -1,8 +1,8 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
-namespace App\public\methods;
+namespace App\public\api;
 
 if (file_exists('../../vendor/autoload.php')) {
     require_once('../../vendor/autoload.php');
@@ -16,25 +16,25 @@ require_once('../../classes/DbUtils.php');
 require_once('../../classes/DbTable.php');
 require_once('../../classes/GameUtils.php');
 
-extract($_GET);
+extract($_POST);
 
-class GetGameMatrixMethod
+class GetGameInformation
 {
     /**
-     * This method echos the fetched game matrix to the javascript
-     * @param int $gameId the game ID
+     * This method echos the fetched game information to the javascript
+     * @param int $playerId the player's ID
      * @return void
      * @throws Exception
      */
-    public static function do(int $gameId): void
+    public static function do(int $playerId): void
     {
         (new DotEnv('./.env'))->load();
-        echo(GameUtils::getMatrix($gameId));
+        echo(GameUtils::getGameInformation($playerId));
     }
 }
 
 try {
-    GetGameMatrixMethod::do(intval($gameId));
+    GetGameInformation::do(intval($playerId));
 } catch (Exception $e) {
     echo $e;
 }

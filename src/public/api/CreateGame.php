@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\public\methods;
+namespace App\public\api;
 
 if (file_exists('../../vendor/autoload.php')) {
     require_once('../../vendor/autoload.php');
@@ -20,7 +20,7 @@ require_once('../../classes/GameUtils.php');
 
 extract($_POST);
 
-class CreateGameMethod
+class CreateGame
 {
     /**
      * This method echos the result of the CreateGameMethod to the javascript
@@ -44,7 +44,7 @@ try {
         default => GameDifficulties::DIFFICULTY_EASY,
     };
 
-    CreateGameMethod::do(htmlspecialchars($name), intval($playerId), 1, $difficulty);
+    CreateGame::do(htmlspecialchars($name), intval($playerId), 1, $difficulty);
 } catch (Exception $e) {
     echo $e;
 }
