@@ -37,11 +37,17 @@ class GameUtils
             return "You've been disconnected, please try to log back in";
         }
 
+        $matrix = match ($difficulty) {
+            GameDifficulties::DIFFICULTY_NORMAL => GameMatrixes::MATRIX_NORMAL,
+            GameDifficulties::DIFFICULTY_HARD => GameMatrixes::MATRIX_HARD,
+            default => GameMatrixes::MATRIX_EASY,
+        };
+
         try {
             // Insert the new game into the database
             DbUtils::insert(DbTable::TABLE_GAME,
-                ["name", "player_id", "map_id", "difficulty"],
-                [$name, $playerId, $mapId, $difficulty->value]
+                ["name", "player_id", "map_id", "difficulty", "matrix"],
+                [$name, $playerId, $mapId, $difficulty->value, $matrix->value]
             );
             return true;
         } catch (Exception $e) {
