@@ -35,7 +35,6 @@ export class TowerController{
 
             // appel le boucle pour faire fonctionner la logique des tours.
             this.runTower(tower);
-
         } else {
             console.log('Il y a déjà une tour sur cette case.');
             return;

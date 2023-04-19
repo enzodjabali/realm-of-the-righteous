@@ -43,8 +43,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="icon" type="image/x-icon" href="assets/images/website/favicon.ico">
     <link rel="stylesheet" href="assets/css/board.css">
-    <style>
-    </style>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
 
     <body>
         <div id="board-container">

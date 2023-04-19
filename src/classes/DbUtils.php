@@ -91,11 +91,35 @@ class DbUtils {
 	}
 
     /**
+     * This method makes a simple update query into the database
+     * @param DbTable $table the table that will receive the update
+     * @param string $column the column that wll receive the update
+     * @param mixed $value the value that will replace the previous one
+     * @param string $condition adds SQL condition to the selection query
+     * @return bool|PDOStatement returns true is the operation succeed, false if it failed
+     * @throws Exception
+     */
+    public static function update(DbTable $table, string $column, mixed $value, string $condition = ""): bool|PDOStatement
+    {
+        if (!empty($column)) {
+            $table = $table->value;
+            $queryCondition = !empty($condition) ? " $condition" : "";
+            $queryBuilder = "UPDATE $table SET $column = '$value'$queryCondition;";
+            $query = self::initialize()->query($queryBuilder);
+
+            return $query->execute();
+        } else {
+            throw new Exception("A column is required to update a table");
+        }
+    }
+
+    /**
      * This method checks if a value already exists in a specified column
      * @param DbTable $table the table that will be checked
      * @param string $column the column that will be checked
      * @param string $value the value that will be checked
      * @return bool returns true if the value already exists, false if it doesn't
+     * @throws Exception
      */
     public static function doesThisValueExist(DbTable $table, string $column, string $value): bool {
         if (!empty($column)) {

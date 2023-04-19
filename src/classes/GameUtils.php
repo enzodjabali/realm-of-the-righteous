@@ -37,11 +37,17 @@ class GameUtils
             return "You've been disconnected, please try to log back in";
         }
 
+        $matrix = match ($difficulty) {
+            GameDifficulties::DIFFICULTY_NORMAL => GameMatrixes::MATRIX_NORMAL,
+            GameDifficulties::DIFFICULTY_HARD => GameMatrixes::MATRIX_HARD,
+            default => GameMatrixes::MATRIX_EASY,
+        };
+
         try {
             // Insert the new game into the database
             DbUtils::insert(DbTable::TABLE_GAME,
-                ["name", "player_id", "map_id", "difficulty"],
-                [$name, $playerId, $mapId, $difficulty->value]
+                ["name", "player_id", "map_id", "difficulty", "matrix"],
+                [$name, $playerId, $mapId, $difficulty->value, $matrix->value]
             );
             return true;
         } catch (Exception $e) {
@@ -84,4 +90,35 @@ class GameUtils
             return false;
         }
     }
+
+    /**
+     * This method gets the matrix of a given game ID
+     * @param int $gameId the game ID
+     * @return string returns a string containing the matrix if it exists, returns an empty string if it doesn't
+     */
+    public static function getMatrix(int $gameId): string
+    {
+        try {
+            return DbUtils::select(DbTable::TABLE_GAME, ["matrix"], "WHERE id = '$gameId'")->fetch()["matrix"] ?? "";
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            return "";
+        }
+    }
+
+    /**
+     * This method updates the matrix of a given game ID
+     * @param int $gameId the game ID
+     * @return bool returns true is the operation succeed, false if it failed
+     */
+    public static function updateMatrix(int $gameId, string $newMatrix): bool
+    {
+        try {
+            return DbUtils::update(DbTable::TABLE_GAME, "matrix", $newMatrix, "WHERE id = '$gameId'");
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
 }
