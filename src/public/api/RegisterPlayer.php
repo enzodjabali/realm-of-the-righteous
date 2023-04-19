@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\public\methods;
+namespace App\public\api;
 
 if (file_exists('../../vendor/autoload.php')) {
     require_once('../../vendor/autoload.php');
@@ -18,7 +18,7 @@ require_once('../../classes/DbTable.php');
 
 extract($_POST);
 
-class RegisterPlayerMethod
+class RegisterPlayer
 {
     /**
      * This method echos the result of the RegisterPlayerMethod to the javascript
@@ -36,7 +36,7 @@ class RegisterPlayerMethod
 }
 
 try {
-    RegisterPlayerMethod::do(htmlspecialchars($username), $password, htmlspecialchars($email));
+    RegisterPlayer::do(htmlspecialchars($username), $password, htmlspecialchars($email));
 } catch (Exception $e) {
     echo $e;
 }

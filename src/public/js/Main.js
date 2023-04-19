@@ -4,7 +4,7 @@ const gameId =  new URLSearchParams(window.location.search).get('game_id');
 
 function getGameMatrix() {
 	const request = new XMLHttpRequest();
-	request.open('GET', '/methods/GetGameMatrixMethod.php?gameId='+gameId, false);  // `false` makes the request synchronous
+	request.open('GET', '/api/GetGameMatrix.php?gameId='+gameId, false);  // `false` makes the request synchronous
 	request.send(null);
 
 	if (request.status === 200) {

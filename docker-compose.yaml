@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile-php
     ports:
-      - "9000:9000"
+      - '9000:9000'
     volumes:
       - ./src:/var/www
     depends_on:
@@ -39,7 +39,7 @@ services:
     container_name: rotr_phpmyadmin
     image: phpmyadmin:5.2.1-apache
     ports:
-      - 8081:80
+      - '8081:80'
     environment:
       - PMA_ARBITRARY=1
 

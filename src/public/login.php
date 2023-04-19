@@ -81,7 +81,7 @@
                 let username = $(this).find("input[name=username]").val();
                 let password = $(this).find("input[name=password]").val();
 
-                $.post("methods/LoginPlayerMethod.php", {username: username, password: password}, function(response){
+                $.post("api/LoginPlayer.php", {username: username, password: password}, function(response){
 
                     if (response > 0) {
                         //success

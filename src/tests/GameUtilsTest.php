@@ -34,7 +34,7 @@ final class GameUtilsTest extends TestCase
 
     public function testUpdateMatrix(): void
     {
-        $isMatrixUpdated = GameUtils::updateMatrix(2, "new matrix");
+        $isMatrixUpdated = GameUtils::updateMatrix(2, GameMatrixes::MATRIX_EASY->value);
         $this->assertTrue($isMatrixUpdated);
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\public\methods;
+namespace App\public\api;
 
 if (file_exists('../../vendor/autoload.php')) {
     require_once('../../vendor/autoload.php');
@@ -19,7 +19,7 @@ require_once('../../classes/DbTable.php');
 $playerId = $_GET["player_id"] ?? 0;
 $gameId = $_GET["game_id"] ?? 0;
 
-class DoesGameBelongToPlayerMethod
+class DoesGameBelongToPlayer
 {
     /**
      * This method echos 1 if the game belongs to this player, 0 if it doesn't
@@ -36,7 +36,7 @@ class DoesGameBelongToPlayerMethod
 
 if (intval($gameId) > 0 && intval($playerId) > 0) {
     try {
-        DoesGameBelongToPlayerMethod::do(intval($gameId), intval($playerId));
+        DoesGameBelongToPlayer::do(intval($gameId), intval($playerId));
     } catch (Exception $e) {
         echo $e;
     }

@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\public\methods;
+namespace App\public\api;
 
 session_start();
 
@@ -20,7 +20,7 @@ require_once('../../classes/DbTable.php');
 
 extract($_POST);
 
-class LoginPlayerMethod
+class LoginPlayer
 {
     /**
      * This method echos the result of the LoginPlayerMethod to the javascript
@@ -47,7 +47,7 @@ class LoginPlayerMethod
 
 if (!empty($username) && !empty($password)) {
     try {
-        LoginPlayerMethod::do(htmlspecialchars($username), $password);
+        LoginPlayer::do(htmlspecialchars($username), $password);
     } catch (Exception $e) {
         echo $e;
     }
