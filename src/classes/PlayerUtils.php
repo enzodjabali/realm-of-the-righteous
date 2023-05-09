@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace App\classes;
 
 use Exception;
-use PDOStatement;
 
 class PlayerUtils
 {
@@ -19,36 +18,68 @@ class PlayerUtils
 	public static function insertPlayer(string $username = "", string $password = "", string $email = ""): string|bool
 	{
 		// Checks if the username isn't empty
-		if (empty($username)) {
-			return "The username can't be empty";
-		}
+        try {
+            if (empty($username)) {
+                throw new Exception("The username can't be empty");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
 		// Checks if the email isn't empty
-		if (empty($email)) {
-			return "The email can't be empty";
-		}
+        try {
+            if (empty($email)) {
+                throw new Exception("The email can't be empty");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
 		// Checks if the password isn't empty
-		if (empty($password)) {
-			return "The password can't be empty";
-		}
+        try {
+            if (empty($password)) {
+                throw new Exception("The password can't be empty");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
 		// Checks if the username has enough characters
-		if (strlen($username) < 3) {
-			return "The username can't have less than 3 characters";
-		}
+        try {
+            if (strlen($username) < 3) {
+                throw new Exception("The username can't have less than 3 characters");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
 		// Checks if the email is a valid email
-		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-			return "The email isn't a valid email";
-		}
+        try {
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                throw new Exception("The email isn't a valid email");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
 		// Checks if the username has enough characters
-		if (strlen($password) < 4) {
-			return "The password can't have less than 4 characters";
-		}
+        try {
+            if (strlen($password) < 4) {
+                throw new Exception("The password can't have less than 4 characters");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
         // Checks if the username isn't already used by another user
-        if (!DbUtils::doesThisValueExist(DbTable::TABLE_PLAYER, "username", $username)) {
-            return "This username is already used";
+        try {
+            if (!DbUtils::doesThisValueExist(DbTable::TABLE_PLAYER, "username", $username)) {
+                throw new Exception("This username is already used");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
         }
         // Checks if the email isn't already used by another user
-        if (!DbUtils::doesThisValueExist(DbTable::TABLE_PLAYER, "email", $email)) {
-            return "This email is already used";
+        try {
+            if (!DbUtils::doesThisValueExist(DbTable::TABLE_PLAYER, "email", $email)) {
+                throw new Exception("This email is already used");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
         }
 
 		try {
