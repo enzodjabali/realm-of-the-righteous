@@ -86,7 +86,7 @@ class PlayerUtils
 			// Insert the new player into the database
 			DbUtils::insert(DbTable::TABLE_PLAYER,
 				["username", "password", "email"],
-				[$username, sha1($password), $email]
+				[$username, password_hash($password, PASSWORD_BCRYPT), $email]
 			);
 			return true;
 		} catch (Exception $e) {
@@ -98,13 +98,14 @@ class PlayerUtils
 	 * This method logs a user in
 	 * @param string $username the username of the player
 	 * @param string $password the password of the player
-	 * @return int returns the id of the player if it exists, returns 0 if it doesn't
+	 * @return int returns the ID of the player if it exists, returns 0 if it doesn't
 	 * @throws Exception
 	 */
 	public static function loginPlayer(string $username = "", string $password= ""): int
 	{
 		try {
-			return intval(DbUtils::select(DbTable::TABLE_PLAYER, ["id"], "WHERE username = '$username' AND password = '" . sha1($password) . "'")->fetch()["id"]);
+			$query = DbUtils::select(DbTable::TABLE_PLAYER, ["id", "password"], "WHERE username = '$username'")->fetch();
+            return password_verify($password, $query["password"]) ? intval($query["id"]) : 0;
 		} catch (Exception $e) {
 			echo $e->getMessage();
 			return 0;
