@@ -101,11 +101,14 @@ class PlayerUtils
 	 * @return int returns the ID of the player if it exists, returns 0 if it doesn't
 	 * @throws Exception
 	 */
-	public static function loginPlayer(string $username = "", string $password= ""): int
+	public static function loginPlayer(string $username = "", string $password = ""): int
 	{
 		try {
-			$query = DbUtils::select(DbTable::TABLE_PLAYER, ["id", "password"], "WHERE username = '$username'")->fetch();
-            return password_verify($password, $query["password"]) ? intval($query["id"]) : 0;
+			if ($query = DbUtils::select(DbTable::TABLE_PLAYER, ["id", "password"], "WHERE username = '$username'")->fetch()) {
+				return password_verify($password, $query["password"]) ? intval($query["id"]) : 0;
+			} else {
+				return 0;
+			}
 		} catch (Exception $e) {
 			echo $e->getMessage();
 			return 0;
