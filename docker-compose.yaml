@@ -9,6 +9,7 @@ services:
       - '9000:9000'
     volumes:
       - ./src:/var/www
+      - ./.env:/var/www/public/api/.env
     depends_on:
       - database
 
