@@ -22,19 +22,19 @@ final class GameUtilsTest extends TestCase
 
     public function testDoesGameBelongToPlayer(): void
     {
-        $doesGameBelongToPlayer = GameUtils::doesGameBelongToPlayer(2, 1);
+        $doesGameBelongToPlayer = GameUtils::doesGameBelongToPlayer(1, 1);
         $this->assertTrue($doesGameBelongToPlayer);
     }
 
     public function testGetMatrix(): void
     {
-        $doesMatrixExist = GameUtils::getMatrix(2);
+        $doesMatrixExist = GameUtils::getMatrix(1);
         $this->assertIsString($doesMatrixExist);
     }
 
     public function testUpdateMatrix(): void
     {
-        $isMatrixUpdated = GameUtils::updateMatrix(2, GameMatrixes::MATRIX_EASY->value);
+        $isMatrixUpdated = GameUtils::updateMatrix(1, GameMatrixes::MATRIX_EASY->value);
         $this->assertTrue($isMatrixUpdated);
     }
 }

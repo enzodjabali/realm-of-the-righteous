@@ -82,8 +82,9 @@
                 let password = $(this).find("input[name=password]").val();
 
                 $.post("api/LoginPlayer.php", {username: username, password: password}, function(response){
+                    let PlayerId = JSON.parse(response.substring(response.indexOf("{"), response.lastIndexOf("}") + 1))["playerId"];
 
-                    if (response > 0) {
+                    if (PlayerId > 0) {
                         //success
                         window.location.href = "/lobby";
                     } else {

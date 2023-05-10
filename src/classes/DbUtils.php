@@ -13,9 +13,10 @@ class DbUtils {
      * @return PDO returns the PDO object
      */
     static function initialize(): PDO {
-        return new PDO("mysql:host=" . $_ENV['DB_HOST'] . ";
-                           dbname=" . $_ENV['DB_NAME'] . ";
-                           charset=utf8", $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD']);
+        return new PDO("mysql:host={$_ENV['DB_HOST']};dbname={$_ENV['DB_NAME']};charset=utf8",
+                            $_ENV['DB_USERNAME'],
+                            $_ENV['DB_PASSWORD']
+        );
     }
 
 	/**
@@ -64,7 +65,7 @@ class DbUtils {
 
 			return $query->execute();
 		} else {
-			throw new Exception("The id must not be empty");
+			throw new Exception("The ID must not be empty");
 		}
 	}
 

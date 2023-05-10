@@ -1,6 +1,6 @@
 import {Controller} from "./Controller/Controller.js";
 
-const gameId =  new URLSearchParams(window.location.search).get('game_id');
+const gameId = new URLSearchParams(window.location.search).get('game_id');
 
 function getGameMatrix() {
 	const request = new XMLHttpRequest();

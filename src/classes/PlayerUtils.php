@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace App\classes;
 
 use Exception;
-use PDOStatement;
 
 class PlayerUtils
 {
@@ -19,43 +18,75 @@ class PlayerUtils
 	public static function insertPlayer(string $username = "", string $password = "", string $email = ""): string|bool
 	{
 		// Checks if the username isn't empty
-		if (empty($username)) {
-			return "The username can't be empty";
-		}
+        try {
+            if (empty($username)) {
+                throw new Exception("The username can't be empty");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
 		// Checks if the email isn't empty
-		if (empty($email)) {
-			return "The email can't be empty";
-		}
+        try {
+            if (empty($email)) {
+                throw new Exception("The email can't be empty");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
 		// Checks if the password isn't empty
-		if (empty($password)) {
-			return "The password can't be empty";
-		}
+        try {
+            if (empty($password)) {
+                throw new Exception("The password can't be empty");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
 		// Checks if the username has enough characters
-		if (strlen($username) < 3) {
-			return "The username can't have less than 3 characters";
-		}
+        try {
+            if (strlen($username) < 3) {
+                throw new Exception("The username can't have less than 3 characters");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
 		// Checks if the email is a valid email
-		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-			return "The email isn't a valid email";
-		}
+        try {
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                throw new Exception("The email isn't a valid email");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
 		// Checks if the username has enough characters
-		if (strlen($password) < 4) {
-			return "The password can't have less than 4 characters";
-		}
+        try {
+            if (strlen($password) < 4) {
+                throw new Exception("The password can't have less than 4 characters");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
         // Checks if the username isn't already used by another user
-        if (!DbUtils::doesThisValueExist(DbTable::TABLE_PLAYER, "username", $username)) {
-            return "This username is already used";
+        try {
+            if (!DbUtils::doesThisValueExist(DbTable::TABLE_PLAYER, "username", $username)) {
+                throw new Exception("This username is already used");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
         }
         // Checks if the email isn't already used by another user
-        if (!DbUtils::doesThisValueExist(DbTable::TABLE_PLAYER, "email", $email)) {
-            return "This email is already used";
+        try {
+            if (!DbUtils::doesThisValueExist(DbTable::TABLE_PLAYER, "email", $email)) {
+                throw new Exception("This email is already used");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
         }
 
 		try {
 			// Insert the new player into the database
 			DbUtils::insert(DbTable::TABLE_PLAYER,
 				["username", "password", "email"],
-				[$username, sha1($password), $email]
+				[$username, password_hash($password, PASSWORD_BCRYPT), $email]
 			);
 			return true;
 		} catch (Exception $e) {
@@ -67,13 +98,17 @@ class PlayerUtils
 	 * This method logs a user in
 	 * @param string $username the username of the player
 	 * @param string $password the password of the player
-	 * @return int returns the id of the player if it exists, returns 0 if it doesn't
+	 * @return int returns the ID of the player if it exists, returns 0 if it doesn't
 	 * @throws Exception
 	 */
-	public static function loginPlayer(string $username = "", string $password= ""): int
+	public static function loginPlayer(string $username = "", string $password = ""): int
 	{
 		try {
-			return intval(DbUtils::select(DbTable::TABLE_PLAYER, ["id"], "WHERE username = '$username' AND password = '" . sha1($password) . "'")->fetch()["id"]);
+			if ($query = DbUtils::select(DbTable::TABLE_PLAYER, ["id", "password"], "WHERE username = '$username'")->fetch()) {
+				return password_verify($password, $query["password"]) ? intval($query["id"]) : 0;
+			} else {
+				return 0;
+			}
 		} catch (Exception $e) {
 			echo $e->getMessage();
 			return 0;

@@ -41,7 +41,7 @@ class LoginPlayer
             $_SESSION["player_email"] = $playerInformation["email"];
         }
 
-        echo $playerId;
+		echo '{"playerId":' . $playerId . '}';
     }
 }
 
