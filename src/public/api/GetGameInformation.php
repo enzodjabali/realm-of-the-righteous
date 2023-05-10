@@ -16,7 +16,7 @@ require_once('../../classes/DbUtils.php');
 require_once('../../classes/DbTable.php');
 require_once('../../classes/GameUtils.php');
 
-extract($_POST);
+extract($_GET);
 
 class GetGameInformation
 {

@@ -213,11 +213,15 @@
         /**
          * This function gets all the user's games and display them
          */
-        $(function(){
+        function getGameInformation() {
             let playerId = <?= $sessionId ?>;
 
-            $.post("api/GetGameInformation.php", {playerId: playerId}, function(response){
-                let games = JSON.parse(JSON.stringify(response));
+            const request = new XMLHttpRequest();
+            request.open('GET', '/api/GetGameInformation.php?playerId='+playerId, false);  // `false` makes the request synchronous
+            request.send(null);
+
+            if (request.status === 200) {
+                let games = JSON.parse(request.responseText);
 
                 for (let i = 0; i < games.length; i++) {
                     let id = games[i]['id'];
@@ -226,8 +230,11 @@
                     document.getElementById('game-list').innerHTML += '<br><a href="/game?game_id=' + id + '">' + name + '</a>';
                     document.getElementById('total-games').innerHTML = 'Total games: ' + games.length;
                 }
-            });
-        });
+                return true;
+            }
+            return false;
+        }
+        getGameInformation();
 
         /**
          * This function makes a call to create a new game
