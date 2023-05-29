@@ -12,8 +12,16 @@ export class PlayerController{
             return false;
         }
     }
-    modifyPlayerLife(){
-
+    modifyPlayerLife(value){
+        this.player.life -= value;
+        return this.isPlayerAlive()
+    }
+    isPlayerAlive(){
+        if(this.player.life <= 0){
+            return false;
+        } else {
+            return true;
+        }
     }
 
 }
