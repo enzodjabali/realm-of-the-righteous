@@ -54,18 +54,12 @@
         </div>
         <div style='display:flex'>
             <div>
-                <button style="width: 100px; height: 100px" id="buyTower1">Buy Brick Tower</button>
-            </div>
-            <div>
-                <button style="width: 100px; height: 100px" id="buyTower2">Buy Old Tower</button>
-            </div>
-            <div>
-                <button style="width: 100px; height: 100px" id="buyTower3">Buy basic tower</button>
-            </div>
-            <div>
-                <button style="width: 100px; height: 100px" id="buyTower4">Buy wooden tower</button>
+                <p style="color: blue; text-decoration: underline" id="money"></p>
+                <p style="color: red; text-decoration: underline" id="life"></p>
             </div>
         </div>
+        <div id='button-container'></div>
+
 
     </body>
 
