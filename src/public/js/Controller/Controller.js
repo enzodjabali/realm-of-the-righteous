@@ -105,6 +105,7 @@ export class Controller{
             for (let step = 0; step <= path.length; step++) {
                 // Add your code to handle end of path reached
                 if (enemy.position.x == endPoints[0] && enemy.position.y == endPoints[1] ){
+                    this.playerController.player.life -= 1;
                     console.log('-1 pv - end reach - enemy dead', enemy.typeOfEnemies);                    
                     this.display.removeEnemy(enemy);
                     this.model.matrice[enemy.position.x][enemy.position.y].enemies.splice(enemy,1)
