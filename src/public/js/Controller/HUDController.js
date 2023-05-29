@@ -1,10 +1,11 @@
 import {enumTower} from '../Model/enumTower.js';
 
 export class HUDController {
-    constructor(model, display, towerController) {
+    constructor(model, display, towerController, playerController) {
         this.model = model;
         this.display = display;
         this.towerController = towerController;
+        this.playerController = playerController
     }
 
     createTower() {
@@ -19,8 +20,13 @@ export class HUDController {
         button1.onclick = () => {
             if(this.display.pile == -1){
             } else {
-                this.towerController.placeTowerInMatrice(enumTower.BT);
-                this.display.pile = -1;
+                if(this.playerController.buyTower(enumTower.BT.price[0])){
+                    this.towerController.placeTowerInMatrice(enumTower.BT);
+                    this.display.pile = -1;
+                } else{
+                    console.log(this.playerController.player)
+                }
+
             }
         }
         button2.onclick = () => {
