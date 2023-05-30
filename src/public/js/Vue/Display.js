@@ -72,7 +72,6 @@ export class Display{
                         img.width = this.tilesSize;
                         img.height = this.tilesSize;
                         document.getElementById('board-container').appendChild(img);
-                        //HELP ME Revoir avec Baba
                         if(img_tile = 'basegrass'){
                             img.onclick = () => {
                                 if(this.pile == -1){
@@ -135,7 +134,13 @@ export class Display{
         imgTower.height = this.tilesSize;
         imgTower.width = this.tilesSize;
         imgTower.id = `towerImg_${tower.getId()}`;
-        document.getElementById(`tower_${tower.getId()}`).appendChild(imgTower);
+        let towerPlace = document.getElementById(`tower_${tower.getId()}`);
+        towerPlace.appendChild(imgTower);
+        towerPlace.onclick = () => {
+            //Implémenter le menu pour améliorer les tours
+            //Sell, upgrade, shoot priority
+            console.log("hello");
+        }
         
         let towerCss = document.getElementById(`towerImg_${tower.getId()}`);
         towerCss.style.position = 'absolute';

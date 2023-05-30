@@ -125,7 +125,10 @@ export class Controller{
                 }
 
                 if (enemy.curent_life <= 0){
-                    //console.log(enemy.id, 'enemy killed');                    
+                    // Permit to give money to the player when an ennemy died
+                    this.playerController.player.money += enemy.price;
+                    this.HUDController.refreshPlayerData();
+
                     this.display.removeEnemy(enemy);
                     this.model.matrice[enemy.position.x][enemy.position.y].enemies.splice(enemy,1)
                     return
