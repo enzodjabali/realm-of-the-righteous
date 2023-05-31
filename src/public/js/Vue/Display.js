@@ -243,4 +243,10 @@ export class Display{
         let healthBar = enemyDiv.querySelector(`#health_${enemyId}`);
         healthBar.style.width = (enemy.curent_life/enemy.max_life)*100 +'%';        
     }
+    updatePlayerData(money, life){
+        let playerMoney = document.getElementById('money');
+        let playerLife = document.getElementById('life');
+        playerMoney.innerText = money
+        playerLife.innerText = life
+    }
 }

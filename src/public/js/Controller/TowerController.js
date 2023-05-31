@@ -105,11 +105,10 @@ async runTower(tower) {
     }
     sellTower(tower, row, col){
         //Permit to sell a tower
-
+        
         //Add money to player
-        console.log(tower)
-        console.log(tower.price[tower.level])
-        this.playerController.player.money += tower.price[tower.level]
+        this.playerController.player.money += (0.75*tower.price[tower.level])
+        this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life)
         //Remove tower from de board
         this.display.removeTower(tower);
         //Remove tower from the logical board
