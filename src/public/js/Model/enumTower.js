@@ -19,12 +19,12 @@ export const enumTower = {
         pathWeapon :"../../assets/images/towers/weapons/crossbow.gif",
         damage: [1,2,3],
         shotRate: [200,150,100],//in ms
-        price: [100,200,300]
+        price: [10,20,30]
     },
     'T':{
         path: ['../../assets/images/towers/T1.png', '../../assets/images/towers/T2.png', '../../assets/images/towers/T3.png'],
         pathWeapon :"../../assets/images/towers/weapons/crossbow.gif",
-        damage: [10,20,30],
+        damage: [20,40,60],
         shotRate: [5000,4000,3000],//in ms
         price: [100,200,300]
     },
@@ -33,6 +33,6 @@ export const enumTower = {
         pathWeapon :"../../assets/images/towers/weapons/crossbow.gif",
         damage: [3,6,10],
         shotRate: [500,400,300],//in ms
-        price: [100,200,300]
+        price: [1,2,3]
     },
 }

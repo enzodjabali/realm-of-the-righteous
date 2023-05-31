@@ -1,9 +1,11 @@
 import {Tower} from "../Model/Tower.js";
+import {HUDController} from "./HUDController.js";
 
 export class TowerController{
-    constructor(model, display){
+    constructor(model, display, player){
         this.model = model;
         this.display = display;
+        this.playerController = player;
     }
     placeTowerInMatrice(towerData) {
         /**
@@ -26,11 +28,17 @@ export class TowerController{
 
             const tower = new Tower(
                 towerId, towerData.damage[0], towerData.shotRate[0], {x: row, y: col}, 0, towerData.path[0],
-                towerData.pathWeapon, towerWeaponId
+                towerData.pathWeapon, towerWeaponId, towerData.price
             );
-
             this.model.matrice[row][col].tower = tower;
-            this.display.initializeTower(tower);
+            let towerHolder = this.display.initializeTower(tower);
+            towerHolder.onclick = () => {
+                //Implémenter le menu pour améliorer les tours
+                //Sell, upgrade, shoot priority
+                this.sellTower(tower, row, col)
+                // this.upgradeTower(tower)
+
+            }
             this.display.initializeWeapon(tower);
 
             // appel le boucle pour faire fonctionner la logique des tours.
@@ -92,6 +100,23 @@ async runTower(tower) {
         }
     }
 }
+    upgradeTower(tower){
+        //Permit to upgrade a tower
+    }
+    sellTower(tower, row, col){
+        //Permit to sell a tower
+
+        //Add money to player
+        console.log(tower)
+        console.log(tower.price[tower.level])
+        this.playerController.player.money += tower.price[tower.level]
+        //Remove tower from de board
+        this.display.removeTower(tower);
+        //Remove tower from the logical board
+        this.model.matrice[row][col].tower = null;
+
+
+    }
 
 }
 

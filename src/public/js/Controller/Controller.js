@@ -11,11 +11,10 @@ export class Controller{
         this.model = new Model(matrix);
         this.display = new Display();
         this.enemiesController = new EnemiesController(this.model);
-        this.towerController = new TowerController(this.model, this.display)
-        this.playerController = new PlayerController("John", 100, 1);
+        this.playerController = new PlayerController("John", 1000, 1);
+        this.towerController = new TowerController(this.model, this.display, this.playerController)
         this.HUDController = new HUDController(this.model, this.display, this.towerController, this.playerController)
     }
-    
     updateEnemiesPosition(enemy, nextPosition){
         /**
          * Permit to update the enemy coordinates

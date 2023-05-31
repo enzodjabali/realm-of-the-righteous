@@ -21,15 +21,15 @@ export class HUDController {
          * Permit to create tower on click
          */
         let buttonContainer = document.getElementById('button-container')
-        for(let key in enumTower){
+        for(const key in enumTower){
             let button = document.createElement('button');
             button.innerText = ('Buy '+key);
             button.onclick = () => {
                 if(this.display.pile == -1){
                 } else {
-                    if(this.playerController.buyTower(enumTower.BT.price[0])){
+                    if(this.playerController.buyTower(enumTower[key].price[0])){
                         this.refreshPlayerData()
-                        this.towerController.placeTowerInMatrice(enumTower.BT);
+                        this.towerController.placeTowerInMatrice(enumTower[key]);
                         this.display.pile = -1;
                     } else{
                         console.log(this.playerController.player)
