@@ -108,7 +108,6 @@ export class Controller{
                 if (enemy.position.x == endPoints[0] && enemy.position.y == endPoints[1] ){
                     if(!this.playerController.modifyPlayerLife(1)){
                         //Implémenter la fin de jeu (défaite)
-                        this.HUDController.refreshPlayerData();
                         alert('endgame')
                     }
                     this.display.removeEnemy(enemy);
