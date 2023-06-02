@@ -22,6 +22,8 @@ of defensive elements is an essential strategy of the genre.
 <br>
 [Deploy the Docker containers](https://github.com/enzodjabali/realm-of-the-righteous/wiki/Deploy-the-containers)
 <br>
+[Creating an environment file](https://github.com/enzodjabali/realm-of-the-righteous/wiki/Creating-an-environment-file)
+<br>
 [Run the Docker scripts](https://github.com/enzodjabali/realm-of-the-righteous/wiki/Run-the-Docker-scripts)
 
 ## Production
