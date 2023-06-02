@@ -6,7 +6,10 @@ export class TowerController {
         this.model = model;
         this.display = display;
         this.playerController = player;
+        this.DIRECTIONS = [[0, -1], [1, 0], [0, 1], [-1, 0]]; // North, East, South, West
+        this.DIRECTIONDIAG = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
     }
+
     placeTowerInMatrice(towerData) {
         /**
          * @param {number} towerData dictionnary of data about tower.
@@ -51,12 +54,12 @@ export class TowerController {
         this.display.pile = -1;
     }
 
-    findNeighbour(x,y, range, dir, dirg) {
+    findNeighbour(x, y, range) { 
         for (let i = 1; i <= range; i++) {
             if (i == 2) {
-                dir = dir.concat(dirg);
+                this.DIRECTIONS = this.DIRECTIONS.concat(this.DIRECTIONDIAG);
             }
-            for (let direction of dir) {
+            for (let direction of this.DIRECTIONS) {
                 const dx = i * direction[0];
                 const dy = i * direction[1];
                 const nx = x + dx;
@@ -78,18 +81,14 @@ export class TowerController {
          * @param {Tower} tower instance of Tower.
          * Permit to make the logic of the tower works
         */
-        let DIRECTIONS = [[0, -1], [1, 0], [0, 1], [-1, 0]]; // North, East, South, West
-        const DIRECTIONDIAG = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
-
+    
         while (true) {
-            DIRECTIONS = [[0, -1], [1, 0], [0, 1], [-1, 0]]
-            //console.log(tower.id ,tower.shotRate, 'setTimeout');
             await new Promise(r => setTimeout(r, tower.shotRate)); // frequency of fire
             const { range, damage } = tower;
             const { x, y } = tower.position;
-            if (this.findNeighbour(x, y, range, DIRECTIONS, DIRECTIONDIAG)) {
-                let { cell, nx, ny } = this.findNeighbour(x, y, range, DIRECTIONS, DIRECTIONDIAG)
-                cell.enemies[0].curent_life -= damage;
+            if (this.findNeighbour(x, y, range)) {
+                let { cell, nx, ny } = this.findNeighbour(x, y, range)
+                cell.enemies[0].curent_life -= damage
                 console.log('tower', tower.id, 'shooting', cell.enemies[0].typeOfEnemies, cell.enemies[0].id)
                 this.display.rotateWeapon(tower, [nx, ny]);
             }
