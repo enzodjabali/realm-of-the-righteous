@@ -44,6 +44,12 @@ if (!intval($sessionId) > 0) {
             padding: 20px;
             border-radius: 15px;
         }
+
+        .message {
+            background-color: red;
+            text-align: center;
+            margin-top: 40%;
+        }
     </style>
 </head>
 <body>
@@ -66,8 +72,15 @@ if (!intval($sessionId) > 0) {
     </div>
 
     <br>
-    <div id="game-list" class="search2" style="overflow-y: scroll;"></div>
+    <div id="message-list" class="search2" style="overflow-y: scroll;"></div>
+
+    <form class="message">
+        <input type="text" value="Type a message...">
+        <input type="submit">
+    </form>
 </header>
+
+
 
 <?php include_once("includes/menu.php") ?>
 </body>
@@ -77,39 +90,52 @@ if (!intval($sessionId) > 0) {
      * This function reloads the messages every 500ms
      */
     setInterval(function(){
-        getChatMessages()
+        /**
+         * This function gets all the chat messages and display them
+         */
+        $(function(){
+            $.get("api/GetChatMessages.php", function(response) {
+                let chatMessages = response;
+
+                document.getElementById('message-list').innerHTML = '';
+
+                for (let i = 0; i < chatMessages.length; i++) {
+                    let username = chatMessages[i]['username'];
+                    let message = chatMessages[i]['message'];
+
+                    document.getElementById('message-list').innerHTML += '<br><a><b>' + username + '</b>: ' + message + '</a>';
+                }
+            });
+        });
     }, 500);
 
     /**
-     * This function gets all the user's games and display them
+     * This function calls the chat message insert method
+     * If the insert method success the player's message is sent, if not an error message is displayed
      */
-    function getChatMessages() {
-        let playerId = <?= $sessionId ?>;
+    $(function(){
+        $("#login-form").submit(function(){
+            let username = $(this).find("input[name=username]").val();
+            let password = $(this).find("input[name=password]").val();
 
-        const request = new XMLHttpRequest();
-        request.open('GET', '/api/GetChatMessages.php', false);  // `false` makes the request synchronous
-        request.send(null);
+            $.post("api/LoginPlayer.php", {username: username, password: password}, function(response){
+                let PlayerId = JSON.parse(response.substring(response.indexOf("{"), response.lastIndexOf("}") + 1))["playerId"];
 
-        if (request.status === 200) {
-            let games = JSON.parse(request.responseText);
+                if (PlayerId > 0) {
+                    //success
+                    window.location.href = "/lobby";
+                } else {
+                    // error
+                    let modal = document.getElementById("modal");
+                    let modalMessage = document.getElementById("modalMessage");
 
-            console.log(games);
-
-            document.getElementById('game-list').innerHTML = '';
-
-            for (let i = 0; i < games.length; i++) {
-                let username = games[i]['username'];
-                let message = games[i]['message'];
-
-                document.getElementById('game-list').innerHTML += '<br><a><b>' + username + '</b>: ' + message + '</a>';
-                //document.getElementById('total-games').innerHTML = 'Total games: ' + games.length;
-            }
-            return true;
-        }
-        return false;
-    }
-    getChatMessages();
-
+                    modalMessage.innerHTML = "Wrong username or password, please try again.";
+                    modal.style.display = "block"
+                }
+            });
+            return false;
+        });
+    });
 
 </script>
 
