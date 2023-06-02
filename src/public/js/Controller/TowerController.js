@@ -1,13 +1,16 @@
 import {Tower} from "../Model/Tower.js";
 import {HUDController} from "./HUDController.js";
 
-export class TowerController{
-    constructor(model, display, player){
+export class TowerController {
+    constructor(model, display, player) {
         this.model = model;
         this.display = display;
         this.playerController = player;
+        this.DIRECTIONS = [[0, -1], [1, 0], [0, 1], [-1, 0]]; // North, East, South, West
+        this.DIRECTIONDIAG = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
     }
-    placeTowerInMatrice(towerData) {
+
+    placeTowerInMatrice(towerData, type) {
         /**
          * @param {number} towerData dictionnary of data about tower.
          * Permit to place tower in the matrice
@@ -24,11 +27,11 @@ export class TowerController{
             this.model.towerId++;
             this.model.towerWeaponId++;
 
-            console.log(towerData,'towerData')
+            console.log(towerData, 'towerData')
 
             const tower = new Tower(
-                towerId, towerData.damage[0], towerData.shotRate[0], {x: row, y: col}, 0, towerData.path[0],
-                towerData.pathWeapon, towerWeaponId, towerData.price
+                towerId, towerData.damage[0], towerData.shotRate[0], { x: row, y: col }, 0, towerData.path[0],
+                towerData.pathWeapon, towerWeaponId, towerData.price, type
             );
             this.model.matrice[row][col].tower = tower;
             let towerHolder = this.display.initializeTower(tower);
@@ -51,20 +54,12 @@ export class TowerController{
         this.display.pile = -1;
     }
 
-async runTower(tower) {
-    /**
-     * @param {Tower} tower instance of Tower.
-     * Permit to make the logic of the tower works
-     */
-    const DIRECTIONS = [[0, -1], [1, 0], [0, 1], [-1, 0]]; // North, East, South, West
-    const DIRECTIONDIAG = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
-    while (true) {
-        //console.log(tower.id ,tower.shotRate, 'setTimeout');
-        await new Promise(r => setTimeout(r, tower.shotRate)); // frequency of fire
-        const { x, y } = tower.position;
-        const { range, damage } = tower;
+    findNeighbour(x, y, range) { 
         for (let i = 1; i <= range; i++) {
-            for (let direction of DIRECTIONS) {
+            if (i == 2) {
+                this.DIRECTIONS = this.DIRECTIONS.concat(this.DIRECTIONDIAG);
+            }
+            for (let direction of this.DIRECTIONS) {
                 const dx = i * direction[0];
                 const dy = i * direction[1];
                 const nx = x + dx;
@@ -72,34 +67,35 @@ async runTower(tower) {
                 if (nx >= 0 && nx < this.model.matrice.length && ny >= 0 && ny < this.model.matrice[0].length) {
                     const cell = this.model.matrice[nx][ny];
                     if (cell.enemies.length > 0) {
-                        cell.enemies[0].curent_life -= damage;
-                        console.log('tower',tower.id, 'shooting',cell.enemies[0].typeOfEnemies, cell.enemies[0].id)
-                        this.display.rotateWeapon(tower, [nx,ny]);
-                    }
+                        return { cell, nx, ny };
+                    } 
+
                 }
             }
-            if (i > 1) {
-                for (let directionDiag of DIRECTIONDIAG) {
-                    const dxt = i * directionDiag[0];
-                    const dyt = i * directionDiag[1];
-                    const ndxt = x + dxt;
-                    const ndyt = y + dyt;
-                    if (ndxt >= 0 && ndxt < this.model.matrice.length && ndyt >= 0 && ndyt < this.model.matrice[0].length) {
-                        const cell = this.model.matrice[ndxt][ndyt];
-                        if (cell.enemies.length > 0) {
-                            cell.enemies[0].curent_life -= damage;
-                            console.log('tower',tower.id, 'shooting',cell.enemies[0].typeOfEnemies, cell.enemies[0].id)
-                            this.display.rotateWeapon(tower, [ndxt, ndyt]);
-                        }
-                    }
-                }
-            } else {
-                //console.log(tower.id, "towerIdle")
-                this.display.towerIdle(tower);
+        } 
+        return false;
+    } 
+
+    async runTower(tower) {
+        /**
+         * @param {Tower} tower instance of Tower.
+         * Permit to make the logic of the tower works
+        */
+    
+        while (true) {
+            await new Promise(r => setTimeout(r, tower.shotRate)); // frequency of fire
+            const { range, damage } = tower;
+            const { x, y } = tower.position;
+            let neighbour = this.findNeighbour(x, y, range)
+            if (neighbour) {
+                let { cell, nx, ny } = this.findNeighbour(x, y, range)
+                cell.enemies[0].curent_life -= damage
+                console.log('tower', tower.id, 'shooting', cell.enemies[0].typeOfEnemies, cell.enemies[0].id)
+                this.display.rotateWeapon(tower, [nx, ny]);
             }
         }
     }
-}
+
     upgradeTower(tower){
         //Permit to upgrade a tower
     }

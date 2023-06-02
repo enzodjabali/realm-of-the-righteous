@@ -231,7 +231,7 @@ export class Display{
         tower.WeaponAngle = angle;
         towerWeaponCss.style.transform = `rotate(${angle}deg)`;
     }
-
+    
     towerIdle(tower){
         const towerWeaponCss = document.getElementById(`towerWeaponImg_${tower.getId()}`);
         tower.WeaponAngle += 10;

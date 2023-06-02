@@ -25,7 +25,7 @@ export class HUDController {
                 } else {
                     if(this.playerController.buyTower(enumTower[key].price[0])){
                         this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life);
-                        this.towerController.placeTowerInMatrice(enumTower[key]);
+                        this.towerController.placeTowerInMatrice(enumTower[key], key);
                         this.display.pile = -1;
                     } else{
                         console.log(this.playerController.player)
