@@ -74,6 +74,13 @@ if (!intval($sessionId) > 0) {
 
 <script>
     /**
+     * This function reloads the messages every 500ms
+     */
+    setInterval(function(){
+        getChatMessages()
+    }, 500);
+
+    /**
      * This function gets all the user's games and display them
      */
     function getChatMessages() {
@@ -87,6 +94,8 @@ if (!intval($sessionId) > 0) {
             let games = JSON.parse(request.responseText);
 
             console.log(games);
+
+            document.getElementById('game-list').innerHTML = '';
 
             for (let i = 0; i < games.length; i++) {
                 let username = games[i]['username'];
