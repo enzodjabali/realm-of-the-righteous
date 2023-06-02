@@ -63,8 +63,8 @@ class ChatUtils
     {
         $result = DbUtils::select(
             DbTable::TABLE_CHAT,
-            ["chat.id as id", "chat.message as message", "player.username as username"],
-            "JOIN player ON chat.player_id = player.id ORDER BY chat.id"
+            ["chat.id as id", "chat.message as message", "chat.date as date", "player.username as username"],
+            "JOIN player ON chat.player_id = player.id ORDER BY chat.id DESC"
         );
         $result_array = [];
 

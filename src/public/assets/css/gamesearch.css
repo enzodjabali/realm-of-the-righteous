@@ -13,7 +13,7 @@
     font-size: 20px;
 }
 
-.search2{
+.chatbox{
     position:absolute;
     top:50%;
     left:50%;
@@ -26,4 +26,5 @@
     color: navy;
     padding: 30px;
     font-size: 20px;
+    word-wrap: break-word;
 }
