@@ -1,8 +1,8 @@
 import {Tower} from "../Model/Tower.js";
 import {HUDController} from "./HUDController.js";
 
-export class TowerController{
-    constructor(model, display, player){
+export class TowerController {
+    constructor(model, display, player) {
         this.model = model;
         this.display = display;
         this.playerController = player;
@@ -24,10 +24,10 @@ export class TowerController{
             this.model.towerId++;
             this.model.towerWeaponId++;
 
-            console.log(towerData,'towerData')
+            console.log(towerData, 'towerData')
 
             const tower = new Tower(
-                towerId, towerData.damage[0], towerData.shotRate[0], {x: row, y: col}, 0, towerData.path[0],
+                towerId, towerData.damage[0], towerData.shotRate[0], { x: row, y: col }, 0, towerData.path[0],
                 towerData.pathWeapon, towerWeaponId, towerData.price
             );
             this.model.matrice[row][col].tower = tower;
@@ -51,6 +51,28 @@ export class TowerController{
         this.display.pile = -1;
     }
 
+    findNeighbour(x,y, range, dir, dirg) {
+        for (let i = 1; i <= range; i++) {
+            if (i == 2) {
+                dir = dir.concat(dirg);
+            }
+            for (let direction of dir) {
+                const dx = i * direction[0];
+                const dy = i * direction[1];
+                const nx = x + dx;
+                const ny = y + dy;
+                if (nx >= 0 && nx < this.model.matrice.length && ny >= 0 && ny < this.model.matrice[0].length) {
+                    const cell = this.model.matrice[nx][ny];
+                    if (cell.enemies.length > 0) {
+                        return { cell, nx, ny };
+                    } 
+
+                }
+            }
+        } 
+        return false;
+    } 
+
     async runTower(tower) {
         /**
          * @param {Tower} tower instance of Tower.
@@ -60,39 +82,18 @@ export class TowerController{
         const DIRECTIONDIAG = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
 
         while (true) {
-
             DIRECTIONS = [[0, -1], [1, 0], [0, 1], [-1, 0]]
             //console.log(tower.id ,tower.shotRate, 'setTimeout');
             await new Promise(r => setTimeout(r, tower.shotRate)); // frequency of fire
-            const { x, y } = tower.position;
             const { range, damage } = tower;
-
-            for (let i = 1; i <= range; i++) {
-                if (i == 2) {
-                    DIRECTIONS = DIRECTIONS.concat(DIRECTIONDIAG);
-                }
-
-                for (let direction of DIRECTIONS) {
-                    const dx = i * direction[0];
-                    const dy = i * direction[1];
-                    const nx = x + dx;
-                    const ny = y + dy;
-
-                    if (nx >= 0 && nx < this.model.matrice.length && ny >= 0 && ny < this.model.matrice[0].length) {
-                        const cell = this.model.matrice[nx][ny];
-                        console.log(cell, 'cell');
-                        if (cell.enemies.length > 0) {
-                            cell.enemies[0].curent_life -= damage;
-                            console.log('tower', tower.id, 'shooting', cell.enemies[0].typeOfEnemies, cell.enemies[0].id)
-                            this.display.rotateWeapon(tower, [nx, ny]);
-                        }
-                    } else {
-                        //console.log(tower.id, "towerIdle")
-                        this.display.towerIdle(tower);
-                    }
-
-                }
+            const { x, y } = tower.position;
+            if (this.findNeighbour(x, y, range, DIRECTIONS, DIRECTIONDIAG)) {
+                let { cell, nx, ny } = this.findNeighbour(x, y, range, DIRECTIONS, DIRECTIONDIAG)
+                cell.enemies[0].curent_life -= damage;
+                console.log('tower', tower.id, 'shooting', cell.enemies[0].typeOfEnemies, cell.enemies[0].id)
+                this.display.rotateWeapon(tower, [nx, ny]);
             }
+                    
         }
 
     }
