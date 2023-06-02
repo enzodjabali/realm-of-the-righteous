@@ -61,7 +61,11 @@ class ChatUtils
      */
     public static function getAllMessages(): bool|string
     {
-        $result = DbUtils::select(DbTable::TABLE_CHAT, ["player_id", "message"]);
+        $result = DbUtils::select(
+            DbTable::TABLE_CHAT,
+            ["chat.id as id", "chat.message as message", "player.username as username"],
+            "JOIN player ON chat.player_id = player.id"
+        );
         $result_array = [];
 
         while($row = $result->fetch()) {

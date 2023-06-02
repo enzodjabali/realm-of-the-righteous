@@ -30,92 +30,9 @@ if (!intval($sessionId) > 0) {
             background-size: cover;
         }
         .bgimg {background-image: url("assets/images/website/frame.jpg  ")}
-        .box {
-            background-color: black;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+
         p {
             font-size: 17px;
-            align-items: center;
-        }
-
-        .modal-name {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.5);
-            transition: all 0.4s;
-            visibility: hidden;
-            opacity: 0;
-            z-index:1;
-        }
-
-        .modal-difficulty {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.5);
-            transition: all 0.4s;
-            visibility: hidden;
-            opacity: 0;
-            z-index:1;
-        }
-
-        .modal-result {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.5);
-            transition: all 0.4s;
-            visibility: hidden;
-            opacity: 0;
-            z-index:1;
-        }
-
-        .content {
-            position: absolute;
-            background: white;
-            width: 400px;
-            padding: 1em 2em;
-            border-radius: 4px;
-        }
-        .modal-name:target {
-            visibility: visible;
-            opacity: 1;
-        }
-        .modal-difficulty:target {
-            visibility: visible;
-            opacity: 1;
-        }
-        .modal-result:target {
-            visibility: visible;
-            opacity: 1;
-        }
-        .box-close {
-            position: absolute;
-            top: 0;
-            right: 15px;
-            color: #fe0606;
-            text-decoration: none;
-            font-size: 30px;
         }
 
         #player-information {
@@ -149,7 +66,7 @@ if (!intval($sessionId) > 0) {
     </div>
 
     <br>
-    <div id="game-list" class="w3-center search" style="overflow-y: scroll;"><b>Chat:</b></div>
+    <div id="game-list" class="search2" style="overflow-y: scroll;"></div>
 </header>
 
 <?php include_once("includes/menu.php") ?>
@@ -159,63 +76,32 @@ if (!intval($sessionId) > 0) {
     /**
      * This function gets all the user's games and display them
      */
-    function getGameInformation() {
+    function getChatMessages() {
         let playerId = <?= $sessionId ?>;
 
         const request = new XMLHttpRequest();
-        request.open('GET', '/api/GetGameInformation.php?playerId='+playerId, false);  // `false` makes the request synchronous
+        request.open('GET', '/api/GetChatMessages.php', false);  // `false` makes the request synchronous
         request.send(null);
 
         if (request.status === 200) {
             let games = JSON.parse(request.responseText);
 
-            for (let i = 0; i < games.length; i++) {
-                let id = games[i]['id'];
-                let name = games[i]['name'];
+            console.log(games);
 
-                document.getElementById('game-list').innerHTML += '<br><a href="/game?game_id=' + id + '">' + name + '</a>';
-                document.getElementById('total-games').innerHTML = 'Total games: ' + games.length;
+            for (let i = 0; i < games.length; i++) {
+                let username = games[i]['username'];
+                let message = games[i]['message'];
+
+                document.getElementById('game-list').innerHTML += '<br><a><b>' + username + '</b>: ' + message + '</a>';
+                //document.getElementById('total-games').innerHTML = 'Total games: ' + games.length;
             }
             return true;
         }
         return false;
     }
-    getGameInformation();
+    getChatMessages();
 
-    /**
-     * This function makes a call to create a new game
-     */
-    $(function(){
-        $("#create-game-form").submit(function(){
-            let name = $(this).find("input[name=name]").val();
-            let playerId = <?= $sessionId ?>;
-            let difficulty = $('input[name="difficulty"]:checked').val();
 
-            $.post("api/CreateGame.php", {name: name, playerId: playerId, difficulty: difficulty}, function(response){
-
-                if (response === "1") {
-                    //success
-                    console.log('succeed!');
-                    let modalResult = document.getElementById("result-message");
-                    let goBackIfFailedButton = document.getElementById("go-back-if-failed");
-
-                    modalResult.innerHTML = "Your game has been successfully created";
-                    goBackIfFailedButton.innerHTML = '';
-
-                    window.location = "#result";
-                } else {
-                    let modalResult = document.getElementById("result-message");
-                    let goBackIfFailedButton = document.getElementById("go-back-if-failed");
-
-                    modalResult.innerHTML = response;
-                    goBackIfFailedButton.innerHTML = '<a href="#difficulty" style="float: left"><div class="w3-center" style="background-color: maroon;color: white;border-radius: 7px;">Go back</div></a>';
-
-                    window.location = "#result";
-                }
-            });
-            return false;
-        });
-    });
 </script>
 
 </html>
