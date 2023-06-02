@@ -15,19 +15,29 @@ class ChatUtils
      */
     public static function insertMessage(int $playerId, string $message): string|bool
     {
-        // Checks if the message name isn't empty
-        if (empty($message)) {
-            return "Your message can't be empty";
+        // Checks if the message isn't empty
+        try {
+            if (empty($message)) {
+                throw new Exception("Your message can't be empty");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
         }
-
         // Check if the message doesn't have too many characters
-        if (strlen($message) > 100) {
-            return "Your message can't have more than 100 characters";
+        try {
+            if (strlen($message) > 100) {
+                throw new Exception("Your message can't have more than 100 characters");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
         }
-
         // Checks if the player's ID is valid
-        if (!$playerId > 0) {
-            return "You've been disconnected, please try to log back in";
+        try {
+            if (!$playerId > 0) {
+                throw new Exception("You've been disconnected, please try to log back in");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
         }
 
         $date = date("Y-m-d H:i:s");
@@ -46,7 +56,7 @@ class ChatUtils
 
     /**
      * This method return the fetched messages of the chat
-     * @return bool|string returns the json encoded data of the games information
+     * @return bool|string returns the json encoded data of the messages information
      * @throws Exception
      */
     public static function getAllMessages(): bool|string

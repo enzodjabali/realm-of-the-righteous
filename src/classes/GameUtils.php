@@ -18,23 +18,36 @@ class GameUtils
     public static function createGame(string $name, int $playerId, int $mapId = 1, GameDifficulties $difficulty = GameDifficulties::DIFFICULTY_EASY): string|bool
     {
         // Checks if the game name isn't empty
-        if (empty($name)) {
-            return "The name of the game can't be empty";
+        try {
+            if (empty($name)) {
+                throw new Exception("The name of the game can't be empty");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
         }
-
         // Check if the game name has enough characters
-        if (strlen($name) < 3) {
-            return "The game name can't have less than 3 characters";
+        try {
+            if (strlen($name) < 3) {
+                throw new Exception("The game name can't have less than 3 characters");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
         }
-
         // Check if the game name doesn't have too many characters
-        if (strlen($name) > 25) {
-            return "The game name can't have more than 25 characters";
+        try {
+            if (strlen($name) > 25) {
+                throw new Exception("The game name can't have more than 25 characters");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
         }
-
         // Checks if the player's ID is valid
-        if (!$playerId > 0) {
-            return "You've been disconnected, please try to log back in";
+        try {
+            if (!$playerId > 0) {
+                throw new Exception("You've been disconnected, please try to log back in");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
         }
 
         $matrix = match ($difficulty) {
