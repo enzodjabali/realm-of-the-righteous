@@ -51,55 +51,52 @@ export class TowerController{
         this.display.pile = -1;
     }
 
-async runTower(tower) {
-    /**
-     * @param {Tower} tower instance of Tower.
-     * Permit to make the logic of the tower works
-     */
-    const DIRECTIONS = [[0, -1], [1, 0], [0, 1], [-1, 0]]; // North, East, South, West
-    const DIRECTIONDIAG = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
-    while (true) {
-        //console.log(tower.id ,tower.shotRate, 'setTimeout');
-        await new Promise(r => setTimeout(r, tower.shotRate)); // frequency of fire
-        const { x, y } = tower.position;
-        const { range, damage } = tower;
-        for (let i = 1; i <= range; i++) {
-            for (let direction of DIRECTIONS) {
-                const dx = i * direction[0];
-                const dy = i * direction[1];
-                const nx = x + dx;
-                const ny = y + dy;
-                if (nx >= 0 && nx < this.model.matrice.length && ny >= 0 && ny < this.model.matrice[0].length) {
-                    const cell = this.model.matrice[nx][ny];
-                    if (cell.enemies.length > 0) {
-                        cell.enemies[0].curent_life -= damage;
-                        console.log('tower',tower.id, 'shooting',cell.enemies[0].typeOfEnemies, cell.enemies[0].id)
-                        this.display.rotateWeapon(tower, [nx,ny]);
-                    }
+    async runTower(tower) {
+        /**
+         * @param {Tower} tower instance of Tower.
+         * Permit to make the logic of the tower works
+        */
+        let DIRECTIONS = [[0, -1], [1, 0], [0, 1], [-1, 0]]; // North, East, South, West
+        const DIRECTIONDIAG = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
+
+        while (true) {
+
+            DIRECTIONS = [[0, -1], [1, 0], [0, 1], [-1, 0]]
+            //console.log(tower.id ,tower.shotRate, 'setTimeout');
+            await new Promise(r => setTimeout(r, tower.shotRate)); // frequency of fire
+            const { x, y } = tower.position;
+            const { range, damage } = tower;
+
+            for (let i = 1; i <= range; i++) {
+                if (i == 2) {
+                    DIRECTIONS = DIRECTIONS.concat(DIRECTIONDIAG);
                 }
-            }
-            if (i > 1) {
-                for (let directionDiag of DIRECTIONDIAG) {
-                    const dxt = i * directionDiag[0];
-                    const dyt = i * directionDiag[1];
-                    const ndxt = x + dxt;
-                    const ndyt = y + dyt;
-                    if (ndxt >= 0 && ndxt < this.model.matrice.length && ndyt >= 0 && ndyt < this.model.matrice[0].length) {
-                        const cell = this.model.matrice[ndxt][ndyt];
+
+                for (let direction of DIRECTIONS) {
+                    const dx = i * direction[0];
+                    const dy = i * direction[1];
+                    const nx = x + dx;
+                    const ny = y + dy;
+
+                    if (nx >= 0 && nx < this.model.matrice.length && ny >= 0 && ny < this.model.matrice[0].length) {
+                        const cell = this.model.matrice[nx][ny];
+                        console.log(cell, 'cell');
                         if (cell.enemies.length > 0) {
                             cell.enemies[0].curent_life -= damage;
-                            console.log('tower',tower.id, 'shooting',cell.enemies[0].typeOfEnemies, cell.enemies[0].id)
-                            this.display.rotateWeapon(tower, [ndxt, ndyt]);
+                            console.log('tower', tower.id, 'shooting', cell.enemies[0].typeOfEnemies, cell.enemies[0].id)
+                            this.display.rotateWeapon(tower, [nx, ny]);
                         }
+                    } else {
+                        //console.log(tower.id, "towerIdle")
+                        this.display.towerIdle(tower);
                     }
+
                 }
-            } else {
-                //console.log(tower.id, "towerIdle")
-                this.display.towerIdle(tower);
             }
         }
+
     }
-}
+
     upgradeTower(tower){
         //Permit to upgrade a tower
     }
