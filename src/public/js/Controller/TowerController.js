@@ -10,7 +10,7 @@ export class TowerController {
         this.DIRECTIONDIAG = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
     }
 
-    placeTowerInMatrice(towerData) {
+    placeTowerInMatrice(towerData, type) {
         /**
          * @param {number} towerData dictionnary of data about tower.
          * Permit to place tower in the matrice
@@ -31,7 +31,7 @@ export class TowerController {
 
             const tower = new Tower(
                 towerId, towerData.damage[0], towerData.shotRate[0], { x: row, y: col }, 0, towerData.path[0],
-                towerData.pathWeapon, towerWeaponId, towerData.price
+                towerData.pathWeapon, towerWeaponId, towerData.price, type
             );
             this.model.matrice[row][col].tower = tower;
             let towerHolder = this.display.initializeTower(tower);
@@ -86,15 +86,14 @@ export class TowerController {
             await new Promise(r => setTimeout(r, tower.shotRate)); // frequency of fire
             const { range, damage } = tower;
             const { x, y } = tower.position;
-            if (this.findNeighbour(x, y, range)) {
+            let neighbour = this.findNeighbour(x, y, range)
+            if (neighbour) {
                 let { cell, nx, ny } = this.findNeighbour(x, y, range)
                 cell.enemies[0].curent_life -= damage
                 console.log('tower', tower.id, 'shooting', cell.enemies[0].typeOfEnemies, cell.enemies[0].id)
                 this.display.rotateWeapon(tower, [nx, ny]);
             }
-                    
         }
-
     }
 
     upgradeTower(tower){
