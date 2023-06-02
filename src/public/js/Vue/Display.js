@@ -225,11 +225,12 @@ export class Display{
         const deltaX = cell[0] - tower.position.x;
         const deltaY = cell[1] - tower.position.y;
         let angle = Math.atan2(deltaX, deltaY) * (180 / Math.PI); // Calculate angle in degrees
-        angle += 90
+        angle += 90;
+
         // Update the rotation of the weapon element
-        const towerWeaponCss = document.getElementById(`towerWeaponImg_${tower.getId()}`);
+        const towerWeaponSprite = document.querySelector(`#towerWeaponSprite_${tower.getId()}`);
         tower.WeaponAngle = angle;
-        towerWeaponCss.style.transform = `rotate(${angle}deg)`;
+        towerWeaponSprite.style.transform = `rotate(${angle}deg)`;
     }
     
     towerIdle(tower){
