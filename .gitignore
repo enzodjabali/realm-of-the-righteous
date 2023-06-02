@@ -5,3 +5,4 @@ src/public/node_modules
 src/public/.DS_Store
 src/public/api/.env
 .vs/
+.env
