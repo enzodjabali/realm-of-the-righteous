@@ -72,7 +72,6 @@ export class Display{
                         img.width = this.tilesSize;
                         img.height = this.tilesSize;
                         document.getElementById('board-container').appendChild(img);
-                        //HELP ME Revoir avec Baba
                         if(img_tile = 'basegrass'){
                             img.onclick = () => {
                                 if(this.pile == -1){
@@ -110,7 +109,7 @@ export class Display{
         enemyImg.width = this.tilesSize;
         enemyImg.id = `enemyImg_${enemyId}`;
         enemyDiv.appendChild(enemyImg);
-        
+
         let healthBar = document.createElement('div');
         let healthBarId = `health_enemy_${enemyId}`;
         healthBar.id = healthBarId;
@@ -135,12 +134,14 @@ export class Display{
         imgTower.height = this.tilesSize;
         imgTower.width = this.tilesSize;
         imgTower.id = `towerImg_${tower.getId()}`;
-        document.getElementById(`tower_${tower.getId()}`).appendChild(imgTower);
+        let towerPlace = document.getElementById(`tower_${tower.getId()}`);
+        towerPlace.appendChild(imgTower);
         
         let towerCss = document.getElementById(`towerImg_${tower.getId()}`);
         towerCss.style.position = 'absolute';
         towerCss.style.top = (tower.position.x * this.tilesSize + 0.5*this.tilesSize - imgTower.height/2).toString()+'px';
         towerCss.style.left = (tower.position.y * this.tilesSize + 0.5*this.tilesSize - imgTower.width/2).toString()+'px';
+        return towerPlace;
     }
 
     initializeWeapon(tower){
@@ -190,7 +191,16 @@ export class Display{
         let enemyDiv = document.getElementById(`enemy_${enemyId}`);
         const parentElement = enemyDiv.parentNode; // Get the parent element of the div
         parentElement.removeChild(enemyDiv); // Remove the div element from its parent
-    
+    }
+    removeTower(tower){
+        /**
+         * @param {enemy} enemy instance of enemy.
+         * Permit to remove the enemy from matrice
+         */
+        let towerId = tower.id;
+        let towerDiv = document.getElementById(`tower_${towerId}`);
+        const parentElement = towerDiv.parentNode; // Get the parent element of the div
+        parentElement.removeChild(towerDiv); // Remove the div element from its parent
     }
 
     flipItLeft(enemy){
@@ -224,7 +234,7 @@ export class Display{
 
     towerIdle(tower){
         const towerWeaponCss = document.getElementById(`towerWeaponImg_${tower.getId()}`);
-        tower.WeaponAngle += 20;
+        tower.WeaponAngle += 10;
         towerWeaponCss.style.transform = `rotate(${tower.WeaponAngle}deg)`;
     }
     updateEnemyHealthBar(enemy){
@@ -233,5 +243,10 @@ export class Display{
         let healthBar = enemyDiv.querySelector(`#health_${enemyId}`);
         healthBar.style.width = (enemy.curent_life/enemy.max_life)*100 +'%';        
     }
-
+    updatePlayerData(money, life){
+        let playerMoney = document.getElementById('money');
+        let playerLife = document.getElementById('life');
+        playerMoney.innerText = money
+        playerLife.innerText = life
+    }
 }

@@ -4,16 +4,17 @@ import {HUDController} from "./HUDController.js";
 import {Model} from "../Model/Model.js";
 import {Display} from "../Vue/Display.js";
 import {enumEnemies} from '../Model/enumEnemies.js';
+import {PlayerController} from '../Controller/PlayerController.js';
 
 export class Controller{
     constructor(matrix) {
         this.model = new Model(matrix);
         this.display = new Display();
         this.enemiesController = new EnemiesController(this.model);
-        this.towerController = new TowerController(this.model, this.display)
-        this.HUDController = new HUDController(this.model, this.display, this.towerController)
+        this.playerController = new PlayerController("John", 1000, 1);
+        this.towerController = new TowerController(this.model, this.display, this.playerController)
+        this.HUDController = new HUDController(this.model, this.display, this.towerController, this.playerController)
     }
-    
     updateEnemiesPosition(enemy, nextPosition){
         /**
          * Permit to update the enemy coordinates
@@ -105,7 +106,10 @@ export class Controller{
             for (let step = 0; step <= path.length; step++) {
                 // Add your code to handle end of path reached
                 if (enemy.position.x == endPoints[0] && enemy.position.y == endPoints[1] ){
-                    console.log('-1 pv - end reach - enemy dead', enemy.typeOfEnemies);                    
+                    if(!this.playerController.modifyPlayerLife(1)){
+                        //Implémenter la fin de jeu (défaite)
+                        alert('endgame')
+                    }
                     this.display.removeEnemy(enemy);
                     this.model.matrice[enemy.position.x][enemy.position.y].enemies.splice(enemy,1)
                     return
@@ -119,7 +123,10 @@ export class Controller{
                 }
 
                 if (enemy.curent_life <= 0){
-                    //console.log(enemy.id, 'enemy killed');                    
+                    // Permit to give money to the player when an ennemy died
+                    this.playerController.player.money += enemy.price;
+                    this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life);
+
                     this.display.removeEnemy(enemy);
                     this.model.matrice[enemy.position.x][enemy.position.y].enemies.splice(enemy,1)
                     return

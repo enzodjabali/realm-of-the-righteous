@@ -1,5 +1,5 @@
 export class Tower{
-    constructor(towerId, damage, shotRate, position, towerLevel, path, pathWeapon, WeaponId) {
+    constructor(towerId, damage, shotRate, position, towerLevel, path, pathWeapon, WeaponId, price) {
         this.id = towerId;
         this.WeaponId = WeaponId;
         this.WeaponAngle = 0;
@@ -11,6 +11,7 @@ export class Tower{
         this.position = position
         this.path = path;
         this.pathWeapon = pathWeapon;
+        this.price = price;
     }
     getId(){
         return this.id;

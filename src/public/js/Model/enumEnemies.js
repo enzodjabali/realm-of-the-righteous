@@ -10,10 +10,11 @@
 export const enumEnemies = {
     'bat':{
         pathAlive: '../../assets/images/mobs/batvol.gif',
-        pathDead: '../../assets/images/mobs/batdeath.gif', 
+        pathDead: '../../assets/images/mobs/batdeath.gif',
         life: 10,  
         armor: 0,
         speed: 20,
+        price: 10,
     },
     'golem':{
         pathAlive: '../../assets/images/mobs/golemwalk.gif',
@@ -21,6 +22,7 @@ export const enumEnemies = {
         life: 10, 
         armor: 0,
         speed: 10,
+        price: 10,
     },
     'knight':{
         pathAlive: '../../assets/images/mobs/knightrun.gif', 
@@ -28,6 +30,7 @@ export const enumEnemies = {
         life: 10, 
         armor: 0,
         speed: 15,
+        price: 10,
     },
     'witch':{
         pathAlive: '../../assets/images/mobs/witchwalk.gif', 
@@ -35,6 +38,7 @@ export const enumEnemies = {
         life: 10, 
         armor: 0,
         speed: 12,
+        price: 10,
     },
     'wolf':{
         pathAlive: '../../assets/images/mobs/wolfrun.gif', 
@@ -42,5 +46,6 @@ export const enumEnemies = {
         life: 10, 
         armor: 0,
         speed: 25,
-        },
+        price: 10,
+        }
     }
