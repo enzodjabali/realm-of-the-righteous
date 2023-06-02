@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: database
--- Generation Time: May 10, 2023 at 09:38 AM
--- Server version: 8.0.32
--- PHP Version: 8.1.17
+-- Hôte : database
+-- Généré le : ven. 02 juin 2023 à 12:50
+-- Version du serveur : 8.0.33
+-- Version de PHP : 8.1.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,26 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `rotr`
+-- Base de données : `rotr`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `game`
+-- Structure de la table `chat`
+--
+
+CREATE TABLE `chat` (
+  `id` int NOT NULL,
+  `player_id` int NOT NULL,
+  `message` varchar(100) NOT NULL,
+  `date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `game`
 --
 
 CREATE TABLE `game` (
@@ -40,7 +53,7 @@ CREATE TABLE `game` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data for table `game`
+-- Déchargement des données de la table `game`
 --
 
 INSERT INTO `game` (`id`, `name`, `player_id`, `map_id`, `difficulty`, `matrix`, `current_wave`, `is_over`, `is_won`) VALUES
@@ -49,7 +62,7 @@ INSERT INTO `game` (`id`, `name`, `player_id`, `map_id`, `difficulty`, `matrix`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `game_event`
+-- Structure de la table `game_event`
 --
 
 CREATE TABLE `game_event` (
@@ -63,7 +76,7 @@ CREATE TABLE `game_event` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `maps`
+-- Structure de la table `maps`
 --
 
 CREATE TABLE `maps` (
@@ -73,7 +86,7 @@ CREATE TABLE `maps` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data for table `maps`
+-- Déchargement des données de la table `maps`
 --
 
 INSERT INTO `maps` (`id`, `name`, `matrix`) VALUES
@@ -82,7 +95,7 @@ INSERT INTO `maps` (`id`, `name`, `matrix`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `player`
+-- Structure de la table `player`
 --
 
 CREATE TABLE `player` (
@@ -93,24 +106,31 @@ CREATE TABLE `player` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data for table `player`
+-- Déchargement des données de la table `player`
 --
 
 INSERT INTO `player` (`id`, `username`, `password`, `email`) VALUES
 (1, 'test', '$2y$10$wJr6X64xIQ.CRJ9NneBmfuvzPhc6Ped4/7rGzq8yS40gGfd2XhkNC', 'test@test.dev');
 
 --
--- Indexes for dumped tables
+-- Index pour les tables déchargées
 --
 
 --
--- Indexes for table `game`
+-- Index pour la table `chat`
+--
+ALTER TABLE `chat`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `player_id_constraint` (`player_id`);
+
+--
+-- Index pour la table `game`
 --
 ALTER TABLE `game`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `game_event`
+-- Index pour la table `game_event`
 --
 ALTER TABLE `game_event`
   ADD PRIMARY KEY (`id`),
@@ -118,32 +138,48 @@ ALTER TABLE `game_event`
   ADD KEY `player_id` (`player_id`);
 
 --
--- Indexes for table `maps`
+-- Index pour la table `maps`
 --
 ALTER TABLE `maps`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `player`
+-- Index pour la table `player`
 --
 ALTER TABLE `player`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT pour les tables déchargées
 --
 
 --
--- AUTO_INCREMENT for table `game`
+-- AUTO_INCREMENT pour la table `chat`
+--
+ALTER TABLE `chat`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `game`
 --
 ALTER TABLE `game`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `player`
+-- AUTO_INCREMENT pour la table `player`
 --
 ALTER TABLE `player`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `chat`
+--
+ALTER TABLE `chat`
+  ADD CONSTRAINT `player_id_constraint` FOREIGN KEY (`player_id`) REFERENCES `player` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
