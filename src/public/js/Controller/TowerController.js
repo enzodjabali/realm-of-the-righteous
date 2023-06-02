@@ -86,12 +86,12 @@ export class TowerController {
             await new Promise(r => setTimeout(r, tower.shotRate)); // frequency of fire
             const { range, damage } = tower;
             const { x, y } = tower.position;
+
             let neighbour = this.findNeighbour(x, y, range)
             if (neighbour) {
-                let { cell, nx, ny } = this.findNeighbour(x, y, range)
-                cell.enemies[0].curent_life -= damage
-                console.log('tower', tower.id, 'shooting', cell.enemies[0].typeOfEnemies, cell.enemies[0].id)
-                this.display.rotateWeapon(tower, [nx, ny]);
+                neighbour.cell.enemies[0].curent_life -= damage
+                console.log('tower', tower.id, 'shooting', neighbour.cell.enemies[0].typeOfEnemies, neighbour.cell.enemies[0].id)
+                this.display.rotateWeapon(tower, [neighbour.nx, neighbour.ny]);
             }
         }
     }
