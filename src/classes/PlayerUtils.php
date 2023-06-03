@@ -11,11 +11,13 @@ class PlayerUtils
 	 * This method inserts a new player into the database
 	 * @param string $username the username of the player
 	 * @param string $password the password of the player
-	 * @param string $email the email of the player
+     * @param string $retypedPassword the retyped password of the player
+     * @param string $email the email of the player
+     * @param bool $terms the terms agreement status
 	 * @return string|bool returns true if the operation succeed, and returns a string containing an error message if it failed
 	 * @throws Exception
 	 */
-	public static function insertPlayer(string $username = "", string $password = "", string $email = ""): string|bool
+	public static function insertPlayer(string $username = "", string $password = "", string $retypedPassword = "", string $email = "", bool $terms = false): string|bool
 	{
 		// Checks if the username isn't empty
         try {
@@ -35,7 +37,7 @@ class PlayerUtils
         }
 		// Checks if the password isn't empty
         try {
-            if (empty($password)) {
+            if (empty($password) || empty($retypedPassword)) {
                 throw new Exception("The password can't be empty");
             }
         } catch (Exception $e) {
@@ -59,7 +61,7 @@ class PlayerUtils
         }
 		// Checks if the username has enough characters
         try {
-            if (strlen($password) < 4) {
+            if (strlen($password) < 4 || strlen($retypedPassword) < 4) {
                 throw new Exception("The password can't have less than 4 characters");
             }
         } catch (Exception $e) {
@@ -77,6 +79,22 @@ class PlayerUtils
         try {
             if (!DbUtils::doesThisValueExist(DbTable::TABLE_PLAYER, "email", $email)) {
                 throw new Exception("This email is already used");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        // Checks if the password are matching
+        try {
+            if ($password !== $retypedPassword) {
+                throw new Exception("The passwords aren't matching");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        // Checks if the terms are agreed
+        try {
+            if (!$terms) {
+                throw new Exception("The terms haven't been agreed");
             }
         } catch (Exception $e) {
             return $e->getMessage();

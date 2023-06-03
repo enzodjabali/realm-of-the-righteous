@@ -70,8 +70,8 @@
                     </div>
                     <div class="col-12 mb-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-                            <label class="form-check-label" for="invalidCheck">
+                            <input class="form-check-input" type="checkbox" name="terms" id="terms" required>
+                            <label class="form-check-label" for="terms">
                                 Agree to terms and conditions
                             </label>
                             <div class="invalid-feedback">
@@ -113,9 +113,11 @@
             $("#register-form").submit(function(){
                 let username = $(this).find("input[name=username]").val();
                 let password = $(this).find("input[name=password]").val();
+                let retypedPassword = $(this).find("input[name=retype-password]").val();
                 let email = $(this).find("input[name=email]").val();
+                let terms = $(this).find("input[name=terms]").is(":checked");
 
-                $.post("api/RegisterPlayer.php", {username: username, password: password, email: email}, function(response){
+                $.post("api/RegisterPlayer.php", {username: username, password: password, retypedPassword: retypedPassword, email: email, terms: terms}, function(response) {
                     if (response === "1") {
                         $('#modal').modal('show');
                     } else {
