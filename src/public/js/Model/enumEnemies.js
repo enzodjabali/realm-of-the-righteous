@@ -15,6 +15,7 @@ export const enumEnemies = {
         armor: 0,
         speed: 20,
         price: 10,
+        isFlying: true,
     },
     'golem':{
         pathAlive: '../../assets/images/mobs/golemwalk.gif',
@@ -23,6 +24,7 @@ export const enumEnemies = {
         armor: 0,
         speed: 10,
         price: 10,
+        isFlying: false,
     },
     'knight':{
         pathAlive: '../../assets/images/mobs/knightrun.gif', 
@@ -31,6 +33,7 @@ export const enumEnemies = {
         armor: 0,
         speed: 15,
         price: 10,
+        isFlying: false,
     },
     'witch':{
         pathAlive: '../../assets/images/mobs/witchwalk.gif', 
@@ -39,6 +42,7 @@ export const enumEnemies = {
         armor: 0,
         speed: 12,
         price: 10,
+        isFlying: false,
     },
     'wolf':{
         pathAlive: '../../assets/images/mobs/wolfrun.gif', 
@@ -47,5 +51,6 @@ export const enumEnemies = {
         armor: 0,
         speed: 25,
         price: 10,
+        isFlying: false,
         }
     }
