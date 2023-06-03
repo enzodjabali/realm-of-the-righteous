@@ -27,7 +27,7 @@ export const enumTower = {
                 '../../assets/images/towers/OT2.png', 
                 '../../assets/images/towers/OT3.png'],
         
-        pathWeapon : ['../../assets/images/towers/weapons/weapons/2OT1weapon.png',
+        pathWeapon : ['../../assets/images/towers/weapons/weapons/OT1weapon.png',
                     '../../assets/images/towers/weapons/weapons/OT2weapon.png',
                     '../../assets/images/towers/weapons/weapons/OT3weapon.png'],
         
