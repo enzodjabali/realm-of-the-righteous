@@ -27,12 +27,27 @@ export class TowerController {
             this.model.towerId++;
             this.model.towerWeaponId++;
 
-            console.log(towerData, 'towerData')
+            let tower;
+            switch (type){
+                case "OT":
+                    tower = new Tower(
+                        towerId, towerData.damage[0], towerData.shotRate[0], { x: row, y: col }, 0, towerData.path[0],
+                        towerData.pathWeapon, towerWeaponId, towerData.price, type, towerData.isAttackingAir, towerData.rebound[0]
+                    );
+                    break;
+                case "T":
+                    tower = new Tower(
+                        towerId, towerData.damage[0], towerData.shotRate[0], { x: row, y: col }, 0, towerData.path[0],
+                        towerData.pathWeapon, towerWeaponId, towerData.price, type, towerData.isAttackingAir, null, towerData.slowness[0]
+                    );
+                    break;
+                default:
+                    tower = new Tower(
+                        towerId, towerData.damage[0], towerData.shotRate[0], { x: row, y: col }, 0, towerData.path[0],
+                        towerData.pathWeapon, towerWeaponId, towerData.price, type, towerData.isAttackingAir
+                    );
+            }
 
-            const tower = new Tower(
-                towerId, towerData.damage[0], towerData.shotRate[0], { x: row, y: col }, 0, towerData.path[0],
-                towerData.pathWeapon, towerWeaponId, towerData.price, type
-            );
             this.model.matrice[row][col].tower = tower;
             let towerHolder = this.display.initializeTower(tower);
             towerHolder.onclick = () => {
@@ -54,44 +69,89 @@ export class TowerController {
         this.display.pile = -1;
     }
 
-    findNeighbour(x, y, range) { 
+    findNeighbour(x, y, range) {
+        let enemies = [];
+        let directions = this.DIRECTIONS
         for (let i = 1; i <= range; i++) {
             if (i == 2) {
-                this.DIRECTIONS = this.DIRECTIONS.concat(this.DIRECTIONDIAG);
+                if(directions.length == 4){
+                    directions = directions.concat(this.DIRECTIONDIAG);
+                    i = 1;
+                }
             }
-            for (let direction of this.DIRECTIONS) {
+            for (let direction of directions) {
                 const dx = i * direction[0];
                 const dy = i * direction[1];
                 const nx = x + dx;
                 const ny = y + dy;
+
                 if (nx >= 0 && nx < this.model.matrice.length && ny >= 0 && ny < this.model.matrice[0].length) {
+
                     const cell = this.model.matrice[nx][ny];
                     if (cell.enemies.length > 0) {
-                        return { cell, nx, ny };
-                    } 
-
+                        enemies.push([nx, ny])
+                    }
                 }
             }
-        } 
-        return false;
-    } 
+        }
+        //Avoid duplicates in list
+        enemies = enemies.map(JSON.stringify).filter((e,i,a) => i === a.indexOf(e)).map(JSON.parse)
+        return enemies;
+    }
 
     async runTower(tower) {
         /**
          * @param {Tower} tower instance of Tower.
          * Permit to make the logic of the tower works
         */
-    
+
         while (true) {
             await new Promise(r => setTimeout(r, tower.shotRate)); // frequency of fire
-            const { range, damage } = tower;
-            const { x, y } = tower.position;
-
+            let {range, damage} = tower;
+            const {x, y} = tower.position;
             let neighbour = this.findNeighbour(x, y, range)
-            if (neighbour) {
-                neighbour.cell.enemies[0].curent_life -= damage
-                console.log('tower', tower.id, 'shooting', neighbour.cell.enemies[0].typeOfEnemies, neighbour.cell.enemies[0].id)
-                this.display.rotateWeapon(tower, [neighbour.nx, neighbour.ny]);
+            if (neighbour[0]) {
+                if (tower.isAttackingAir && this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].isFlying || !tower.isAttackingAir && !this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].isFlying) {
+                    this.provideDamage(this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0], damage)
+                    this.display.rotateWeapon(tower, [neighbour.nx, neighbour.ny]);
+                    switch (tower.type) {
+                        case "BT":
+                            //Splash Tower
+                            if (neighbour.length > 1) {
+                                neighbour = neighbour.slice(1, neighbour.length)
+                                let counter = 0;
+                                for (let enemy of neighbour) {
+                                    counter++
+                                    if (counter % 2 == 0) {
+                                        damage = damage * 0.5
+                                    }
+                                    this.provideDamage(this.model.matrice[enemy[0]][enemy[1]].enemies[0], damage)
+                                }
+                            }
+                            break;
+                        case "OT":
+                            // Rebound Tower
+                            if (neighbour.length > 1) {
+                                for (let i = 0; i < tower.rebound; i++) {
+                                    neighbour = this.findNeighbour(neighbour[0][0], neighbour[0][1], 3);
+                                    if (neighbour.length > 0) {
+                                        if (!this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].isFlying) {
+                                            this.provideDamage(this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0], (damage / i))
+                                        }
+
+                                    }
+                                }
+                            }
+                            break;
+                        case "T":
+                            if (neighbour.length > 0) {
+                                this.slowEnemy(neighbour, tower.slowness, (Date.now() / 1000))
+                            }
+                            break;
+
+
+                    }
+                }
             }
         }
     }
@@ -111,6 +171,18 @@ export class TowerController {
         this.model.matrice[row][col].tower = null;
 
 
+    }
+    provideDamage(enemyLife, damage){
+        enemyLife.curent_life -= damage;
+    }
+    async slowEnemy(neighbour, slow, date){
+        //Slows an enemy
+        this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].speed /= slow;
+        // if(date + 3 > Date.now()/1000){
+        //     console.log("hey")
+        //     this.slowEnemy(neighbour, slow, date);
+        // }
+        // this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].speed = 30;
     }
 
 }

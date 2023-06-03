@@ -28,7 +28,6 @@ export class Controller{
 
         enemy.position.x += nextPosition[0]
         enemy.position.y += nextPosition[1]
-
         this.updateEnemyInMatrice(enemy);
     }
 
@@ -97,7 +96,7 @@ export class Controller{
 
     async run(enemy, path, endPoints) {
         /**
-         * Main loop of the enemies, permit make them run wioth their logic
+         * Main loop of the enemies, permit make them run with their logic
          * @param {Enemy} enemy instance of enemy.
          * @param {Enemy} path pathfinding list of cords.
          * @param {Enemy} endPoints couple of end coordinates.
@@ -107,8 +106,8 @@ export class Controller{
                 // Add your code to handle end of path reached
                 if (enemy.position.x == endPoints[0] && enemy.position.y == endPoints[1] ){
                     if(!this.playerController.modifyPlayerLife(1)){
-                        //Implémenter la fin de jeu (défaite)
-                        alert('endgame')
+                        // Implémenter la fin de jeu (défaite)
+                        // alert('endgame')
                     }
                     this.display.removeEnemy(enemy);
                     this.model.matrice[enemy.position.x][enemy.position.y].enemies.splice(enemy,1)
@@ -133,10 +132,10 @@ export class Controller{
                 }
 
                 if (step <= path.length-1) {
+                    //this one ok GET RETURN ENEMY TO REFRESH ????
                     await this.updateEnemiesPosition(enemy, path[step]); // Await the update of the enemy's position
                     await this.display.updateEnemyHealthBar(enemy);
-                } 
-
+                }
                 await this.display.nextMoveEnemy(enemy, path[step]); // Await the next move of the enemy using the nextMoveEnemy() method
             }
 

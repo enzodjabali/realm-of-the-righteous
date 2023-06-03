@@ -23,21 +23,12 @@ export class EnemiesController {
             let position = {x: xCord,  y: yCord};
             for(let [mobKey, mobValues] of Object.entries(mobDict)){
                     if(typeOfEnemies == mobKey){
-                        let enemy = new Enemy(id, mobKey,path, mobValues.pathAlive, position, mobValues.life, mobValues.life, mobValues.armor, mobValues.speed, mobValues.price);
+                        let enemy = new Enemy(id, mobKey,path, mobValues.pathAlive, position, mobValues.life,
+                            mobValues.life, mobValues.armor, mobValues.speed, mobValues.price, mobValues.isFlying);
                         this.enemies.push(enemy);
-                        this.model.addEnemy(enemy);
                         return enemy
                     }
             }
         }
-    }   
-
-    modifyMatrice(x, y, enemyObject){
-        /**
-         * @param {number} x x position of matrice.
-         * @param {number} y y position of matrice.
-         * @param {Enemy} enemyObject Enemy object.
-         */
-        this.model.matrice[x][y].enemies.push(enemyObject);
     }
 }

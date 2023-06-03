@@ -10,29 +10,35 @@ export const enumTower = {
     'BT':{
         path: ['../../assets/images/towers/BT1.png', '../../assets/images/towers/BT2.png', '../../assets/images/towers/BT3.png'],
         pathWeapon :"../../assets/images/towers/weapons/crossbow.gif",
-        damage: [3,6,10],
+        damage: [5,6,10],
         shotRate: [500,400,300],//in ms
-        price: [100,200,300]
+        price: [100,200,300],
+        isAttackingAir: false,
     },
     'OT':{
         path: ['../../assets/images/towers/OT1.png', '../../assets/images/towers/OT2.png', '../../assets/images/towers/OT3.png'],
         pathWeapon :"../../assets/images/towers/weapons/crossbow.gif",
         damage: [1,2,3],
         shotRate: [200,150,100],//in ms
-        price: [10,20,30]
+        price: [10,20,30],
+        rebound: [3,6,9],
+        isAttackingAir: true,
     },
     'T':{
         path: ['../../assets/images/towers/T1.png', '../../assets/images/towers/T2.png', '../../assets/images/towers/T3.png'],
         pathWeapon :"../../assets/images/towers/weapons/crossbow.gif",
-        damage: [20,40,60],
-        shotRate: [5000,4000,3000],//in ms
-        price: [100,200,300]
+        damage: [1,40,60],
+        shotRate: [100,4000,3000],//in ms
+        price: [100,200,300],
+        isAttackingAir: false,
+        slowness: [1.5, 2, 2.5]
     },
     'WT':{
         path: ['../../assets/images/towers/WT1.png', '../../assets/images/towers/WT2.png', '../../assets/images/towers/WT3.png'],
         pathWeapon :"../../assets/images/towers/weapons/crossbow.gif",
         damage: [3,6,10],
         shotRate: [500,400,300],//in ms
-        price: [1,2,3]
+        price: [1,2,3],
+        isAttackingAir: false,
     },
 }
