@@ -3,69 +3,108 @@
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <title>Realm of the righteous - Register</title>
+        <title>Realm Of The Righteous - Register</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="assets/css/login-register-forms.css">
-        <link rel="stylesheet" href="assets/css/modal.css">
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link rel="icon" type="image/x-icon" href="assets/images/website/favicon.ico">
         <script src="node_modules/jquery/dist/jquery.js"></script>
-        <style>
-            body,h1,h2{font-family: "Raleway", sans-serif}
-            body, html {height: 100%}
-            p {line-height: 2}
-            .bgimg{
-                min-height: 100%;
-                background-position: center;
-                background-size: cover;
-            }
-            .bgimg {background-image: url("assets/images/website/frame.jpg ")}
 
-        </style>
+        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+        <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
     </head>
 
     <body>
-        <!-- Header / Home-->
-        <header class="w3-display-container w3-wide bgimg w3-grayscale-min" id="home">
-            <div class="w3-display-middle w3-text-white w3-center">
-
-                <form method="post" id="register-form">
-                    <img src="assets/images/website/logo.png" >
-
-                    <p style="color: navy;">Username</p>
-                    <input name="username" type="text" style="background-color: rgba(0,0,0,0);border: dotted;border-left:none;border-right: none;border-top: none;">
-
-                    <p style="color: navy;">E-mail</p>
-                    <input name="email" type="text" style="background-color: rgba(0,0,0,0);border: dotted;border-left:none;border-right: none;border-top: none;">
-
-                    <p style="color: navy;">Password</p>
-                    <input name="password" type="password" style="background-color: rgba(0,0,0,0);border: dotted;border-left:none;border-right: none;border-top: none"><br><br>
-
-                    <input type="submit" value="Register" style="border-radius: 25px;background-color: maroon;border: none;color: antiquewhite; width: 100px;height: 40px" class="sign">
-                    <br><br><br><br>
-                </form>
-
-            </div>
-        </header>
-
         <?php include_once("includes/menu.php") ?>
 
-        <!-- Error register modal -->
-        <div id="modal" class="modal">
-
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <p id="modalMessage"></p>
+        <!--Toast gets displayed with an error message if mistakes have been made in the form -->
+        <div class="toast align-items-center text-bg-danger border-0 position-absolute top-0 start-50 translate-middle mt-5" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body"></div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
-        <!---->
-    </body>
 
-    <script src="js/modal.js"></script>
+        <!-- Modal gets displayed if the user has been successfully registered -->
+        <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalLabel">Woo-hoo</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        You have been successfully registered.
+                    </div>
+                    <div class="modal-footer">
+                        <a href="/login"><button type="button" class="btn btn-primary">Login</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card w-75 position-absolute top-50 start-50 translate-middle">
+            <div class="card-header text-center">
+                Register
+            </div>
+            <div class="card-body">
+                <!--Registration form-->
+                <form id="register-form" method="post" class="needs-validation" novalidate>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" name="username" id="username" placeholder="Mark" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="mark@realm-of-the-righteous.fr" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" name="password" id="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="retype-password" class="form-label">Retype password</label>
+                        <input type="password" class="form-control" name="retype-password" id="retype-password" required>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                            <label class="form-check-label" for="invalidCheck">
+                                Agree to terms and conditions
+                            </label>
+                            <div class="invalid-feedback">
+                                You must agree before submitting.
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+            </div>
+        </div>
+
+        <?php include_once("includes/footer.php") ?>
+    </body>
     <script>
+        /**
+         * This function restricts the form from being submitted if all the fields aren't filled
+         */
+        (() => {
+            'use strict'
+            const forms = document.querySelectorAll('.needs-validation')
+
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+
         /**
          * This function calls the register player method
          */
@@ -76,26 +115,17 @@
                 let email = $(this).find("input[name=email]").val();
 
                 $.post("api/RegisterPlayer.php", {username: username, password: password, email: email}, function(response){
-
                     if (response === "1") {
-                        //success
-                        let modal = document.getElementById("modal");
-                        let modalMessage = document.getElementById("modalMessage");
-
-                        modalMessage.innerHTML = "You have been successfully registered, <a href='/login'>click here to login.</a>";
-                        modal.style.display = "block"
+                        $('#modal').modal('show');
                     } else {
-                        // error
-                        let modal = document.getElementById("modal");
-                        let modalMessage = document.getElementById("modalMessage");
-
-                        modalMessage.innerHTML = response;
-                        modal.style.display = "block"
+                        $(document).ready(function() {
+                            $(".toast").toast('show');
+                            $(".toast-body").html(response);
+                        });
                     }
                 });
                 return false;
             });
         });
     </script>
-
 </html>

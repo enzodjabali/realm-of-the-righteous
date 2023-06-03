@@ -76,7 +76,7 @@ class GameUtils
      */
     public static function getGameInformation(int $playerId): bool|string
     {
-        $result = DbUtils::select(DbTable::TABLE_GAME, ["id", "name"], "WHERE player_id = '$playerId'");
+        $result = DbUtils::select(DbTable::TABLE_GAME, ["id", "name"], "WHERE player_id = '$playerId' ORDER BY id DESC");
         $result_array = [];
 
         while($row = $result->fetch()) {

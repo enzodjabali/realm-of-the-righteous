@@ -10,84 +10,47 @@
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <title>Realm of the righteous - Lobby</title>
+        <title>Realm Of The Righteous - Chat</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="assets/css/modal.css">
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link rel="icon" type="image/x-icon" href="assets/images/website/favicon.ico">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-        <link rel="stylesheet" href="assets/css/gamesearch.css">
         <script src="node_modules/jquery/dist/jquery.js"></script>
-        <style>
-            body,h1,h2{font-family: "Raleway", sans-serif}
-            body, html {height: 100%}
-            p {line-height: 2}
-            .bgimg{
-                min-height: 100%;
-                background-position: center;
-                background-size: cover;
-            }
-            .bgimg {background-image: url("assets/images/website/frame.jpg  ")}
 
-            p {font-size: 17px;}
-
-            #player-information {
-                position: absolute;
-                background-color: #fefefe;
-                z-index: 1;
-                margin-left: 10px;
-                margin-top: 10px;
-                padding: 20px;
-                border-radius: 15px;
-            }
-
-            .message {
-                text-align: center;
-                margin-top: 40%;
-            }
-        </style>
+        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+        <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
     </head>
     <body>
-        <div id="player-information">
-            <?php
-            echo "My ID: " . $_SESSION["player_id"];
-            echo "<br>" . $_SESSION["player_username"];
-            echo "<br>" . $_SESSION["player_email"];
-            echo "<br><a href='/logout'>Logout</a>";
-            ?>
-        </div>
-
-        <!-- Header / Home-->
-        <header class="w3-display-container w3-wide bgimg w3-grayscale-min" id="home">
-            <div class="w3-display-topmiddle w3-text-white w3-center">
-                <h1 class="w3-jumbo" style="color: navy;font-family: 'Old English Text MT'">Realm Of The Righteous</h1>
-            </div>
-            <br>
-            <div id="message-list" class="chatbox" style="overflow-y: scroll;"></div>
-
-            <form class="message" method="post" id="chat-form">
-                <p>Message</p>
-                <input id="messageField" name="message" type="text">
-                <input type="submit" value="Send">
-            </form>
-        </header>
-
-        <!-- Error message modal -->
-        <div id="modal" class="modal">
-
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <p id="modalMessage"></p>
-            </div>
-        </div>
-
         <?php include_once("includes/menu.php") ?>
+
+        <!-- Toast gets displayed with an error message if the user's message isn't valid -->
+        <div class="toast align-items-center text-bg-danger border-0 position-absolute top-0 start-50 translate-middle mt-5" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body"></div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+
+        <!-- Card of the message list -->
+        <div class="card w-75 position-absolute top-50 start-50 translate-middle">
+            <div class="card-header text-center">
+                Chat
+            </div>
+            <div id="message-list" class="card-body overflow-y-scroll" style="height: 400px"></div>
+
+            <form id="chat-form" method="post" class="input-group card-footer text-body-secondary">
+                <input type="text" class="form-control me-3" name="message" id="message">
+                <div class="input-group-prepend">
+                    <button class="btn btn-primary" type="submit">Send</button>
+                </div>
+            </form>
+        </div>
+
+        <?php include_once("includes/footer.php") ?>
     </body>
 
-    <script src="js/modal.js"></script>
     <script>
         /**
          * This function reloads the messages every 500ms
@@ -133,14 +96,12 @@
 
                 $.post("api/InsertChatMessage.php", {playerId: playerId, message: message}, function(response){
                     if (response === "1") {
-                        document.getElementById('messageField').value = "";
+                        document.getElementById('message').value = "";
                     } else {
-                        // error
-                        let modal = document.getElementById("modal");
-                        let modalMessage = document.getElementById("modalMessage");
-
-                        modalMessage.innerHTML = response;
-                        modal.style.display = "block"
+                        $(document).ready(function() {
+                            $(".toast").toast('show');
+                            $(".toast-body").html(response);
+                        });
                     }
                 });
                 return false;

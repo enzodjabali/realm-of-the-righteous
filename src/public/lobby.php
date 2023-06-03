@@ -10,203 +10,87 @@
 ?>
 
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Realm of the righteous - Lobby</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="icon" type="image/x-icon" href="assets/images/website/favicon.ico">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-    <link rel="stylesheet" href="assets/css/gamesearch.css">
-    <script src="node_modules/jquery/dist/jquery.js"></script>
-    <style>
-        body,h1,h2{font-family: "Raleway", sans-serif}
-        body, html {height: 100%}
-        p {line-height: 2}
-        .bgimg{
-            min-height: 100%;
-            background-position: center;
-            background-size: cover;
-        }
-        .bgimg {background-image: url("assets/images/website/frame.jpg  ")}
-        .box {
-            background-color: black;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        p {
-            font-size: 17px;
-            align-items: center;
-        }
+<html lang="en">
+    <head>
+        <title>Realm Of The Righteous - Lobby</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/x-icon" href="assets/images/website/favicon.ico">
+        <script src="node_modules/jquery/dist/jquery.js"></script>
 
-        .modal-name {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.5);
-            transition: all 0.4s;
-            visibility: hidden;
-            opacity: 0;
-            z-index:1;
-        }
-
-        .modal-difficulty {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.5);
-            transition: all 0.4s;
-            visibility: hidden;
-            opacity: 0;
-            z-index:1;
-        }
-
-        .modal-result {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.5);
-            transition: all 0.4s;
-            visibility: hidden;
-            opacity: 0;
-            z-index:1;
-        }
-
-        .content {
-            position: absolute;
-            background: white;
-            width: 400px;
-            padding: 1em 2em;
-            border-radius: 4px;
-        }
-        .modal-name:target {
-            visibility: visible;
-            opacity: 1;
-        }
-        .modal-difficulty:target {
-            visibility: visible;
-            opacity: 1;
-        }
-        .modal-result:target {
-            visibility: visible;
-            opacity: 1;
-        }
-        .box-close {
-            position: absolute;
-            top: 0;
-            right: 15px;
-            color: #fe0606;
-            text-decoration: none;
-            font-size: 30px;
-        }
-
-        #player-information {
-            position: absolute;
-            background-color: #fefefe;
-            z-index: 1;
-            margin-left: 10px;
-            margin-top: 10px;
-            padding: 20px;
-            border-radius: 15px;
-        }
-    </style>
-</head>
+        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+        <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    </head>
     <body>
-        <div id="player-information">
-            <?php
-                echo "My ID: " . $_SESSION["player_id"];
-                echo "<br>" . $_SESSION["player_username"];
-                echo "<br>" . $_SESSION["player_email"];
-                ?>
-                    <br><a id="total-games"></a>
-                <?php
-                echo "<br><a href='/logout'>Logout</a>";
-            ?>
+        <?php include_once("includes/menu.php") ?>
+
+        <!-- Toast gets displayed with the status message of the form -->
+        <div class="toast align-items-center border-0 position-absolute top-0 start-50 translate-middle mt-5" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body"></div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
         </div>
 
-        <!-- Header / Home-->
-        <header class="w3-display-container w3-wide bgimg w3-grayscale-min" id="home">
-            <div class="w3-display-topmiddle w3-text-white w3-center">
-
-                <h1 class="w3-jumbo" style="color: navy;font-family: 'Old English Text MT'">Realm Of The Righteous</h1>
-
-                <a href="#name">
-                    <div style="background-color: maroon;width: 20%;position: absolute;left: 40%;padding: 20px;border-radius: 25px">New game</div>
-                </a>
+        <!-- Card of the game list -->
+        <div class="card text-center w-75 position-absolute top-50 start-50 translate-middle">
+            <div class="card-header">
+                Games (<a id="count-games"></a>)
             </div>
+            <div id="game-list" class="card-body overflow-y-scroll" style="height: 400px"></div>
+            <div class="card-footer text-body-secondary">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal" data-bs-whatever="@mdo">New game</button>
+            </div>
+        </div>
 
-            <form method="post" id="create-game-form">
-                <div id="name" class="modal-name">
-                    <div class="content">
-                        <a style="color: navy;margin-bottom: 10px;">What will you call your game?</a>
-                        <input type="text" name="name" style="border-radius: 25px;">
-                        <b>
-                            <a href="#difficulty">
-                                <div class="w3-center" style="background-color: maroon;color: white;width: 20%; border-radius: 25px;">Next</div>
-                            </a>
-                        </b>
-                        <a href="" class="box-close">×</a>
+        <!-- Modal game creation -->
+        <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalLabel">New game</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                </div>
-                <div id="difficulty" class="modal-difficulty">
-                    <div class="content">
-                        <a style="color: navy;">What difficulty do you want?</a>
-                        <b>
-                            <fieldset>
-                                <input type="radio" id="easy" value="1" name="difficulty" checked>
-                                <label for="easy">Easy</label><br>
-                                <input type="radio" id="normal" value="2" name="difficulty">
-                                <label for="normal">Normal</label><br>
-                                <input type="radio" id="hard" value="3" name="difficulty">
-                                <label for="hard"> Hard</label>
-                            </fieldset>
-                            <div>
-                                <a href="#name" style="float: left">
-                                    <div class="w3-center" style="background-color: maroon;color: white;border-radius: 7px;">  Go back  </div>
-                                </a>
-
-                                <div style="float: right">
-                                    <input type="submit" value="Create"  class="w3-center" style="background-color: maroon;color: white;border-radius: 7px;">
+                    <div id="spinner" class="spinner-border visually-hidden m-auto mt-4 mb-4" role="status"></div>
+                    <!-- Form game creation -->
+                    <form id="create-game-form" method="post">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="name" class="col-form-label">Name</label>
+                                <input type="text" class="form-control" name="name" id="name">
+                            </div>
+                            <div class="mb-3">
+                                <label class="col-form-label">Difficulty</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="difficulty" id="easy" value="1" checked>
+                                    <label class="form-check-label" for="easy">
+                                        Easy
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="difficulty" id="normal" value="2">
+                                    <label class="form-check-label" for="normal">
+                                        Normal (not available yet)
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="difficulty" id="hard" value="3">
+                                    <label class="form-check-label" for="hard">
+                                        Hard (not available yet)
+                                    </label>
                                 </div>
                             </div>
-                    </div>
-                        </b>
-                        <a href="" class="box-close">×</a>
-                    </div>
-                </div>
-            </form>
-
-            <div id="result" class="modal-result">
-                <div class="content">
-                    <a id="result-message"></a>
-                    <div id="go-back-if-failed"></div>
-                    <a href="" class="box-close">×</a>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <input type="submit" class="btn btn-primary" value="Create">
+                        </div>
+                    </form>
                 </div>
             </div>
+        </div>
 
-            <br>
-            <div id="game-list" class="w3-center search" style="overflow-y: scroll;"><b>Current games:</b></div>
-        </header>
-
-        <?php include_once("includes/menu.php") ?>
+        <?php include_once("includes/footer.php") ?>
     </body>
 
     <script>
@@ -214,6 +98,8 @@
          * This function gets all the user's games and display them
          */
         function getGameInformation() {
+            document.getElementById('game-list').innerHTML = "";
+
             let playerId = <?= $sessionId ?>;
 
             const request = new XMLHttpRequest();
@@ -227,8 +113,12 @@
                     let id = games[i]['id'];
                     let name = games[i]['name'];
 
-                    document.getElementById('game-list').innerHTML += '<br><a href="/game?game_id=' + id + '">' + name + '</a>';
-                    document.getElementById('total-games').innerHTML = 'Total games: ' + games.length;
+                    document.getElementById('game-list').innerHTML += "<li class='list-group-item d-flex justify-content-between align-items-start'><div class='ms-2 me-auto'> <a class='fw-bold' href='/game?game_id=" + id + "'>" + name + "</a></div><span class='badge bg-primary rounded-pill'>0000-00-00</span></li>";
+                   if (i < games.length - 1) {
+                       document.getElementById('game-list').innerHTML += "<hr>";
+                   }
+
+                    document.getElementById('count-games').innerHTML = games.length;
                 }
                 return true;
             }
@@ -241,30 +131,35 @@
          */
         $(function(){
             $("#create-game-form").submit(function(){
+
+                $("#spinner").removeClass("visually-hidden");
+                $("#create-game-form").addClass("visually-hidden");
+
                 let name = $(this).find("input[name=name]").val();
                 let playerId = <?= $sessionId ?>;
                 let difficulty = $('input[name="difficulty"]:checked').val();
 
                 $.post("api/CreateGame.php", {name: name, playerId: playerId, difficulty: difficulty}, function(response){
-
                     if (response === "1") {
-                        //success
-                       console.log('succeed!');
-                       let modalResult = document.getElementById("result-message");
-                       let goBackIfFailedButton = document.getElementById("go-back-if-failed");
+                        $('#modal').modal('hide');
+                        getGameInformation();
 
-                       modalResult.innerHTML = "Your game has been successfully created";
-                       goBackIfFailedButton.innerHTML = '';
+                        $("#spinner").addClass("visually-hidden");
+                        $("#create-game-form").removeClass("visually-hidden");
+                        $("#name").val("");
 
-                        window.location = "#result";
+                        $(".toast").addClass('text-bg-success');
+                        $(".toast").removeClass('text-bg-danger');
+                        $(".toast").toast('show');
+                        $(".toast-body").html("Your game has been successfully created.");
                     } else {
-                        let modalResult = document.getElementById("result-message");
-                        let goBackIfFailedButton = document.getElementById("go-back-if-failed");
+                        $("#spinner").addClass("visually-hidden");
+                        $("#create-game-form").removeClass("visually-hidden");
 
-                        modalResult.innerHTML = response;
-                        goBackIfFailedButton.innerHTML = '<a href="#difficulty" style="float: left"><div class="w3-center" style="background-color: maroon;color: white;border-radius: 7px;">Go back</div></a>';
-
-                        window.location = "#result";
+                        $(".toast").removeClass('text-bg-success');
+                        $(".toast").addClass('text-bg-danger');
+                        $(".toast").toast('show');
+                        $(".toast-body").html(response);
                     }
                 });
                 return false;
