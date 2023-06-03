@@ -59,7 +59,6 @@ export class TowerController {
                     // this.upgradeTower(tower)
 
                 }
-                this.display.initializeWeapon(tower);
 
                 // appel le boucle pour faire fonctionner la logique des tours.
                 this.runTower(tower);
