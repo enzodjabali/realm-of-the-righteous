@@ -28,10 +28,10 @@ export const enumTower = {
         path: ['../../assets/images/towers/T1.png', '../../assets/images/towers/T2.png', '../../assets/images/towers/T3.png'],
         pathWeapon :"../../assets/images/towers/weapons/crossbow.gif",
         damage: [1,40,60],
-        shotRate: [100,4000,3000],//in ms
+        shotRate: [300,4000,3000],//in ms
         price: [100,200,300],
         isAttackingAir: false,
-        slowness: [1.5, 2, 2.5]
+        slowness: [1.3, 1.5, 1.8]
     },
     'WT':{
         path: ['../../assets/images/towers/WT1.png', '../../assets/images/towers/WT2.png', '../../assets/images/towers/WT3.png'],
