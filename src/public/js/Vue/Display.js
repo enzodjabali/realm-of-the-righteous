@@ -126,31 +126,32 @@ export class Display{
          * Permit to initialize the tower
          */
         let towerDiv = document.createElement(`tower_div_${tower.getId()}`);
-        towerDiv.id = `tower_div_${tower.getId()}`;
-        towerDiv.style.position = 'absolute';
-        towerDiv.style.height = this.tilesSize + 'px';
-        towerDiv.style.width = this.tilesSize + 'px';
-        towerDiv.style.top = (tower.position.x * this.tilesSize - tower.position.x + 10).toString() + 'px'; /*10 = margin css*/
-        towerDiv.style.left = (tower.position.y * this.tilesSize - tower.position.y + 10).toString() + 'px'; /*10 = margin css*/
-        towerDiv.style.overflow = 'hidden';
-        document.getElementById('container-towers').appendChild(towerDiv);
+            towerDiv.id = `tower_div_${tower.getId()}`;
+            towerDiv.style.position = 'absolute';
+            towerDiv.style.height = this.tilesSize + 'px';
+            towerDiv.style.width = this.tilesSize + 'px';
+            towerDiv.style.top = (tower.position.x * this.tilesSize - tower.position.x + 10).toString() + 'px'; /*10 = margin css*/
+            towerDiv.style.left = (tower.position.y * this.tilesSize - tower.position.y + 10).toString() + 'px'; /*10 = margin css*/
+            towerDiv.style.overflow = 'hidden';
+            document.getElementById('container-towers').appendChild(towerDiv);
 
         let imgTower = new Image();
-        imgTower.id = `towerImg_${tower.getId()}`
-        imgTower.src = tower.path;
-        imgTower.style.height = this.tilesSize + 'px';
-        imgTower.style.width = this.tilesSize + 'px';
-        imgTower.style.center = 'center';
-        imgTower.style.position = 'absolute';
-        towerDiv.appendChild(imgTower);
+            imgTower.id = `towerImg_${tower.getId()}`
+            imgTower.src = tower.path;
+            imgTower.style.height = this.tilesSize + 'px';
+            imgTower.style.width = this.tilesSize + 'px';
+            imgTower.style.center = 'center';
+            imgTower.style.position = 'absolute';
+            towerDiv.appendChild(imgTower);
 
         let imgTowerWeapon = new Image
-        imgTowerWeapon.src = tower.pathWeapon;
-        imgTowerWeapon.id = `weaponImg_${tower.getId()}`;
-        imgTowerWeapon.height = this.tilesSize;
-        imgTowerWeapon.width = (this.tilesSize * tower.totalFrames);
-        imgTowerWeapon.style.position = 'absolute';
-        towerDiv.appendChild(imgTowerWeapon);
+            imgTowerWeapon.src = tower.pathWeapon;
+            imgTowerWeapon.id = `weaponImg_${tower.getId()}`;
+            imgTowerWeapon.height = this.tilesSize;
+            imgTowerWeapon.width = (this.tilesSize * tower.totalFrames);
+            imgTowerWeapon.style.position = 'absolute';
+            towerDiv.appendChild(imgTowerWeapon);
+
         return towerDiv;
     }
 
@@ -161,21 +162,7 @@ export class Display{
         spriteImage.style.left = '0px';
         animationInterval = setInterval(this.animateSprite(tower), frameDuration);
     }
-    pauseSprite() {
-        clearInterval(animationInterval);
-    }
-    animateSprite(tower) {
-        if (tower.currentFrame >= tower.totalFrames) {
-            console.log(tower.currentFrame >= tower.totalFrames, 'tower.currentFrame >= tower.totalFrames')
-            clearInterval(animationInterval);
-            return;
-        }
-        console.log('moving weapon')
-        const framePositionX = -tower.currentFrame * 100; // 100 == to frameWidth
-        let spriteImageCss = document.getElementById(`weapon_${tower.getId()}`);
-        spriteImageCss.style.left = `${framePositionX}px`;
-        tower.currentFrame++;
-    }
+
     nextMoveEnemy(enemy){
         /**
          * @param {enemy} enemy instance of enemy.
