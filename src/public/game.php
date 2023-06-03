@@ -38,20 +38,19 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <meta charset="UTF-8">
-    <title>Realm of the righteous - In a game</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="assets/images/website/favicon.ico">
-    <link rel="stylesheet" href="assets/css/board.css">
-    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <head>
+        <meta charset="UTF-8">
+        <title>Realm Of The Righteous - In a game</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <link rel="icon" type="image/x-icon" href="assets/images/website/favicon.ico">
+        <link rel="stylesheet" href="assets/css/board.css">
+        <script src="node_modules/jquery/dist/jquery.js"></script>
+    </head>
 
     <body>
-        <div id="board-container">
-        </div>
-        <div id="container-enemies">
-        </div>
-        <div id="container-towers">
-        </div>
+        <div id="board-container"></div>
+        <div id="container-enemies"></div>
+        <div id="container-towers"></div>
         <div style='display:flex'>
             <div>
                 <p style="color: blue; text-decoration: underline" id="money"></p>
@@ -59,8 +58,6 @@
             </div>
         </div>
         <div id='button-container'></div>
-
-
     </body>
 
     <script src="js/Main.js" type="module"></script>

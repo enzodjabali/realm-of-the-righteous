@@ -10,67 +10,52 @@
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <title>Realm of the righteous - Login</title>
+        <title>Realm Of The Righteous - Login</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="assets/css/modal.css">
-        <link rel="stylesheet" href="assets/css/login-register-forms.css">
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link rel="icon" type="image/x-icon" href="assets/images/website/favicon.ico">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
         <script src="node_modules/jquery/dist/jquery.js"></script>
-        <style>
-            body,h1,h2{font-family: "Raleway", sans-serif}
-            body, html {height: 100%}
-            p {line-height: 2}
-            .bgimg{
-                min-height: 100%;
-                background-position: center;
-                background-size: cover;
-            }
-            .bgimg {background-image: url("assets/images/website/frame.jpg")}
 
-        </style>
+        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+        <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
     </head>
 
     <body>
-        <!-- Header / Home-->
-        <header class="w3-display-container w3-wide bgimg w3-grayscale-min" id="home">
-            <div class="w3-display-middle w3-text-white w3-center">
-
-                <form method="post" id="login-form">
-                    <img src="assets/images/website/logo.png" >
-
-                    <p style="color: navy;">Username</p>
-                    <input name="username" type="text" style="background-color: rgba(0,0,0,0);border: dotted;border-left:none;border-right: none;border-top: none;">
-
-                    <p style="color: navy;">Password</p>
-                    <input name="password" type="password" style="background-color: rgba(0,0,0,0);border: dotted;border-left:none;border-right: none;border-top: none"><br><br>
-
-                    <input type="submit" value="Login" style="border-radius: 25px;background-color: maroon;border: none;color: antiquewhite; width: 100px;height: 40px" class="sign">
-                    <br><br><br><br>
-                </form>
-
-            </div>
-        </header>
-
         <?php include_once("includes/menu.php") ?>
 
-        <!-- Error login modal -->
-        <div id="modal" class="modal">
-
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <p id="modalMessage"></p>
+        <!-- Toast gets displayed with an error message if the user's credentials aren't valid -->
+        <div class="toast align-items-center text-bg-danger border-0 position-absolute top-0 start-50 translate-middle mt-5" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body"></div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
 
+        <div class="card w-75 position-absolute top-50 start-50 translate-middle">
+            <div class="card-header text-center ">
+                Login
+            </div>
+            <div class="card-body">
+                <!-- Login form-->
+                <form id="login-form" method="post">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" name="username" id="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" name="password" id="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+            </div>
+        </div>
 
+        <?php include_once("includes/footer.php") ?>
     </body>
 
-    <script src="js/modal.js"></script>
     <script>
         /**
          * This function calls the player login method
@@ -85,15 +70,12 @@
                     let PlayerId = JSON.parse(response.substring(response.indexOf("{"), response.lastIndexOf("}") + 1))["playerId"];
 
                     if (PlayerId > 0) {
-                        //success
                         window.location.href = "/lobby";
                     } else {
-                        // error
-                        let modal = document.getElementById("modal");
-                        let modalMessage = document.getElementById("modalMessage");
-
-                        modalMessage.innerHTML = "Wrong username or password, please try again.";
-                        modal.style.display = "block"
+                        $(document).ready(function() {
+                            $(".toast").toast('show');
+                            $(".toast-body").html("Wrong username or password, please try again.");
+                        });
                     }
                 });
                 return false;
