@@ -1,5 +1,5 @@
 export class Tower{
-    constructor(towerId, damage, shotRate, position, towerLevel, path, pathWeapon, WeaponId, price, type, isAttackingAir, rebound = null, slowness = null) {
+    constructor(towerId, damage, shotRate, position, towerLevel, path, pathWeapon, WeaponId, price, type, isAttackingAir, totalFrames, rebound = null, slowness = null) {
         this.id = towerId;
         this.WeaponId = WeaponId;
         this.WeaponAngle = 0;
@@ -11,11 +11,13 @@ export class Tower{
         this.position = position
         this.path = path;
         this.pathWeapon = pathWeapon;
+        this.totalFrames = totalFrames;
         this.price = price;
         this.type = type;
         this.isAttackingAir = isAttackingAir;
         this.rebound = rebound;
         this.slowness = slowness;
+        this.currentFrame = 0;
     }
     getId(){
         return this.id;

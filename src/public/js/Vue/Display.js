@@ -120,42 +120,47 @@ export class Display{
         enemyDiv.appendChild(healthBar);
     }
 
-    initializeTower(tower){
+    initializeTower(tower) {
         /**
          * @param {Tower} tower instance of tower.
          * Permit to initialize the tower
          */
-        let towerDiv = document.createElement('div');
-        towerDiv.id = `tower_${tower.getId()}`;
-        document.getElementById('container-towers').appendChild(towerDiv);
-        
+        let towerDiv = document.createElement(`tower_div_${tower.getId()}`);
+            towerDiv.id = `tower_div_${tower.getId()}`;
+            towerDiv.style.position = 'absolute';
+            towerDiv.style.height = this.tilesSize + 'px';
+            towerDiv.style.width = this.tilesSize + 'px';
+            towerDiv.style.top = (tower.position.x * this.tilesSize - tower.position.x + 10).toString() + 'px'; /*10 = margin css*/
+            towerDiv.style.left = (tower.position.y * this.tilesSize - tower.position.y + 10).toString() + 'px'; /*10 = margin css*/
+            towerDiv.style.overflow = 'hidden';
+            document.getElementById('container-towers').appendChild(towerDiv);
+
         let imgTower = new Image();
-        imgTower.src = tower.path;
-        imgTower.height = this.tilesSize;
-        imgTower.width = this.tilesSize;
-        imgTower.id = `towerImg_${tower.getId()}`;
-        let towerPlace = document.getElementById(`tower_${tower.getId()}`);
-        towerPlace.appendChild(imgTower);
-        
-        let towerCss = document.getElementById(`towerImg_${tower.getId()}`);
-        towerCss.style.position = 'absolute';
-        towerCss.style.top = (tower.position.x * this.tilesSize + 0.5*this.tilesSize - imgTower.height/2).toString()+'px';
-        towerCss.style.left = (tower.position.y * this.tilesSize + 0.5*this.tilesSize - imgTower.width/2).toString()+'px';
-        return towerPlace;
+            imgTower.id = `towerImg_${tower.getId()}`
+            imgTower.src = tower.path;
+            imgTower.style.height = this.tilesSize + 'px';
+            imgTower.style.width = this.tilesSize + 'px';
+            imgTower.style.center = 'center';
+            imgTower.style.position = 'absolute';
+            towerDiv.appendChild(imgTower);
+
+        let imgTowerWeapon = new Image
+            imgTowerWeapon.src = tower.pathWeapon;
+            imgTowerWeapon.id = `weaponImg_${tower.getId()}`;
+            imgTowerWeapon.height = this.tilesSize;
+            imgTowerWeapon.width = (this.tilesSize * tower.totalFrames);
+            imgTowerWeapon.style.position = 'absolute';
+            towerDiv.appendChild(imgTowerWeapon);
+
+        return towerDiv;
     }
 
-    initializeWeapon(tower){
-        let imgTowerWeapon = new Image();
-        imgTowerWeapon.src = tower.pathWeapon;
-        imgTowerWeapon.height = this.tilesSize;
-        imgTowerWeapon.width = this.tilesSize;
-        imgTowerWeapon.id = `towerWeaponImg_${tower.getId()}`;
-        document.getElementById(`tower_${tower.getId()}`).appendChild(imgTowerWeapon);
-        
-        let towerWeaponCss = document.getElementById(`towerWeaponImg_${tower.getId()}`);
-        towerWeaponCss.style.position = 'absolute';
-        towerWeaponCss.style.top = (tower.position.x * this.tilesSize + 0.5*this.tilesSize - towerWeaponCss.height/2).toString()+'px';
-        towerWeaponCss.style.left = (tower.position.y * this.tilesSize + 0.5*this.tilesSize - towerWeaponCss.width/2).toString()+'px';
+    playSprite(animationInterval, frameDuration, tower, spriteImage) {
+        clearInterval(animationInterval);
+        console.log(tower, '<<<<<<<< tower from initializeWeapon ')
+        tower.currentFrame = 0;
+        spriteImage.style.left = '0px';
+        animationInterval = setInterval(this.animateSprite(tower), frameDuration);
     }
 
     nextMoveEnemy(enemy){
@@ -163,10 +168,8 @@ export class Display{
          * @param {enemy} enemy instance of enemy.
          * Permit to make move the enemy by its coordinates in matrice
          */
-
         let enemyId = enemy.id;
         let enemyDiv = document.getElementById(`enemy_${enemyId}`);
-
         return new Promise((resolve) => {
             // Use the anime.js library to animate the enemyImage's top and left properties
             anime({
@@ -181,28 +184,24 @@ export class Display{
             });
         });
     }
-
     removeEnemy(enemy){
         /**
          * @param {enemy} enemy instance of enemy.
          * Permit to remove the enemy from matrice
          */
-        let enemyId = enemy.id;
-        let enemyDiv = document.getElementById(`enemy_${enemyId}`);
+        let enemyDiv = document.getElementById(`enemy_${enemy.id}`);
         const parentElement = enemyDiv.parentNode; // Get the parent element of the div
         parentElement.removeChild(enemyDiv); // Remove the div element from its parent
     }
     removeTower(tower){
         /**
-         * @param {enemy} enemy instance of enemy.
-         * Permit to remove the enemy from matrice
+         * @param {tower} tower instance of tower.
+         * Permit to remove the tower from matrice
          */
-        let towerId = tower.id;
-        let towerDiv = document.getElementById(`tower_${towerId}`);
+        let towerDiv = document.getElementById(`tower_div_${tower.getId()}`);        
         const parentElement = towerDiv.parentNode; // Get the parent element of the div
         parentElement.removeChild(towerDiv); // Remove the div element from its parent
     }
-
     flipItLeft(enemy){
         /**
          * @param {enemy} enemy instance of enemy.
@@ -220,22 +219,6 @@ export class Display{
         let enemyId = enemy.id;
         let enemyImage = document.getElementById(`enemy_${enemyId}`)
         enemyImage.style.transform = 'scaleX(1)';
-    }
-    rotateWeapon(tower, cell) {
-        const deltaX = cell[0] - tower.position.x;
-        const deltaY = cell[1] - tower.position.y;
-        let angle = Math.atan2(deltaX, deltaY) * (180 / Math.PI); // Calculate angle in degrees
-        angle += 90
-        // Update the rotation of the weapon element
-        const towerWeaponCss = document.getElementById(`towerWeaponImg_${tower.getId()}`);
-        tower.WeaponAngle = angle;
-        towerWeaponCss.style.transform = `rotate(${angle}deg)`;
-    }
-    
-    towerIdle(tower){
-        const towerWeaponCss = document.getElementById(`towerWeaponImg_${tower.getId()}`);
-        tower.WeaponAngle += 10;
-        towerWeaponCss.style.transform = `rotate(${tower.WeaponAngle}deg)`;
     }
     updateEnemyHealthBar(enemy){
         const enemyId = `enemy_${enemy.id}`;

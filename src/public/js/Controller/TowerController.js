@@ -29,26 +29,26 @@ export class TowerController {
                 this.model.towerId++;
                 this.model.towerWeaponId++;
 
-                let tower;
-                switch (type) {
-                    case "OT":
-                        tower = new Tower(
-                            towerId, towerData.damage[0], towerData.shotRate[0], {x: row, y: col}, 0, towerData.path[0],
-                            towerData.pathWeapon, towerWeaponId, towerData.price, type, towerData.isAttackingAir, towerData.rebound[0]
-                        );
-                        break;
-                    case "T":
-                        tower = new Tower(
-                            towerId, towerData.damage[0], towerData.shotRate[0], {x: row, y: col}, 0, towerData.path[0],
-                            towerData.pathWeapon, towerWeaponId, towerData.price, type, towerData.isAttackingAir, null, towerData.slowness[0]
-                        );
-                        break;
-                    default:
-                        tower = new Tower(
-                            towerId, towerData.damage[0], towerData.shotRate[0], {x: row, y: col}, 0, towerData.path[0],
-                            towerData.pathWeapon, towerWeaponId, towerData.price, type, towerData.isAttackingAir
-                        );
-                }
+            let tower;
+            switch (type){
+                case "OT":
+                    tower = new Tower(
+                        towerId, towerData.damage[0], towerData.shotRate[0], { x: row, y: col }, 0, towerData.path[0],
+                        towerData.pathWeapon[0], towerWeaponId, towerData.price, type, towerData.isAttackingAir, towerData.totalFrames[0], towerData.rebound[0]
+                    );
+                    break;
+                case "T":
+                    tower = new Tower(
+                        towerId, towerData.damage[0], towerData.shotRate[0], { x: row, y: col }, 0, towerData.path[0],
+                        towerData.pathWeapon[0], towerWeaponId, towerData.price, type, towerData.isAttackingAir, towerData.totalFrames[0], null, towerData.slowness[0]
+                    );
+                    break;
+                default:
+                    tower = new Tower(
+                        towerId, towerData.damage[0], towerData.shotRate[0], { x: row, y: col }, 0, towerData.path[0],
+                        towerData.pathWeapon[0], towerWeaponId, towerData.price, type, towerData.isAttackingAir, towerData.totalFrames[0],
+                    );
+            }
 
                 this.model.matrice[row][col].tower = tower;
                 let towerHolder = this.display.initializeTower(tower);
@@ -59,7 +59,6 @@ export class TowerController {
                     // this.upgradeTower(tower)
 
                 }
-                this.display.initializeWeapon(tower);
 
                 // appel le boucle pour faire fonctionner la logique des tours.
                 this.runTower(tower);
@@ -117,7 +116,6 @@ export class TowerController {
                 if (neighbour[0]) {
                     if (tower.isAttackingAir && this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].isFlying || !tower.isAttackingAir && !this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].isFlying) {
                         this.provideDamage(this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0], damage)
-                        this.display.rotateWeapon(tower, [neighbour.nx, neighbour.ny]);
                         switch (tower.type) {
                             case "BT":
                                 //Splash Tower
@@ -130,6 +128,7 @@ export class TowerController {
                                             damage = damage * 0.5
                                         }
                                         this.provideDamage(this.model.matrice[enemy[0]][enemy[1]].enemies[0], damage)
+                    // Not existing anymore this.display.rotateWeapon(tower, [neighbour.nx, neighbour.ny]);
                                     }
                                 }
                                 break;
