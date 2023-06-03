@@ -108,7 +108,7 @@ export class Controller{
                 if (enemy.position.x == endPoints[0] && enemy.position.y == endPoints[1] ){
                     if(!this.playerController.modifyPlayerLife(1)){
                         //Implémenter la fin de jeu (défaite)
-                        alert('endgame')
+                        // alert('endgame')
                     }
                     this.display.removeEnemy(enemy);
                     this.model.matrice[enemy.position.x][enemy.position.y].enemies.splice(enemy,1)

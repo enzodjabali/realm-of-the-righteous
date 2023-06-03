@@ -54,27 +54,40 @@ export class TowerController {
         this.display.pile = -1;
     }
 
-    findNeighbour(x, y, range) { 
+    findNeighbour(x, y, range) {
+        let enemies = [];
+        let directions = this.DIRECTIONS
         for (let i = 1; i <= range; i++) {
             if (i == 2) {
-                this.DIRECTIONS = this.DIRECTIONS.concat(this.DIRECTIONDIAG);
+                if(directions.length == 4){
+                    console.log("extending list")
+                    directions = directions.concat(this.DIRECTIONDIAG);
+                    i = 1;
+                }
             }
-            for (let direction of this.DIRECTIONS) {
+            for (let direction of directions) {
                 const dx = i * direction[0];
                 const dy = i * direction[1];
                 const nx = x + dx;
                 const ny = y + dy;
+                console.log("--------------")
+                console.log("Add to", dx, dy)
+                console.log("Actual target", x, y)
+                console.log("Next target position", nx, ny)
+
                 if (nx >= 0 && nx < this.model.matrice.length && ny >= 0 && ny < this.model.matrice[0].length) {
+
                     const cell = this.model.matrice[nx][ny];
                     if (cell.enemies.length > 0) {
-                        return { cell, nx, ny };
-                    } 
-
+                        enemies.push([nx, ny])
+                    }
                 }
             }
-        } 
-        return false;
-    } 
+        }
+        //Avoid duplicates in list
+        enemies = enemies.map(JSON.stringify).filter((e,i,a) => i === a.indexOf(e)).map(JSON.parse)
+        return enemies;
+    }
 
     async runTower(tower) {
         /**
@@ -84,14 +97,39 @@ export class TowerController {
     
         while (true) {
             await new Promise(r => setTimeout(r, tower.shotRate)); // frequency of fire
-            const { range, damage } = tower;
+            let { range, damage } = tower;
             const { x, y } = tower.position;
-
             let neighbour = this.findNeighbour(x, y, range)
-            if (neighbour) {
-                neighbour.cell.enemies[0].curent_life -= damage
-                console.log('tower', tower.id, 'shooting', neighbour.cell.enemies[0].typeOfEnemies, neighbour.cell.enemies[0].id)
+            if (neighbour[0]) {
+                this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].curent_life -= damage
                 this.display.rotateWeapon(tower, [neighbour.nx, neighbour.ny]);
+                switch (tower.type){
+                    case "BT":
+                        //Splash Tower
+                        if(neighbour.length > 1){
+                            neighbour = neighbour.slice(1, neighbour.length)
+                            let counter = 0;
+                            for(let enemy of neighbour){
+                                counter++
+                                if(counter%2 == 0){
+                                    damage = damage*0.5
+                                }
+                                this.model.matrice[enemy[0]][enemy[1]].enemies[0].curent_life -= damage
+                            }
+                        }
+                    case "OT":
+                        // Rebound Tower
+                        // Comment animer les tirs ? prendre les coordonnees de chaque ennemies
+                        // et passer les tirs d'ennemi en ennemi
+                        let rebound = this.findNeighbour(neighbour[0][0], neighbour[0][1], 3);
+                        console.log(rebound, "rebound")
+                        let minimiseDamage = 1;
+                        for(let enemy of rebound){
+                            minimiseDamage -= 0.2;
+                            this.model.matrice[enemy[0]][enemy[1]].enemies[0].curent_life -= damage*minimiseDamage;
+                            console.log("Damage given ", damage*minimiseDamage);
+                        }
+                }
             }
         }
     }

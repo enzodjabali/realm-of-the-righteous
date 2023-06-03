@@ -10,7 +10,7 @@ export const enumTower = {
     'BT':{
         path: ['../../assets/images/towers/BT1.png', '../../assets/images/towers/BT2.png', '../../assets/images/towers/BT3.png'],
         pathWeapon :"../../assets/images/towers/weapons/crossbow.gif",
-        damage: [3,6,10],
+        damage: [5,6,10],
         shotRate: [500,400,300],//in ms
         price: [100,200,300]
     },
