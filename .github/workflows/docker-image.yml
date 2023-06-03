@@ -23,6 +23,9 @@ jobs:
       - name: Check the containers status
         run: docker ps
 
+      - name: Creating a .env file and inserting the environment variables
+        run: touch .env && echo -e "DB_HOST=database\n" >> .env && echo -e "DB_NAME=rotr\n" >> .env && echo -e "DB_USERNAME=root\n" && echo -e "DB_PASSWORD=ChangeMe\n"
+
       - name: Install the composer dependencies
         run: sh ./docker/scripts/install-composer-dependencies.sh
 
