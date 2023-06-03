@@ -20,6 +20,7 @@
 
         <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
         <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+        <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.min.css">
     </head>
     <body>
         <?php include_once("includes/menu.php") ?>

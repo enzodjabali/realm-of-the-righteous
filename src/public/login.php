@@ -20,6 +20,7 @@
 
         <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
         <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+        <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.min.css">
     </head>
 
     <body>
@@ -39,6 +40,9 @@
             </div>
             <div class="card-body">
                 <!-- Login form-->
+                <div class="text-center">
+                    <div id="spinner" class="spinner-border visually-hidden mt-4 mb-4" role="status"></div>
+                </div>
                 <form id="login-form" method="post">
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
@@ -63,6 +67,9 @@
          */
         $(function(){
             $("#login-form").submit(function(){
+                $("#spinner").removeClass("visually-hidden");
+                $("#login-form").addClass("visually-hidden");
+
                 let username = $(this).find("input[name=username]").val();
                 let password = $(this).find("input[name=password]").val();
 
@@ -73,6 +80,9 @@
                         window.location.href = "/lobby";
                     } else {
                         $(document).ready(function() {
+                            $("#spinner").addClass("visually-hidden");
+                            $("#login-form").removeClass("visually-hidden");
+
                             $(".toast").toast('show');
                             $(".toast-body").html("Wrong username or password, please try again.");
                         });

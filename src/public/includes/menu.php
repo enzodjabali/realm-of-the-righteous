@@ -30,7 +30,7 @@
                                 <li class="nav-item">
                                     <?= $_SESSION["player_username"] . " (" . $_SESSION["player_id"] . ")" ?>
                                     -
-                                    <a href="/logout">Logout</a>
+                                    <a href="/logout">Logout <i class="bi bi-box-arrow-in-right"></i></a>
                                 </li>
                             </ul>
                         </div>
