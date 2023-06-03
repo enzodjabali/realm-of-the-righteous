@@ -113,8 +113,9 @@
                 for (let i = 0; i < games.length; i++) {
                     let id = games[i]['id'];
                     let name = games[i]['name'];
+                    let date = games[i]['date'];
 
-                    document.getElementById('game-list').innerHTML += "<li class='list-group-item d-flex justify-content-between align-items-start'><div class='ms-2 me-auto'> <a class='fw-bold' href='/game?game_id=" + id + "'>" + name + "</a></div><span class='badge bg-primary rounded-pill'>0000-00-00</span></li>";
+                    document.getElementById('game-list').innerHTML += "<li class='list-group-item d-flex justify-content-between align-items-start'><div class='ms-2 me-auto'> <a class='fw-bold' href='/game?game_id=" + id + "'>" + name + "</a></div><span class='badge bg-primary rounded-pill'>" + date + "</span></li>";
                    if (i < games.length - 1) {
                        document.getElementById('game-list').innerHTML += "<hr>";
                    }

@@ -40,13 +40,11 @@ class ChatUtils
             return $e->getMessage();
         }
 
-        $date = date("Y-m-d H:i:s");
-
         try {
             // Insert the new message into the database
             DbUtils::insert(DbTable::TABLE_CHAT,
                 ["player_id", "message", "date"],
-                [$playerId, $message, $date]
+                [$playerId, $message, date("Y-m-d")]
             );
             return true;
         } catch (Exception $e) {
