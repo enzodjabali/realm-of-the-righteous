@@ -18,7 +18,7 @@ jobs:
         run: docker build . --file Dockerfile-php --tag my-image-name:$(date +%s)
 
       - name: Run the containers
-        run: docker-compose up -d
+        run: docker-compose --env-file ./.github/workflows/.env.workflows up -d
 
       - name: Check the containers status
         run: docker ps
@@ -26,11 +26,11 @@ jobs:
       - name: Install the composer dependencies
         run: sh ./docker/scripts/install-composer-dependencies.sh
 
-      - name: Wait 10s for the MySQL service to be ready for connections
+      - name: Wait 15s for the MySQL service to be ready for connections
         run: sleep 15
 
       - name: Migrate the test database
-        run: sh ./docker/scripts/migrate-database-test.sh
+        run: sh ./docker/scripts/migrate-database-test-workflows.sh
 
       - name: Run the PHPUnit tests
         run: sh ./docker/scripts/run-phpunit.sh
