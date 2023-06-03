@@ -18,7 +18,6 @@ export class Model {
         this.mobId = 0;
         this.towerId = 0;
         this.towerWeaponId = 0;
-        this.enemiesToPlace = []; //List where enemy are waiting to be put in the matrice
         this.entryPoints = [[19,5]];
         this.endPoints = [[19,8]];
 
@@ -30,10 +29,6 @@ export class Model {
     
     updateMatrice(newMatrice){
         this.matrice = newMatrice;
-    }
-
-    addEnemy(enemy){
-        this.enemiesToPlace.push(enemy);
     }
     getWaves(){
         return this.waves;
