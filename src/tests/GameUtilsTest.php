@@ -16,7 +16,7 @@ final class GameUtilsTest extends TestCase
      */
     public function testCreateNewGame(): void
     {
-        $isUserInserted = GameUtils::createGame("a phpunit game", 1, 1, GameDifficulties::DIFFICULTY_HARD, GameMatrixes::MATRIX_EASY);
+        $isUserInserted = GameUtils::createGame("a phpunit game", 1, 1, GameDifficulties::DIFFICULTY_HARD);
         $this->assertTrue($isUserInserted);
     }
 

@@ -14,7 +14,7 @@ final class PlayerUtilsTest extends TestCase
 	 */
 	public function testInsertUser(): void
 	{
-		$isUserInserted = PlayerUtils::insertPlayer("test83163", "1234", "test83163@test.dev");
+		$isUserInserted = PlayerUtils::insertPlayer("test83163", "1234", "1234", "test83163@test.dev", true);
 		$this->assertTrue($isUserInserted);
 	}
 
@@ -23,7 +23,7 @@ final class PlayerUtilsTest extends TestCase
 	 */
 	public function testInsertUserFail(): void
 	{
-		$isUserInserted = PlayerUtils::insertPlayer("test_fail", "test_fail", "not_a_valid_email");
+		$isUserInserted = PlayerUtils::insertPlayer("test_fail", "test_fail", "test_fail", "not_a_valid_email", true);
 		$this->assertIsString($isUserInserted);
 	}
 

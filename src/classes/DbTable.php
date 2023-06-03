@@ -9,8 +9,6 @@ namespace App\classes;
 enum DbTable: string
 {
 	case TABLE_PLAYER = "player";
-	case TABLE_MAPS = "maps";
 	case TABLE_GAME = "game";
-	case TABLE_GAME_EVENT = "game_event";
     case TABLE_CHAT = "chat";
 }

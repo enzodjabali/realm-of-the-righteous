@@ -59,8 +59,8 @@ class GameUtils
         try {
             // Insert the new game into the database
             DbUtils::insert(DbTable::TABLE_GAME,
-                ["name", "player_id", "map_id", "difficulty", "matrix"],
-                [$name, $playerId, $mapId, $difficulty->value, $matrix->value]
+                ["name", "player_id", "map_id", "difficulty", "matrix", "date"],
+                [$name, $playerId, $mapId, $difficulty->value, $matrix->value, date("Y-m-d")]
             );
             return true;
         } catch (Exception $e) {
@@ -76,7 +76,7 @@ class GameUtils
      */
     public static function getGameInformation(int $playerId): bool|string
     {
-        $result = DbUtils::select(DbTable::TABLE_GAME, ["id", "name"], "WHERE player_id = '$playerId' ORDER BY id DESC");
+        $result = DbUtils::select(DbTable::TABLE_GAME, ["id", "name", "date"], "WHERE player_id = '$playerId' ORDER BY id DESC");
         $result_array = [];
 
         while($row = $result->fetch()) {
