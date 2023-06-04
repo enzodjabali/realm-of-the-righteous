@@ -10,12 +10,11 @@ export class Display{
         /**
          * @param {Dict} matrice dictionnary of all the data about the game.
          * Permit to initialize board
-         */
+        */
         let columns = '';
         // HELP ME
         let xRatio;
         let yRatio;
-
         xRatio = (0.95*window.innerWidth) / (matrice[0].length);
         yRatio = (0.95*window.innerHeight) / (matrice.length);
 
@@ -124,9 +123,10 @@ export class Display{
         /**
          * @param {Tower} tower instance of tower.
          * Permit to initialize the tower
-         */
-        let towerDiv = document.createElement(`tower_div_${tower.getId()}`);
-            towerDiv.id = `tower_div_${tower.getId()}`;
+        */
+
+        let towerDiv = document.createElement(`tower_div_${tower.id}`);
+            towerDiv.id = `tower_div_${tower.id}`;
             towerDiv.style.position = 'absolute';
             towerDiv.style.height = this.tilesSize + 'px';
             towerDiv.style.width = this.tilesSize + 'px';
@@ -136,7 +136,7 @@ export class Display{
             document.getElementById('container-towers').appendChild(towerDiv);
 
         let imgTower = new Image();
-            imgTower.id = `towerImg_${tower.getId()}`
+            imgTower.id = `towerImg_${tower.id}`
             imgTower.src = tower.path;
             imgTower.style.height = this.tilesSize + 'px';
             imgTower.style.width = this.tilesSize + 'px';
@@ -146,7 +146,7 @@ export class Display{
 
         let imgTowerWeapon = new Image
             imgTowerWeapon.src = tower.pathWeapon;
-            imgTowerWeapon.id = `weaponImg_${tower.getId()}`;
+            imgTowerWeapon.id = `weaponImg_${tower.id}`;
             imgTowerWeapon.height = this.tilesSize;
             imgTowerWeapon.width = (this.tilesSize * tower.totalFrames);
             imgTowerWeapon.style.position = 'absolute';
@@ -198,7 +198,7 @@ export class Display{
          * @param {tower} tower instance of tower.
          * Permit to remove the tower from matrice
          */
-        let towerDiv = document.getElementById(`tower_div_${tower.getId()}`);        
+        let towerDiv = document.getElementById(`tower_div_${tower.id}`);        
         const parentElement = towerDiv.parentNode; // Get the parent element of the div
         parentElement.removeChild(towerDiv); // Remove the div element from its parent
     }

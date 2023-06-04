@@ -3,18 +3,21 @@ import {TowerController} from "./TowerController.js";
 import {HUDController} from "./HUDController.js";
 import {Model} from "../Model/Model.js";
 import {Display} from "../Vue/Display.js";
-import {enumEnemies} from '../Model/enumEnemies.js';
-import {PlayerController} from '../Controller/PlayerController.js';
+import { enumEnemies } from '../Model/enumEnemies.js';
+import { PlayerController } from '../Controller/PlayerController.js';
+import { FetchController } from '../Controller/FetchController.js';
 
 export class Controller{
-    constructor(matrix) {
-        this.model = new Model(matrix);
+    constructor(model) {
+        this.model = new Model(model);
         this.display = new Display();
         this.enemiesController = new EnemiesController(this.model);
         this.playerController = new PlayerController("John", 1000, 1);
         this.towerController = new TowerController(this.model, this.display, this.playerController)
         this.HUDController = new HUDController(this.model, this.display, this.towerController, this.playerController)
+        this.fetchController = new FetchController(this.towerController, this.model)
     }
+
     updateEnemiesPosition(enemy, nextPosition){
         /**
          * Permit to update the enemy coordinates
@@ -45,14 +48,21 @@ export class Controller{
         /**
          * Permit to setup the base board (tiles)
          */
+        //display matrice
         this.display.initializeBoard(this.model.getMatrice());
+
+        //update matrice based on fetch from database
+        this.fetchController.run()
+
+        setInterval(this.saveModel, 2000, this.model);
     }
 
     async loop(diffculty){
         /**
          * Main loop of the enemies, permit make them run wioth their logic
          * @param {String} diffculty chosen difficulty.
-         */
+        */
+
         console.log('wait timeBeforeStart', this.model.timeBeforeStart)
         await new Promise(r => setTimeout(r, this.model.timeBeforeStart));
 
@@ -67,7 +77,8 @@ export class Controller{
                 if (waves.indexOf(group) != 0)
                     {console.log('wait timeBetweenGroups', this.model.timeBetweenGroups)
                     await new Promise(r => setTimeout(r, this.model.timeBetweenGroups));
-                    }
+                }
+
                 this.model.currentGroup++;
 
                 let indexOfEntryPoints = (waves.indexOf(group)) % (this.model.entryPoints.length);
@@ -78,11 +89,8 @@ export class Controller{
                     console.log('can not find path')
                     return
                 }
+
                 for (let mob = 0; mob < group[0]; mob++){
-
-                    /*console.log('path')
-                    console.log(path)*/
-
                     let enemy = this.enemiesController.createEnnemyObject(this.model.mobId, enumEnemies, path, this.model.entryPoints[indexOfEntryPoints], group[1])
                     this.display.initializeEnemy(enemy);
                     
@@ -143,5 +151,22 @@ export class Controller{
             // Handle any errors that may occur during the enemy's movement
             console.error('Error:', error);
         }
+    }
+    saveModel(model) {
+        model = JSON.stringify(model);
+        /**
+        * This function calls the update game matrix method
+        */
+        $(function () {
+            let gameId = new URLSearchParams(window.location.search).get('game_id');
+            $.post("api/UpdateGameMatrix.php", { gameId: gameId, newMatrix: model}, function (response) {
+                if (response === "1") {
+                    console.log('Game saved')                    
+                } else {
+                    console.log(response)
+                }
+            });
+            return false;
+        });
     }
 }
