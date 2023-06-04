@@ -3,8 +3,9 @@ import {TowerController} from "./TowerController.js";
 import {HUDController} from "./HUDController.js";
 import {Model} from "../Model/Model.js";
 import {Display} from "../Vue/Display.js";
-import {enumEnemies} from '../Model/enumEnemies.js';
-import {PlayerController} from '../Controller/PlayerController.js';
+import { enumEnemies } from '../Model/enumEnemies.js';
+import { PlayerController } from '../Controller/PlayerController.js';
+import { FetchController } from '../Controller/FetchController.js';
 
 export class Controller{
     constructor(matrix) {
@@ -14,7 +15,10 @@ export class Controller{
         this.playerController = new PlayerController("John", 1000, 1);
         this.towerController = new TowerController(this.model, this.display, this.playerController)
         this.HUDController = new HUDController(this.model, this.display, this.towerController, this.playerController)
+        this.fetchController = new FetchController(this.towerController, this.model)
     }
+
+    
     updateEnemiesPosition(enemy, nextPosition){
         /**
          * Permit to update the enemy coordinates
@@ -45,7 +49,13 @@ export class Controller{
         /**
          * Permit to setup the base board (tiles)
          */
+
+        //update matrice based on fetch from database
+        this.fetchController.run()
+
+        //display matrice
         this.display.initializeBoard(this.model.getMatrice());
+        
     }
 
     async loop(diffculty){
@@ -78,6 +88,32 @@ export class Controller{
                     console.log('can not find path')
                     return
                 }
+                let currentMatrix = this.model.getMatrice();
+                currentMatrix = JSON.stringify(currentMatrix);
+                console.log(currentMatrix.length, 'currentMatrix.length,')
+                /**
+                * This function calls the update game matrix method
+                */
+                $(function () {
+                    let gameId = new URLSearchParams(window.location.search).get('game_id');
+                    console.log('here <<<<<<<<')
+                    $.post("api/UpdateGameMatrix.php", { gameId: gameId, newMatrix: currentMatrix }, function (response) {
+                        if (response === "1") {
+                            //sent
+                            console.log(response)
+                        } else {
+                            console.log(response)
+
+                            console.log('error')
+                            //error
+                        }
+                    });
+                    return false;
+                });
+
+
+
+                
                 for (let mob = 0; mob < group[0]; mob++){
 
                     /*console.log('path')
