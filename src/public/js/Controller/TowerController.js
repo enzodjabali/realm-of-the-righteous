@@ -108,6 +108,9 @@ export class TowerController {
              */
 
             while (true) {
+                if (tower.remove) {
+                    break;
+                }
                 this.slowedEnemy()
                 await new Promise(r => setTimeout(r, tower.shotRate)); // frequency of fire
                 let {range, damage} = tower;
@@ -136,6 +139,7 @@ export class TowerController {
                                 // Rebound Tower
                                 if (neighbour.length > 1) {
                                     for (let i = 0; i < tower.rebound; i++) {
+                                        console.log("rebound")
                                         neighbour = this.findNeighbour(neighbour[0][0], neighbour[0][1], 3);
                                         if (neighbour.length > 0) {
                                             if (!this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].isFlying) {
@@ -174,19 +178,21 @@ export class TowerController {
             this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life)
             //Remove tower from de board
             this.display.removeTower(tower);
+            //break the while loop
+            tower.remove = true;
             //Remove tower from the logical board
             this.model.matrice[row][col].tower = null;
 
 
         }
-        provideDamage(enemyLife, damage)
-        {
+        provideDamage(enemyLife, damage) {
             enemyLife.curent_life -= damage;
         }
         async slowedEnemy()
         {
             //Checks for enemy slowness
             for (const [key, value] of Object.entries(this.slowedEnemies)) {
+                
                 if(value[0] < Date.now()/1000){
                     value[1].speed = value[1].memorySpeed ;
                 }
