@@ -5,7 +5,7 @@ const gameId = new URLSearchParams(window.location.search).get('game_id');
 
 
 
-function getGameMatrix() {
+function getGameModel() {
 	const request = new XMLHttpRequest();
 	request.open('GET', '/api/GetGameMatrix.php?gameId='+gameId, false);  // `false` makes the request synchronous
 	request.send(null);
@@ -39,20 +39,19 @@ function getGamePlayer() {
 }*/
 
 async function main() {
-	let matrix = getGameMatrix()
+	let model = getGameModel()
     /*let player = getGamePlayer()
     let waves  = getGameWaves()*/
 
 	/*console.log(matrix)
 	console.log(player)
 	console.log(waves)*/
-
-	let controller = new Controller(matrix)
+	let controller = new Controller(model)
 	/*let controller = new Controller(matrix)
 	let controller = new Controller(matrix)*/
 
 	
-	const diffculty = 'medium';
+	const diffculty = model.difficulty;
 
 	controller.setup();
 
@@ -60,7 +59,6 @@ async function main() {
 	controller.loop(diffculty);
 
 	//Tower
-	await new Promise(r => setTimeout(r, 2000));
 	controller.HUDController.createTower();
 
 }

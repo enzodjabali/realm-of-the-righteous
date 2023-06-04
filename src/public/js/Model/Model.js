@@ -1,26 +1,19 @@
 //Permit to store data of the game (Matrice, Enemies, Towers, Money, Life)
 export class Model {
-    constructor(matrix) {
-        this.matrice = matrix;
-
-        this.waves = {
-            easy:[[[1,'bat'],[2,'golem'],[2,'knight'],[2,'witch'],[2,'wolf']]],
-            medium:[[[1,'bat'],[2,'golem'],[2,'knight'],[2,'witch'],[2,'wolf']], [[2,'bat'],[4,'golem'],[4,'knight'],[4,'witch'],[4,'wolf']]],
-            hard:[[[1,100],[0,110]]],
-        }
-
-        this.timeBetweenWaves = 1000; //time in ms
-        this.timeBetweenGroups = 500; //time in ms
-        this.difficulty = 'easy';
-        this.timeBeforeStart = 1000; //time in ms
-        this.currentWave = 0;
-        this.currentGroup = 0;
-        this.mobId = 0;
-        this.towerId = 0;
-        this.towerWeaponId = 0;
-        this.entryPoints = [[19,5]];
-        this.endPoints = [[19,8]];
-
+    constructor(fetchModel) {
+        this.matrice = fetchModel.matrice,
+        this.waves = fetchModel.waves,
+        this.timeBetweenWaves = fetchModel.timeBetweenWaves,
+        this.timeBetweenGroups = fetchModel.timeBetweenGroups,
+        this.difficulty = fetchModel.difficulty,
+        this.timeBeforeStart = fetchModel.timeBeforeStart,
+        this.currentWave = fetchModel.currentWave,
+        this.currentGroup = fetchModel.currentGroup,
+        this.mobId = fetchModel.mobId,
+        this.towerId = fetchModel.towerId,
+        this.towerWeaponId = fetchModel.towerWeaponId,
+        this.entryPoints = fetchModel.entryPoints,
+        this.endPoints = fetchModel.endPoints
     }
     
     getMatrice(){

@@ -11,7 +11,7 @@ export class TowerController {
         this.slowedEnemies = {};
     }
 
-    placeTowerInMatrice(towerData, type, resume=false, fetchedTower=null) {
+    placeTowerInMatrice(towerData=null, type=null, fetchedTower=null) {
         /**
             * @param {number} towerData dictionnary of data about tower.
             * Permit to place tower in the matrice
@@ -19,18 +19,26 @@ export class TowerController {
 
         
 
-        
-        this.display.pile[0].classList.remove('tile-shadow'); // remove class (not selected anymore)
+        let tower;
+        if (fetchedTower) {
+            tower = new Tower(fetchedTower)
+            tower = fetchedTower; 
+
+            this.model.matrice[tower.position.x][tower.position.y].tower = tower;
+
+            this.towerLogics(tower);
+            return;
+        }
 
         const row = this.display.pile[1][0];
         const col = this.display.pile[1][1];
 
-        let tower;
-        if (fetchedTower) {
-            console.log('tower = fetchedTower')
-            tower = fetchedTower;  
-        }
         if (this.model.matrice[row][col].tower === null && !tower) {
+
+            
+            this.display.pile[0].classList.remove('tile-shadow'); // remove class (not selected anymore)
+
+            
             const towerId = 'tower_' + this.model.towerId;
             const towerWeaponId = 'towerWeapon_' + this.model.towerWeaponId;
 
@@ -56,6 +64,7 @@ export class TowerController {
                     towerData.pathWeapon[0], towerWeaponId, towerData.price, type, towerData.isAttackingAir, towerData.totalFrames[0],
                     );
             }
+            this.model.matrice[row][col].tower = tower;
             this.towerLogics(tower, row, col);
             
         } else {
@@ -65,15 +74,15 @@ export class TowerController {
         this.display.pile = -1;
     }
 
-    towerLogics(tower, row, col) {
-        this.model.matrice[row][col].tower = tower;
+    towerLogics(tower) {
+        
         let towerHolder = this.display.initializeTower(tower);
 
         towerHolder.onclick = () => {
             //Implémenter le menu pour améliorer les tours
             //Sell, upgrade, shoot priority
 
-            this.sellTower(tower, row, col)
+            this.sellTower(tower)
             // this.upgradeTower(tower)
         }
 
@@ -182,7 +191,7 @@ export class TowerController {
     {
             //Permit to upgrade a tower
     }
-    sellTower(tower, row, col)
+    sellTower(tower)
     {
             //Permit to sell a tower
 
@@ -194,7 +203,7 @@ export class TowerController {
             //break the while loop
             tower.remove = true;
             //Remove tower from the logical board
-        this.model.matrice[row][col].tower = null;
+        this.model.matrice[tower.position.x][tower.position.y].tower = null;
 
 
     }
