@@ -139,7 +139,6 @@ export class TowerController {
                                 // Rebound Tower
                                 if (neighbour.length > 1) {
                                     for (let i = 0; i < tower.rebound; i++) {
-                                        console.log("rebound")
                                         neighbour = this.findNeighbour(neighbour[0][0], neighbour[0][1], 3);
                                         if (neighbour.length > 0) {
                                             if (!this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].isFlying) {
