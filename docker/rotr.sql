@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : database
--- Généré le : sam. 03 juin 2023 à 22:41
+-- Généré le : dim. 04 juin 2023 à 10:29
 -- Version du serveur : 8.0.33
 -- Version de PHP : 8.1.19
 
@@ -46,7 +46,7 @@ CREATE TABLE `game` (
   `player_id` int NOT NULL,
   `map_id` int NOT NULL,
   `difficulty` int NOT NULL DEFAULT '1',
-  `matrix` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `matrix` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `current_wave` int DEFAULT '1',
   `is_over` tinyint(1) DEFAULT '0',
   `is_won` tinyint(1) DEFAULT '0',
