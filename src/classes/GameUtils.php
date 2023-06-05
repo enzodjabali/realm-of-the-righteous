@@ -134,4 +134,26 @@ class GameUtils
         }
     }
 
+    /**
+     * This method deletes a game from the database
+     * @param int $gameId the id of the game
+     * @param int $playerId the id of the player owner of the game
+     * @return bool returns true if the operation succeed, false if it failed
+     * @throws Exception
+     */
+    public static function deleteGame(int $gameId, int $playerId): bool
+    {
+        try {
+            if (GameUtils::doesGameBelongToPlayer($gameId, $playerId)) {
+                DbUtils::delete(DbTable::TABLE_GAME, $gameId);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
 }

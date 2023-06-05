@@ -16,8 +16,8 @@ final class GameUtilsTest extends TestCase
      */
     public function testCreateNewGame(): void
     {
-        $isUserInserted = GameUtils::createGame("a phpunit game", 1, 1, GameDifficulties::DIFFICULTY_HARD);
-        $this->assertTrue($isUserInserted);
+        $isGameCreated = GameUtils::createGame("a phpunit game", 1, 1, GameDifficulties::DIFFICULTY_HARD);
+        $this->assertTrue($isGameCreated);
     }
 
     public function testDoesGameBelongToPlayer(): void
@@ -36,5 +36,14 @@ final class GameUtilsTest extends TestCase
     {
         $isModelUpdated = GameUtils::updateModel(1, GameModels::MODEL_EASY->value);
         $this->assertTrue($isModelUpdated);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testDeleteGameHasFailed(): void
+    {
+        $hasGameDeleteFailed = GameUtils::deleteGame(12345, 1);
+        $this->assertFalse($hasGameDeleteFailed);
     }
 }

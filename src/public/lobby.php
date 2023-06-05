@@ -40,19 +40,19 @@
             </div>
             <div id="game-list" class="card-body overflow-y-scroll" style="height: 400px"></div>
             <div class="card-footer text-body-secondary">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal" data-bs-whatever="@mdo">New game</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create-game-modal" data-bs-whatever="@mdo">New game</button>
             </div>
         </div>
 
         <!-- Modal game creation -->
-        <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div id="create-game-modal" class="modal fade" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="modalLabel">New game</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div id="spinner" class="spinner-border visually-hidden m-auto mt-4 mb-4" role="status"></div>
+                    <div id="create-game-spinner" class="spinner-border visually-hidden m-auto mt-4 mb-4" role="status"></div>
                     <!-- Form game creation -->
                     <form id="create-game-form" method="post">
                         <div class="modal-body">
@@ -91,6 +91,27 @@
             </div>
         </div>
 
+        <!-- Modal gets displayed when the player wants to delete one of his games -->
+        <div id="delete-game-modal" class="modal fade" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+            <div id="delete-game-id" class="visually-hidden"></div>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalLabel">Oh oh..</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id="delete-game-spinner" class="spinner-border visually-hidden m-auto mt-4 mb-4" role="status"></div>
+                    <div id="create-game-text" class="modal-body">
+                        Are you sure you want to delete this game? This action is irreversible
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteGame()">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <?php include_once("includes/footer.php") ?>
     </body>
 
@@ -115,7 +136,7 @@
                     let name = games[i]['name'];
                     let date = games[i]['date'];
 
-                    document.getElementById('game-list').innerHTML += "<li class='list-group-item d-flex justify-content-between align-items-start'><div class='ms-2 me-auto'> <a class='fw-bold' href='/game?game_id=" + id + "'>" + name + "</a></div><span class='badge bg-primary rounded-pill'>" + date + "</span></li>";
+                    document.getElementById('game-list').innerHTML += "<li class='list-group-item d-flex justify-content-between align-items-start'><div class='ms-2 me-auto'><button class='btn btn-primary ps-2 pe-2 pt-1 pb-1 me-2' onclick='displayDeleteGameModal(" + id + ")'><i class='bi bi-trash-fill'></i></button><a class='fw-bold' href='/game?game_id=" + id + "'>" + name + "</a></div><span class='badge bg-primary rounded-pill'>" + date + "</span></li>";
                    if (i < games.length - 1) {
                        document.getElementById('game-list').innerHTML += "<hr>";
                    }
@@ -134,7 +155,7 @@
         $(function(){
             $("#create-game-form").submit(function(){
 
-                $("#spinner").removeClass("visually-hidden");
+                $("#create-game-spinner").removeClass("visually-hidden");
                 $("#create-game-form").addClass("visually-hidden");
 
                 let name = $(this).find("input[name=name]").val();
@@ -143,10 +164,10 @@
 
                 $.post("api/CreateGame.php", {name: name, playerId: playerId, difficulty: difficulty}, function(response){
                     if (response === "1") {
-                        $('#modal').modal('hide');
+                        $('#create-game-modal').modal('hide');
                         getGameInformation();
 
-                        $("#spinner").addClass("visually-hidden");
+                        $("#create-game-spinner").addClass("visually-hidden");
                         $("#create-game-form").removeClass("visually-hidden");
                         $("#name").val("");
 
@@ -155,7 +176,7 @@
                         $(".toast").toast('show');
                         $(".toast-body").html("Your game has been successfully created.");
                     } else {
-                        $("#spinner").addClass("visually-hidden");
+                        $("#create-game-spinner").addClass("visually-hidden");
                         $("#create-game-form").removeClass("visually-hidden");
 
                         $(".toast").removeClass('text-bg-success');
@@ -167,6 +188,41 @@
                 return false;
             });
         });
-    </script>
 
+        function displayDeleteGameModal(id) {
+            $('#delete-game-id').html(id);
+            $('#delete-game-modal').modal('show');
+        }
+
+        function deleteGame() {
+            $("#delete-game-spinner").removeClass("visually-hidden");
+            $("#create-game-text").addClass("visually-hidden");
+
+            let gameId = $('#delete-game-id').text();
+            let playerId = <?= $sessionId ?>;
+
+            $.post("api/DeleteGame.php", {gameId: gameId, playerId: playerId}, function(response){
+                if (response === "1") {
+                    $('#delete-game-modal').modal('hide');
+                    getGameInformation();
+
+                    $("#delete-game-spinner").addClass("visually-hidden");
+                    $("#create-game-text").removeClass("visually-hidden");
+
+                    $(".toast").addClass('text-bg-success');
+                    $(".toast").removeClass('text-bg-danger');
+                    $(".toast").toast('show');
+                    $(".toast-body").html("Your game has been successfully deleted.");
+                } else {
+                    $("#delete-game-spinner").addClass("visually-hidden");
+                    $("#create-game-text").removeClass("visually-hidden");
+
+                    $(".toast").removeClass('text-bg-success');
+                    $(".toast").addClass('text-bg-danger');
+                    $(".toast").toast('show');
+                    $(".toast-body").html("An error has occurred, the game hasn't been deleted.");
+                }
+            });
+        }
+    </script>
 </html>
