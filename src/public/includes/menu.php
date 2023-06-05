@@ -25,6 +25,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="/credits">Credits</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/settings/account">Settings <i class="bi bi-gear-fill"></i></a>
+                                </li>
                             </ul>
                             <ul class="navbar-nav">
                                 <li class="nav-item">
