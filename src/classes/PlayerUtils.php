@@ -164,14 +164,14 @@ class PlayerUtils
 
 	/**
 	 * This method deletes a player from the database
-	 * @param int $id the id of the player
+	 * @param int $playerId the id of the player
 	 * @return bool returns true if the operation succeed, false if it failed
 	 * @throws Exception
 	 */
-	public static function deleteUser(int $id): bool
+	public static function deletePlayer(int $playerId): bool
 	{
 		try {
-			DbUtils::delete(DbTable::TABLE_PLAYER, $id);
+			DbUtils::delete(DbTable::TABLE_PLAYER, $playerId);
 			return true;
 		} catch (Exception $e) {
 			echo $e->getMessage();

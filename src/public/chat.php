@@ -15,7 +15,6 @@
         <title>Realm Of The Righteous - Chat</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="assets/css/modal.css">
         <link rel="icon" type="image/x-icon" href="assets/images/website/favicon.ico">
         <script src="node_modules/jquery/dist/jquery.js"></script>
 
