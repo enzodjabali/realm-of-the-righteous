@@ -19,10 +19,10 @@
         Others
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" href="/logout">Logout</a>
+                <a class="nav-link" href="/lobby">Back to lobby</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/lobby">Back to lobby</a>
+                <a class="nav-link" href="/logout">Logout <i class="bi bi-box-arrow-in-right"></i></a>
             </li>
         </ul>
     </div>

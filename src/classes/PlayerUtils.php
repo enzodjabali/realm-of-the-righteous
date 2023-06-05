@@ -17,7 +17,13 @@ class PlayerUtils
 	 * @return string|bool returns true if the operation succeed, and returns a string containing an error message if it failed
 	 * @throws Exception
 	 */
-	public static function insertPlayer(string $username = "", string $password = "", string $retypedPassword = "", string $email = "", bool $terms = false): string|bool
+	public static function insertPlayer(
+        string $username = "",
+        string $password = "",
+        string $retypedPassword = "",
+        string $email = "", bool
+        $terms = false
+    ): string|bool
 	{
 		// Checks if the username isn't empty
         try {
@@ -176,12 +182,19 @@ class PlayerUtils
     /**
      * This method updates a player from the database
      * @param int $playerId the id of the player
+     * @param string $currentUsername the current username of the player
+     * @param string $currentEmail the current email of the player
      * @param string $newUsername the new username of the player
      * @param string $newEmail the new email of the player
      * @return string|bool returns true if the operation succeed, and returns a string containing an error message if it failed
      * @throws Exception
      */
-    public static function updatePlayer(int $playerId, string $newUsername = "", string $newEmail = ""): string|bool
+    public static function updatePlayer(
+        int $playerId, string $currentUsername = "",
+        string $currentEmail = "",
+        string $newUsername = "",
+        string $newEmail = ""
+    ): string|bool
     {
         // Checks if the new username isn't empty
         try {
@@ -225,7 +238,7 @@ class PlayerUtils
         }
         // Checks if the new username isn't already used by another user
         try {
-            if (!DbUtils::doesThisValueExist(DbTable::TABLE_PLAYER, "username", $newUsername)) {
+            if ($newUsername !== $currentUsername && !DbUtils::doesThisValueExist(DbTable::TABLE_PLAYER, "username", $newUsername)) {
                 throw new Exception("This username is already used");
             }
         } catch (Exception $e) {
@@ -233,7 +246,7 @@ class PlayerUtils
         }
         // Checks if the new email isn't already used by another user
         try {
-            if (!DbUtils::doesThisValueExist(DbTable::TABLE_PLAYER, "email", $newEmail)) {
+            if ($newEmail !== $currentEmail && !DbUtils::doesThisValueExist(DbTable::TABLE_PLAYER, "email", $newEmail)) {
                 throw new Exception("This email is already used");
             }
         } catch (Exception $e) {
@@ -260,7 +273,12 @@ class PlayerUtils
      * @return string|bool returns true if the operation succeed, and returns a string containing an error message if it failed
      * @throws Exception
      */
-    public static function updatePassword(int $playerId, string $currentPassword = "", string $newPassword = "", string $retypedNewPassword = ""): string|bool
+    public static function updatePassword(
+        int $playerId,
+        string $currentPassword = "",
+        string $newPassword = "",
+        string $retypedNewPassword = ""
+    ): string|bool
     {
         // Checks if all the fields are filled
         try {

@@ -82,10 +82,12 @@
         $(function(){
             $("#update-player-form").submit(function(){
                 let playerId = <?= $_SESSION['player_id'] ?>;
+                let currentUsername = "<?= $_SESSION['player_username'] ?>";
+                let currentEmail = "<?= $_SESSION['player_email'] ?>";
                 let newUsername = $(this).find("input[name=newUsername]").val();
                 let newEmail = $(this).find("input[name=newEmail]").val();
 
-                $.post("../api/UpdatePlayer.php", {playerId: playerId, newUsername: newUsername, newEmail: newEmail}, function(response) {
+                $.post("../api/UpdatePlayer.php", {playerId: playerId, currentUsername: currentUsername, currentEmail: currentEmail, newUsername: newUsername, newEmail: newEmail}, function(response) {
                     if (response === "1") {
                         $(".toast").addClass('text-bg-success');
                         $(".toast").removeClass('text-bg-danger');
