@@ -67,7 +67,7 @@ class PlayerUtils
         } catch (Exception $e) {
             return $e->getMessage();
         }
-		// Checks if the username has enough characters
+		// Checks if the password has enough characters
         try {
             if (strlen($password) < 4 || strlen($retypedPassword) < 4) {
                 throw new Exception("The password can't have less than 4 characters");
@@ -91,7 +91,7 @@ class PlayerUtils
         } catch (Exception $e) {
             return $e->getMessage();
         }
-        // Checks if the password are matching
+        // Checks if the passwords are matching
         try {
             if ($password !== $retypedPassword) {
                 throw new Exception("The passwords aren't matching");
@@ -241,10 +241,64 @@ class PlayerUtils
         }
 
         try {
-            // Update the username into the database
+            // Updates the username into the database
             DbUtils::update(DbTable::TABLE_PLAYER, "username", $newUsername, "WHERE id = $playerId");
-            // Update the email into the database
+            // Updates the email into the database
             DbUtils::update(DbTable::TABLE_PLAYER, "email", $newEmail, "WHERE id = $playerId");
+            return true;
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    /**
+     * This method updates a player's password from the database
+     * @param int $playerId the id of the player
+     * @param string $currentPassword the current password of the player
+     * @param string $newPassword the new password of the player
+     * @param string $retypedNewPassword the retyped new password of the player
+     * @return string|bool returns true if the operation succeed, and returns a string containing an error message if it failed
+     * @throws Exception
+     */
+    public static function updatePassword(int $playerId, string $currentPassword = "", string $newPassword = "", string $retypedNewPassword = ""): string|bool
+    {
+        // Checks if all the fields are filled
+        try {
+            if (empty($currentPassword) || empty($newPassword) || empty($retypedNewPassword)) {
+                throw new Exception("Some fields are empty");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        // Checks if the new password has enough characters
+        try {
+            if (strlen($newPassword) < 4 || strlen($retypedNewPassword) < 4) {
+                throw new Exception("The password can't have less than 4 characters");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        // Checks if the passwords are matching
+        try {
+            if ($newPassword !== $retypedNewPassword) {
+                throw new Exception("The passwords aren't matching");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        // Checks if the current password is correct
+        try {
+            $currentFetchedPassword = DbUtils::select(DbTable::TABLE_PLAYER, ["password"], "WHERE id = '$playerId'")->fetch()["password"];
+            if (!password_verify($currentPassword, $currentFetchedPassword)) {
+                throw new Exception("The current password is incorrect");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+
+        try {
+            // Updates the password into the database
+            DbUtils::update(DbTable::TABLE_PLAYER, "password", password_hash($newPassword, PASSWORD_BCRYPT), "WHERE id = $playerId");
             return true;
         } catch (Exception $e) {
             return $e->getMessage();

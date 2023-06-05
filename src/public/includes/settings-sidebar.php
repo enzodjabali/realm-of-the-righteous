@@ -32,6 +32,4 @@
     function showSidebar() {
         new bootstrap.Offcanvas($("#sidebar"), {backdrop: false}).show();
     }
-
-    showSidebar();
 </script>
