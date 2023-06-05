@@ -35,7 +35,7 @@ final class PlayerUtilsTest extends TestCase
 		$userId = PlayerUtils::loginPlayer("test83163", "1234");
 		$this->assertIsInt($userId);
 
-		$isUserDeleted = PlayerUtils::deleteUser($userId);
+		$isUserDeleted = PlayerUtils::deletePlayer($userId);
 		$this->assertTrue($isUserDeleted);
 	}
 
