@@ -5,7 +5,7 @@ namespace App\tests;
 
 use App\classes\GameUtils;
 use App\classes\GameDifficulties;
-use App\classes\GameMatrixes;
+use App\classes\GameModels;
 use Exception;
 use PHPUnit\Framework\TestCase;
 
@@ -26,15 +26,15 @@ final class GameUtilsTest extends TestCase
         $this->assertTrue($doesGameBelongToPlayer);
     }
 
-    public function testGetMatrix(): void
+    public function testGetModel(): void
     {
-        $doesMatrixExist = GameUtils::getMatrix(1);
-        $this->assertIsString($doesMatrixExist);
+        $doesModelExist = GameUtils::getModel(1);
+        $this->assertIsString($doesModelExist);
     }
 
-    public function testUpdateMatrix(): void
+    public function testUpdateModel(): void
     {
-        $isMatrixUpdated = GameUtils::updateMatrix(1, GameMatrixes::MATRIX_EASY->value);
-        $this->assertTrue($isMatrixUpdated);
+        $isModelUpdated = GameUtils::updateModel(1, GameModels::MODEL_EASY->value);
+        $this->assertTrue($isModelUpdated);
     }
 }
