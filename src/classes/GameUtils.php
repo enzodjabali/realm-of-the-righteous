@@ -50,17 +50,17 @@ class GameUtils
             return $e->getMessage();
         }
 
-        $matrix = match ($difficulty) {
-            GameDifficulties::DIFFICULTY_NORMAL => GameMatrixes::MATRIX_NORMAL,
-            GameDifficulties::DIFFICULTY_HARD => GameMatrixes::MATRIX_HARD,
-            default => GameMatrixes::MATRIX_EASY,
+        $model = match ($difficulty) {
+            GameDifficulties::DIFFICULTY_NORMAL => GameModels::MODEL_NORMAL,
+            GameDifficulties::DIFFICULTY_HARD => GameModels::MODEL_HARD,
+            default => GameModels::MODEL_EASY,
         };
 
         try {
             // Insert the new game into the database
             DbUtils::insert(DbTable::TABLE_GAME,
-                ["name", "player_id", "map_id", "difficulty", "matrix", "date"],
-                [$name, $playerId, $mapId, $difficulty->value, $matrix->value, date("Y-m-d")]
+                ["name", "player_id", "map_id", "difficulty", "model", "date"],
+                [$name, $playerId, $mapId, $difficulty->value, $model->value, date("Y-m-d")]
             );
             return true;
         } catch (Exception $e) {
@@ -105,14 +105,14 @@ class GameUtils
     }
 
     /**
-     * This method gets the matrix of a given game ID
+     * This method gets the model of a given game ID
      * @param int $gameId the game ID
-     * @return string returns a string containing the matrix if it exists, returns an empty string if it doesn't
+     * @return string returns a string containing the model if it exists, returns an empty string if it doesn't
      */
-    public static function getMatrix(int $gameId): string
+    public static function getModel(int $gameId): string
     {
         try {
-            return DbUtils::select(DbTable::TABLE_GAME, ["matrix"], "WHERE id = '$gameId'")->fetch()["matrix"] ?? "";
+            return DbUtils::select(DbTable::TABLE_GAME, ["model"], "WHERE id = '$gameId'")->fetch()["model"] ?? "";
         } catch (Exception $e) {
             echo $e->getMessage();
             return "";
@@ -120,14 +120,14 @@ class GameUtils
     }
 
     /**
-     * This method updates the matrix of a given game ID
+     * This method updates the model of a given game ID
      * @param int $gameId the game ID
      * @return bool returns true is the operation succeed, false if it failed
      */
-    public static function updateMatrix(int $gameId, string $newMatrix): bool
+    public static function updateModel(int $gameId, string $newModel): bool
     {
         try {
-            return DbUtils::update(DbTable::TABLE_GAME, "matrix", $newMatrix, "WHERE id = '$gameId'");
+            return DbUtils::update(DbTable::TABLE_GAME, "model", $newModel, "WHERE id = '$gameId'");
         } catch (Exception $e) {
             echo $e->getMessage();
             return false;

@@ -16,25 +16,25 @@ require_once('../../classes/DbUtils.php');
 require_once('../../classes/DbTable.php');
 require_once('../../classes/GameUtils.php');
 
-extract($_POST);
+extract($_GET);
 
-class UpdateGameMatrix
+class GetGameModel
 {
     /**
-     * This method echos the result of the CreateGameMethod to the javascript
+     * This method echos the fetched game model to the javascript
      * @param int $gameId the game ID
-     * @param string $newMatrix the new matrix
      * @return void
+     * @throws Exception
      */
-    public static function do(int $gameId, string $newMatrix): void
+    public static function do(int $gameId): void
     {
         (new DotEnv('./.env'))->load();
-        echo GameUtils::updateMatrix($gameId, $newMatrix);
+        echo(GameUtils::getModel($gameId));
     }
 }
 
 try {
-    UpdateGameMatrix::do(intval($gameId), $newMatrix);
+    GetGameModel::do(intval($gameId));
 } catch (Exception $e) {
     echo $e;
 }

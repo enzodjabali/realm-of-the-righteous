@@ -155,11 +155,11 @@ export class Controller{
     saveModel(model) {
         model = JSON.stringify(model);
         /**
-        * This function calls the update game matrix method
+        * This function calls the update game model method
         */
         $(function () {
             let gameId = new URLSearchParams(window.location.search).get('game_id');
-            $.post("api/UpdateGameMatrix.php", { gameId: gameId, newMatrix: model}, function (response) {
+            $.post("api/UpdateGameModel.php", { gameId: gameId, newModel: model}, function (response) {
                 if (response === "1") {
                     console.log('Game saved')                    
                 } else {

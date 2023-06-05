@@ -7,7 +7,7 @@ const gameId = new URLSearchParams(window.location.search).get('game_id');
 
 function getGameModel() {
 	const request = new XMLHttpRequest();
-	request.open('GET', '/api/GetGameMatrix.php?gameId='+gameId, false);  // `false` makes the request synchronous
+	request.open('GET', '/api/GetGameModel.php?gameId='+gameId, false);  // `false` makes the request synchronous
 	request.send(null);
 
 	if (request.status === 200) {
@@ -18,7 +18,7 @@ function getGameModel() {
 
 /*function getGameWaves() {
 	const request = new XMLHttpRequest();
-	request.open('GET', '/api/GetGameMatrix.php?gameId=' + gameId, false);  // `false` makes the request synchronous
+	request.open('GET', '/api/GetGameModel.php?gameId=' + gameId, false);  // `false` makes the request synchronous
 	request.send(null);
 
 	if (request.status === 200) {
@@ -29,7 +29,7 @@ function getGameModel() {
 
 function getGamePlayer() {
 	const request = new XMLHttpRequest();
-	request.open('GET', '/api/GetGameMatrix.php?gameId=' + gameId, false);  // `false` makes the request synchronous
+	request.open('GET', '/api/GetGameModel.php?gameId=' + gameId, false);  // `false` makes the request synchronous
 	request.send(null);
 
 	if (request.status === 200) {
@@ -51,12 +51,12 @@ async function main() {
 	let controller = new Controller(matrix)*/
 
 	
-	const diffculty = model.difficulty;
+	const difficulty = model.difficulty;
 
 	controller.setup();
 
 	//Enemy
-	controller.loop(diffculty);
+	controller.loop(difficulty);
 
 	//Tower
 	controller.HUDController.createTower();
