@@ -104,7 +104,7 @@
                     form.classList.add('was-validated')
                 }, false)
             })
-        })()
+        })();
 
         /**
          * This function calls the register player method

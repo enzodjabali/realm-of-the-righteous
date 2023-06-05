@@ -51,6 +51,14 @@ class PlayerUtils
         } catch (Exception $e) {
             return $e->getMessage();
         }
+        // Checks if the username doesn't have too many characters
+        try {
+            if (strlen($username) > 50) {
+                throw new Exception("The username can't have more than 50 characters");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
 		// Checks if the email is a valid email
         try {
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -164,5 +172,83 @@ class PlayerUtils
 			return false;
 		}
 	}
+
+    /**
+     * This method updates a player from the database
+     * @param int $playerId the id of the player
+     * @param string $newUsername the new username of the player
+     * @param string $newEmail the new email of the player
+     * @return string|bool returns true if the operation succeed, and returns a string containing an error message if it failed
+     * @throws Exception
+     */
+    public static function updatePlayer(int $playerId, string $newUsername = "", string $newEmail = ""): string|bool
+    {
+        // Checks if the new username isn't empty
+        try {
+            if (empty($newUsername)) {
+                throw new Exception("The username can't be empty");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        // Checks if the new email isn't empty
+        try {
+            if (empty($newEmail)) {
+                throw new Exception("The email can't be empty");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        // Checks if the new username has enough characters
+        try {
+            if (strlen($newUsername) < 3) {
+                throw new Exception("The username can't have less than 3 characters");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        // Checks if the new username doesn't have too many characters
+        try {
+            if (strlen($newUsername) > 50) {
+                throw new Exception("The username can't have more than 50 characters");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        // Checks if the new email is a valid email
+        try {
+            if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+                throw new Exception("The email isn't a valid email");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        // Checks if the new username isn't already used by another user
+        try {
+            if (!DbUtils::doesThisValueExist(DbTable::TABLE_PLAYER, "username", $newUsername)) {
+                throw new Exception("This username is already used");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        // Checks if the new email isn't already used by another user
+        try {
+            if (!DbUtils::doesThisValueExist(DbTable::TABLE_PLAYER, "email", $newEmail)) {
+                throw new Exception("This email is already used");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+
+        try {
+            // Update the username into the database
+            DbUtils::update(DbTable::TABLE_PLAYER, "username", $newUsername, "WHERE id = $playerId");
+            // Update the email into the database
+            DbUtils::update(DbTable::TABLE_PLAYER, "email", $newEmail, "WHERE id = $playerId");
+            return true;
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
 
 }
