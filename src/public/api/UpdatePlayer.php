@@ -47,7 +47,7 @@ class UpdatePlayer
 }
 
 try {
-    UpdatePlayer::do(intval($playerId), $currentUsername, $currentEmail, htmlspecialchars($newUsername), htmlspecialchars($newEmail));
+    UpdatePlayer::do(intval($_SESSION["player_id"]), $currentUsername, $currentEmail, htmlspecialchars($newUsername), htmlspecialchars($newEmail));
 } catch (Exception $e) {
     echo $e;
 }
