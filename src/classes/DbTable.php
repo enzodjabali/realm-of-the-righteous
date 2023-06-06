@@ -11,4 +11,5 @@ enum DbTable: string
 	case TABLE_PLAYER = "player";
 	case TABLE_GAME = "game";
     case TABLE_CHAT = "chat";
+    case TABLE_VERIFICATION_LINK = "verification_link";
 }

@@ -32,16 +32,22 @@ class LoginPlayer
     public static function do(string $username = "", string $password = ""): void
     {
         (new DotEnv('./.env'))->load();
-        $playerId = PlayerUtils::loginPlayer($username, $password);
-        $_SESSION["player_id"] = max($playerId, 0);
+        $response = PlayerUtils::loginPlayer($username, $password);
 
-        if ($playerId > 0) {
-            $playerInformation = PlayerUtils::getPlayerInformation($playerId);
-            $_SESSION["player_username"] = $playerInformation["username"];
-            $_SESSION["player_email"] = $playerInformation["email"];
+
+        if (is_numeric($response)) {
+            $playerInformation = PlayerUtils::getPlayerInformation($response);
+            if (is_array($playerInformation)) {
+                $_SESSION["player_id"] = $response;
+                $_SESSION["player_username"] = $playerInformation["username"];
+                $_SESSION["player_email"] = $playerInformation["email"];
+                echo '{"playerId":' . $response . '}';
+            } else {
+                echo '{"error":"An error has occurred."}';
+            }
+        } else {
+            echo '{"error":"' . $response . '"}';
         }
-
-		echo '{"playerId":' . $playerId . '}';
     }
 }
 

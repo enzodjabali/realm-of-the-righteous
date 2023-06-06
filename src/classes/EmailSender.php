@@ -9,7 +9,14 @@ use PHPMailer\PHPMailer\Exception;
 
 class EmailSender
 {
-    static function sendEmail(string $recipientEmail, string $recipientUsername): string {
+    /**
+     * This method sends an email to a given recipient
+     * @param string $recipientEmail the email the recipient
+     * @param string $subject the subject of the email
+     * @param string $body the html body of the email
+     * @return string|bool returns true if the operation succeed, and returns a string containing an error message if it failed
+     */
+    static function sendEmail(string $recipientEmail, string $subject, string $body): string|bool {
         $mail = new PHPMailer(true);
 
         try {
@@ -26,20 +33,17 @@ class EmailSender
             $mail->setFrom($_ENV['EMAIL_USERNAME'], 'Realm Of The Righteous');
 
             //Recipient
-            $mail->addAddress($recipientEmail, $recipientUsername);
+            $mail->addAddress($recipientEmail);
 
             // Content
             $mail->isHTML(true);
-            $mail->Subject = 'Here is the subject';
-            $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-            $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+            $mail->Subject = $subject;
+            $mail->Body    = $body;
 
             $mail->send();
-            return 'Message has been sent';
-        }
-
-        catch (Exception $e) {
-            return "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            return true;
+        } catch (Exception $e) {
+            return $mail->ErrorInfo;
         }
     }
 }

@@ -120,6 +120,8 @@ class PlayerUtils
 				["username", "password", "email"],
 				[$username, password_hash($password, PASSWORD_BCRYPT), $email]
 			);
+
+            PlayerUtils::generateVerificationLink($email);
 			return true;
 		} catch (Exception $e) {
 			return $e->getMessage();
@@ -130,21 +132,43 @@ class PlayerUtils
 	 * This method logs a user in
 	 * @param string $username the username of the player
 	 * @param string $password the password of the player
-	 * @return int returns the ID of the player if it exists, returns 0 if it doesn't
+	 * @return int|string returns the ID of the player if a matching account has been found, returns a string containing an error message if it has not
 	 * @throws Exception
 	 */
-	public static function loginPlayer(string $username = "", string $password = ""): int
-	{
+	public static function loginPlayer(string $username = "", string $password = ""): int|string
+    {
+        // Checks if a player with this username exists
+        try {
+            if (DbUtils::select(DbTable::TABLE_PLAYER, ["COUNT(username)"], "WHERE username = '$username'")->fetch()["COUNT(username)"] < 1) {
+                throw new Exception("Wrong username or password, please try again.");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+
+        // Checks if the username matches the password
 		try {
-			if ($query = DbUtils::select(DbTable::TABLE_PLAYER, ["id", "password"], "WHERE username = '$username'")->fetch()) {
-				return password_verify($password, $query["password"]) ? intval($query["id"]) : 0;
-			} else {
-				return 0;
-			}
+            if ($query = DbUtils::select(DbTable::TABLE_PLAYER, ["id", "password"], "WHERE username = '$username'")->fetch()) {
+                if (password_verify($password, $query["password"]) ? intval($query["id"]) : 0) {
+                    $playerId = intval($query["id"]);
+                } else {
+                    throw new Exception("Wrong username or password, please try again.");
+                }
+            }
 		} catch (Exception $e) {
-			echo $e->getMessage();
-			return 0;
+			return $e->getMessage();
 		}
+
+        // Checks if the player is verified
+        try {
+            if (!DbUtils::select(DbTable::TABLE_PLAYER, ["is_verified"], "WHERE username = '$username'")->fetch()["is_verified"]) {
+                throw new Exception("This account hasn't been verified yet.");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+
+        return $playerId ?? "Wrong username or password, please try again.";
 	}
 
     /**
@@ -171,7 +195,7 @@ class PlayerUtils
 	public static function deletePlayer(int $playerId): bool
 	{
 		try {
-			DbUtils::delete(DbTable::TABLE_PLAYER, $playerId);
+			DbUtils::delete(DbTable::TABLE_PLAYER, "WHERE id = $playerId");
 			return true;
 		} catch (Exception $e) {
 			echo $e->getMessage();
@@ -266,7 +290,7 @@ class PlayerUtils
 
     /**
      * This method updates a player's password from the database
-     * @param int $playerId the id of the player
+     * @param int $playerId the ID of the player
      * @param string $currentPassword the current password of the player
      * @param string $newPassword the new password of the player
      * @param string $retypedNewPassword the retyped new password of the player
@@ -317,6 +341,56 @@ class PlayerUtils
         try {
             // Updates the password into the database
             DbUtils::update(DbTable::TABLE_PLAYER, "password", password_hash($newPassword, PASSWORD_BCRYPT), "WHERE id = $playerId");
+            return true;
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    /**
+     * This method generates a verification link that will get sent to the player
+     * @param string $playerEmail the email of the player
+     * @return string|bool returns true if the operation succeed, and returns a string containing an error message if it failed
+     */
+    public static function generateVerificationLink(string $playerEmail): string|bool
+    {
+        $link = md5((string)rand());
+        $url = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]";
+
+        try {
+            DbUtils::insert(DbTable::TABLE_VERIFICATION_LINK,
+                ["player_email", "link"],
+                [$playerEmail, $link]
+            );
+
+            EmailSender::sendEmail($playerEmail, "Verify your account", "Link: $url/verify?link=$link");
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        return true;
+    }
+
+    /**
+     * This method verifies a player in the database
+     * @param string $link the verification link
+     * @return string|bool returns true if the operation succeed, and returns a string containing an error message if it failed
+     * @throws Exception
+     */
+    public static function verifyPlayer(string $link): string|bool
+    {
+        // Checks if the link exists in the database
+        try {
+            if (DbUtils::doesThisValueExist(DbTable::TABLE_VERIFICATION_LINK, "link", $link)) {
+                throw new Exception("The link has expired.");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+
+        try {
+            $playerEmail = DbUtils::select(DbTable::TABLE_VERIFICATION_LINK, ["player_email"], "WHERE link = '$link'")->fetch()["player_email"];
+            DbUtils::delete(DbTable::TABLE_VERIFICATION_LINK, "WHERE link = '$link'");
+            DbUtils::update(DbTable::TABLE_PLAYER, "is_verified", true, "WHERE email = '$playerEmail'");
             return true;
         } catch (Exception $e) {
             return $e->getMessage();

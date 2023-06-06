@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace App\tests;
 
+use App\classes\DbTable;
+use App\classes\DbUtils;
 use App\classes\PlayerUtils;
 use Exception;
 use PHPUnit\Framework\TestCase;
@@ -12,19 +14,19 @@ final class PlayerUtilsTest extends TestCase
 	/**
 	 * @throws Exception
 	 */
-	public function testInsertUser(): void
+	public function testInsertPlayer(): void
 	{
-		$isUserInserted = PlayerUtils::insertPlayer("test83163", "1234", "1234", "test83163@test.dev", true);
-		$this->assertTrue($isUserInserted);
+		$isPlayerInserted = PlayerUtils::insertPlayer("test83163", "1234", "1234", "test83163@test.dev", true);
+		$this->assertTrue($isPlayerInserted);
 	}
 
 	/**
 	 * @throws Exception
 	 */
-	public function testInsertUserFail(): void
+	public function testInsertPlayerFail(): void
 	{
-		$isUserInserted = PlayerUtils::insertPlayer("test_fail", "test_fail", "test_fail", "not_a_valid_email", true);
-		$this->assertIsString($isUserInserted);
+		$isPlayerInserted = PlayerUtils::insertPlayer("test_fail", "test_fail", "test_fail", "not_a_valid_email", true);
+		$this->assertIsString($isPlayerInserted);
 	}
 
 	/**
@@ -32,11 +34,14 @@ final class PlayerUtilsTest extends TestCase
 	 */
 	public function testLoginAndDeletePlayer(): void
 	{
-		$userId = PlayerUtils::loginPlayer("test83163", "1234");
-		$this->assertIsInt($userId);
+        $verifyPlayer = DbUtils::update(DbTable::TABLE_PLAYER, "is_verified", true, "WHERE username = 'test83163'");
+        $this->assertTrue($verifyPlayer);
 
-		$isUserDeleted = PlayerUtils::deletePlayer($userId);
-		$this->assertTrue($isUserDeleted);
+        $playerId = PlayerUtils::loginPlayer("test83163", "1234");
+		$this->assertIsInt($playerId);
+
+		$isPlayerDeleted = PlayerUtils::deletePlayer($playerId);
+		$this->assertTrue($isPlayerDeleted);
 	}
 
 }

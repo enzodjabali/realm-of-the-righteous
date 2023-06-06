@@ -74,18 +74,20 @@
                 let password = $(this).find("input[name=password]").val();
 
                 $.post("api/LoginPlayer.php", {username: username, password: password}, function(response){
-                    let PlayerId = JSON.parse(response.substring(response.indexOf("{"), response.lastIndexOf("}") + 1))["playerId"];
+                    let loginResponse = JSON.parse(response.substring(response.indexOf("{"), response.lastIndexOf("}") + 1));
 
-                    if (PlayerId > 0) {
-                        window.location.href = "/lobby";
-                    } else {
+                    if ("error" in loginResponse) {
                         $(document).ready(function() {
                             $("#spinner").addClass("visually-hidden");
                             $("#login-form").removeClass("visually-hidden");
 
                             $(".toast").toast('show');
-                            $(".toast-body").html("Wrong username or password, please try again.");
+                            $(".toast-body").html(loginResponse["error"]);
                         });
+                    } else if ("playerId" in loginResponse) {
+                        window.location.href = "/lobby";
+                    } else {
+                        console.log("An error has occurred.")
                     }
                 });
                 return false;
