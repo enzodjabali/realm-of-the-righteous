@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\public\api;
 
+session_start();
+
 if (file_exists('../../vendor/autoload.php')) {
     require_once('../../vendor/autoload.php');
 }
@@ -37,7 +39,7 @@ class UpdatePassword
 }
 
 try {
-    UpdatePassword::do(intval($playerId), $currentPassword, $newPassword, $retypedNewPassword);
+    UpdatePassword::do(intval($_SESSION["player_id"]), $currentPassword, $newPassword, $retypedNewPassword);
 } catch (Exception $e) {
     echo $e;
 }

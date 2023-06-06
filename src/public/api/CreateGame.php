@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace App\public\api;
 
+session_start();
+
 if (file_exists('../../vendor/autoload.php')) {
     require_once('../../vendor/autoload.php');
 }
@@ -44,7 +46,7 @@ try {
         default => GameDifficulties::DIFFICULTY_EASY,
     };
 
-    CreateGame::do(htmlspecialchars($name), intval($playerId), 1, $difficulty);
+    CreateGame::do(htmlspecialchars($name), intval($_SESSION["player_id"]), 1, $difficulty);
 } catch (Exception $e) {
     echo $e;
 }

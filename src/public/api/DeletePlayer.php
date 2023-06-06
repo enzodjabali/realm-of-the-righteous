@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\public\api;
 
+session_start();
+
 if (file_exists('../../vendor/autoload.php')) {
     require_once('../../vendor/autoload.php');
 }
@@ -21,7 +23,7 @@ extract($_POST);
 class DeletePlayer
 {
     /**
-     * This call updates a player's username and email
+     * This call deletes a player
      * @param int $playerId the ID of the player that will get deleted
      * @return void
      * @throws Exception
@@ -34,7 +36,7 @@ class DeletePlayer
 }
 
 try {
-    DeletePlayer::do(intval($playerId));
+    DeletePlayer::do(intval($_SESSION["player_id"]));
 } catch (Exception $e) {
     echo $e;
 }

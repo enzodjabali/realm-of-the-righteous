@@ -72,7 +72,7 @@
          */
         function deletePlayer() {
             $(function(){
-                $.post("../api/DeletePlayer.php", {playerId: <?= $_SESSION['player_id'] ?>}, function(response) {
+                $.post("../api/DeletePlayer.php", function(response) {
                     if (response === "1") {
                         location.href = '/logout.php';
                     }

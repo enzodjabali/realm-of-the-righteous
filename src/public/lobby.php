@@ -122,10 +122,8 @@
         function getGameInformation() {
             document.getElementById('game-list').innerHTML = "";
 
-            let playerId = <?= $sessionId ?>;
-
             const request = new XMLHttpRequest();
-            request.open('GET', '/api/GetGameInformation.php?playerId='+playerId, false);  // `false` makes the request synchronous
+            request.open('GET', '/api/GetGameInformation.php', false);  // `false` makes the request synchronous
             request.send(null);
 
             if (request.status === 200) {
@@ -159,10 +157,9 @@
                 $("#create-game-form").addClass("visually-hidden");
 
                 let name = $(this).find("input[name=name]").val();
-                let playerId = <?= $sessionId ?>;
                 let difficulty = $('input[name="difficulty"]:checked').val();
 
-                $.post("api/CreateGame.php", {name: name, playerId: playerId, difficulty: difficulty}, function(response){
+                $.post("api/CreateGame.php", {name: name, difficulty: difficulty}, function(response){
                     if (response === "1") {
                         $('#create-game-modal').modal('hide');
                         getGameInformation();
@@ -199,9 +196,8 @@
             $("#create-game-text").addClass("visually-hidden");
 
             let gameId = $('#delete-game-id').text();
-            let playerId = <?= $sessionId ?>;
 
-            $.post("api/DeleteGame.php", {gameId: gameId, playerId: playerId}, function(response){
+            $.post("api/DeleteGame.php", {gameId: gameId}, function(response){
                 if (response === "1") {
                     $('#delete-game-modal').modal('hide');
                     getGameInformation();

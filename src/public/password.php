@@ -85,12 +85,11 @@
          */
         $(function(){
             $("#update-player-form").submit(function(){
-                let playerId = <?= $_SESSION['player_id'] ?>;
                 let currentPassword = $(this).find("input[name=currentPassword]").val();
                 let newPassword = $(this).find("input[name=newPassword]").val();
                 let retypedNewPassword = $(this).find("input[name=retypedNewPassword]").val();
 
-                $.post("../api/UpdatePassword.php", {playerId: playerId, currentPassword: currentPassword, newPassword: newPassword, retypedNewPassword: retypedNewPassword}, function(response) {
+                $.post("../api/UpdatePassword.php", {currentPassword: currentPassword, newPassword: newPassword, retypedNewPassword: retypedNewPassword}, function(response) {
                     if (response === "1") {
                         $(".toast").addClass('text-bg-success');
                         $(".toast").removeClass('text-bg-danger');

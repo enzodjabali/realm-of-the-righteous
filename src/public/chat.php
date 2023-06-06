@@ -91,10 +91,9 @@
          */
         $(function(){
             $("#chat-form").submit(function(){
-                let playerId = <?= $sessionId ?>;
                 let message = $(this).find("input[name=message]").val();
 
-                $.post("api/InsertChatMessage.php", {playerId: playerId, message: message}, function(response){
+                $.post("api/InsertChatMessage.php", {message: message}, function(response){
                     if (response === "1") {
                         document.getElementById('message').value = "";
                     } else {

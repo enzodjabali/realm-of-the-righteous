@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace App\public\api;
 
+session_start();
+
 if (file_exists('../../vendor/autoload.php')) {
     require_once('../../vendor/autoload.php');
 }
@@ -35,7 +37,7 @@ class InsertChatMessage
 }
 
 try {
-    InsertChatMessage::do(intval($playerId), htmlspecialchars($message));
+    InsertChatMessage::do(intval($_SESSION["player_id"]), htmlspecialchars($message));
 } catch (Exception $e) {
     echo $e;
 }
