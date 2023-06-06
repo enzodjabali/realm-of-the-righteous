@@ -16,35 +16,22 @@ export class TowerController {
             * @param {number} towerData dictionnary of data about tower.
             * Permit to place tower in the matrice
         */
-
-        
-
         let tower;
         if (fetchedTower) {
             tower = new Tower(fetchedTower)
             tower = fetchedTower; 
-
             this.model.matrice[tower.position.x][tower.position.y].tower = tower;
-
             this.towerLogics(tower);
             return;
         }
-
         const row = this.display.pile[1][0];
         const col = this.display.pile[1][1];
-
         if (this.model.matrice[row][col].tower === null && !tower) {
-
-            
             this.display.pile[0].classList.remove('tile-shadow'); // remove class (not selected anymore)
-
-            
             const towerId = 'tower_' + this.model.towerId;
             const towerWeaponId = 'towerWeapon_' + this.model.towerWeaponId;
-
             this.model.towerId++;
             this.model.towerWeaponId++;
-
             switch (type){
             case "OT":
                 tower = new Tower(
@@ -138,10 +125,12 @@ export class TowerController {
             await new Promise(r => setTimeout(r, tower.shotRate)); // frequency of fire
             let {range, damage} = tower;
             const {x, y} = tower.position;
-            let neighbour = this.findNeighbour(x, y, range)
+            let neighbour = this.findNeighbour(x, y, range)            
             if (neighbour[0]) {
                 if (tower.isAttackingAir && this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].isFlying || !tower.isAttackingAir && !this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].isFlying) {
-                    this.provideDamage(this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0], damage)
+                    this.provideDamage(this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0], damage)                    
+                    this.display.playSprite(tower);
+
                     switch (tower.type) {
                     case "BT":
                             //Splash Tower
@@ -154,7 +143,7 @@ export class TowerController {
                                     damage = damage * 0.5
                                 }
                                 this.provideDamage(this.model.matrice[enemy[0]][enemy[1]].enemies[0], damage)
-                // Not existing anymore this.display.rotateWeapon(tower, [neighbour.nx, neighbour.ny]);
+
                             }
                         }
                         break;
@@ -166,6 +155,7 @@ export class TowerController {
                                 if (neighbour.length > 0) {
                                     if (!this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].isFlying) {
                                         this.provideDamage(this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0], (damage / i))
+
                                     }
 
                                 }
@@ -178,7 +168,6 @@ export class TowerController {
                             this.slowedEnemies[enemy.id] = [(Date.now()/1000)+3, enemy]
                                 //Permits to round up speed
                             enemy.speed = (enemy.speed / tower.slowness).toFixed(1);
-
                         }
                         break;
                     }

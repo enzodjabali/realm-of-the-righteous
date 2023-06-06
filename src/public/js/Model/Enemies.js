@@ -16,6 +16,7 @@ export class Enemy{
         this.price = price;
         this.isFlying = isFlying;
         this.memorySpeed = speed;
+        this.remove = false;
     }
 
     getLife(){

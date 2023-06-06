@@ -124,7 +124,6 @@ export class Display{
          * @param {Tower} tower instance of tower.
          * Permit to initialize the tower
         */
-
         let towerDiv = document.createElement(`tower_div_${tower.id}`);
             towerDiv.id = `tower_div_${tower.id}`;
             towerDiv.style.position = 'absolute';
@@ -134,7 +133,6 @@ export class Display{
             towerDiv.style.left = (tower.position.y * this.tilesSize - tower.position.y + 10).toString() + 'px'; /*10 = margin css*/
             towerDiv.style.overflow = 'hidden';
             document.getElementById('container-towers').appendChild(towerDiv);
-
         let imgTower = new Image();
             imgTower.id = `towerImg_${tower.id}`
             imgTower.src = tower.path;
@@ -143,7 +141,6 @@ export class Display{
             imgTower.style.center = 'center';
             imgTower.style.position = 'absolute';
             towerDiv.appendChild(imgTower);
-
         let imgTowerWeapon = new Image
             imgTowerWeapon.src = tower.pathWeapon;
             imgTowerWeapon.id = `weaponImg_${tower.id}`;
@@ -151,18 +148,33 @@ export class Display{
             imgTowerWeapon.width = (this.tilesSize * tower.totalFrames);
             imgTowerWeapon.style.position = 'absolute';
             towerDiv.appendChild(imgTowerWeapon);
-
         return towerDiv;
     }
-
-    playSprite(animationInterval, frameDuration, tower, spriteImage) {
-        clearInterval(animationInterval);
-        console.log(tower, '<<<<<<<< tower from initializeWeapon ')
+    
+    playSprite(tower) {
+        clearInterval(tower.animationInterval);
         tower.currentFrame = 0;
-        spriteImage.style.left = '0px';
-        animationInterval = setInterval(this.animateSprite(tower), frameDuration);
+        let imgTowerWeapon = document.getElementById(`weaponImg_${tower.id}`);
+        imgTowerWeapon.style.left = '0px';
+        const frameDuration = Math.floor(tower.shotRate / tower.totalFrames);
+        tower.animationInterval = setInterval(() => {
+            this.animateSprite(tower); 
+            if (tower.currentFrame >= tower.totalFrames) {
+                clearInterval(tower.animationInterval);
+            }
+        }, frameDuration);
     }
-
+    animateSprite(tower) {
+        if (tower.currentFrame >= tower.totalFrames) {
+            clearInterval(tower.animationInterval);
+            return;
+        }
+        let frameWidth = this.tilesSize;
+        let framePositionX = -tower.currentFrame * frameWidth;
+        let imgTowerWeapon = document.getElementById(`weaponImg_${tower.id}`);
+        imgTowerWeapon.style.left = `${framePositionX}px`;
+        tower.currentFrame++;
+    }
     nextMoveEnemy(enemy){
         /**
          * @param {enemy} enemy instance of enemy.

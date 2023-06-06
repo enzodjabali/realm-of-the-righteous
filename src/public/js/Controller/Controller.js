@@ -108,7 +108,11 @@ export class Controller{
          * @param {Enemy} enemy instance of enemy.
          * @param {Enemy} path pathfinding list of cords.
          * @param {Enemy} endPoints couple of end coordinates.
-         */
+        */
+
+        if (enemy.remove) {
+            return;
+        }
         try {
             for (let step = 0; step <= path.length; step++) {
                 // Add your code to handle end of path reached
@@ -117,8 +121,9 @@ export class Controller{
                         // Implémenter la fin de jeu (défaite)
                         // alert('endgame')
                     }
+                    enemy.remove = true;
                     this.display.removeEnemy(enemy);
-                    this.model.matrice[enemy.position.x][enemy.position.y].enemies.splice(enemy,1)
+                    this.model.matrice[enemy.position.x][enemy.position.y].enemies.splice(enemy, 1)
                     return
                 }
 
@@ -134,6 +139,7 @@ export class Controller{
                     this.playerController.player.money += enemy.price;
                     this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life);
 
+                    enemy.remove = true;
                     this.display.removeEnemy(enemy);
                     this.model.matrice[enemy.position.x][enemy.position.y].enemies.splice(enemy,1)
                     return
