@@ -52,21 +52,17 @@ class DbUtils {
 	/**
 	 * This method makes a simple deletion of a row in the database
 	 * @param DbTable $table the table that will receive the deletion
-	 * @param int $id the id of the element that will be deleted
+	 * @param string $condition adds SQL condition to the selection query
 	 * @return bool returns true is the operation succeed, false if it failed
 	 * @throws Exception
 	 */
-	public static function delete(DbTable $table, int $id): bool
+	public static function delete(DbTable $table, string $condition = ""): bool
 	{
-		if ($id) {
-			$table = $table->value;
-			$queryBuilder = "DELETE FROM $table WHERE id = $id;";
-			$query = self::initialize()->prepare($queryBuilder);
+        $table = $table->value;
+        $queryBuilder = "DELETE FROM $table $condition";
+        $query = self::initialize()->prepare($queryBuilder);
 
-			return $query->execute();
-		} else {
-			throw new Exception("The ID must not be empty");
-		}
+        return $query->execute();
 	}
 
 	/**

@@ -145,7 +145,7 @@ class GameUtils
     {
         try {
             if (GameUtils::doesGameBelongToPlayer($gameId, $playerId)) {
-                DbUtils::delete(DbTable::TABLE_GAME, $gameId);
+                DbUtils::delete(DbTable::TABLE_GAME, "WHERE id = $gameId");
                 return true;
             } else {
                 return false;
