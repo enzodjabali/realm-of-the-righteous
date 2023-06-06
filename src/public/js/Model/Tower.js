@@ -11,13 +11,16 @@ export class Tower{
         this.position = position
         this.path = path;
         this.pathWeapon = pathWeapon;
-        this.totalFrames = totalFrames;
         this.price = price;
         this.type = type;
         this.isAttackingAir = isAttackingAir;
         this.rebound = rebound;
         this.slowness = slowness;
-        this.currentFrame = 0;
+        this.totalFrames = totalFrames;
+        this.currentFrame = 1;
+        this.animateSprite;
+        this.animationInterval;
+        this.remove = false;
     }
     getId(){
         return this.id;
