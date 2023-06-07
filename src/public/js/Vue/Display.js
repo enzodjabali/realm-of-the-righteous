@@ -210,7 +210,12 @@ export class Display{
         }
     }
 
-    playTowerSprite(tower, enemy) {
+    }
+    
+    playSprite(tower, enemy) {
+        console.log(tower)
+        this.initializeAmmo(tower)
+            
         clearInterval(tower.animationInterval);
         tower.currentFrame = 0;
         const { originX, originY } = this.getOriginWeapon(tower);
