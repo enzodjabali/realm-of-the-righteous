@@ -102,6 +102,7 @@
                 let username = $(this).find("input[name=username]").val();
                 let password = $(this).find("input[name=password]").val();
 
+<<<<<<< main
                 $.post("api/v1/player/login", {username: username, password: password}, function() {
                     window.location.href = "/lobby";
                 }).fail(function(response) {
@@ -143,6 +144,59 @@
                     $(".toast").addClass('text-bg-danger');
                     $(".toast").toast('show');
                     $(".toast-body").html(JSON.parse(response.responseText).response);
+=======
+                $.post("api/LoginPlayer.php", {username: username, password: password}, function(response){
+                    let loginResponse = JSON.parse(response.substring(response.indexOf("{"), response.lastIndexOf("}") + 1));
+
+                    if ("error" in loginResponse) {
+                        $(document).ready(function() {
+                            $("#spinner").addClass("visually-hidden");
+                            $("#login-form").removeClass("visually-hidden");
+
+                            $(".toast").removeClass('text-bg-success');
+                            $(".toast").addClass('text-bg-danger');
+                            $(".toast").toast('show');
+                            $(".toast-body").html(loginResponse["error"]);
+                        });
+                    } else if ("playerId" in loginResponse) {
+                        window.location.href = "/lobby";
+                    } else {
+                        console.log("An error has occurred.")
+                    }
+>>>>>>>  implementing a password forgotten system (#212)
+                });
+                return false;
+            });
+        });
+
+        /**
+         * This function calls the reset password method
+         */
+        $(function(){
+            $("#reset-password-form").submit(function(){
+                $('#reset-password-modal').modal('hide');
+
+                let playerEmail = $(this).find("input[name=email]").val();
+
+                $.post("api/GenerateResetPasswordLink.php", {playerEmail: playerEmail}, function(response){
+                    if (response === "1") {
+                        $('#delete-game-modal').modal('hide');
+                        $("#delete-game-spinner").addClass("visually-hidden");
+                        $("#create-game-text").removeClass("visually-hidden");
+
+                        $(".toast").addClass('text-bg-success');
+                        $(".toast").removeClass('text-bg-danger');
+                        $(".toast").toast('show');
+                        $(".toast-body").html("A reset link has been sent to " + playerEmail + ".");
+                    } else {
+                        $("#delete-game-spinner").addClass("visually-hidden");
+                        $("#create-game-text").removeClass("visually-hidden");
+
+                        $(".toast").removeClass('text-bg-success');
+                        $(".toast").addClass('text-bg-danger');
+                        $(".toast").toast('show');
+                        $(".toast-body").html(response);
+                    }
                 });
                 return false;
             });

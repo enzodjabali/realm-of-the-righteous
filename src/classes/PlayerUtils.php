@@ -470,6 +470,7 @@ class PlayerUtils
 
         return $updatePassword;
     }
+<<<<<<< main
 
     /**
      * This method tells if a player is admin or not from his ID
@@ -482,4 +483,6 @@ class PlayerUtils
         return (bool)DbUtils::select(DbTable::TABLE_PLAYER, ["is_admin"], "WHERE id = '$playerId'")->fetch()["is_admin"];
     }
 
+=======
+>>>>>>>  implementing a password forgotten system (#212)
 }

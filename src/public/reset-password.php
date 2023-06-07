@@ -2,7 +2,11 @@
     if (isset($_GET["link"]) && is_string($_GET["link"])) {
         $serverUrl = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]";
 
+<<<<<<< main
         $url = "$serverUrl/api/v1/player/doesResetPasswordLinkExist?link={$_GET["link"]}";
+=======
+        $url = "$serverUrl/api/DoesResetPasswordLinkExist.php?link={$_GET["link"]}";
+>>>>>>>  implementing a password forgotten system (#212)
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
@@ -16,9 +20,15 @@
         }
         curl_close($ch);
 
+<<<<<<< main
         $doesResetPasswordLinkExist = json_decode($response, true)["response"] === true;
     } else {
         $doesResetPasswordLinkExist = false;
+=======
+        $DoesResetPasswordLinkExist = $response == "1";
+    } else {
+        $DoesResetPasswordLinkExist = false;
+>>>>>>>  implementing a password forgotten system (#212)
     }
 ?>
 
@@ -47,7 +57,11 @@
             </div>
         </div>
 
+<<<<<<< main
         <?php if ($doesResetPasswordLinkExist) { ?>
+=======
+        <?php if ($DoesResetPasswordLinkExist) { ?>
+>>>>>>>  implementing a password forgotten system (#212)
             <div class="card w-75 position-absolute top-50 start-50 translate-middle">
                 <div class="card-header text-center ">
                     Reset password
@@ -95,6 +109,7 @@
                 let newPassword = $(this).find("input[name=newPassword]").val();
                 let retypedNewPassword = $(this).find("input[name=retypedNewPassword]").val();
 
+<<<<<<< main
                 $.post("../api/v1/player/resetPassword", {link: link, newPassword: newPassword, retypedNewPassword: retypedNewPassword}, function() {
                     window.location.href = "/login";
                 }).fail(function(response) {
@@ -103,6 +118,18 @@
 
                     $(".toast").toast('show');
                     $(".toast-body").html(JSON.parse(response.responseText).response);
+=======
+                $.post("../api/ResetPassword.php", {link: link, newPassword: newPassword, retypedNewPassword: retypedNewPassword}, function(response) {
+                    if (response === "1") {
+                        window.location.href = "/login";
+                    } else {
+                        $("#spinner").addClass("visually-hidden");
+                        $("#reset-password-form").removeClass("visually-hidden");
+
+                        $(".toast").toast('show');
+                        $(".toast-body").html(response);
+                    }
+>>>>>>>  implementing a password forgotten system (#212)
                 });
                 return false;
             });
