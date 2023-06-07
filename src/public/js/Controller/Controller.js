@@ -27,7 +27,7 @@ export class Controller{
          */
         const matrice = this.model.getMatrice();
 
-        matrice[enemy.position.x][enemy.position.y].enemies.splice(enemy,1)
+        matrice[enemy.position.x][enemy.position.y].enemies.shift()
 
         enemy.position.x += nextPosition[0]
         enemy.position.y += nextPosition[1]
@@ -40,8 +40,7 @@ export class Controller{
          * @param {Enemy} enemy instance of enemy.
          */
         //Update enemy in matrice by its position in its object (enemy.position.x / enemy.position.y)
-        let matrice = this.model.getMatrice();
-        matrice[enemy.position.x][enemy.position.y].enemies.push(enemy);
+        this.model.matrice[enemy.position.x][enemy.position.y].enemies.push(enemy);
     }
 
     setup(){
@@ -95,6 +94,7 @@ export class Controller{
                     this.display.initializeEnemy(enemy);
                     
                     this.run(enemy, path, this.model.endPoints[indexOfEndPoints]); // Run the movement loop for each enemy
+
                     await new Promise(r => setTimeout(r, 500)); // Delay 500ms between each enemy's movement for smoother animation
                     this.model.mobId++;
                 }
@@ -110,9 +110,6 @@ export class Controller{
          * @param {Enemy} endPoints couple of end coordinates.
         */
 
-        if (enemy.remove) {
-            return;
-        }
         try {
             for (let step = 0; step <= path.length; step++) {
                 // Add your code to handle end of path reached
@@ -121,7 +118,6 @@ export class Controller{
                         // Implémenter la fin de jeu (défaite)
                         // alert('endgame')
                     }
-                    enemy.remove = true;
                     this.display.removeEnemy(enemy);
                     this.model.matrice[enemy.position.x][enemy.position.y].enemies.splice(enemy, 1)
                     return
@@ -138,11 +134,9 @@ export class Controller{
                     // Permit to give money to the player when an ennemy died
                     this.playerController.player.money += enemy.price;
                     this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life);
-
-                    enemy.remove = true;
                     this.display.removeEnemy(enemy);
-                    this.model.matrice[enemy.position.x][enemy.position.y].enemies.splice(enemy,1)
-                    return
+                    this.model.matrice[enemy.position.x][enemy.position.y].enemies.shift()
+                    return;
                 }
 
                 if (step <= path.length-1) {
