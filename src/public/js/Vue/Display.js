@@ -20,8 +20,10 @@ export class Display{
 
         if (xRatio >= yRatio){
             this.tilesSize = yRatio
+            this.tilesSize = Math.floor(this.tilesSize)
         } else {
             this.tilesSize = xRatio
+            this.tilesSize = Math.floor(this.tilesSize)
         }
         for (let a = 0 ; a < matrice[0].length ; a++){
             columns += `${this.tilesSize-1}px `
@@ -178,7 +180,9 @@ export class Display{
         weaponDiv.style.transform = `rotate(${angle}deg)`;
         let imgTowerWeapon = document.getElementById(`weaponImg_${tower.id}`);
         imgTowerWeapon.style.left = '0px';
+
         const frameDuration = Math.floor(tower.shotRate / tower.totalFrames);
+
         tower.animationInterval = setInterval(() => {
             this.animateSprite(tower);
             if (tower.currentFrame >= tower.totalFrames) {
@@ -191,8 +195,7 @@ export class Display{
             clearInterval(tower.animationInterval);
             return;
         }
-        let frameWidth = this.tilesSize;
-        let framePositionX = -tower.currentFrame * frameWidth;
+        let framePositionX = -tower.currentFrame * this.tilesSize;
         let imgTowerWeapon = document.getElementById(`weaponImg_${tower.id}`);
         imgTowerWeapon.style.left = `${framePositionX}px`;
         tower.currentFrame++;
@@ -200,7 +203,10 @@ export class Display{
     getOrigin(tower) {
         const currentFrame = tower.currentFrame;
         const totalFrames = tower.totalFrames;
+
         const progress = currentFrame / totalFrames;
+            
+        
         const originX = this.tilesSize / 2 + this.tilesSize * progress;
         const originY = this.tilesSize / 2;
         return { originX, originY };
