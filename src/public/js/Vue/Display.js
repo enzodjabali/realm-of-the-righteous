@@ -231,7 +231,6 @@ export class Display{
             }
         }, frameDuration);
     }
-
     animateSprite(tower) {
         if (tower.currentFrame >= tower.totalTowerFrames) {
             clearInterval(tower.animationInterval);
