@@ -183,8 +183,6 @@ export class Display{
 
         let imgAmmo = new Image();
 
-        console.log(tower.pathAmmo)
-
         imgAmmo.src = tower.pathAmmo;
         
         imgAmmo.id = `weaponImg_${tower.id}`;
@@ -200,7 +198,6 @@ export class Display{
     }
     
     playSprite(tower, enemy) {
-        console.log(tower)
         this.initializeAmmo(tower)
             
         clearInterval(tower.animationInterval);
