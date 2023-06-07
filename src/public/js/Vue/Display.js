@@ -169,8 +169,40 @@ export class Display{
 
         return towerContainer;
     }
+
+    initializeAmmo(tower) {
+        let AmmoDiv = document.createElement('div');
+        AmmoDiv.id = `AmmoDiv_${tower.id}`;
+        AmmoDiv.style.position = 'absolute';
+        AmmoDiv.style.height = this.tilesSize + 'px';
+        AmmoDiv.style.width = this.tilesSize + 'px';
+        AmmoDiv.style.top = -this.tilesSize * 0.50 + 'px';;
+        AmmoDiv.style.left = '0';
+        AmmoDiv.style.overflow = 'hidden';
+        document.getElementById('container-towers').appendChild(AmmoDiv);
+
+        let imgAmmo = new Image();
+
+        console.log(tower.pathAmmo)
+
+        imgAmmo.src = tower.pathAmmo;
+        
+        imgAmmo.id = `weaponImg_${tower.id}`;
+        imgAmmo.height = this.tilesSize;
+        imgAmmo.width = (this.tilesSize * tower.totalFrames);
+        imgAmmo.style.position = 'absolute';
+        imgAmmo.style.top = '0';
+        imgAmmo.style.left = '0';
+        AmmoDiv.appendChild(imgAmmo);
+
+        document.getElementById('container-towers').appendChild(AmmoDiv);
+
+    }
     
     playSprite(tower, enemy) {
+        console.log(tower)
+        this.initializeAmmo(tower)
+            
         clearInterval(tower.animationInterval);
         tower.currentFrame = 0;
         const { originX, originY } = this.getOrigin(tower);
@@ -180,9 +212,7 @@ export class Display{
         weaponDiv.style.transform = `rotate(${angle}deg)`;
         let imgTowerWeapon = document.getElementById(`weaponImg_${tower.id}`);
         imgTowerWeapon.style.left = '0px';
-
         const frameDuration = Math.floor(tower.shotRate / tower.totalFrames);
-
         tower.animationInterval = setInterval(() => {
             this.animateSprite(tower);
             if (tower.currentFrame >= tower.totalFrames) {
@@ -190,6 +220,9 @@ export class Display{
             }
         }, frameDuration);
     }
+
+
+    
     animateSprite(tower) {
         if (tower.currentFrame >= tower.totalFrames) {
             clearInterval(tower.animationInterval);
@@ -200,6 +233,9 @@ export class Display{
         imgTowerWeapon.style.left = `${framePositionX}px`;
         tower.currentFrame++;
     }
+
+
+
     getOrigin(tower) {
         const currentFrame = tower.currentFrame;
         const totalFrames = tower.totalFrames;

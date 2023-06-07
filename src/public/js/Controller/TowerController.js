@@ -15,7 +15,7 @@ export class TowerController {
         /**
             * @param {number} towerData dictionnary of data about tower.
             * Permit to place tower in the matrice
-        */
+        */        
         let tower;
         if (fetchedTower) {
             tower = new Tower(fetchedTower)
@@ -32,6 +32,7 @@ export class TowerController {
             const towerWeaponId = 'towerWeapon_' + this.model.towerWeaponId;
             this.model.towerId++;
             this.model.towerWeaponId++;
+
             switch (type){
             case "OT":
                 tower = new Tower(
@@ -52,7 +53,10 @@ export class TowerController {
                     towerId, towerData.damage[0], towerData.shotRate[0], { x: row, y: col }, 0, towerData.path[0],
                     towerData.pathWeapon[0], towerWeaponId, towerData.price, type, towerData.isAttackingAir, towerData.totalFrames[0],
                     towerData.pathAmmo[0], towerData.pathImpact[0]
+                    
                     );
+                    console.log('towerData')
+                    console.log(towerData)
             }
             this.model.matrice[row][col].tower = tower;
             this.towerLogics(tower, row, col);
@@ -132,6 +136,9 @@ export class TowerController {
             if (neighbour[0]) {
                 if (tower.isAttackingAir && this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].isFlying || !tower.isAttackingAir && !this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].isFlying) {
                     this.provideDamage(this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0], damage)                    
+
+                    console.log(tower)
+
                     this.display.playSprite(tower, this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0]);
 
                     switch (tower.type) {
