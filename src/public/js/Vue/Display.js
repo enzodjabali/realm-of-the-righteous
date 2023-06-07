@@ -131,18 +131,17 @@ export class Display{
         towerContainer.style.position = 'absolute';
         towerContainer.style.height = this.tilesSize + 'px';
         towerContainer.style.width = this.tilesSize + 'px';
-        towerContainer.style.top = (tower.position.x * this.tilesSize - tower.position.x + 10).toString() + 'px'; /*10 = margin css*/
-        towerContainer.style.left = (tower.position.y * this.tilesSize - tower.position.y + 10).toString() + 'px'; /*10 = margin css*/
-        towerContainer.style.overflow = 'hidden';
+        towerContainer.style.top = ((tower.position.x * this.tilesSize) +10).toString() + 'px'; /*10 = margin css*/
+        towerContainer.style.left = ((tower.position.y * this.tilesSize) + 10 - tower.position.y).toString() + 'px'; /*10 = margin css*/
         document.getElementById('container-towers').appendChild(towerContainer);
 
         let imgTower = new Image();
         imgTower.id = `Img_${tower.id}`;
         imgTower.src = tower.path;
-        imgTower.style.height = this.tilesSize + 'px';
+        imgTower.style.height = this.tilesSize*1.50 + 'px';
         imgTower.style.width = this.tilesSize + 'px';
         imgTower.style.position = 'absolute';
-        imgTower.style.top = '0';
+        imgTower.style.top = -this.tilesSize / 2 + 'px';;
         imgTower.style.left = '0';
         towerContainer.appendChild(imgTower);
 
@@ -150,9 +149,10 @@ export class Display{
         weaponDiv.id = `weaponDiv_${tower.id}`;
         weaponDiv.style.position = 'absolute';
         weaponDiv.style.height = this.tilesSize + 'px';
-        weaponDiv.style.width = (this.tilesSize * tower.totalFrames) + 'px';
-        weaponDiv.style.top = '0';
+        weaponDiv.style.width = this.tilesSize + 'px';
+        weaponDiv.style.top = -this.tilesSize*0.50 + 'px';;
         weaponDiv.style.left = '0';
+        weaponDiv.style.overflow = 'hidden';
         towerContainer.appendChild(weaponDiv);
 
         let imgTowerWeapon = new Image();
