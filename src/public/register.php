@@ -37,6 +37,8 @@
                     </div>
                     <div class="modal-body">
                         You have been successfully registered.
+                        <br>
+                        A verification email has been sent to you.
                     </div>
                     <div class="modal-footer">
                         <a href="/login"><button type="button" class="btn btn-primary">Login</button></a>
