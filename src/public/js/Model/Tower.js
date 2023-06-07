@@ -17,7 +17,7 @@ export class Tower{
         this.rebound = rebound;
         this.slowness = slowness;
         this.totalFrames = totalFrames;
-        this.currentFrame = 1;
+        this.currentFrame = 0;
         this.animateSprite;
         this.animationInterval;
         this.remove = false;
