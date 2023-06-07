@@ -249,9 +249,9 @@ export class Display{
          * @param {tower} tower instance of tower.
          * Permit to remove the tower from matrice
          */
-        let towerDiv = document.getElementById(`tower_div_${tower.id}`);        
-        const parentElement = towerDiv.parentNode; // Get the parent element of the div
-        parentElement.removeChild(towerDiv); // Remove the div element from its parent
+        let towerContainer = document.getElementById(`div_${tower.id}`);        
+        const parentElement = towerContainer.parentNode; // Get the parent element of the div
+        parentElement.removeChild(towerContainer); // Remove the div element from its parent
     }
     flipItLeft(enemy){
         /**
