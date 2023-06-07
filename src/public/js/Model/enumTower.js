@@ -16,6 +16,14 @@ export const enumTower = {
                     '../../assets/images/towers/weapons/weapons/BT2weapon.png',
                     '../../assets/images/towers/weapons/weapons/BT3weapon.png'],
         
+        pathAmmo : ['../../assets/images/towers/weapons/flying/BT1flying.png',
+                    '../../assets/images/towers/weapons/flying/BT2flying.png',
+                    '../../assets/images/towers/weapons/flying/BT3flying.png'],
+
+        pathImpact : ['../../assets/images/towers/weapons/impact/BT1impact.png',
+                      '../../assets/images/towers/weapons/impact/BT2impact.png',
+                      '../../assets/images/towers/weapons/impact/BT3impact.png'],
+
         totalFrames : [17,17,17],
         damage : [3,6,10],
         shotRate: [500, 400, 300],//in ms
@@ -31,6 +39,14 @@ export const enumTower = {
                     '../../assets/images/towers/weapons/weapons/OT2weapon.png',
                     '../../assets/images/towers/weapons/weapons/OT3weapon.png'],
         
+        pathAmmo : ['../../assets/images/towers/weapons/flying/OT1flying.png',
+                    '../../assets/images/towers/weapons/flying/OT2flying.png',
+                    '../../assets/images/towers/weapons/flying/OT3flying.png'],
+
+        pathImpact : ['../../assets/images/towers/weapons/impact/OT1impact.png',
+                      '../../assets/images/towers/weapons/impact/OT2impact.png',
+                      '../../assets/images/towers/weapons/impact/OT3impact.png'],
+
         totalFrames : [8,8,8],
         damage : [1,2,3],
         shotRate: [200,150,100],//in ms
@@ -47,6 +63,12 @@ export const enumTower = {
                     '../../assets/images/towers/weapons/weapons/T2weapon.png',
                     '../../assets/images/towers/weapons/weapons/T3weapon.png'],
         
+        pathAmmo : ['../../assets/images/towers/weapons/flying/T1flying.png',
+                    '../../assets/images/towers/weapons/flying/T2flying.png',
+                    '../../assets/images/towers/weapons/flying/T3flying.png'],
+
+        pathImpact : ['../../assets/images/towers/weapons/impact/Timpact.png'],
+
         totalFrames : [6,6,6],
         shotRate: [300,4000,3000],//in ms
         damage: [1,40,60],
@@ -63,6 +85,12 @@ export const enumTower = {
                     '../../assets/images/towers/weapons/weapons/WT2weapon.png',
                     '../../assets/images/towers/weapons/weapons/WT3weapon.png'],
         
+        pathAmmo : ['../../assets/images/towers/weapons/flying/WT1flying.png',
+                    '../../assets/images/towers/weapons/flying/WT2flying.png',
+                    '../../assets/images/towers/weapons/flying/WT3flying.png'],
+
+        pathImpact: ['../../assets/images/towers/weapons/impact/WTimpact.png'],
+
         totalFrames : [6,6,6],
         damage : [3,6,10],
         shotRate: [500,400,300],//in ms

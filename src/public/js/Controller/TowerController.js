@@ -36,19 +36,22 @@ export class TowerController {
             case "OT":
                 tower = new Tower(
                     towerId, towerData.damage[0], towerData.shotRate[0], { x: row, y: col }, 0, towerData.path[0],
-                    towerData.pathWeapon[0], towerWeaponId, towerData.price, type, towerData.isAttackingAir, towerData.totalFrames[0], towerData.rebound[0]
+                    towerData.pathWeapon[0], towerWeaponId, towerData.price, type, towerData.isAttackingAir, towerData.totalFrames[0],
+                    towerData.rebound[0], towerData.pathAmmo[0], towerData.pathImpact[0]
                     );
                 break;
             case "T":
                 tower = new Tower(
                     towerId, towerData.damage[0], towerData.shotRate[0], { x: row, y: col }, 0, towerData.path[0],
-                    towerData.pathWeapon[0], towerWeaponId, towerData.price, type, towerData.isAttackingAir, towerData.totalFrames[0], null, towerData.slowness[0]
+                    towerData.pathWeapon[0], towerWeaponId, towerData.price, type, towerData.isAttackingAir, towerData.totalFrames[0],
+                    null, towerData.slowness[0], towerData.pathAmmo[0], towerData.pathImpact[0]
                     );
                 break;
             default:
                 tower = new Tower(
                     towerId, towerData.damage[0], towerData.shotRate[0], { x: row, y: col }, 0, towerData.path[0],
                     towerData.pathWeapon[0], towerWeaponId, towerData.price, type, towerData.isAttackingAir, towerData.totalFrames[0],
+                    towerData.pathAmmo[0], towerData.pathImpact[0]
                     );
             }
             this.model.matrice[row][col].tower = tower;
