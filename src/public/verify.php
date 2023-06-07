@@ -39,7 +39,7 @@
     <?php include_once("includes/menu.php") ?>
 
     <div class="card text-center w-75 position-absolute top-50 start-50 translate-middle">
-        <div class="card-body">
+        <div class="card-body mt-3">
             <p><?= $verifyMessage ?></p>
         </div>
     </div>

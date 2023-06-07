@@ -355,8 +355,7 @@ class PlayerUtils
     public static function generateVerificationLink(string $playerEmail): string|bool
     {
         $link = md5((string)rand());
-        $serverName = (!empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) == 'on' || $_SERVER['HTTPS'] == '1')) ? 'https://' : 'http://'.$_SERVER['SERVER_NAME'];
-        $serverPort = explode(":", $_SERVER['HTTP_HOST'])[1] ? ':'.explode(":", $_SERVER['HTTP_HOST'])[1] : '';
+        $url = !empty($_ENV['DOMAIN_NAME']) ? $_ENV['DOMAIN_NAME'] : (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]";
 
         try {
             DbUtils::insert(DbTable::TABLE_VERIFICATION_LINK,
@@ -364,7 +363,7 @@ class PlayerUtils
                 [$playerEmail, $link]
             );
 
-            EmailSender::sendEmail($playerEmail, "Verify your account", "Link: $serverName$serverPort/verify?link=$link");
+            EmailSender::sendEmail($playerEmail, "Verify your account", "Link: $url/verify?link=$link");
         } catch (Exception $e) {
             return $e->getMessage();
         }
