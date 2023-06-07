@@ -129,7 +129,7 @@ export class TowerController {
             if (neighbour[0]) {
                 if (tower.isAttackingAir && this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].isFlying || !tower.isAttackingAir && !this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].isFlying) {
                     this.provideDamage(this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0], damage)                    
-                    this.display.playSprite(tower);
+                    this.display.playSprite(tower, this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0]);
 
                     switch (tower.type) {
                     case "BT":

@@ -124,41 +124,63 @@ export class Display{
          * @param {Tower} tower instance of tower.
          * Permit to initialize the tower
         */
-        let towerDiv = document.createElement(`tower_div_${tower.id}`);
-            towerDiv.id = `tower_div_${tower.id}`;
-            towerDiv.style.position = 'absolute';
-            towerDiv.style.height = this.tilesSize + 'px';
-            towerDiv.style.width = this.tilesSize + 'px';
-            towerDiv.style.top = (tower.position.x * this.tilesSize - tower.position.x + 10).toString() + 'px'; /*10 = margin css*/
-            towerDiv.style.left = (tower.position.y * this.tilesSize - tower.position.y + 10).toString() + 'px'; /*10 = margin css*/
-            towerDiv.style.overflow = 'hidden';
-            document.getElementById('container-towers').appendChild(towerDiv);
+        let towerContainer = document.createElement(`div_${tower.id}`);
+        towerContainer.id = `div_${tower.id}`;
+        towerContainer.style.position = 'absolute';
+        towerContainer.style.height = this.tilesSize + 'px';
+        towerContainer.style.width = this.tilesSize + 'px';
+        towerContainer.style.top = (tower.position.x * this.tilesSize - tower.position.x + 10).toString() + 'px'; /*10 = margin css*/
+        towerContainer.style.left = (tower.position.y * this.tilesSize - tower.position.y + 10).toString() + 'px'; /*10 = margin css*/
+        towerContainer.style.overflow = 'hidden';
+        document.getElementById('container-towers').appendChild(towerContainer);
+
         let imgTower = new Image();
-            imgTower.id = `towerImg_${tower.id}`
-            imgTower.src = tower.path;
-            imgTower.style.height = this.tilesSize + 'px';
-            imgTower.style.width = this.tilesSize + 'px';
-            imgTower.style.center = 'center';
-            imgTower.style.position = 'absolute';
-            towerDiv.appendChild(imgTower);
-        let imgTowerWeapon = new Image
-            imgTowerWeapon.src = tower.pathWeapon;
-            imgTowerWeapon.id = `weaponImg_${tower.id}`;
-            imgTowerWeapon.height = this.tilesSize;
-            imgTowerWeapon.width = (this.tilesSize * tower.totalFrames);
-            imgTowerWeapon.style.position = 'absolute';
-            towerDiv.appendChild(imgTowerWeapon);
-        return towerDiv;
+        imgTower.id = `Img_${tower.id}`;
+        imgTower.src = tower.path;
+        imgTower.style.height = this.tilesSize + 'px';
+        imgTower.style.width = this.tilesSize + 'px';
+        imgTower.style.position = 'absolute';
+        imgTower.style.top = '0';
+        imgTower.style.left = '0';
+        towerContainer.appendChild(imgTower);
+
+        let weaponDiv = document.createElement('div');
+        weaponDiv.id = `weaponDiv_${tower.id}`;
+        weaponDiv.style.position = 'absolute';
+        weaponDiv.style.height = this.tilesSize + 'px';
+        weaponDiv.style.width = (this.tilesSize * tower.totalFrames) + 'px';
+        weaponDiv.style.top = '0';
+        weaponDiv.style.left = '0';
+        towerContainer.appendChild(weaponDiv);
+
+        let imgTowerWeapon = new Image();
+        imgTowerWeapon.src = tower.pathWeapon;
+        imgTowerWeapon.id = `weaponImg_${tower.id}`;
+        imgTowerWeapon.height = this.tilesSize;
+        imgTowerWeapon.width = (this.tilesSize * tower.totalFrames);
+        imgTowerWeapon.style.position = 'absolute';
+        imgTowerWeapon.style.top = '0';
+        imgTowerWeapon.style.left = '0';
+        weaponDiv.appendChild(imgTowerWeapon);
+
+        document.getElementById('container-towers').appendChild(towerContainer);
+
+        return towerContainer;
     }
     
-    playSprite(tower) {
+    playSprite(tower, enemy) {
         clearInterval(tower.animationInterval);
         tower.currentFrame = 0;
+        const { originX, originY } = this.getOrigin(tower);
+        let angle = this.rotateWeapon(tower, enemy)
+        let weaponDiv = document.getElementById(`weaponDiv_${tower.id}`);
+        weaponDiv.style.transformOrigin = `${originX}px ${originY}px`;
+        weaponDiv.style.transform = `rotate(${angle}deg)`;
         let imgTowerWeapon = document.getElementById(`weaponImg_${tower.id}`);
         imgTowerWeapon.style.left = '0px';
         const frameDuration = Math.floor(tower.shotRate / tower.totalFrames);
         tower.animationInterval = setInterval(() => {
-            this.animateSprite(tower); 
+            this.animateSprite(tower);
             if (tower.currentFrame >= tower.totalFrames) {
                 clearInterval(tower.animationInterval);
             }
@@ -175,6 +197,23 @@ export class Display{
         imgTowerWeapon.style.left = `${framePositionX}px`;
         tower.currentFrame++;
     }
+    getOrigin(tower) {
+        const currentFrame = tower.currentFrame;
+        const totalFrames = tower.totalFrames;
+        const progress = currentFrame / totalFrames;
+        const originX = this.tilesSize / 2 + this.tilesSize * progress;
+        const originY = this.tilesSize / 2;
+        return { originX, originY };
+    }
+
+    rotateWeapon(tower, cell) {
+        const deltaX = cell.position.x - tower.position.x;
+        const deltaY = cell.position.y - tower.position.y;
+        let angle = Math.atan2(deltaX, deltaY) * (180 / Math.PI); // Calculate angle in degrees
+        angle = angle + 90; // Rotate 180 degrees
+        return angle
+    }
+    
     nextMoveEnemy(enemy){
         /**
          * @param {enemy} enemy instance of enemy.
@@ -210,9 +249,9 @@ export class Display{
          * @param {tower} tower instance of tower.
          * Permit to remove the tower from matrice
          */
-        let towerDiv = document.getElementById(`tower_div_${tower.id}`);        
-        const parentElement = towerDiv.parentNode; // Get the parent element of the div
-        parentElement.removeChild(towerDiv); // Remove the div element from its parent
+        let towerContainer = document.getElementById(`div_${tower.id}`);        
+        const parentElement = towerContainer.parentNode; // Get the parent element of the div
+        parentElement.removeChild(towerContainer); // Remove the div element from its parent
     }
     flipItLeft(enemy){
         /**
