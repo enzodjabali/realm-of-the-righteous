@@ -138,10 +138,10 @@ export class Display{
         let imgTower = new Image();
         imgTower.id = `Img_${tower.id}`;
         imgTower.src = tower.path;
-        imgTower.style.height = this.tilesSize*1.50 + 'px';
+        imgTower.style.height = this.tilesSize+ 'px';
         imgTower.style.width = this.tilesSize + 'px';
         imgTower.style.position = 'absolute';
-        imgTower.style.top = -this.tilesSize / 2 + 'px';;
+        imgTower.style.top = 0 + 'px';;
         imgTower.style.left = '0';
         towerContainer.appendChild(imgTower);
 
@@ -150,7 +150,7 @@ export class Display{
         weaponDiv.style.position = 'absolute';
         weaponDiv.style.height = this.tilesSize + 'px';
         weaponDiv.style.width = this.tilesSize + 'px';
-        weaponDiv.style.top = -this.tilesSize*0.50 + 'px';;
+        weaponDiv.style.top = -this.tilesSize*0.2 + 'px';;
         weaponDiv.style.left = '0';
         weaponDiv.style.overflow = 'hidden';
         towerContainer.appendChild(weaponDiv);
