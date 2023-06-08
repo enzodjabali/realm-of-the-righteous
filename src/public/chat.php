@@ -6,7 +6,6 @@
     if (!intval($sessionId) > 0) {
         header("Location:/login");
     }
-
 ?>
 
 <!DOCTYPE html>

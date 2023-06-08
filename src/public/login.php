@@ -6,7 +6,6 @@
     if ($sessionId > 0) {
         header("Location:/lobby");
     }
-
 ?>
 
 <!DOCTYPE html>
