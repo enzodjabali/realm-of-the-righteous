@@ -1,4 +1,6 @@
 <?php
+    $verifyMessage = "The link has expired.";
+
     if (isset($_GET["link"]) && is_string($_GET["link"])) {
         $serverUrl = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]";
 
@@ -19,8 +21,6 @@
         if (json_decode($response, true)["response"] === true) {
             $verifyMessage = "You've been successfully verified!";
         }
-    } else {
-        $verifyMessage = "The link has expired.";
     }
 ?>
 
