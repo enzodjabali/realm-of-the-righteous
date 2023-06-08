@@ -14,7 +14,7 @@
             <div class="card-body mt-3">
                 <h3>404</h3>
                 <p>Oops.. page not found!</p>
-                <a href="/">Back to landing page</a>
+                <a href="/">Back to the landing page</a>
             </div>
         </div>
     </body>
