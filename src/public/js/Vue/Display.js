@@ -171,35 +171,48 @@ export class Display{
     }
 
     initializeAmmo(tower) {
-        let AmmoDiv = document.createElement('div');
-        AmmoDiv.id = `AmmoDiv_${tower.id}`;
-        AmmoDiv.style.position = 'absolute';
-        AmmoDiv.style.height = this.tilesSize + 'px';
-        AmmoDiv.style.width = this.tilesSize + 'px';
-        AmmoDiv.style.top = -this.tilesSize * 0.50 + 'px';;
-        AmmoDiv.style.left = '0';
-        AmmoDiv.style.overflow = 'hidden';
-        document.getElementById('container-towers').appendChild(AmmoDiv);
+        console.log('initializeAmmo')
+        const ammoDiv = document.createElement('div');
+        ammoDiv.id = `AmmoDiv_${tower.towerAmmoId}`;
+        ammoDiv.style.position = 'absolute';
+        ammoDiv.style.height = this.tilesSize + 'px';
+        ammoDiv.style.width = this.tilesSize + 'px';
+        ammoDiv.style.top = -this.tilesSize * 0.50 + 'px';
+        ammoDiv.style.left = '0';
+        ammoDiv.style.overflow = 'hidden';
 
-        let imgAmmo = new Image();
-
+        const imgAmmo = new Image();
         imgAmmo.src = tower.pathAmmo;
-        
         imgAmmo.id = `weaponImg_${tower.id}`;
         imgAmmo.height = this.tilesSize;
-        imgAmmo.width = (this.tilesSize * tower.totalFrames);
+        imgAmmo.width = this.tilesSize * tower.totalFrames;
         imgAmmo.style.position = 'absolute';
         imgAmmo.style.top = '0';
         imgAmmo.style.left = '0';
-        AmmoDiv.appendChild(imgAmmo);
-
-        document.getElementById('container-towers').appendChild(AmmoDiv);
-
+        ammoDiv.appendChild(imgAmmo);
+        const weaponDiv = document.getElementById(`weaponImg_${tower.id}`);
+        weaponDiv.appendChild(ammoDiv);
+        tower.towerAmmoId++;
     }
-    
-    playSprite(tower, enemy) {
-        this.initializeAmmo(tower)
-            
+
+    playAmmoSprite(tower) {
+        console.log('playAmmoSprite')
+        const ammoDiv = document.getElementById(`AmmoDiv_${tower.towerAmmoId}`);
+        const imgAmmo = document.getElementById(`weaponImg_${tower.id}`);
+        let frame_2 = 0;
+        let id = setInterval(frame, 1000);
+        function frame() {
+            if (frame === tower.totalFrames) {
+                clearInterval(id);
+                ammoDiv.remove();
+            } else {
+                frame++;
+                imgAmmo.style.left = -frame * this.tilesSize + 'px';
+            }
+        }
+    }
+
+    playTowerSprite(tower, enemy) {
         clearInterval(tower.animationInterval);
         tower.currentFrame = 0;
         const { originX, originY } = this.getOrigin(tower);

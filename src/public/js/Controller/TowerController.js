@@ -37,11 +37,11 @@ export class TowerController {
             let slowness = null;
             switch (type) {
                 case "OT":
-                    console.log(towerData.rebound[0]);
+                    //console.log(towerData.rebound[0]);
                     rebound = towerData.rebound[0];
                     break;
                 case "T":
-                    console.log(towerData.slowness[0]);
+                    //console.log(towerData.slowness[0]);
                     slowness = towerData.slowness[0];
                     break;
             }
@@ -58,15 +58,14 @@ export class TowerController {
                 towerData.price,
                 type,
                 towerData.isAttackingAir,
-                towerData.totalFrames[0],
+                towerData.totalTowerFrames[0],
+                towerData.totalAmmoFrames[0],
+                towerData.totalImpactFrames[0],
                 towerData.pathAmmo[0],
                 towerData.pathImpact[0],
                 rebound,
                 slowness
             );
-            
-            console.log('tower')
-            console.log(tower)
             this.model.matrice[row][col].tower = tower;
             this.towerLogics(tower, row, col);
             
@@ -144,8 +143,10 @@ export class TowerController {
             let neighbour = this.findNeighbour(x, y, range)            
             if (neighbour[0]) {
                 if (tower.isAttackingAir && this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].isFlying || !tower.isAttackingAir && !this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].isFlying) {
+
                     this.provideDamage(this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0], damage)                    
-                    this.display.playSprite(tower, this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0]);
+
+                    this.display.playTowerSprite(tower, this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0]);
 
                     switch (tower.type) {
                     case "BT":

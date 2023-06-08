@@ -24,14 +24,16 @@ export const enumTower = {
                       '../../assets/images/towers/weapons/impact/BT2impact.png',
                       '../../assets/images/towers/weapons/impact/BT3impact.png'],
 
-        totalFrames : [17,17,17],
+        totalTowerFrames : [17,17,17],
+        totalAmmoFrames : [5,6,8],
+        totalImpactFrames : [9,9,9],
         damage : [3,6,10],
         shotRate: [500, 400, 300],//in ms
         price: [100,200,300],
         isAttackingAir: false,
     },
     'OT':{
-        path : ['../../assets/images/towers/OT1.png', 
+        path : ['../../assets/images/towers/OT1.png',
                 '../../assets/images/towers/OT2.png', 
                 '../../assets/images/towers/OT3.png'],
         
@@ -47,7 +49,9 @@ export const enumTower = {
                       '../../assets/images/towers/weapons/impact/OT2impact.png',
                       '../../assets/images/towers/weapons/impact/OT3impact.png'],
 
-        totalFrames : [8,8,8],
+        totalTowerFrames : [8,8,8],
+        totalAmmoFrames : [6,6,6],
+        totalImpactFrames : [6,6,6],
         damage : [1,2,3],
         shotRate: [200,150,100],//in ms
         price: [10,20,30],
@@ -69,7 +73,9 @@ export const enumTower = {
 
         pathImpact : ['../../assets/images/towers/weapons/impact/Timpact.png'],
 
-        totalFrames : [6,6,6],
+        totalTowerFrames : [6,6,6],
+        totalAmmoFrames : [3,4,4],
+        totalImpactFrames : [6],
         shotRate: [300,4000,3000],//in ms
         damage: [1,40,60],
         price: [100,200,300],
@@ -91,7 +97,9 @@ export const enumTower = {
 
         pathImpact: ['../../assets/images/towers/weapons/impact/WTimpact.png'],
 
-        totalFrames : [6,6,6],
+        totalTowerFrames : [6,6,6],
+        totalAmmoFrames : [3,6,9],
+        totalImpactFrames : [6],
         damage : [3,6,10],
         shotRate: [500,400,300],//in ms
         price: [1,2,3],
