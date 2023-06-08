@@ -159,7 +159,7 @@ export class Display{
         imgTowerWeapon.src = tower.pathWeapon;
         imgTowerWeapon.id = `weaponImg_${tower.id}`;
         imgTowerWeapon.height = this.tilesSize;
-        imgTowerWeapon.width = (this.tilesSize * tower.totalFrames);
+        imgTowerWeapon.width = (this.tilesSize * tower.totalTowerFrames);
         imgTowerWeapon.style.position = 'absolute';
         imgTowerWeapon.style.top = '0';
         imgTowerWeapon.style.left = '0';
@@ -185,7 +185,7 @@ export class Display{
         imgAmmo.src = tower.pathAmmo;
         imgAmmo.id = `weaponImg_${tower.id}`;
         imgAmmo.height = this.tilesSize;
-        imgAmmo.width = this.tilesSize * tower.totalFrames;
+        imgAmmo.width = this.tilesSize * tower.totalTowerFrames;
         imgAmmo.style.position = 'absolute';
         imgAmmo.style.top = '0';
         imgAmmo.style.left = '0';
@@ -202,7 +202,7 @@ export class Display{
         let frame_2 = 0;
         let id = setInterval(frame, 1000);
         function frame() {
-            if (frame === tower.totalFrames) {
+            if (frame === tower.totalTowerFrames) {
                 clearInterval(id);
                 ammoDiv.remove();
             } else {
@@ -217,15 +217,18 @@ export class Display{
         tower.currentFrame = 0;
         const { originX, originY } = this.getOrigin(tower);
         let angle = this.rotateWeapon(tower, enemy)
+        
         let weaponDiv = document.getElementById(`weaponDiv_${tower.id}`);
+        console.log(weaponDiv)
+        console.log(originX, originY)
         weaponDiv.style.transformOrigin = `${originX}px ${originY}px`;
         weaponDiv.style.transform = `rotate(${angle}deg)`;
         let imgTowerWeapon = document.getElementById(`weaponImg_${tower.id}`);
         imgTowerWeapon.style.left = '0px';
-        const frameDuration = Math.floor(tower.shotRate / tower.totalFrames);
+        const frameDuration = Math.floor(tower.shotRate / tower.totalTowerFrames);
         tower.animationInterval = setInterval(() => {
             this.animateSprite(tower);
-            if (tower.currentFrame >= tower.totalFrames) {
+            if (tower.currentFrame >= tower.totalTowerFrames) {
                 clearInterval(tower.animationInterval);
             }
         }, frameDuration);
@@ -234,7 +237,7 @@ export class Display{
 
     
     animateSprite(tower) {
-        if (tower.currentFrame >= tower.totalFrames) {
+        if (tower.currentFrame >= tower.totalTowerFrames) {
             clearInterval(tower.animationInterval);
             return;
         }
@@ -247,11 +250,9 @@ export class Display{
 
 
     getOrigin(tower) {
-        const currentFrame = tower.currentFrame;
-        const totalFrames = tower.totalFrames;
+        const progress = tower.currentFrame / tower.totalTowerFrames;
 
-        const progress = currentFrame / totalFrames;
-            
+        console.log(this.tilesSize)
         
         const originX = this.tilesSize / 2 + this.tilesSize * progress;
         const originY = this.tilesSize / 2;
