@@ -25,10 +25,7 @@ export class Controller{
          * @param {number} nextPosition[0] new x coordinate.
          * @param {number} nextPosition[1] new y coordinate.
          */
-        const matrice = this.model.getMatrice();
-
-        matrice[enemy.position.x][enemy.position.y].enemies.shift()
-
+        this.model.matrice[enemy.position.x][enemy.position.y].enemies.shift()
         enemy.position.x += nextPosition[0]
         enemy.position.y += nextPosition[1]
         this.updateEnemyInMatrice(enemy);
@@ -91,9 +88,7 @@ export class Controller{
                 for (let mob = 0; mob < group[0]; mob++){
                     let enemy = this.enemiesController.createEnnemyObject(this.model.mobId, enumEnemies, path, this.model.entryPoints[indexOfEntryPoints], group[1])
                     this.display.initializeEnemy(enemy);
-                    
-                    this.run(enemy, path, this.model.endPoints[indexOfEndPoints]); // Run the movement loop for each enemy
-
+                    this.run(enemy, path, this.model.endPoints[indexOfEndPoints])
                     await new Promise(r => setTimeout(r, 500)); // Delay 500ms between each enemy's movement for smoother animation
                     this.model.mobId++;
                 }
@@ -118,8 +113,9 @@ export class Controller{
                         // alert('endgame')
                     }
                     this.display.removeEnemy(enemy);
-                    this.model.matrice[enemy.position.x][enemy.position.y].enemies.splice(enemy, 1)
-                    return
+
+                    this.model.matrice[enemy.position.x][enemy.position.y].enemies.filter(enemy => enemy.id !== enemy.id);
+                    break;
                 }
 
                 if (path[step][1] < 0){
@@ -134,13 +130,13 @@ export class Controller{
                     this.playerController.player.money += enemy.price;
                     this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life);
                     this.display.removeEnemy(enemy);
-                    this.model.matrice[enemy.position.x][enemy.position.y].enemies.shift()
-                    return;
+                    this.model.matrice[enemy.position.x][enemy.position.y].enemies.filter(enemy => enemy.id !== enemy.id);
+                    break;
                 }
 
                 if (step <= path.length-1) {
                     //this one ok GET RETURN ENEMY TO REFRESH ????
-                    await this.updateEnemiesPosition(enemy, path[step]); // Await the update of the enemy's position
+                    this.updateEnemiesPosition(enemy, path[step]); // Await the update of the enemy's position
                     await this.display.updateEnemyHealthBar(enemy);
                 }
                 await this.display.nextMoveEnemy(enemy, path[step]); // Await the next move of the enemy using the nextMoveEnemy() method

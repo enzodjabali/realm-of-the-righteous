@@ -95,42 +95,51 @@ export class TowerController {
 
 
 
-    findNeighbour(x, y, range, searchType=1) {
-        let enemies = [];
-        let directions = this.DIRECTIONS
-        for (let i = 1; i <= range; i++) {
-            if (i == 2) {
-                if (directions.length == 4) {
-                    directions = directions.concat(this.DIRECTIONDIAG);
-                    i = 1;
-                }
-            }
-            for (let direction of directions) {
-                const dx = i * direction[0];
-                const dy = i * direction[1];
-                const nx = x + dx;
-                const ny = y + dy;
+    findNeighbour(centerX, centerY, radius, searchType) {
+        let tower = [];
+        let splash = [];
 
-                if (nx >= 0 && nx < this.model.matrice.length && ny >= 0 && ny < this.model.matrice[0].length) {
-                    if (searchType == 1) {
-                        const cell = this.model.matrice[nx][ny];
-                        if (cell.enemies.length > 0) {
-                            enemies.push([nx, ny])
-                        }
-                    } else if (searchType == 2) {
-                        const cell = this.model.matrice[nx][ny];
-                        if (cell.tower) {
-                            enemies.push(cell)
-                        }
+        const height = radius * 2;
+        const width = radius * 2;
+
+        const startX = Math.max(centerX - radius, 0);
+        const startY = Math.max(centerY - radius, 0);
+        const endX = Math.min(centerX + radius, this.model.matrice.length - 1);
+        const endY = Math.min(centerY + radius, this.model.matrice[0].length - 1);
+
+        for (let y = startY; y <= endY; y++) {
+            for (let x = startX; x <= endX; x++) {
+                if (x == startX && y == startY){
+                    continue;
+                }
+                const dx = x - centerX;
+                const dy = y - centerY;
+
+                if (dx * dx + dy * dy <= radius ** 2) {
+                    const cell = this.model.matrice[x][y];
+
+                    if (searchType === "enemy" && cell.enemies.length > 0) {
+                        return cell.enemies[0];
+                    }
+                    if (searchType === "tower" && cell.tower && (dx !== 0 || dy !== 0)) {
+                        tower.push(cell.tower);
+                    }
+                    if (searchType === "splash" && cell.tower && (dx !== 0 || dy !== 0)) {
+                        splash.push(cell.enemies);
                     }
                 }
             }
         }
-        //Avoid duplicates in list
-        enemies = enemies.map(JSON.stringify).filter((e, i, a) => i === a.indexOf(e)).map(JSON.parse)
-        return enemies;
+        // Return the desired values (test and tower) as needed
+        if (searchType == "tower") {
+            return tower;
+        }
+        if (searchType == "splash"){
+            return splash;
+        } else {
+            return null;
+        }
     }
-
 
     async runTower(tower)
     {
@@ -147,48 +156,43 @@ export class TowerController {
             await new Promise(r => setTimeout(r, tower.shotRate)); // frequency of fire
             let {range, damage} = tower;
             const {x, y} = tower.position;
-            let neighbour = this.findNeighbour(x, y, range)            
-            if (neighbour[0]) {
-                if (tower.isAttackingAir && this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].isFlying || !tower.isAttackingAir && !this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].isFlying) {
-
-                    this.provideDamage(this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0], damage)                    
-
-                    this.display.playTowerSprite(tower, this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0]);
-
+            let enemy = this.findNeighbour(x, y, range, "enemy");
+            if (enemy) {
+                if (tower.isAttackingAir && enemy.isFlying || !tower.isAttackingAir && !enemy.isFlying) {
+                    this.provideDamage(enemy, damage)
+                    this.display.playTowerSprite(tower, enemy);
                     switch (tower.type) {
                     case "BT":
-                            //Splash Tower
-                        if (neighbour.length > 1) {
-                            neighbour = neighbour.slice(1, neighbour.length)
-                            let counter = 0;
-                            for (let enemy of neighbour) {
-                                counter++
-                                if (counter % 2 == 0) {
-                                    damage = damage * 0.5
+                            //Splash Tower HELP ME
+                            let splashRange = 2;
+                            let closeEnemy = this.findNeighbour(enemy.position.x, enemy.position.y, splashRange)
+                            if(closeEnemy){
+                                for (let cell of closeEnemy) {
+                                    for (let enemy of cell){
+                                        this.provideDamage(enemy, tower.damage*0.3)
+                                    }
                                 }
-                                this.provideDamage(this.model.matrice[enemy[0]][enemy[1]].enemies[0], damage)
-
                             }
-                        }
+
                         break;
                     case "OT":
                             // Rebound Tower
-                        if (neighbour.length > 1) {
+                            //     redemander un voisin si c'est le meme
+                        if (enemy) {
                             for (let i = 0; i < tower.rebound; i++) {
-                                neighbour = this.findNeighbour(neighbour[0][0], neighbour[0][1], 3);
-                                if (neighbour.length > 0) {
-                                    if (!this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].isFlying) {
-                                        this.provideDamage(this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0], (damage / i))
+                                enemy = this.findNeighbour(enemy.position.x, enemy.position.y, 1, "enemy");
+                                if (enemy) {
+                                    if (!enemy.isFlying) {
+                                        this.provideDamage(enemy, (tower.damage / i))
                                     }
                                 }
                             }
                         }
                         break;
                     case "T":
-                        if (neighbour.length > 0) {
-                            let enemy = this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0]
+                        if (enemy) {
                             this.slowedEnemies[enemy.id] = [(Date.now()/1000)+3, enemy]
-                                //Permits to round up speed
+                            //Permits to round up speed
                             enemy.speed = (enemy.speed / tower.slowness).toFixed(1);
                         }
                         break;
@@ -196,11 +200,8 @@ export class TowerController {
                 }
             }
             if (tower.type == "WT"){
-                let towerNearby = this.findNeighbour(x, y, range, 2)
+                let towerNearby = this.findNeighbour(x, y, range, "tower")
                 console.log(towerNearby, "Tower nearby")
-                if (neighbour.length > 0) {
-
-                }
             }
         }
     }
@@ -225,9 +226,9 @@ export class TowerController {
 
 
     }
-    provideDamage(enemyLife, damage)
+    provideDamage(enemy, damage)
     {
-        enemyLife.curent_life -= damage;
+        enemy.curent_life -= damage;
     }
     async slowedEnemy()
     {

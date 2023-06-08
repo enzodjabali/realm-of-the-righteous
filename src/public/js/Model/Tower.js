@@ -9,7 +9,7 @@ export class Tower{
         this.shotRate = shotRate;
         this.towerLevel = towerLevel;
         this.level = 0;
-        this.range = 5;
+        this.range = 10;
         this.position = position
         this.path = path;
         this.pathWeapon = pathWeapon;
