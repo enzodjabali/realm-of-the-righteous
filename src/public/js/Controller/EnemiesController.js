@@ -6,7 +6,6 @@ export class EnemiesController {
          * @param {Model} model instance of model created in Controller.
          */
         this.model = model;
-        this.enemies = []
     }
     createEnnemyObject(id, mobDict, path, entry, typeOfEnemies){
         /**
@@ -25,7 +24,6 @@ export class EnemiesController {
                     if(typeOfEnemies == mobKey){
                         let enemy = new Enemy(id, mobKey,path, mobValues.pathAlive, position, mobValues.life,
                             mobValues.life, mobValues.armor, mobValues.speed, mobValues.price, mobValues.isFlying);
-                        this.enemies.push(enemy);
                         return enemy
                     }
             }
