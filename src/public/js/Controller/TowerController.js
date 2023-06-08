@@ -93,9 +93,9 @@ export class TowerController {
     }
 
 
-    
 
-    findNeighbour(x, y, range) {
+
+    findNeighbour(x, y, range, searchType=1) {
         let enemies = [];
         let directions = this.DIRECTIONS
         for (let i = 1; i <= range; i++) {
@@ -112,10 +112,16 @@ export class TowerController {
                 const ny = y + dy;
 
                 if (nx >= 0 && nx < this.model.matrice.length && ny >= 0 && ny < this.model.matrice[0].length) {
-
-                    const cell = this.model.matrice[nx][ny];
-                    if (cell.enemies.length > 0) {
-                        enemies.push([nx, ny])
+                    if (searchType == 1) {
+                        const cell = this.model.matrice[nx][ny];
+                        if (cell.enemies.length > 0) {
+                            enemies.push([nx, ny])
+                        }
+                    } else if (searchType == 2) {
+                        const cell = this.model.matrice[nx][ny];
+                        if (cell.tower) {
+                            enemies.push(cell)
+                        }
                     }
                 }
             }
@@ -124,6 +130,7 @@ export class TowerController {
         enemies = enemies.map(JSON.stringify).filter((e, i, a) => i === a.indexOf(e)).map(JSON.parse)
         return enemies;
     }
+
 
     async runTower(tower)
     {
@@ -172,9 +179,7 @@ export class TowerController {
                                 if (neighbour.length > 0) {
                                     if (!this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].isFlying) {
                                         this.provideDamage(this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0], (damage / i))
-
                                     }
-
                                 }
                             }
                         }
@@ -188,6 +193,13 @@ export class TowerController {
                         }
                         break;
                     }
+                }
+            }
+            if (tower.type == "WT"){
+                let towerNearby = this.findNeighbour(x, y, range, 2)
+                console.log(towerNearby, "Tower nearby")
+                if (neighbour.length > 0) {
+
                 }
             }
         }

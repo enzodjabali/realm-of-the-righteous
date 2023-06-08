@@ -224,8 +224,6 @@ export class Display{
             return;
         }
         let weaponDiv = document.getElementById(`weaponDiv_${tower.id}`);
-        console.log(weaponDiv)
-        console.log(originX, originY)
         weaponDiv.style.transformOrigin = `${originX}px ${originY}px`;
         weaponDiv.style.transform = `rotate(${angle}deg)`;
         let imgTowerWeapon = document.getElementById(`weaponImg_${tower.id}`);
