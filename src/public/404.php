@@ -32,6 +32,7 @@
                 <p>Oops.. page not found!</p>
 <<<<<<< main
 <<<<<<< main
+<<<<<<< main
                 <a href="/">Back to the landing page</a>
             </div>
         </div>
@@ -43,6 +44,9 @@
 >>>>>>> adding a 404 page (#220)
 =======
                 <a href="/">Back to landing page</a>
+=======
+                <a href="/">Back to the landing page</a>
+>>>>>>> fixing the 404 page (#220)
             </div>
         </div>
 >>>>>>> fixing the 404 page (#220)
