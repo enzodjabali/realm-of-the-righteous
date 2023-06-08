@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : database
--- Généré le : jeu. 08 juin 2023 à 12:00
+-- Généré le : jeu. 08 juin 2023 à 20:57
 -- Version du serveur : 8.0.33
 -- Version de PHP : 8.1.19
 
@@ -87,7 +87,18 @@ CREATE TABLE `player` (
 --
 
 INSERT INTO `player` (`id`, `username`, `password`, `email`, `is_verified`, `is_admin`) VALUES
-(1, 'test', '$2y$10$rxjjpgi55rb3f27LEy8qAOq1SAUdcxzpqfiPuYlUM.bwmy/7bJysG', 'test@test.dev', 1, 1);
+(1, 'test', '$2y$10$TI1OfpiInnGJR6jduI5htevvDJ1Mav9ckQrsI8K0cEbE4SwisRXRe', 'test@test.dev', 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `reset_password_link`
+--
+
+CREATE TABLE `reset_password_link` (
+  `player_email` varchar(50) NOT NULL,
+  `link` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -132,7 +143,7 @@ ALTER TABLE `player`
 -- AUTO_INCREMENT pour la table `chat`
 --
 ALTER TABLE `chat`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT pour la table `game`

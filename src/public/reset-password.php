@@ -2,7 +2,7 @@
     if (isset($_GET["link"]) && is_string($_GET["link"])) {
         $serverUrl = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]";
 
-        $url = "$serverUrl/api/DoesResetPasswordLinkExist.php?link={$_GET["link"]}";
+        $url = "$serverUrl/api/v1/player/doesResetPasswordLinkExist?link={$_GET["link"]}";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
@@ -16,9 +16,9 @@
         }
         curl_close($ch);
 
-        $DoesResetPasswordLinkExist = $response == "1";
+        $doesResetPasswordLinkExist = json_decode($response, true)["response"] === true;
     } else {
-        $DoesResetPasswordLinkExist = false;
+        $doesResetPasswordLinkExist = false;
     }
 ?>
 
@@ -47,7 +47,7 @@
             </div>
         </div>
 
-        <?php if ($DoesResetPasswordLinkExist) { ?>
+        <?php if ($doesResetPasswordLinkExist) { ?>
             <div class="card w-75 position-absolute top-50 start-50 translate-middle">
                 <div class="card-header text-center ">
                     Reset password
@@ -95,16 +95,14 @@
                 let newPassword = $(this).find("input[name=newPassword]").val();
                 let retypedNewPassword = $(this).find("input[name=retypedNewPassword]").val();
 
-                $.post("../api/ResetPassword.php", {link: link, newPassword: newPassword, retypedNewPassword: retypedNewPassword}, function(response) {
-                    if (response === "1") {
-                        window.location.href = "/login";
-                    } else {
-                        $("#spinner").addClass("visually-hidden");
-                        $("#reset-password-form").removeClass("visually-hidden");
+                $.post("../api/v1/player/resetPassword", {link: link, newPassword: newPassword, retypedNewPassword: retypedNewPassword}, function() {
+                    window.location.href = "/login";
+                }).fail(function(response) {
+                    $("#spinner").addClass("visually-hidden");
+                    $("#reset-password-form").removeClass("visually-hidden");
 
-                        $(".toast").toast('show');
-                        $(".toast-body").html(response);
-                    }
+                    $(".toast").toast('show');
+                    $(".toast-body").html(JSON.parse(response.responseText).response);
                 });
                 return false;
             });

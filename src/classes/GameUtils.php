@@ -74,7 +74,7 @@ class GameUtils
      * @return bool|string returns the json encoded data of the games information
      * @throws Exception
      */
-    public static function getGameInformation(int $playerId): bool|string
+    public static function findAllGames(int $playerId): bool|array
     {
         $result = DbUtils::select(DbTable::TABLE_GAME, ["id", "name", "date"], "WHERE player_id = '$playerId' ORDER BY id DESC");
         $result_array = [];
@@ -83,8 +83,7 @@ class GameUtils
             $result_array[] = $row;
         }
 
-        header('Content-type: application/json');
-        return json_encode($result_array);
+        return $result_array;
     }
 
     /**
@@ -107,16 +106,20 @@ class GameUtils
     /**
      * This method gets the model of a given game ID
      * @param int $gameId the game ID
+     * @param int $playerId the player's ID
      * @return string returns a string containing the model if it exists, returns an empty string if it doesn't
      */
-    public static function getModel(int $gameId): string
+    public static function getModel(int $gameId, int $playerId): string
     {
-        try {
-            return DbUtils::select(DbTable::TABLE_GAME, ["model"], "WHERE id = '$gameId'")->fetch()["model"] ?? "";
-        } catch (Exception $e) {
-            echo $e->getMessage();
-            return "";
+        if (GameUtils::doesGameBelongToPlayer($gameId, $playerId)) {
+            try {
+                return DbUtils::select(DbTable::TABLE_GAME, ["model"], "WHERE id = '$gameId'")->fetch()["model"] ?? "";
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
         }
+
+        return "";
     }
 
     /**

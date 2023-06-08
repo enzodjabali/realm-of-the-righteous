@@ -95,18 +95,16 @@
                 let newPassword = $(this).find("input[name=newPassword]").val();
                 let retypedNewPassword = $(this).find("input[name=retypedNewPassword]").val();
 
-                $.post("../api/UpdatePassword.php", {currentPassword: currentPassword, newPassword: newPassword, retypedNewPassword: retypedNewPassword}, function(response) {
-                    if (response === "1") {
-                        $(".toast").addClass('text-bg-success');
-                        $(".toast").removeClass('text-bg-danger');
-                        $(".toast").toast('show');
-                        $(".toast-body").html("Your password has been successfully updated.");
-                    } else {
-                        $(".toast").removeClass('text-bg-success');
-                        $(".toast").addClass('text-bg-danger');
-                        $(".toast").toast('show');
-                        $(".toast-body").html(response);
-                    }
+                $.post("../api/v1/player/updatePassword", {currentPassword: currentPassword, newPassword: newPassword, retypedNewPassword: retypedNewPassword}, function() {
+                    $(".toast").addClass('text-bg-success');
+                    $(".toast").removeClass('text-bg-danger');
+                    $(".toast").toast('show');
+                    $(".toast-body").html("Your password has been successfully updated.");
+                }).fail(function(response) {
+                    $(".toast").removeClass('text-bg-success');
+                    $(".toast").addClass('text-bg-danger');
+                    $(".toast").toast('show');
+                    $(".toast-body").html(JSON.parse(response.responseText).response);
                 });
                 return false;
             });

@@ -102,24 +102,16 @@
                 let username = $(this).find("input[name=username]").val();
                 let password = $(this).find("input[name=password]").val();
 
-                $.post("api/LoginPlayer.php", {username: username, password: password}, function(response){
-                    let loginResponse = JSON.parse(response.substring(response.indexOf("{"), response.lastIndexOf("}") + 1));
+                $.post("api/v1/player/login", {username: username, password: password}, function() {
+                    window.location.href = "/lobby";
+                }).fail(function(response) {
+                    $("#spinner").addClass("visually-hidden");
+                    $("#login-form").removeClass("visually-hidden");
 
-                    if ("error" in loginResponse) {
-                        $(document).ready(function() {
-                            $("#spinner").addClass("visually-hidden");
-                            $("#login-form").removeClass("visually-hidden");
-
-                            $(".toast").removeClass('text-bg-success');
-                            $(".toast").addClass('text-bg-danger');
-                            $(".toast").toast('show');
-                            $(".toast-body").html(loginResponse["error"]);
-                        });
-                    } else if ("playerId" in loginResponse) {
-                        window.location.href = "/lobby";
-                    } else {
-                        console.log("An error has occurred.")
-                    }
+                    $(".toast").removeClass('text-bg-success');
+                    $(".toast").addClass('text-bg-danger');
+                    $(".toast").toast('show');
+                    $(".toast-body").html(JSON.parse(response.responseText).response);
                 });
                 return false;
             });
@@ -134,25 +126,23 @@
 
                 let playerEmail = $(this).find("input[name=email]").val();
 
-                $.post("api/GenerateResetPasswordLink.php", {playerEmail: playerEmail}, function(response){
-                    if (response === "1") {
-                        $('#delete-game-modal').modal('hide');
-                        $("#delete-game-spinner").addClass("visually-hidden");
-                        $("#create-game-text").removeClass("visually-hidden");
+                $.post("api/v1/player/generateResetPasswordLink", {playerEmail: playerEmail}, function(){
+                    $('#delete-game-modal').modal('hide');
+                    $("#delete-game-spinner").addClass("visually-hidden");
+                    $("#create-game-text").removeClass("visually-hidden");
 
-                        $(".toast").addClass('text-bg-success');
-                        $(".toast").removeClass('text-bg-danger');
-                        $(".toast").toast('show');
-                        $(".toast-body").html("A reset link has been sent to " + playerEmail + ".");
-                    } else {
-                        $("#delete-game-spinner").addClass("visually-hidden");
-                        $("#create-game-text").removeClass("visually-hidden");
+                    $(".toast").addClass('text-bg-success');
+                    $(".toast").removeClass('text-bg-danger');
+                    $(".toast").toast('show');
+                    $(".toast-body").html("A reset link has been sent to " + playerEmail + ".");
+                }).fail(function(response) {
+                    $("#delete-game-spinner").addClass("visually-hidden");
+                    $("#create-game-text").removeClass("visually-hidden");
 
-                        $(".toast").removeClass('text-bg-success');
-                        $(".toast").addClass('text-bg-danger');
-                        $(".toast").toast('show');
-                        $(".toast-body").html(response);
-                    }
+                    $(".toast").removeClass('text-bg-success');
+                    $(".toast").addClass('text-bg-danger');
+                    $(".toast").toast('show');
+                    $(".toast-body").html(JSON.parse(response.responseText).response);
                 });
                 return false;
             });

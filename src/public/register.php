@@ -119,15 +119,13 @@
                 let email = $(this).find("input[name=email]").val();
                 let terms = $(this).find("input[name=terms]").is(":checked");
 
-                $.post("api/RegisterPlayer.php", {username: username, password: password, retypedPassword: retypedPassword, email: email, terms: terms}, function(response) {
-                    if (response === "1") {
-                        $('#modal').modal('show');
-                    } else {
-                        $(document).ready(function() {
-                            $(".toast").toast('show');
-                            $(".toast-body").html(response);
-                        });
-                    }
+                $.post("api/v1/player/register", {username: username, password: password, retypedPassword: retypedPassword, email: email, terms: terms}, function() {
+                    $('#modal').modal('show');
+                }).fail(function(response) {
+                    $(document).ready(function() {
+                        $(".toast").toast('show');
+                        $(".toast-body").html(JSON.parse(response.responseText).response);
+                    });
                 });
                 return false;
             });

@@ -54,10 +54,10 @@ class ChatUtils
 
     /**
      * This method return the fetched messages of the chat
-     * @return bool|string returns the json encoded data of the messages information
+     * @return bool|array returns the json encoded data of the messages information
      * @throws Exception
      */
-    public static function getAllMessages(): bool|string
+    public static function findAllMessages(): bool|array
     {
         $result = DbUtils::select(
             DbTable::TABLE_CHAT,
@@ -70,7 +70,6 @@ class ChatUtils
             $result_array[] = $row;
         }
 
-        header('Content-type: application/json');
-        return json_encode($result_array);
+        return $result_array;
     }
 }

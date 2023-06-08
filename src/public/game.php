@@ -16,7 +16,7 @@
         return $protocol.$server.$port;
     }
 
-    $url = getServerUrl() . "/api/DoesGameBelongToPlayer.php?player_id=$sessionId&game_id=$gameId";
+    $url = getServerUrl() . "/api/v1/game/doesBelongToPlayer?game_id=$gameId&player_id=$sessionId";
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
@@ -30,10 +30,9 @@
     }
     curl_close($ch);
 
-    if (intval($response) != 1) {
+    if (!json_decode($response, true)["response"]) {
         header("Location:/lobby");
     }
-
 ?>
 
 <!DOCTYPE html>

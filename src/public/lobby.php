@@ -122,7 +122,7 @@
             document.getElementById('game-list').innerHTML = "";
 
             const request = new XMLHttpRequest();
-            request.open('GET', '/api/GetGameInformation.php', false);  // `false` makes the request synchronous
+            request.open('GET', '/api/v1/game/getAll', false);  // `false` makes the request synchronous
             request.send(null);
 
             if (request.status === 200) {
@@ -151,37 +151,35 @@
          */
         $(function(){
             $("#create-game-form").submit(function(){
-
                 $("#create-game-spinner").removeClass("visually-hidden");
                 $("#create-game-form").addClass("visually-hidden");
 
                 let name = $(this).find("input[name=name]").val();
                 let difficulty = $('input[name="difficulty"]:checked').val();
 
-                $.post("api/CreateGame.php", {name: name, difficulty: difficulty}, function(response){
-                    if (response === "1") {
-                        $('#create-game-modal').modal('hide');
-                        getGameInformation();
+                $.post( "api/v1/game/create", {name: name, difficulty: difficulty}, function() {
+                    $('#create-game-modal').modal('hide');
+                    getGameInformation();
 
-                        $("#create-game-spinner").addClass("visually-hidden");
-                        $("#create-game-form").removeClass("visually-hidden");
-                        $("#name").val("");
+                    $("#create-game-spinner").addClass("visually-hidden");
+                    $("#create-game-form").removeClass("visually-hidden");
+                    $("#name").val("");
 
-                        $(".toast").addClass('text-bg-success');
-                        $(".toast").removeClass('text-bg-danger');
-                        $(".toast").toast('show');
-                        $(".toast-body").html("Your game has been successfully created.");
-                    } else {
-                        $("#create-game-spinner").addClass("visually-hidden");
-                        $("#create-game-form").removeClass("visually-hidden");
+                    $(".toast").addClass('text-bg-success');
+                    $(".toast").removeClass('text-bg-danger');
+                    $(".toast").toast('show');
+                    $(".toast-body").html("Your game has been successfully created.");
+                }).fail(function(response) {
+                    $("#create-game-spinner").addClass("visually-hidden");
+                    $("#create-game-form").removeClass("visually-hidden");
 
-                        $(".toast").removeClass('text-bg-success');
-                        $(".toast").addClass('text-bg-danger');
-                        $(".toast").toast('show');
-                        $(".toast-body").html(response);
-                    }
+                    $(".toast").removeClass('text-bg-success');
+                    $(".toast").addClass('text-bg-danger');
+                    $(".toast").toast('show');
+                    $(".toast-body").html(JSON.parse(response.responseText).response);
                 });
-                return false;
+
+            return false;
             });
         });
 
@@ -196,27 +194,25 @@
 
             let gameId = $('#delete-game-id').text();
 
-            $.post("api/DeleteGame.php", {gameId: gameId}, function(response){
-                if (response === "1") {
-                    $('#delete-game-modal').modal('hide');
-                    getGameInformation();
+            $.post("api/v1/game/delete", {gameId: gameId}, function(response) {
+                $('#delete-game-modal').modal('hide');
+                getGameInformation();
 
-                    $("#delete-game-spinner").addClass("visually-hidden");
-                    $("#create-game-text").removeClass("visually-hidden");
+                $("#delete-game-spinner").addClass("visually-hidden");
+                $("#create-game-text").removeClass("visually-hidden");
 
-                    $(".toast").addClass('text-bg-success');
-                    $(".toast").removeClass('text-bg-danger');
-                    $(".toast").toast('show');
-                    $(".toast-body").html("Your game has been successfully deleted.");
-                } else {
-                    $("#delete-game-spinner").addClass("visually-hidden");
-                    $("#create-game-text").removeClass("visually-hidden");
+                $(".toast").addClass('text-bg-success');
+                $(".toast").removeClass('text-bg-danger');
+                $(".toast").toast('show');
+                $(".toast-body").html("Your game has been successfully deleted.");
+            }).fail(function() {
+                $("#delete-game-spinner").addClass("visually-hidden");
+                $("#create-game-text").removeClass("visually-hidden");
 
-                    $(".toast").removeClass('text-bg-success');
-                    $(".toast").addClass('text-bg-danger');
-                    $(".toast").toast('show');
-                    $(".toast-body").html("An error has occurred, the game hasn't been deleted.");
-                }
+                $(".toast").removeClass('text-bg-success');
+                $(".toast").addClass('text-bg-danger');
+                $(".toast").toast('show');
+                $(".toast-body").html("An error has occurred, the game hasn't been deleted.");
             });
         }
     </script>

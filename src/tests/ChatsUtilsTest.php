@@ -23,7 +23,7 @@ final class ChatsUtilsTest extends TestCase
      */
     public function testGetAllMessages(): void
     {
-        $getAllMessages = json_decode(ChatUtils::getAllMessages());
-        $this->assertGreaterThan(0, count($getAllMessages));
+        $findAllMessages = ChatUtils::findAllMessages();
+        $this->assertGreaterThan(0, count($findAllMessages));
     }
 }

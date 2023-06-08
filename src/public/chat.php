@@ -59,7 +59,7 @@
              * This function gets all the chat messages and display them
              */
             $(function(){
-                $.get("api/GetChatMessages.php", function(response) {
+                $.get("api/v1/chat/getAll", function(response) {
                     let chatMessages = response;
 
                     document.getElementById('message-list').innerHTML = '';
@@ -92,15 +92,13 @@
             $("#chat-form").submit(function(){
                 let message = $(this).find("input[name=message]").val();
 
-                $.post("api/InsertChatMessage.php", {message: message}, function(response){
-                    if (response === "1") {
-                        document.getElementById('message').value = "";
-                    } else {
-                        $(document).ready(function() {
-                            $(".toast").toast('show');
-                            $(".toast-body").html(response);
-                        });
-                    }
+                $.post("api/v1/chat/insert", {message: message}, function(){
+                    document.getElementById('message').value = "";
+                }).fail(function(response) {
+                    $(document).ready(function() {
+                        $(".toast").toast('show');
+                        $(".toast-body").html(JSON.parse(response.responseText).response);
+                    });
                 });
                 return false;
             });

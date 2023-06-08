@@ -78,10 +78,8 @@
          */
         function deletePlayer() {
             $(function(){
-                $.post("../api/DeletePlayer.php", function(response) {
-                    if (response === "1") {
-                        location.href = '/logout.php';
-                    }
+                $.post("../api/v1/player/delete", function() {
+                    location.href = '/logout.php';
                 });
                 return false;
             });
