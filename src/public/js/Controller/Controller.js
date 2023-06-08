@@ -158,8 +158,8 @@ export class Controller{
         */
         $(function () {
             let gameId = new URLSearchParams(window.location.search).get('game_id');
-            $.post("api/UpdateGameModel.php", { gameId: gameId, newModel: model}, function (response) {
-                if (response === "1") {
+            $.post("api/v1/game/updateModel", { gameId: gameId, newModel: model}, function (response) {
+                if (response["response"] === true) {
                     console.log('Game saved')                    
                 } else {
                     console.log(response)
