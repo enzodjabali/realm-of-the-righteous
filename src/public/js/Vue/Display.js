@@ -171,7 +171,6 @@ export class Display{
     }
 
     initializeAmmo(tower) {
-        console.log('initializeAmmo')
         const ammoDiv = document.createElement('div');
         ammoDiv.id = `AmmoDiv_${tower.towerAmmoId}`;
         ammoDiv.style.position = 'absolute';
@@ -196,7 +195,6 @@ export class Display{
     }
 
     playAmmoSprite(tower) {
-        console.log('playAmmoSprite')
         const ammoDiv = document.getElementById(`AmmoDiv_${tower.towerAmmoId}`);
         const imgAmmo = document.getElementById(`weaponImg_${tower.id}`);
         let frame_2 = 0;
@@ -217,10 +215,10 @@ export class Display{
         tower.currentFrame = 0;
         const { originX, originY } = this.getOrigin(tower);
         let angle = this.rotateWeapon(tower, enemy)
-        
+        if(!document.getElementById(`weaponDiv_${tower.id}`)){
+            return;
+        }
         let weaponDiv = document.getElementById(`weaponDiv_${tower.id}`);
-        console.log(weaponDiv)
-        console.log(originX, originY)
         weaponDiv.style.transformOrigin = `${originX}px ${originY}px`;
         weaponDiv.style.transform = `rotate(${angle}deg)`;
         let imgTowerWeapon = document.getElementById(`weaponImg_${tower.id}`);
@@ -241,6 +239,9 @@ export class Display{
             clearInterval(tower.animationInterval);
             return;
         }
+        if(!document.getElementById(`weaponImg_${tower.id}`)){
+            return;
+        }
         let framePositionX = -tower.currentFrame * this.tilesSize;
         let imgTowerWeapon = document.getElementById(`weaponImg_${tower.id}`);
         imgTowerWeapon.style.left = `${framePositionX}px`;
@@ -250,10 +251,7 @@ export class Display{
 
 
     getOrigin(tower) {
-        const progress = tower.currentFrame / tower.totalTowerFrames;
-
-        console.log(this.tilesSize)
-        
+        const progress = tower.currentFrame / tower.totalTowerFrames;        
         const originX = this.tilesSize / 2 + this.tilesSize * progress;
         const originY = this.tilesSize / 2;
         return { originX, originY };
