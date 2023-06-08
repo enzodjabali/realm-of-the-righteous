@@ -21,8 +21,8 @@ class PlayerUtils
         string $username = "",
         string $password = "",
         string $retypedPassword = "",
-        string $email = "", bool
-        $terms = false
+        string $email = "",
+        bool $terms = false
     ): string|bool
 	{
 		// Checks if the username isn't empty
@@ -214,7 +214,8 @@ class PlayerUtils
      * @throws Exception
      */
     public static function updatePlayer(
-        int $playerId, string $currentUsername = "",
+        int $playerId,
+        string $currentUsername = "",
         string $currentEmail = "",
         string $newUsername = "",
         string $newEmail = ""
@@ -301,17 +302,10 @@ class PlayerUtils
         int $playerId,
         string $currentPassword = "",
         string $newPassword = "",
-        string $retypedNewPassword = ""
+        string $retypedNewPassword = "",
+        bool $bypassCurrentPassword = false
     ): string|bool
     {
-        // Checks if all the fields are filled
-        try {
-            if (empty($currentPassword) || empty($newPassword) || empty($retypedNewPassword)) {
-                throw new Exception("Some fields are empty");
-            }
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
         // Checks if the new password has enough characters
         try {
             if (strlen($newPassword) < 4 || strlen($retypedNewPassword) < 4) {
@@ -329,13 +323,15 @@ class PlayerUtils
             return $e->getMessage();
         }
         // Checks if the current password is correct
-        try {
-            $currentFetchedPassword = DbUtils::select(DbTable::TABLE_PLAYER, ["password"], "WHERE id = '$playerId'")->fetch()["password"];
-            if (!password_verify($currentPassword, $currentFetchedPassword)) {
-                throw new Exception("The current password is incorrect");
+        if (!$bypassCurrentPassword) {
+            try {
+                $currentFetchedPassword = DbUtils::select(DbTable::TABLE_PLAYER, ["password"], "WHERE id = '$playerId'")->fetch()["password"];
+                if (!password_verify($currentPassword, $currentFetchedPassword)) {
+                    throw new Exception("The current password is incorrect");
+                }
+            } catch (Exception $e) {
+                return $e->getMessage();
             }
-        } catch (Exception $e) {
-            return $e->getMessage();
         }
 
         try {
@@ -352,7 +348,7 @@ class PlayerUtils
      * @param string $playerEmail the email of the player
      * @return string|bool returns true if the operation succeed, and returns a string containing an error message if it failed
      */
-    public static function generateVerificationLink(string $playerEmail): string|bool
+    public static function generateVerificationLink(string $playerEmail = ""): string|bool
     {
         $link = md5((string)rand());
         $url = !empty($_ENV['DOMAIN_NAME']) ? $_ENV['DOMAIN_NAME'] : (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]";
@@ -376,7 +372,7 @@ class PlayerUtils
      * @return string|bool returns true if the operation succeed, and returns a string containing an error message if it failed
      * @throws Exception
      */
-    public static function verifyPlayer(string $link): string|bool
+    public static function verifyPlayer(string $link = ""): string|bool
     {
         // Checks if the link exists in the database
         try {
@@ -395,6 +391,95 @@ class PlayerUtils
         } catch (Exception $e) {
             return $e->getMessage();
         }
+    }
+
+    /**
+     * This method generates a reset password link that will get sent to the player
+     * @param string $playerEmail the email of the player
+     * @return string|bool returns true if the operation succeed, and returns a string containing an error message if it failed
+     */
+    public static function generateResetPasswordLink(string $playerEmail = ""): string|bool
+    {
+        // Check if the email is a valid email
+        try {
+            if (!filter_var($playerEmail, FILTER_VALIDATE_EMAIL)) {
+                throw new Exception("The email isn't a valid email");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        // Checks if the email exists in the database
+        try {
+            if (DbUtils::doesThisValueExist(DbTable::TABLE_PLAYER, "email", $playerEmail)) {
+                throw new Exception("This email is not related to an existing account");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+
+        $link = md5((string)rand());
+        $url = !empty($_ENV['DOMAIN_NAME']) ? $_ENV['DOMAIN_NAME'] : (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]";
+
+        try {
+            DbUtils::insert(DbTable::TABLE_RESET_PASSWORD_LINK,
+                ["player_email", "link"],
+                [$playerEmail, $link]
+            );
+
+            EmailSender::sendEmail($playerEmail, "Reset your password", "Link: $url/reset-password?link=$link");
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        return true;
+    }
+
+    /**
+     * This method resets a player's password in the database
+     * @param string $link the reset password link
+     * @param string $newPassword the new password of the player
+     * @param string $retypedNewPassword the retyped new password of the player
+     * @return string|bool returns true if the operation succeed, and returns a string containing an error message if it failed
+     * @throws Exception
+     */
+    public static function resetPassword(string $link = "", string $newPassword = "", string $retypedNewPassword = ""): string|bool
+    {
+        // Checks if the link exists in the database
+        try {
+            if (DbUtils::doesThisValueExist(DbTable::TABLE_RESET_PASSWORD_LINK, "link", $link)) {
+                throw new Exception("The link has expired.");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+
+        // Fetches the player's ID from his reset password link
+        try {
+            $playerId = DbUtils::select(
+                DbTable::TABLE_RESET_PASSWORD_LINK,
+                ["player.id as playerId"],
+                "JOIN player ON reset_password_link.player_email = player.email WHERE reset_password_link.link = '$link'"
+            )->fetch()["playerId"];
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+
+        $updatePassword = PlayerUtils::updatePassword(intval($playerId), "", $newPassword, $retypedNewPassword, true);
+        if ($updatePassword === true) {
+            DbUtils::delete(DbTable::TABLE_RESET_PASSWORD_LINK, "WHERE link = '$link'");
+        }
+
+        return $updatePassword;
+    }
+
+    /**
+     * This method tells if a player is admin or not from his ID
+     * @param int $playerId the player's ID
+     * @return bool returns true if the player is admin, false if not
+     * @throws Exception
+     */
+    public static function isPlayerAdmin(int $playerId): bool
+    {
+        return (bool)DbUtils::select(DbTable::TABLE_PLAYER, ["is_admin"], "WHERE id = '$playerId'")->fetch()["is_admin"];
     }
 
 }

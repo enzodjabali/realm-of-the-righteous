@@ -6,7 +6,6 @@
     if ($sessionId > 0) {
         header("Location:/lobby");
     }
-
 ?>
 
 <!DOCTYPE html>
@@ -26,8 +25,8 @@
     <body>
         <?php include_once("includes/menu.php") ?>
 
-        <!-- Toast gets displayed with an error message if the user's credentials aren't valid -->
-        <div class="toast align-items-center text-bg-danger border-0 position-absolute top-0 start-50 translate-middle mt-5" role="alert" aria-live="assertive" aria-atomic="true">
+        <!-- Toast gets displayed with an error message if the user's credentials aren't valid or with the status of the reset password form -->
+        <div class="toast align-items-center border-0 position-absolute top-0 start-50 translate-middle mt-5" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body"></div>
                 <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
@@ -53,7 +52,37 @@
                         <input type="password" class="form-control" name="password" id="password" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Login</button>
+                    <div class="pt-2">
+                        <a href="/register">Don't have an account yet? Register</a>
+                        <br>
+                        <a onclick="$('#reset-password-modal').modal('show');" role="button" class="pointer-event pe-auto">Password forgotten</a>
+                    </div>
                 </form>
+            </div>
+        </div>
+
+        <!-- Modal gets displayed when the player wants to reset his password -->
+        <div id="reset-password-modal" class="modal fade" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+            <div id="delete-game-id" class="visually-hidden"></div>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalLabel">Reset password</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="reset-password-form" method="post">
+                        <div id="create-game-text" class="modal-body">
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="text" class="form-control" name="email" id="email" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Send a reset link</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 
@@ -81,6 +110,8 @@
                             $("#spinner").addClass("visually-hidden");
                             $("#login-form").removeClass("visually-hidden");
 
+                            $(".toast").removeClass('text-bg-success');
+                            $(".toast").addClass('text-bg-danger');
                             $(".toast").toast('show');
                             $(".toast-body").html(loginResponse["error"]);
                         });
@@ -88,6 +119,39 @@
                         window.location.href = "/lobby";
                     } else {
                         console.log("An error has occurred.")
+                    }
+                });
+                return false;
+            });
+        });
+
+        /**
+         * This function calls the reset password method
+         */
+        $(function(){
+            $("#reset-password-form").submit(function(){
+                $('#reset-password-modal').modal('hide');
+
+                let playerEmail = $(this).find("input[name=email]").val();
+
+                $.post("api/GenerateResetPasswordLink.php", {playerEmail: playerEmail}, function(response){
+                    if (response === "1") {
+                        $('#delete-game-modal').modal('hide');
+                        $("#delete-game-spinner").addClass("visually-hidden");
+                        $("#create-game-text").removeClass("visually-hidden");
+
+                        $(".toast").addClass('text-bg-success');
+                        $(".toast").removeClass('text-bg-danger');
+                        $(".toast").toast('show');
+                        $(".toast-body").html("A reset link has been sent to " + playerEmail + ".");
+                    } else {
+                        $("#delete-game-spinner").addClass("visually-hidden");
+                        $("#create-game-text").removeClass("visually-hidden");
+
+                        $(".toast").removeClass('text-bg-success');
+                        $(".toast").addClass('text-bg-danger');
+                        $(".toast").toast('show');
+                        $(".toast-body").html(response);
                     }
                 });
                 return false;

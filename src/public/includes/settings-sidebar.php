@@ -16,6 +16,14 @@
                 <a class="nav-link" href="/settings/delete">Delete my account</a>
             </li>
         </ul>
+        <?php if ($_SESSION["player_is_admin"]) { ?>
+            Admin
+            <ul class="nav flex-column mb-3">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Player list</a>
+                </li>
+            </ul>
+        <?php } ?>
         Others
         <ul class="nav flex-column">
             <li class="nav-item">

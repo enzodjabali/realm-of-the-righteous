@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : database
--- Généré le : mar. 06 juin 2023 à 20:31
+-- Généré le : jeu. 08 juin 2023 à 12:00
 -- Version du serveur : 8.0.33
 -- Version de PHP : 8.1.19
 
@@ -39,7 +39,7 @@ CREATE TABLE `chat` (
 --
 
 INSERT INTO `chat` (`id`, `player_id`, `message`, `date`) VALUES
-(35, 1, 'Hello!', '2023-06-06');
+(1, 1, 'Hello!', '2023-06-06');
 
 -- --------------------------------------------------------
 
@@ -78,15 +78,16 @@ CREATE TABLE `player` (
   `username` varchar(50) DEFAULT NULL,
   `password` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
-  `is_verified` tinyint(1) NOT NULL DEFAULT '0'
+  `is_verified` tinyint(1) NOT NULL DEFAULT '0',
+  `is_admin` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `player`
 --
 
-INSERT INTO `player` (`id`, `username`, `password`, `email`, `is_verified`) VALUES
-(1, 'test', '$2y$10$rxjjpgi55rb3f27LEy8qAOq1SAUdcxzpqfiPuYlUM.bwmy/7bJysG', 'test@test.dev', 1);
+INSERT INTO `player` (`id`, `username`, `password`, `email`, `is_verified`, `is_admin`) VALUES
+(1, 'test', '$2y$10$rxjjpgi55rb3f27LEy8qAOq1SAUdcxzpqfiPuYlUM.bwmy/7bJysG', 'test@test.dev', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -131,7 +132,7 @@ ALTER TABLE `player`
 -- AUTO_INCREMENT pour la table `chat`
 --
 ALTER TABLE `chat`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT pour la table `game`
