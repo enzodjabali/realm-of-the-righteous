@@ -470,4 +470,16 @@ class PlayerUtils
 
         return $updatePassword;
     }
+
+    /**
+     * This method tells if a player is admin or not from his ID
+     * @param int $playerId the player's ID
+     * @return bool returns true if the player is admin, false if not
+     * @throws Exception
+     */
+    public static function isPlayerAdmin(int $playerId): bool
+    {
+        return (bool)DbUtils::select(DbTable::TABLE_PLAYER, ["is_admin"], "WHERE id = '$playerId'")->fetch()["is_admin"];
+    }
+
 }

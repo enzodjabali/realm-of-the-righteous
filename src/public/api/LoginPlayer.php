@@ -39,6 +39,7 @@ class LoginPlayer
             $playerInformation = PlayerUtils::getPlayerInformation($response);
             if (is_array($playerInformation)) {
                 $_SESSION["player_id"] = $response;
+                $_SESSION["player_is_admin"] = PlayerUtils::isPlayerAdmin($response);
                 $_SESSION["player_username"] = $playerInformation["username"];
                 $_SESSION["player_email"] = $playerInformation["email"];
                 echo '{"playerId":' . $response . '}';
