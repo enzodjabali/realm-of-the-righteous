@@ -15,7 +15,7 @@ export class TowerController {
         /**
             * @param {number} towerData dictionnary of data about tower.
             * Permit to place tower in the matrice
-        */
+        */        
         let tower;
         if (fetchedTower) {
             tower = new Tower(fetchedTower)
@@ -32,25 +32,40 @@ export class TowerController {
             const towerWeaponId = 'towerWeapon_' + this.model.towerWeaponId;
             this.model.towerId++;
             this.model.towerWeaponId++;
-            switch (type){
-            case "OT":
-                tower = new Tower(
-                    towerId, towerData.damage[0], towerData.shotRate[0], { x: row, y: col }, 0, towerData.path[0],
-                    towerData.pathWeapon[0], towerWeaponId, towerData.price, type, towerData.isAttackingAir, towerData.totalFrames[0], towerData.rebound[0]
-                    );
-                break;
-            case "T":
-                tower = new Tower(
-                    towerId, towerData.damage[0], towerData.shotRate[0], { x: row, y: col }, 0, towerData.path[0],
-                    towerData.pathWeapon[0], towerWeaponId, towerData.price, type, towerData.isAttackingAir, towerData.totalFrames[0], null, towerData.slowness[0]
-                    );
-                break;
-            default:
-                tower = new Tower(
-                    towerId, towerData.damage[0], towerData.shotRate[0], { x: row, y: col }, 0, towerData.path[0],
-                    towerData.pathWeapon[0], towerWeaponId, towerData.price, type, towerData.isAttackingAir, towerData.totalFrames[0],
-                    );
+
+            let rebound = null;
+            let slowness = null;
+            switch (type) {
+                case "OT":
+                    //console.log(towerData.rebound[0]);
+                    rebound = towerData.rebound[0];
+                    break;
+                case "T":
+                    //console.log(towerData.slowness[0]);
+                    slowness = towerData.slowness[0];
+                    break;
             }
+
+            const tower = new Tower(
+                towerId,
+                towerData.damage[0],
+                towerData.shotRate[0],
+                { x: row, y: col },
+                0,
+                towerData.path[0],
+                towerData.pathWeapon[0],
+                towerWeaponId,
+                towerData.price,
+                type,
+                towerData.isAttackingAir,
+                towerData.totalTowerFrames[0],
+                towerData.totalAmmoFrames[0],
+                towerData.totalImpactFrames[0],
+                towerData.pathAmmo[0],
+                towerData.pathImpact[0],
+                rebound,
+                slowness
+            );
             this.model.matrice[row][col].tower = tower;
             this.towerLogics(tower, row, col);
             
@@ -128,8 +143,10 @@ export class TowerController {
             let neighbour = this.findNeighbour(x, y, range)            
             if (neighbour[0]) {
                 if (tower.isAttackingAir && this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].isFlying || !tower.isAttackingAir && !this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0].isFlying) {
+
                     this.provideDamage(this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0], damage)                    
-                    this.display.playSprite(tower, this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0]);
+
+                    this.display.playTowerSprite(tower, this.model.matrice[neighbour[0][0]][neighbour[0][1]].enemies[0]);
 
                     switch (tower.type) {
                     case "BT":

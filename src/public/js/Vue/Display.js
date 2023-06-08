@@ -131,18 +131,17 @@ export class Display{
         towerContainer.style.position = 'absolute';
         towerContainer.style.height = this.tilesSize + 'px';
         towerContainer.style.width = this.tilesSize + 'px';
-        towerContainer.style.top = (tower.position.x * this.tilesSize - tower.position.x + 10).toString() + 'px'; /*10 = margin css*/
-        towerContainer.style.left = (tower.position.y * this.tilesSize - tower.position.y + 10).toString() + 'px'; /*10 = margin css*/
-        towerContainer.style.overflow = 'hidden';
+        towerContainer.style.top = ((tower.position.x * this.tilesSize) +10).toString() + 'px'; /*10 = margin css*/
+        towerContainer.style.left = ((tower.position.y * this.tilesSize) + 10 - tower.position.y).toString() + 'px'; /*10 = margin css*/
         document.getElementById('container-towers').appendChild(towerContainer);
 
         let imgTower = new Image();
         imgTower.id = `Img_${tower.id}`;
         imgTower.src = tower.path;
-        imgTower.style.height = this.tilesSize + 'px';
+        imgTower.style.height = this.tilesSize+ 'px';
         imgTower.style.width = this.tilesSize + 'px';
         imgTower.style.position = 'absolute';
-        imgTower.style.top = '0';
+        imgTower.style.top = 0 + 'px';;
         imgTower.style.left = '0';
         towerContainer.appendChild(imgTower);
 
@@ -150,16 +149,17 @@ export class Display{
         weaponDiv.id = `weaponDiv_${tower.id}`;
         weaponDiv.style.position = 'absolute';
         weaponDiv.style.height = this.tilesSize + 'px';
-        weaponDiv.style.width = (this.tilesSize * tower.totalFrames) + 'px';
-        weaponDiv.style.top = '0';
+        weaponDiv.style.width = this.tilesSize + 'px';
+        weaponDiv.style.top = -this.tilesSize*0.2 + 'px';;
         weaponDiv.style.left = '0';
+        weaponDiv.style.overflow = 'hidden';
         towerContainer.appendChild(weaponDiv);
 
         let imgTowerWeapon = new Image();
         imgTowerWeapon.src = tower.pathWeapon;
         imgTowerWeapon.id = `weaponImg_${tower.id}`;
         imgTowerWeapon.height = this.tilesSize;
-        imgTowerWeapon.width = (this.tilesSize * tower.totalFrames);
+        imgTowerWeapon.width = (this.tilesSize * tower.totalTowerFrames);
         imgTowerWeapon.style.position = 'absolute';
         imgTowerWeapon.style.top = '0';
         imgTowerWeapon.style.left = '0';
@@ -169,30 +169,75 @@ export class Display{
 
         return towerContainer;
     }
-    
-    playSprite(tower, enemy) {
+
+    initializeAmmo(tower) {
+        const ammoDiv = document.createElement('div');
+        ammoDiv.id = `AmmoDiv_${tower.towerAmmoId}`;
+        ammoDiv.style.position = 'absolute';
+        ammoDiv.style.height = this.tilesSize + 'px';
+        ammoDiv.style.width = this.tilesSize + 'px';
+        ammoDiv.style.top = -this.tilesSize * 0.50 + 'px';
+        ammoDiv.style.left = '0';
+        ammoDiv.style.overflow = 'hidden';
+
+        const imgAmmo = new Image();
+        imgAmmo.src = tower.pathAmmo;
+        imgAmmo.id = `weaponImg_${tower.id}`;
+        imgAmmo.height = this.tilesSize;
+        imgAmmo.width = this.tilesSize * tower.totalTowerFrames;
+        imgAmmo.style.position = 'absolute';
+        imgAmmo.style.top = '0';
+        imgAmmo.style.left = '0';
+        ammoDiv.appendChild(imgAmmo);
+        const weaponDiv = document.getElementById(`weaponImg_${tower.id}`);
+        weaponDiv.appendChild(ammoDiv);
+        tower.towerAmmoId++;
+    }
+
+    playAmmoSprite(tower) {
+        const ammoDiv = document.getElementById(`AmmoDiv_${tower.towerAmmoId}`);
+        const imgAmmo = document.getElementById(`weaponImg_${tower.id}`);
+        let frame_2 = 0;
+        let id = setInterval(frame, 1000);
+        function frame() {
+            if (frame === tower.totalTowerFrames) {
+                clearInterval(id);
+                ammoDiv.remove();
+            } else {
+                frame++;
+                imgAmmo.style.left = -frame * this.tilesSize + 'px';
+            }
+        }
+    }
+
+    playTowerSprite(tower, enemy) {
         clearInterval(tower.animationInterval);
         tower.currentFrame = 0;
-        const { originX, originY } = this.getOrigin(tower);
+        const { originX, originY } = this.getOriginWeapon(tower);
         let angle = this.rotateWeapon(tower, enemy)
+        if(!document.getElementById(`weaponDiv_${tower.id}`)){
+            return;
+        }
         let weaponDiv = document.getElementById(`weaponDiv_${tower.id}`);
         weaponDiv.style.transformOrigin = `${originX}px ${originY}px`;
         weaponDiv.style.transform = `rotate(${angle}deg)`;
         let imgTowerWeapon = document.getElementById(`weaponImg_${tower.id}`);
         imgTowerWeapon.style.left = '0px';
-
-        const frameDuration = Math.floor(tower.shotRate / tower.totalFrames);
-
+        const frameDuration = Math.floor(tower.shotRate / tower.totalTowerFrames);
         tower.animationInterval = setInterval(() => {
             this.animateSprite(tower);
-            if (tower.currentFrame >= tower.totalFrames) {
+            if (tower.currentFrame >= tower.totalTowerFrames) {
                 clearInterval(tower.animationInterval);
             }
         }, frameDuration);
     }
+
     animateSprite(tower) {
-        if (tower.currentFrame >= tower.totalFrames) {
+        if (tower.currentFrame >= tower.totalTowerFrames) {
             clearInterval(tower.animationInterval);
+            return;
+        }
+        if(!document.getElementById(`weaponImg_${tower.id}`)){
             return;
         }
         let framePositionX = -tower.currentFrame * this.tilesSize;
@@ -200,13 +245,9 @@ export class Display{
         imgTowerWeapon.style.left = `${framePositionX}px`;
         tower.currentFrame++;
     }
-    getOrigin(tower) {
-        const currentFrame = tower.currentFrame;
-        const totalFrames = tower.totalFrames;
 
-        const progress = currentFrame / totalFrames;
-            
-        
+    getOriginWeapon(tower) {
+        const progress = tower.currentFrame / tower.totalTowerFrames;        
         const originX = this.tilesSize / 2 + this.tilesSize * progress;
         const originY = this.tilesSize / 2;
         return { originX, originY };
