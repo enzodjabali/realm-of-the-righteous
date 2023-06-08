@@ -2,7 +2,7 @@
     if (isset($_GET["link"]) && is_string($_GET["link"])) {
         $serverUrl = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]";
 
-        $url = "$serverUrl/api/VerifyPlayer.php?link={$_GET["link"]}";
+        $url = "$serverUrl/api/v1/player/verify?link={$_GET["link"]}";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
@@ -16,7 +16,9 @@
         }
         curl_close($ch);
 
-        $verifyMessage = $response == "1" ? "You've been successfully verified!" : $response;
+        if (json_decode($response, true)["response"] === true) {
+            $verifyMessage = "You've been successfully verified!";
+        }
     } else {
         $verifyMessage = "The link has expired.";
     }

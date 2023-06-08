@@ -87,24 +87,21 @@
          */
         $(function(){
             $("#update-player-form").submit(function(){
-                let playerId = <?= $_SESSION['player_id'] ?>;
                 let currentUsername = "<?= $_SESSION['player_username'] ?>";
                 let currentEmail = "<?= $_SESSION['player_email'] ?>";
                 let newUsername = $(this).find("input[name=newUsername]").val();
                 let newEmail = $(this).find("input[name=newEmail]").val();
 
-                $.post("../api/UpdatePlayer.php", {playerId: playerId, currentUsername: currentUsername, currentEmail: currentEmail, newUsername: newUsername, newEmail: newEmail}, function(response) {
-                    if (response === "1") {
-                        $(".toast").addClass('text-bg-success');
-                        $(".toast").removeClass('text-bg-danger');
-                        $(".toast").toast('show');
-                        $(".toast-body").html("Your information has been successfully updated.");
-                    } else {
-                        $(".toast").removeClass('text-bg-success');
-                        $(".toast").addClass('text-bg-danger');
-                        $(".toast").toast('show');
-                        $(".toast-body").html(response);
-                    }
+                $.post("../api/v1/player/update", {currentUsername: currentUsername, currentEmail: currentEmail, newUsername: newUsername, newEmail: newEmail}, function() {
+                    $(".toast").addClass('text-bg-success');
+                    $(".toast").removeClass('text-bg-danger');
+                    $(".toast").toast('show');
+                    $(".toast-body").html("Your information has been successfully updated.");
+                }).fail(function(response) {
+                    $(".toast").removeClass('text-bg-success');
+                    $(".toast").addClass('text-bg-danger');
+                    $(".toast").toast('show');
+                    $(".toast-body").html(JSON.parse(response.responseText).response);
                 });
                 return false;
             });

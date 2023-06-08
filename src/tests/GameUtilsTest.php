@@ -28,7 +28,7 @@ final class GameUtilsTest extends TestCase
 
     public function testGetModel(): void
     {
-        $doesModelExist = GameUtils::getModel(1);
+        $doesModelExist = GameUtils::getModel(1, 1);
         $this->assertIsString($doesModelExist);
     }
 
