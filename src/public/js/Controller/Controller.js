@@ -39,9 +39,8 @@ export class Controller{
          * Permit to update the matrice with the new enemy coordinates
          * @param {Enemy} enemy instance of enemy.
          */
-        //Update enemy in matrice by its position in its object (enemy.position.x / enemy.position.y)
-        let matrice = this.model.getMatrice();
-        matrice[enemy.position.x][enemy.position.y].enemies.push(enemy);
+        //Update enemy in matrice by its position in its object (enemy.position.x / enemy.position.y
+        this.model.matrice[enemy.position.x][enemy.position.y].enemies.push(enemy);
     }
 
     setup(){

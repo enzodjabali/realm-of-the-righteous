@@ -213,7 +213,7 @@ export class Display{
     playTowerSprite(tower, enemy) {
         clearInterval(tower.animationInterval);
         tower.currentFrame = 0;
-        const { originX, originY } = this.getOrigin(tower);
+        const { originX, originY } = this.getOriginWeapon(tower);
         let angle = this.rotateWeapon(tower, enemy)
         if(!document.getElementById(`weaponDiv_${tower.id}`)){
             return;
@@ -232,8 +232,6 @@ export class Display{
         }, frameDuration);
     }
 
-
-    
     animateSprite(tower) {
         if (tower.currentFrame >= tower.totalTowerFrames) {
             clearInterval(tower.animationInterval);
@@ -248,9 +246,7 @@ export class Display{
         tower.currentFrame++;
     }
 
-
-
-    getOrigin(tower) {
+    getOriginWeapon(tower) {
         const progress = tower.currentFrame / tower.totalTowerFrames;        
         const originX = this.tilesSize / 2 + this.tilesSize * progress;
         const originY = this.tilesSize / 2;
