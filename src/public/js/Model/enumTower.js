@@ -105,5 +105,6 @@ export const enumTower = {
         shotRate: [500,400,300],//in ms
         price: [1,2,3],
         isAttackingAir: false,
+        buffTower: [1.2, 1.5, 2]
     },
 }

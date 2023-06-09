@@ -26,10 +26,14 @@ export class Tower{
         this.pathAmmo = pathAmmo;
         this.pathImpact = pathImpact;
         this.towerAmmoId = 0;
+        this.memoryDamage = damage;
 
         this.splashRange;
         this.slowness;
         this.rebound;
+        this.buffTower
+
+
     }
     getId(){
         return this.id;
@@ -45,5 +49,8 @@ export class Tower{
     }
     setSplashRange(splashRange){
         this.splashRange = splashRange;
+    }
+    setBuffTower(buffTower){
+        this.buffTower = buffTower;
     }
 }
