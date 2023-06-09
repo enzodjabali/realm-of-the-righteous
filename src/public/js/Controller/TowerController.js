@@ -189,7 +189,6 @@ export class TowerController {
                         case "BT":
                             //Splash Tower
                             let closeEnemies = this.findNeighbour(enemy.position.x, enemy.position.y, tower.splashRange,"splash")
-                            console.log(closeEnemies, "liste d'ennemi a toucher")
                             if(closeEnemies){
                                 for (enemy of closeEnemies){
                                     console.log("provide damage to an enemy")
