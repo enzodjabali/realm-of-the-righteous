@@ -35,17 +35,17 @@ export class TowerController {
 
             let rebound = null;
             let slowness = null;
+            let splashRange = null;
             switch (type) {
                 case "OT":
-                    //console.log(towerData.rebound[0]);
                     rebound = towerData.rebound[0];
                     break;
                 case "T":
-                    //console.log(towerData.slowness[0]);
                     slowness = towerData.slowness[0];
                     break;
+                case "BT":
+                    splashRange = towerData.splashRange[0]
             }
-
             const tower = new Tower(
                 towerId,
                 towerData.damage[0],
@@ -63,9 +63,12 @@ export class TowerController {
                 towerData.totalImpactFrames[0],
                 towerData.pathAmmo[0],
                 towerData.pathImpact[0],
-                rebound,
-                slowness
             );
+            //Since constructor does't accept more parameters, create setter
+            tower.setSlowness(slowness);
+            tower.setRebound(rebound);
+            tower.setSplashRange(splashRange)
+
             this.model.matrice[row][col].tower = tower;
             this.towerLogics(tower, row, col);
 
@@ -165,6 +168,7 @@ export class TowerController {
          */
 
         while (true) {
+            console.log(tower.slowness, "slowness")
             if (tower.remove) {
                 break;
             }
@@ -179,9 +183,10 @@ export class TowerController {
                     this.display.playTowerSprite(tower, enemy);
                     switch (tower.type) {
                         case "BT":
-                            //Splash Tower HELP ME
-                            let splashRange = 2;
-                            let closeEnemy = this.findNeighbour(enemy.position.x, enemy.position.y, splashRange)
+                            //Splash Tower
+                            console.log(tower.splashRange, "hererer")
+                            let closeEnemy = this.findNeighbour(enemy.position.x, enemy.position.y, tower.rebound,"splash")
+                            console.log(closeEnemy, "liste d'ennemi a toucher")
                             if(closeEnemy){
                                 for (let cell of closeEnemy) {
                                     for (let enemy of cell){
@@ -242,9 +247,7 @@ export class TowerController {
     }
     provideDamage(enemy, damage)
     {
-        // console.log(enemy, "avant degat")
         enemy.curent_life -= damage;
-        // console.log(enemy, "Apres avoir prit des degats")
     }
     async slowedEnemy()
     {

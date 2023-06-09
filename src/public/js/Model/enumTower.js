@@ -31,6 +31,7 @@ export const enumTower = {
         shotRate: [500, 400, 300],//in ms
         price: [100,200,300],
         isAttackingAir: false,
+        splashRange: [2,4,6]
     },
     'OT':{
         path : ['../../assets/images/towers/OT1.png',
