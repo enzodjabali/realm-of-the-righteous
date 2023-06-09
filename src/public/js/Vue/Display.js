@@ -10,7 +10,7 @@ export class Display{
         /**
          * @param {Dict} matrice dictionnary of all the data about the game.
          * Permit to initialize board
-        */
+         */
         let columns = '';
         // HELP ME
         let xRatio;
@@ -125,7 +125,7 @@ export class Display{
         /**
          * @param {Tower} tower instance of tower.
          * Permit to initialize the tower
-        */
+         */
         let towerContainer = document.createElement(`div_${tower.id}`);
         towerContainer.id = `div_${tower.id}`;
         towerContainer.style.position = 'absolute';
@@ -210,7 +210,9 @@ export class Display{
         }
     }
 
+
     playTowerSprite(tower, enemy) {
+        this.initializeAmmo(tower)
         clearInterval(tower.animationInterval);
         tower.currentFrame = 0;
         const { originX, originY } = this.getOriginWeapon(tower);
@@ -231,7 +233,6 @@ export class Display{
             }
         }, frameDuration);
     }
-
     animateSprite(tower) {
         if (tower.currentFrame >= tower.totalTowerFrames) {
             clearInterval(tower.animationInterval);
@@ -247,7 +248,7 @@ export class Display{
     }
 
     getOriginWeapon(tower) {
-        const progress = tower.currentFrame / tower.totalTowerFrames;        
+        const progress = tower.currentFrame / tower.totalTowerFrames;
         const originX = this.tilesSize / 2 + this.tilesSize * progress;
         const originY = this.tilesSize / 2;
         return { originX, originY };
@@ -260,7 +261,7 @@ export class Display{
         angle = angle + 90; // Rotate 180 degrees
         return angle
     }
-    
+
     nextMoveEnemy(enemy){
         /**
          * @param {enemy} enemy instance of enemy.
@@ -282,6 +283,7 @@ export class Display{
             });
         });
     }
+    
     removeEnemy(enemy){
         /**
          * @param {enemy} enemy instance of enemy.
@@ -291,15 +293,17 @@ export class Display{
         const parentElement = enemyDiv.parentNode; // Get the parent element of the div
         parentElement.removeChild(enemyDiv); // Remove the div element from its parent
     }
+    
     removeTower(tower){
         /**
          * @param {tower} tower instance of tower.
          * Permit to remove the tower from matrice
          */
-        let towerContainer = document.getElementById(`div_${tower.id}`);        
+        let towerContainer = document.getElementById(`div_${tower.id}`);
         const parentElement = towerContainer.parentNode; // Get the parent element of the div
         parentElement.removeChild(towerContainer); // Remove the div element from its parent
     }
+    
     flipItLeft(enemy){
         /**
          * @param {enemy} enemy instance of enemy.
@@ -309,6 +313,7 @@ export class Display{
         let enemyImage = document.getElementById(`enemy_${enemyId}`)
         enemyImage.style.transform = 'scaleX(-1)';
     }
+    
     flipItLeftRight(enemy){
         /**
          * @param {enemy} enemy instance of enemy.
@@ -318,12 +323,14 @@ export class Display{
         let enemyImage = document.getElementById(`enemy_${enemyId}`)
         enemyImage.style.transform = 'scaleX(1)';
     }
+    
     updateEnemyHealthBar(enemy){
         const enemyId = `enemy_${enemy.id}`;
         const enemyDiv = document.getElementById(enemyId);
         let healthBar = enemyDiv.querySelector(`#health_${enemyId}`);
-        healthBar.style.width = (enemy.curent_life/enemy.max_life)*100 +'%';        
+        healthBar.style.width = (enemy.curent_life/enemy.max_life)*100 +'%';
     }
+    
     updatePlayerData(money, life){
         let playerMoney = document.getElementById('money');
         let playerLife = document.getElementById('life');
