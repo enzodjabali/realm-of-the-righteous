@@ -131,7 +131,12 @@ export class TowerController {
                         tower.push(cell.tower);
                     }
                     if (searchType === "splash" && (dx !== centerX || dy !== centerY)) {
-                        splash.push(cell.enemies);
+                        for (let enemy of cell.enemies) {
+                            if (enemy.curent_life > 0) {
+                                splash.push(enemy);
+                            }
+                        }
+
                     }
                     if (searchType === "rebound" && cell.enemies.length > 0 && (dx !== centerX && dy !== centerY)) {
                         for (let enemy of cell.enemies) {
@@ -168,7 +173,6 @@ export class TowerController {
          */
 
         while (true) {
-            console.log(tower.slowness, "slowness")
             if (tower.remove) {
                 break;
             }
@@ -184,16 +188,15 @@ export class TowerController {
                     switch (tower.type) {
                         case "BT":
                             //Splash Tower
-                            console.log(tower.splashRange, "hererer")
-                            let closeEnemy = this.findNeighbour(enemy.position.x, enemy.position.y, tower.rebound,"splash")
-                            console.log(closeEnemy, "liste d'ennemi a toucher")
-                            if(closeEnemy){
-                                for (let cell of closeEnemy) {
-                                    for (let enemy of cell){
-                                        this.provideDamage(enemy, tower.damage*0.3)
+                            let closeEnemies = this.findNeighbour(enemy.position.x, enemy.position.y, tower.splashRange,"splash")
+                            console.log(closeEnemies, "liste d'ennemi a toucher")
+                            if(closeEnemies){
+                                for (enemy of closeEnemies){
+                                    console.log("provide damage to an enemy")
+                                    this.provideDamage(enemy, tower.damage*0.5)
+                                    //REVOIR POUR GAME DESIGN   -----THOMAS----
                                     }
                                 }
-                            }
                             break;
                         case "OT":
                             // Rebound Tower
