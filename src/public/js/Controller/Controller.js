@@ -20,27 +20,18 @@ export class Controller{
 
     updateEnemiesPosition(enemy, nextPosition){
         /**
-         * Permit to update the enemy coordinates
+         * Permit to update the enemy coordinates in object and in matrice
          * @param {Enemy} enemy instance of enemy.
          * @param {number} nextPosition[0] new x coordinate.
          * @param {number} nextPosition[1] new y coordinate.
          */
-        const matrice = this.model.getMatrice();
-
-        matrice[enemy.position.x][enemy.position.y].enemies.shift()
-
+        this.model.matrice[enemy.position.x][enemy.position.y].enemies.shift()
         enemy.position.x += nextPosition[0]
         enemy.position.y += nextPosition[1]
-        this.updateEnemyInMatrice(enemy);
+        this.model.matrice[enemy.position.x][enemy.position.y].enemies.unshift(enemy);
+
     }
 
-    updateEnemyInMatrice(enemy) {
-        /**
-         * Permit to update the matrice with the new enemy coordinates
-         * @param {Enemy} enemy instance of enemy.
-         */
-        this.model.matrice[enemy.position.x][enemy.position.y].enemies.push(enemy);
-    }
 
     setup(){
         /**
@@ -59,21 +50,21 @@ export class Controller{
         /**
          * Main loop of the enemies, permit make them run wioth their logic
          * @param {String} diffculty chosen difficulty.
-        */
+         */
 
         console.log('wait timeBeforeStart', this.model.timeBeforeStart)
         await new Promise(r => setTimeout(r, this.model.timeBeforeStart));
 
         for(let waves of this.model.waves[diffculty]){
             if (this.model.waves[diffculty].indexOf(waves) != 0)
-                {console.log('wait timeBetweenWaves', this.model.timeBetweenWaves)
+            {console.log('wait timeBetweenWaves', this.model.timeBetweenWaves)
                 await new Promise(r => setTimeout(r, this.model.timeBetweenWaves));
-                }
-                this.model.currentWave++;
+            }
+            this.model.currentWave++;
 
             for (let group of waves){
                 if (waves.indexOf(group) != 0)
-                    {console.log('wait timeBetweenGroups', this.model.timeBetweenGroups)
+                {console.log('wait timeBetweenGroups', this.model.timeBetweenGroups)
                     await new Promise(r => setTimeout(r, this.model.timeBetweenGroups));
                 }
 
@@ -91,9 +82,7 @@ export class Controller{
                 for (let mob = 0; mob < group[0]; mob++){
                     let enemy = this.enemiesController.createEnnemyObject(this.model.mobId, enumEnemies, path, this.model.entryPoints[indexOfEntryPoints], group[1])
                     this.display.initializeEnemy(enemy);
-                    
-                    this.run(enemy, path, this.model.endPoints[indexOfEndPoints]); // Run the movement loop for each enemy
-
+                    this.run(enemy, path, this.model.endPoints[indexOfEndPoints])
                     await new Promise(r => setTimeout(r, 500)); // Delay 500ms between each enemy's movement for smoother animation
                     this.model.mobId++;
                 }
@@ -107,7 +96,7 @@ export class Controller{
          * @param {Enemy} enemy instance of enemy.
          * @param {Enemy} path pathfinding list of cords.
          * @param {Enemy} endPoints couple of end coordinates.
-        */
+         */
 
         try {
             for (let step = 0; step <= path.length; step++) {
@@ -118,8 +107,9 @@ export class Controller{
                         // alert('endgame')
                     }
                     this.display.removeEnemy(enemy);
-                    this.model.matrice[enemy.position.x][enemy.position.y].enemies.splice(enemy, 1)
-                    return
+
+                    this.model.matrice[enemy.position.x][enemy.position.y].enemies.filter(enemy => enemy.id !== enemy.id);
+                    break;
                 }
 
                 if (path[step][1] < 0){
@@ -134,13 +124,13 @@ export class Controller{
                     this.playerController.player.money += enemy.price;
                     this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life);
                     this.display.removeEnemy(enemy);
-                    this.model.matrice[enemy.position.x][enemy.position.y].enemies.shift()
-                    return;
+                    this.model.matrice[enemy.position.x][enemy.position.y].enemies.filter(enemy => enemy.id !== enemy.id);
+                    break;
                 }
 
                 if (step <= path.length-1) {
                     //this one ok GET RETURN ENEMY TO REFRESH ????
-                    await this.updateEnemiesPosition(enemy, path[step]); // Await the update of the enemy's position
+                    this.updateEnemiesPosition(enemy, path[step]); // Await the update of the enemy's position
                     await this.display.updateEnemyHealthBar(enemy);
                 }
                 await this.display.nextMoveEnemy(enemy, path[step]); // Await the next move of the enemy using the nextMoveEnemy() method
@@ -154,13 +144,13 @@ export class Controller{
     saveModel(model) {
         model = JSON.stringify(model);
         /**
-        * This function calls the update game model method
-        */
+         * This function calls the update game model method
+         */
         $(function () {
             let gameId = new URLSearchParams(window.location.search).get('game_id');
             $.post("api/v1/game/updateModel", { gameId: gameId, newModel: model}, function (response) {
                 if (response["response"] === true) {
-                    console.log('Game saved')                    
+                    console.log('Game saved')
                 } else {
                     console.log(response)
                 }
