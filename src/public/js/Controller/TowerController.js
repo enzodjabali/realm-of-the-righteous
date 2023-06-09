@@ -36,6 +36,7 @@ export class TowerController {
             let rebound = null;
             let slowness = null;
             let splashRange = null;
+            let buffTower = null;
             switch (type) {
                 case "OT":
                     rebound = towerData.rebound[0];
@@ -44,7 +45,11 @@ export class TowerController {
                     slowness = towerData.slowness[0];
                     break;
                 case "BT":
-                    splashRange = towerData.splashRange[0]
+                    splashRange = towerData.splashRange[0];
+                    break;
+                case "WT":
+                    buffTower = towerData.buffTower[0]
+                    break;
             }
             const tower = new Tower(
                 towerId,
@@ -68,6 +73,7 @@ export class TowerController {
             tower.setSlowness(slowness);
             tower.setRebound(rebound);
             tower.setSplashRange(splashRange)
+            tower.setBuffTower(buffTower);
 
             this.model.matrice[row][col].tower = tower;
             this.towerLogics(tower, row, col);
@@ -127,7 +133,7 @@ export class TowerController {
                         }
                         
                     }
-                    if (searchType === "tower" && cell.tower && (dx !== centerX || dy !== centerY)) {
+                    if (searchType === "tower" && cell.tower && (x !== centerX || y !== centerY)) {
                         tower.push(cell.tower);
                     }
                     if (searchType === "splash" && (dx !== centerX || dy !== centerY)) {
@@ -221,8 +227,12 @@ export class TowerController {
                 }
             }
             if (tower.type == "WT"){
-                let towerNearby = this.findNeighbour(x, y, range, "tower")
-                console.log(towerNearby, "Tower nearby")
+                let towersNearby = this.findNeighbour(tower.position.x, tower.position.y, range, "tower")
+                for (let closeTower of towersNearby){
+                    if(closeTower.damage == closeTower.memoryDamage){
+                        closeTower.damage = (closeTower.damage *= tower.buffTower).toFixed(1);
+                    }
+                }
             }
         }
     }
