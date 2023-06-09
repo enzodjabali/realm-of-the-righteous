@@ -35,17 +35,17 @@ export class TowerController {
 
             let rebound = null;
             let slowness = null;
+            let splashRange = null;
             switch (type) {
                 case "OT":
-                    //console.log(towerData.rebound[0]);
                     rebound = towerData.rebound[0];
                     break;
                 case "T":
-                    //console.log(towerData.slowness[0]);
                     slowness = towerData.slowness[0];
                     break;
+                case "BT":
+                    splashRange = towerData.splashRange[0]
             }
-
             const tower = new Tower(
                 towerId,
                 towerData.damage[0],
@@ -63,9 +63,12 @@ export class TowerController {
                 towerData.totalImpactFrames[0],
                 towerData.pathAmmo[0],
                 towerData.pathImpact[0],
-                rebound,
-                slowness
             );
+            //Since constructor does't accept more parameters, create setter
+            tower.setSlowness(slowness);
+            tower.setRebound(rebound);
+            tower.setSplashRange(splashRange)
+
             this.model.matrice[row][col].tower = tower;
             this.towerLogics(tower, row, col);
 
@@ -95,7 +98,7 @@ export class TowerController {
 
 
 
-    findNeighbour(centerX, centerY, radius, searchType) {
+    findNeighbour(centerX, centerY, radius, searchType, listEnemyToAvoid = null) {
         let tower = [];
         let splash = [];
 
@@ -128,19 +131,29 @@ export class TowerController {
                         tower.push(cell.tower);
                     }
                     if (searchType === "splash" && (dx !== centerX || dy !== centerY)) {
-                        splash.push(cell.enemies);
+                        for (let enemy of cell.enemies) {
+                            if (enemy.curent_life > 0) {
+                                splash.push(enemy);
+                            }
+                        }
+
                     }
                     if (searchType === "rebound" && cell.enemies.length > 0 && (dx !== centerX && dy !== centerY)) {
-                        for (let enemy in cell.enemies) {
+                        for (let enemy of cell.enemies) {
                             if (enemy.curent_life > 0) {
-                                return enemy;
+                                if(listEnemyToAvoid.includes(enemy.id)){
+                                    break;
+                                } else{
+                                    return enemy;
+                                }
+
                             }
                         }
                     }
                 }
             }
         }
-        // Return the desired values (test and tower) as needed
+        // Return the desired values (enemy and tower) as needed
         if (searchType == "tower") {
             return tower;
         }
@@ -167,39 +180,32 @@ export class TowerController {
             await new Promise(r => setTimeout(r, tower.shotRate)); // frequency of fire
             let {range, damage} = tower;
             const { x, y } = tower.position;
-            console.log(range, 'range')
             let enemy = this.findNeighbour(x, y, range, "enemy");
-            console.log(enemy)
             if (enemy) {
                 if (tower.isAttackingAir && enemy.isFlying || !tower.isAttackingAir && !enemy.isFlying) {
                     this.provideDamage(enemy, damage)
                     this.display.playTowerSprite(tower, enemy);
                     switch (tower.type) {
                         case "BT":
-                            //Splash Tower HELP ME
-                            let splashRange = 2;
-                            let closeEnemy = this.findNeighbour(enemy.position.x, enemy.position.y, splashRange)
-                            if(closeEnemy){
-                                for (let cell of closeEnemy) {
-                                    for (let enemy of cell){
-                                        this.provideDamage(enemy, tower.damage*0.3)
+                            //Splash Tower
+                            let closeEnemies = this.findNeighbour(enemy.position.x, enemy.position.y, tower.splashRange,"splash")
+                            if(closeEnemies){
+                                for (enemy of closeEnemies){
+                                    console.log("provide damage to an enemy")
+                                    this.provideDamage(enemy, tower.damage*0.5)
+                                    //REVOIR POUR GAME DESIGN   -----THOMAS----
                                     }
                                 }
-                            }
                             break;
                         case "OT":
                             // Rebound Tower
-                            for (let i = 0; i < tower.rebound; i++) {
+                            let hitEnemies = []
+                            for (let i = 0; i < tower.range; i++) {
                                 if (enemy) {
-                                    let enemyNext = this.findNeighbour(enemy.position.x, enemy.position.y, 2, "rebound");
-                                    if(!enemyNext){
-                                        enemy = enemyNext
-                                    } else {
-                                        continue;
-                                    }
+                                    hitEnemies.push(enemy.id);
+                                    enemy = this.findNeighbour(enemy.position.x, enemy.position.y, 1, "rebound", hitEnemies);
                                     if (enemy.curent_life > 0) {
-                                        console.log("Je suis un rebond sur l'ennemi : ", enemy);
-                                        this.provideDamage(enemy, (tower.damage * 100));
+                                        this.provideDamage(enemy, (tower.damage / 2));
                                     }
                                 }
                             }
