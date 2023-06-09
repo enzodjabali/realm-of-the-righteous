@@ -95,7 +95,7 @@ export class TowerController {
 
 
 
-    findNeighbour(centerX, centerY, radius, searchType) {
+    findNeighbour(centerX, centerY, radius, searchType, listEnemyToAvoid = null) {
         let tower = [];
         let splash = [];
 
@@ -131,16 +131,21 @@ export class TowerController {
                         splash.push(cell.enemies);
                     }
                     if (searchType === "rebound" && cell.enemies.length > 0 && (dx !== centerX && dy !== centerY)) {
-                        for (let enemy in cell.enemies) {
+                        for (let enemy of cell.enemies) {
                             if (enemy.curent_life > 0) {
-                                return enemy;
+                                if(listEnemyToAvoid.includes(enemy.id)){
+                                    break;
+                                } else{
+                                    return enemy;
+                                }
+
                             }
                         }
                     }
                 }
             }
         }
-        // Return the desired values (test and tower) as needed
+        // Return the desired values (enemy and tower) as needed
         if (searchType == "tower") {
             return tower;
         }
@@ -167,9 +172,7 @@ export class TowerController {
             await new Promise(r => setTimeout(r, tower.shotRate)); // frequency of fire
             let {range, damage} = tower;
             const { x, y } = tower.position;
-            console.log(range, 'range')
             let enemy = this.findNeighbour(x, y, range, "enemy");
-            console.log(enemy)
             if (enemy) {
                 if (tower.isAttackingAir && enemy.isFlying || !tower.isAttackingAir && !enemy.isFlying) {
                     this.provideDamage(enemy, damage)
@@ -189,17 +192,13 @@ export class TowerController {
                             break;
                         case "OT":
                             // Rebound Tower
-                            for (let i = 0; i < tower.rebound; i++) {
+                            let hitEnemies = []
+                            for (let i = 0; i < tower.range; i++) {
                                 if (enemy) {
-                                    let enemyNext = this.findNeighbour(enemy.position.x, enemy.position.y, 2, "rebound");
-                                    if(!enemyNext){
-                                        enemy = enemyNext
-                                    } else {
-                                        continue;
-                                    }
+                                    hitEnemies.push(enemy.id);
+                                    enemy = this.findNeighbour(enemy.position.x, enemy.position.y, 1, "rebound", hitEnemies);
                                     if (enemy.curent_life > 0) {
-                                        console.log("Je suis un rebond sur l'ennemi : ", enemy);
-                                        this.provideDamage(enemy, (tower.damage * 100));
+                                        this.provideDamage(enemy, (tower.damage / 2));
                                     }
                                 }
                             }
@@ -243,7 +242,9 @@ export class TowerController {
     }
     provideDamage(enemy, damage)
     {
+        // console.log(enemy, "avant degat")
         enemy.curent_life -= damage;
+        // console.log(enemy, "Apres avoir prit des degats")
     }
     async slowedEnemy()
     {

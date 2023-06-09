@@ -52,8 +52,8 @@ export const enumTower = {
         totalTowerFrames : [8,8,8],
         totalAmmoFrames : [6,6,6],
         totalImpactFrames : [6,6,6],
-        damage : [1,2,3],
-        shotRate: [200,150,100],//in ms
+        damage : [3,2,3],
+        shotRate: [400,150,100],//in ms
         price: [10,20,30],
         rebound: [3,6,9],
         isAttackingAir: true,
