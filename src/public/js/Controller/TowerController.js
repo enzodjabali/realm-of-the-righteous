@@ -1,5 +1,5 @@
 import {Tower} from "../Model/Tower.js";
-import {HUDController} from "./HUDController.js";
+import {enumTower} from '../Model/enumTower.js';
 
 export class TowerController {
     constructor(model, display, player) {
@@ -11,7 +11,10 @@ export class TowerController {
         this.slowedEnemies = {};
     }
 
-    placeTowerInMatrice(towerData=null, type=null, fetchedTower=null) {
+    placeTowerInMatrice(towerData=null, type=null, fetchedTower=null, towerLevel = 0, towerPosition = null) {
+        console.log(typeof(towerLevel), "type de la tour")
+        console.log(towerLevel, "niveau de la tour")
+
         /**
          * @param {number} towerData dictionnary of data about tower.
          * Permit to place tower in the matrice
@@ -24,10 +27,21 @@ export class TowerController {
             this.towerLogics(tower);
             return;
         }
-        const row = this.display.pile[1][0];
-        const col = this.display.pile[1][1];
+        let row, col;
+        if (towerLevel == 0){
+            row = this.display.pile[1][0];
+            col = this.display.pile[1][1];
+        } else if (towerLevel > 0 && towerPosition) {
+            row = towerPosition.x;
+            col = towerPosition.y;
+        }
+
+
         if (this.model.matrice[row][col].tower === null && !tower) {
-            this.display.pile[0].classList.remove('tile-shadow'); // remove class (not selected anymore)
+            if(towerLevel == 0){
+                this.display.pile[0].classList.remove('tile-shadow'); // remove class (not selected anymore)
+            }
+
             const towerId = 'tower_' + this.model.towerId;
             const towerWeaponId = 'towerWeapon_' + this.model.towerWeaponId;
             this.model.towerId++;
@@ -39,36 +53,37 @@ export class TowerController {
             let buffTower = null;
             switch (type) {
                 case "OT":
-                    rebound = towerData.rebound[0];
+                    rebound = towerData.rebound[towerLevel];
                     break;
                 case "T":
-                    slowness = towerData.slowness[0];
+                    slowness = towerData.slowness[towerLevel];
                     break;
                 case "BT":
-                    splashRange = towerData.splashRange[0];
+                    splashRange = towerData.splashRange[towerLevel];
                     break;
                 case "WT":
-                    buffTower = towerData.buffTower[0]
+                    buffTower = towerData.buffTower[towerLevel]
                     break;
             }
             const tower = new Tower(
                 towerId,
-                towerData.damage[0],
-                towerData.shotRate[0],
+                towerData.damage[towerLevel],
+                towerData.shotRate[towerLevel],
                 { x: row, y: col },
-                0,
-                towerData.path[0],
-                towerData.pathWeapon[0],
+                towerLevel,
+                towerData.path[towerLevel],
+                towerData.pathWeapon[towerLevel],
                 towerWeaponId,
                 towerData.price,
                 type,
                 towerData.isAttackingAir,
-                towerData.totalTowerFrames[0],
-                towerData.totalAmmoFrames[0],
-                towerData.totalImpactFrames[0],
-                towerData.pathAmmo[0],
-                towerData.pathImpact[0],
+                towerData.totalTowerFrames[towerLevel],
+                towerData.totalAmmoFrames[towerLevel],
+                towerData.totalImpactFrames[towerLevel],
+                towerData.pathAmmo[towerLevel],
+                towerData.pathImpact[towerLevel],
             );
+            console.log(tower, "regarde cette tour")
             //Since constructor does't accept more parameters, create setter
             tower.setSlowness(slowness);
             tower.setRebound(rebound);
@@ -93,8 +108,8 @@ export class TowerController {
             //Implémenter le menu pour améliorer les tours
             //Sell, upgrade, shoot priority
 
-            this.sellTower(tower)
-            // this.upgradeTower(tower)
+            // this.sellTower(tower)
+            this.upgradeTower(tower)
         }
 
         // appel le boucle pour faire fonctionner la logique des tours.
@@ -239,14 +254,25 @@ export class TowerController {
 
     upgradeTower(tower)
     {
+        console.log("let's go", tower.level)
+        if(tower.level++ == 3){
+            console.log("trop de niveau")
+            return
+        }
+
+        this.sellTower(tower, false)
+        this.placeTowerInMatrice(enumTower[tower.type],tower.type,null, tower.level++, tower.position)
+        console.log(this.model.matrice[tower.position.x][tower.position.y].tower, "tower ???????")
         //Permit to upgrade a tower
     }
-    sellTower(tower)
+    sellTower(tower, getMoneyFromTower = true)
     {
         //Permit to sell a tower
 
         //Add money to player
-        this.playerController.player.money += (0.75 * tower.price[tower.level])
+        if(getMoneyFromTower){
+            this.playerController.player.money += (0.75 * tower.price[tower.level])
+        }
         this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life)
         //Remove tower from de board
         this.display.removeTower(tower);
