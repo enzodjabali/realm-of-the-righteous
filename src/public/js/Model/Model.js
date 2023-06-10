@@ -51,6 +51,7 @@ export class Model {
         const fCosts = {};
         const movesToDo = [];
         const startNode = { coord: start, gCost: 0, fCost: 0 + this.heuristic(start, end), parent: null };
+        let counterToStopFunction = 0; //BAPLEC SI TU PASSES PAR LA REGARDES BG
         openList.push(startNode);
         gCosts[this.coordToString(start)] = 0;
         fCosts[this.coordToString(start)] = startNode.fCost;
@@ -67,10 +68,8 @@ export class Model {
 
       while (openList.length > 0) {
         openList.sort((a, b) => a.fCost - b.fCost);
-        //console.log(openList)
         const currentNode = openList.shift();
         const { coord } = currentNode;
-        //console.log(coord)
         if (this.coordEquals(coord, end)) {
           // Path found, generate list of moves
           let current = currentNode;
@@ -92,21 +91,32 @@ export class Model {
             continue;
           }
           if (matrix[nx][ny].tile == 'basepath') {
-            const tentativeGCost = currentNode.gCost + 1; // Cost of moving to the neighbor (always 1 in this example)
-            const neighborCoord = [nx, ny];
-            const neighborGCost = gCosts[this.coordToString(neighborCoord)] || Infinity;
+              try {
+                  if (matrix[nx][ny].tower.type == "rock") {
+                      counterToStopFunction++
+                      // BAPLEC CHECK THIS PLEASE <3
+                      if(counterToStopFunction > 75){
+                          return [];
+                      }
+                      continue;
+                  }
+              } catch (error) {
+                  const tentativeGCost = currentNode.gCost + 1; // Cost of moving to the neighbor (always 1 in this example)
+                  const neighborCoord = [nx, ny];
+                  const neighborGCost = gCosts[this.coordToString(neighborCoord)] || Infinity;
 
-            if (tentativeGCost < neighborGCost) {
-              const neighborNode = openList.find(node => this.coordEquals(node.coord, neighborCoord)) ||
-                { coord: neighborCoord, gCost: Infinity, fCost: Infinity, parent: null };
-              neighborNode.gCost = tentativeGCost;
-              neighborNode.fCost = tentativeGCost + this.heuristic(neighborCoord, end);
-              neighborNode.parent = currentNode;
+                  if (tentativeGCost < neighborGCost) {
+                      const neighborNode = openList.find(node => this.coordEquals(node.coord, neighborCoord)) ||
+                          {coord: neighborCoord, gCost: Infinity, fCost: Infinity, parent: null};
+                      neighborNode.gCost = tentativeGCost;
+                      neighborNode.fCost = tentativeGCost + this.heuristic(neighborCoord, end);
+                      neighborNode.parent = currentNode;
 
-              if (!openList.some(node => this.coordEquals(node.coord, neighborCoord))) {
-                openList.push(neighborNode);
+                      if (!openList.some(node => this.coordEquals(node.coord, neighborCoord))) {
+                          openList.push(neighborNode);
+                      }
+                  }
               }
-            }
           }
         }
       }

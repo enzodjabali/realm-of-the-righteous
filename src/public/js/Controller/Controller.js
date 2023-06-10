@@ -16,6 +16,9 @@ export class Controller{
         this.towerController = new TowerController(this.model, this.display, this.playerController)
         this.HUDController = new HUDController(this.model, this.display, this.towerController, this.playerController)
         this.fetchController = new FetchController(this.towerController, this.model)
+
+        this.indexOfEntryPoints;
+        this.indexOfEndPoints;
     }
 
     updateEnemiesPosition(enemy, nextPosition){
@@ -70,9 +73,11 @@ export class Controller{
 
                 this.model.currentGroup++;
 
-                let indexOfEntryPoints = (waves.indexOf(group)) % (this.model.entryPoints.length);
-                let indexOfEndPoints = (waves.indexOf(group)) % (this.model.endPoints.length);
-                let path = this.model.findPathForWaves(this.model.getMatrice(), this.model.entryPoints[indexOfEntryPoints], this.model.endPoints[indexOfEndPoints]);
+                this.indexOfEntryPoints = (waves.indexOf(group)) % (this.model.entryPoints.length);
+                this.indexOfEndPoints = (waves.indexOf(group)) % (this.model.endPoints.length);
+                this.HUDController.setStartPoints(this.indexOfEntryPoints)
+                this.HUDController.setEndPoints(this.indexOfEndPoints)
+                let path = this.model.findPathForWaves(this.model.getMatrice(), this.model.entryPoints[this.indexOfEntryPoints], this.model.endPoints[this.indexOfEndPoints]);
 
                 if(path == 0){
                     console.log('can not find path')
@@ -80,9 +85,9 @@ export class Controller{
                 }
 
                 for (let mob = 0; mob < group[0]; mob++){
-                    let enemy = this.enemiesController.createEnnemyObject(this.model.mobId, enumEnemies, path, this.model.entryPoints[indexOfEntryPoints], group[1])
+                    let enemy = this.enemiesController.createEnnemyObject(this.model.mobId, enumEnemies, path, this.model.entryPoints[this.indexOfEntryPoints], group[1])
                     this.display.initializeEnemy(enemy);
-                    this.run(enemy, path, this.model.endPoints[indexOfEndPoints])
+                    this.run(enemy, path, this.model.endPoints[this.indexOfEndPoints])
                     await new Promise(r => setTimeout(r, 500)); // Delay 500ms between each enemy's movement for smoother animation
                     this.model.mobId++;
                 }
@@ -97,7 +102,6 @@ export class Controller{
          * @param {Enemy} path pathfinding list of cords.
          * @param {Enemy} endPoints couple of end coordinates.
          */
-
         try {
             for (let step = 0; step <= path.length; step++) {
                 // Add your code to handle end of path reached
@@ -129,9 +133,20 @@ export class Controller{
                 }
 
                 if (step <= path.length-1) {
-                    //this one ok GET RETURN ENEMY TO REFRESH ????
-                    this.updateEnemiesPosition(enemy, path[step]); // Await the update of the enemy's position
-                    await this.display.updateEnemyHealthBar(enemy);
+                    //Ici update la liste de step enemy si rock trouvé
+                    try {
+                        if (this.model.matrice[enemy.position.x + path[step][0]][enemy.position.y + path[step][1]].tower.type == "rock") {
+                            let newPath = this.model.findPathForWaves(this.model.matrice, [enemy.position.x, enemy.position.y], this.model.endPoints[this.indexOfEndPoints])
+                            enemy.path = newPath;
+                            enemy.step = 0;
+                            path = newPath;
+                            step = -1;
+                            continue;
+                        }
+                    } catch (error){
+                        this.updateEnemiesPosition(enemy, path[step]); // Await the update of the enemy's position
+                        await this.display.updateEnemyHealthBar(enemy);
+                    }
                 }
                 await this.display.nextMoveEnemy(enemy, path[step]); // Await the next move of the enemy using the nextMoveEnemy() method
             }

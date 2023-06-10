@@ -12,9 +12,6 @@ export class TowerController {
     }
 
     placeTowerInMatrice(towerData=null, type=null, fetchedTower=null, towerLevel = 0, towerPosition = null) {
-        console.log(typeof(towerLevel), "type de la tour")
-        console.log(towerLevel, "niveau de la tour")
-
         /**
          * @param {number} towerData dictionnary of data about tower.
          * Permit to place tower in the matrice
@@ -83,7 +80,7 @@ export class TowerController {
                 towerData.pathAmmo[towerLevel],
                 towerData.pathImpact[towerLevel],
             );
-            console.log(tower, "regarde cette tour")
+
             //Since constructor does't accept more parameters, create setter
             tower.setSlowness(slowness);
             tower.setRebound(rebound);
@@ -116,9 +113,13 @@ export class TowerController {
             // Show range of tower
 
         }
-
         // appel le boucle pour faire fonctionner la logique des tours.
-        this.runTower(tower);
+        if(tower.type == "rock"){
+            console.log("je bloque le passage")
+        } else {
+            this.runTower(tower);
+        }
+
     }
 
 

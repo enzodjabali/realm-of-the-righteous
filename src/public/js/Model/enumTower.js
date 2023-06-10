@@ -107,4 +107,23 @@ export const enumTower = {
         isAttackingAir: false,
         buffTower: [1.2, 1.5, 2]
     },
+    "rock":{
+        path : ['../../assets/images/zombie.gif'],
+
+        pathWeapon : ['../../assets/images/towers/weapons/weapons/WT1weapon.png'],
+
+        pathAmmo : ['../../assets/images/towers/weapons/flying/WT1flying.png'],
+
+        pathImpact: ['../../assets/images/towers/weapons/impact/WTimpact.png'],
+
+        totalTowerFrames : [0],
+        totalAmmoFrames : [0],
+        totalImpactFrames : [6],
+        damage : [0],
+        shotRate: [0],//in ms
+        price: [0],
+        isAttackingAir: false,
+        buffTower: [0]
+    },
+
 }
