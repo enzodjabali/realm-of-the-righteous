@@ -12,7 +12,7 @@ html{
 }
 #container-towers{
     position: absolute;
-    z-index: 1000;
+    z-index: 1;
 }
 
 .tile-shadow{
@@ -22,4 +22,13 @@ html{
 
 body {
     margin:10px; /*margin pour mise en page*/
+}
+.rangeCircle{
+    display: inline-block;
+    text-align: center;
+    border-radius: 50%;
+    vertical-align: middle;
+    position:relative;
+
+    background-color: rgba(0, 0, 0, 0.2);
 }

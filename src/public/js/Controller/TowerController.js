@@ -106,10 +106,15 @@ export class TowerController {
 
         towerHolder.onclick = () => {
             //Implémenter le menu pour améliorer les tours
-            //Sell, upgrade, shoot priority
 
+            //Sell, upgrade, shoot priority
             // this.sellTower(tower)
-            this.upgradeTower(tower)
+            this.display.showTowerRange(tower.position, tower.range*2);
+            // Upgrade tower
+            // this.upgradeTower(tower)
+
+            // Show range of tower
+
         }
 
         // appel le boucle pour faire fonctionner la logique des tours.
