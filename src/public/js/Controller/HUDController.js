@@ -30,7 +30,7 @@ export class HUDController {
                             console.log("vous ne pouvez pas place de tours ici")
                             return
                         } else if (key == "rock") {
-                            let tempMatrice = structuredClone(this.model.matrice);
+                            let tempMatrice = JSON.parse(JSON.stringify(this.model.matrice));
                             tempMatrice[this.display.pile[1][0]][this.display.pile[1][1]].tower = new Tower(
                                 null,
                                 null,
