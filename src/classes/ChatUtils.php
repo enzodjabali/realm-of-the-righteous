@@ -8,6 +8,27 @@ use Exception;
 class ChatUtils
 {
     /**
+     * This method returns the fetched messages of the chat
+     * @return bool|array returns the json encoded data of the messages information
+     * @throws Exception
+     */
+    public static function findAllMessages(): bool|array
+    {
+        $result = DbUtils::select(
+            DbTable::TABLE_CHAT,
+            ["chat.id as id", "chat.message as message", "chat.date as date", "player.username as username"],
+            "JOIN player ON chat.player_id = player.id ORDER BY chat.id DESC"
+        );
+        $result_array = [];
+
+        while($row = $result->fetch()) {
+            $result_array[] = $row;
+        }
+
+        return $result_array;
+    }
+
+    /**
      * This method inserts a new message
      * @param int $playerId the id of the player who inserted the message
      * @param string $message the message content
@@ -50,26 +71,5 @@ class ChatUtils
         } catch (Exception $e) {
             return $e->getMessage();
         }
-    }
-
-    /**
-     * This method return the fetched messages of the chat
-     * @return bool|array returns the json encoded data of the messages information
-     * @throws Exception
-     */
-    public static function findAllMessages(): bool|array
-    {
-        $result = DbUtils::select(
-            DbTable::TABLE_CHAT,
-            ["chat.id as id", "chat.message as message", "chat.date as date", "player.username as username"],
-            "JOIN player ON chat.player_id = player.id ORDER BY chat.id DESC"
-        );
-        $result_array = [];
-
-        while($row = $result->fetch()) {
-            $result_array[] = $row;
-        }
-
-        return $result_array;
     }
 }

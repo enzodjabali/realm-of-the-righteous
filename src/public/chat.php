@@ -38,8 +38,11 @@
             <div class="card-header text-center">
                 Chat
             </div>
-            <div id="message-list" class="card-body overflow-y-scroll" style="height: 400px"></div>
-
+            <div id="message-list" class="card-body overflow-y-scroll" style="height: 400px">
+                <div class="position-absolute top-50 start-50 translate-middle">
+                    <div id="spinner" class="spinner-border mt-4 mb-4" role="status"></div>
+                </div>
+            </div>
             <form id="chat-form" method="post" class="input-group card-footer text-body-secondary">
                 <input type="text" class="form-control me-3" name="message" id="message">
                 <div class="input-group-prepend">
@@ -105,4 +108,5 @@
             });
         });
     </script>
+    <?php include_once("includes/activityUpdater.php") ?>
 </html>

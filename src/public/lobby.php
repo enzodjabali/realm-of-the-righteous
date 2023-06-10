@@ -223,4 +223,5 @@
             });
         }
     </script>
+    <?php include_once("includes/activityUpdater.php") ?>
 </html>

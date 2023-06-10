@@ -109,3 +109,15 @@ footer {
 .modal-content {
     background-color: #0D1117 !important;
 }
+
+th {
+    background-color: #0D1117 !important;
+    border-color: #30363D !important;
+    color: #E6EDF3 !important;
+}
+
+td {
+    background-color: #0D1117 !important;
+    border-color: #30363D !important;
+    color: #E6EDF3 !important;
+}

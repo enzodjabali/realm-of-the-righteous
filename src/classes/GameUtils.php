@@ -8,6 +8,24 @@ use Exception;
 class GameUtils
 {
     /**
+     * This method returns the fetched information of the games
+     * @param int $playerId the player's ID
+     * @return bool|string returns the json encoded data of the games information
+     * @throws Exception
+     */
+    public static function findAllGames(int $playerId): bool|array
+    {
+        $result = DbUtils::select(DbTable::TABLE_GAME, ["id", "name", "date"], "WHERE player_id = '$playerId' ORDER BY id DESC");
+        $result_array = [];
+
+        while($row = $result->fetch()) {
+            $result_array[] = $row;
+        }
+
+        return $result_array;
+    }
+
+    /**
      * This method creates a new game
      * @param string $name the name of the game
      * @param int $playerId the id of the player who created the game
@@ -66,24 +84,6 @@ class GameUtils
         } catch (Exception $e) {
             return $e->getMessage();
         }
-    }
-
-    /**
-     * This method return the fetched information of the games
-     * @param int $playerId the player's ID
-     * @return bool|string returns the json encoded data of the games information
-     * @throws Exception
-     */
-    public static function findAllGames(int $playerId): bool|array
-    {
-        $result = DbUtils::select(DbTable::TABLE_GAME, ["id", "name", "date"], "WHERE player_id = '$playerId' ORDER BY id DESC");
-        $result_array = [];
-
-        while($row = $result->fetch()) {
-            $result_array[] = $row;
-        }
-
-        return $result_array;
     }
 
     /**

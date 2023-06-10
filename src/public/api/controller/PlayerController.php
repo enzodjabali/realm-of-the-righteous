@@ -31,6 +31,29 @@ class PlayerController {
     }
 
     /**
+     * @route('/player/getAll')
+     * @method('GET')
+     * @return void
+     * @throws Exception
+     */
+    protected function getAll(): void
+    {
+        $getAll = PlayerUtils::findAllPlayers(
+            intval($_SESSION["player_id"])
+        );
+
+        if (is_array($getAll)) {
+            http_response_code(200);
+            $response = $getAll;
+        } else {
+            http_response_code(400);
+            $response["response"] = "An error has occurred.";
+        }
+
+        echo json_encode($response);
+    }
+
+    /**
      * @route('/player/login')
      * @method('POST')
      * @return void
@@ -257,6 +280,22 @@ class PlayerController {
         echo json_encode($response);
     }
 
+    /**
+     * @route('/player/updateActivity')
+     * @method('POST')
+     * @return void
+     * @throws Exception
+     */
+    protected function updateActivity(): void
+    {
+        $response["response"] = PlayerUtils::updateActivity(
+            intval($_SESSION["player_id"])
+        );
+
+        http_response_code(200);
+
+        echo json_encode($response);
+    }
 }
 
 new PlayerController($_GET["route"]);

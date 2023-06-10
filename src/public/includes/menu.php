@@ -22,6 +22,9 @@
                                     <a class="nav-link" href="/chat">Chat</a>
                                 </li>
                                 <li class="nav-item">
+                                    <a class="nav-link" href="/leaderboard">Leaderboard</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link" href="/about">About</a>
                                 </li>
                                 <li class="nav-item">
