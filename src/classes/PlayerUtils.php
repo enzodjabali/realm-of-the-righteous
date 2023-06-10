@@ -3,10 +3,33 @@ declare(strict_types = 1);
 
 namespace App\classes;
 
+use DateTimeImmutable;
 use Exception;
 
 class PlayerUtils
 {
+    /**
+     * This method returns the fetched information of the players
+     * @param int $playerId the player's ID
+     * @return bool|string returns the json encoded data of the players' information
+     * @throws Exception
+     */
+    public static function findAllPlayers(int $playerId): bool|array
+    {
+        if ($playerId > 0) {
+            $result = DbUtils::select(DbTable::TABLE_PLAYER, ["id", "username", "xp", "last_activity"], "WHERE is_verified IS TRUE ORDER BY xp DESC");
+            $result_array = [];
+
+            while($row = $result->fetch()) {
+                $result_array[] = $row;
+            }
+
+            return $result_array;
+        } else {
+            return [];
+        }
+    }
+
 	/**
 	 * This method inserts a new player into the database
 	 * @param string $username the username of the player
@@ -482,4 +505,20 @@ class PlayerUtils
         return (bool)DbUtils::select(DbTable::TABLE_PLAYER, ["is_admin"], "WHERE id = '$playerId'")->fetch()["is_admin"];
     }
 
+    /**
+     * This method updates a player's last activity from the database
+     * @param int $playerId the ID of the player
+     * @return string|bool returns true if the operation succeed, false if it didn't
+     * @throws Exception
+     */
+    public static function updateActivity(int $playerId): string|bool
+    {
+        $date = new DateTimeImmutable();
+
+        if (DbUtils::update(DbTable::TABLE_PLAYER, "last_activity", $date->getTimestamp(), "WHERE id = $playerId")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

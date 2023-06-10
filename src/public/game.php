@@ -60,4 +60,5 @@
     </body>
 
     <script src="js/Main.js" type="module"></script>
+    <?php include_once("includes/activityUpdater.php") ?>
 </html>

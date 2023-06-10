@@ -38,4 +38,5 @@
 
         <?php include_once("includes/footer.php") ?>
     </body>
+    <?php include_once("includes/activityUpdater.php") ?>
 </html>

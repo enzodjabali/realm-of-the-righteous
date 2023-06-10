@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -6,6 +10,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" type="image/x-icon" href="assets/images/website/favicon.ico">
         <link href="assets/css/styles.css" rel="stylesheet">
+        <script src="node_modules/jquery/dist/jquery.js"></script>
 
         <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
     </head>
@@ -19,4 +24,5 @@
             </div>
         </div>
     </body>
+    <?php include_once("includes/activityUpdater.php") ?>
 </html>
