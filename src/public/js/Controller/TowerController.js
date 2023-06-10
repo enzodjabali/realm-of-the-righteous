@@ -254,21 +254,20 @@ export class TowerController {
 
     upgradeTower(tower)
     {
-        console.log("let's go", tower.level)
-        if(tower.level++ == 3){
-            console.log("trop de niveau")
-            return
-        }
-
-        this.sellTower(tower, false)
-        this.placeTowerInMatrice(enumTower[tower.type],tower.type,null, tower.level++, tower.position)
-        console.log(this.model.matrice[tower.position.x][tower.position.y].tower, "tower ???????")
         //Permit to upgrade a tower
+        if(tower.level == enumTower[tower.type].damage.length-1){
+            //Mximum tower level already reached
+            return
+        } else {
+            tower.level++
+        }
+        this.sellTower(tower, false)
+        this.placeTowerInMatrice(enumTower[tower.type],tower.type,null, tower.level, tower.position)
+
     }
     sellTower(tower, getMoneyFromTower = true)
     {
         //Permit to sell a tower
-
         //Add money to player
         if(getMoneyFromTower){
             this.playerController.player.money += (0.75 * tower.price[tower.level])
