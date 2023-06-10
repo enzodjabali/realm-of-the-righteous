@@ -16,6 +16,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" type="image/x-icon" href="assets/images/website/favicon.ico">
         <script src="node_modules/jquery/dist/jquery.js"></script>
+        <link href="assets/css/styles.css" rel="stylesheet">
 
         <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
         <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
@@ -26,7 +27,7 @@
         <?php include_once("includes/menu.php") ?>
 
         <!-- Toast gets displayed with an error message if the user's credentials aren't valid or with the status of the reset password form -->
-        <div class="toast align-items-center border-0 position-absolute top-0 start-50 translate-middle mt-5" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast align-items-center border-0 position-absolute top-0 start-50 translate-middle mt-5 z-2" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body"></div>
                 <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
@@ -34,7 +35,7 @@
         </div>
 
         <div class="card w-75 position-absolute top-50 start-50 translate-middle">
-            <div class="card-header text-center ">
+            <div class="card-header text-center">
                 Login
             </div>
             <div class="card-body">
@@ -68,7 +69,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="modalLabel">Reset password</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form id="reset-password-form" method="post">
                         <div id="create-game-text" class="modal-body">

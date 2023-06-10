@@ -5,9 +5,11 @@
     if ($sessionId > 0) {
         ?>
             <header>
-                <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                <nav class="navbar navbar-expand-lg navbar-dark z-1">
                     <div class="container-fluid">
-                        <a class="navbar-brand" href="/">ROTR</a>
+                        <a class="navbar-brand" href="/">
+                            <img src="assets/images/website/logo.png" width="30">
+                        </a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
@@ -26,13 +28,12 @@
                                     <a class="nav-link" href="/credits">Credits</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/settings/account">Settings <i class="bi bi-gear-fill"></i></a>
+                                    <a class="nav-link" href="/settings/account">Settings</a>
                                 </li>
                             </ul>
                             <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <?= $_SESSION["player_username"] . " (" . $_SESSION["player_id"] . ")" ?>
-                                    -
+                                    <a class="nav-user"><?= $_SESSION["player_username"] . " (" . $_SESSION["player_id"] . ")" ?> -</a>
                                     <a href="/logout">Logout <i class="bi bi-box-arrow-in-right"></i></a>
                                 </li>
                             </ul>
@@ -44,9 +45,11 @@
     } else {
         ?>
             <header>
-                <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                <nav class="navbar navbar-expand-lg navbar-dark z-1">
                     <div class="container-fluid">
-                        <a class="navbar-brand" href="/">ROTR</a>
+                        <a class="navbar-brand" href="/">
+                            <img src="assets/images/website/logo.png" width="30">
+                        </a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
