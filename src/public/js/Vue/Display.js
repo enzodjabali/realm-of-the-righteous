@@ -337,4 +337,30 @@ export class Display{
         playerMoney.innerText = money
         playerLife.innerText = life
     }
+    showTowerRange(towerPosition, range){
+        this.hideTowerRange()
+        let x, y;
+        let width = (this.tilesSize * range).toString()+"px"
+        let height = (this.tilesSize * range).toString()+"px"
+
+        x = ((towerPosition.x * this.tilesSize) +10 - ((this.tilesSize/2)*(range-1))).toString() + 'px'; /*10 = margin css*/
+        y = ((towerPosition.y * this.tilesSize) +10 - towerPosition.y - (this.tilesSize/2*(range-1))).toString() + 'px'; /*10 = margin css*/
+
+        let circle = document.createElement('div')
+        circle.style.position = "absolute"
+        circle.style.top = x;
+        circle.style.left = y;
+
+        circle.style.width = width;
+        circle.style.height = height;
+
+        circle.setAttribute('class', 'rangeCircle')
+        document.body.appendChild(circle)
+    }
+    hideTowerRange(){
+        const elements = document.getElementsByClassName('rangeCircle');
+        while(elements.length > 0){
+            elements[0].parentNode.removeChild(elements[0]);
+        }
+    }
 }
