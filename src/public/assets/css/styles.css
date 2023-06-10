@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Smythe&display=swap');
+
+body {
+    background-color: #0D1117 !important;
+}
+
+footer {
+    color: #E6EDF3;
+}
+
+.card {
+    border-color: #30363D !important;
+}
+
+.card-header {
+    background-color: #161B22 !important;
+    color: #CFD6DC !important;
+}
+
+.card-body {
+    background-color: #0D1117;
+    color: #E6EDF3 !important;
+}
+
+.card-footer {
+    background-color: #161B22 !important;
+}
+
+.card-footer-text {
+    color: #CFD6DC !important;
+}
+
+.card-title {
+    font-family: 'Smythe', cursive;
+    font-size: 2.5em;
+}
+
+.navbar {
+    background-color: #161B22;
+}
+
+.nav-link {
+    color: #B9BBBD !important;
+}
+
+.navbar-brand {
+    color: #E6EDF3 !important;
+}
+
+.nav-user {
+    text-decoration: none;
+    color: #E6EDF3 !important;
+}
+
+.offcanvas-header {
+    background-color: #161B22;
+}
+
+.offcanvas-body {
+    background-color: #161B22;
+}
+
+.offcanvas-body > a {
+    color: #E6EDF3 !important;
+}
+
+.offcanvas-title {
+    color: #E6EDF3;
+}
+
+.form-label {
+    color: #E6EDF3;
+}
+
+.form-check-label {
+    color: #E6EDF3;
+}
+
+.form-control {
+    background-color: #010409 !important;
+    border-color: #30363D !important;
+    color: #E6EDF3 !important;
+}
+
+.form-control::placeholder {
+    color: #434952 !important;
+}
+
+.modal-header {
+    background-color: #161B22 !important;
+    border-color: #30363D !important;
+    color: #CFD6DC !important;
+}
+
+.modal-body {
+    background-color: #0D1117 !important;
+    color: #E6EDF3;
+}
+
+.modal-footer {
+    background-color: #161B22 !important;
+    border-color: #30363D !important;
+}
+
+.btn-close {
+    color: #CFD6DC !important;
+}
+
+.modal-content {
+    background-color: #0D1117 !important;
+}

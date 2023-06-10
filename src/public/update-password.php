@@ -16,6 +16,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" type="image/x-icon" href="../assets/images/website/favicon.ico">
         <script src="../node_modules/jquery/dist/jquery.js"></script>
+        <link href="../assets/css/styles.css" rel="stylesheet">
 
         <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
         <script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
@@ -32,7 +33,7 @@
         </div>
 
         <!-- Toast gets displayed with the status message of the form -->
-        <div class="toast align-items-center border-0 position-absolute top-0 start-50 translate-middle mt-5" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast align-items-center border-0 position-absolute top-0 start-50 translate-middle mt-5 z-2" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body"></div>
                 <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>

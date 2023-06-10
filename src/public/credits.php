@@ -9,6 +9,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" type="image/x-icon" href="assets/images/website/favicon.ico">
+        <link href="assets/css/styles.css" rel="stylesheet">
 
         <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
         <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
