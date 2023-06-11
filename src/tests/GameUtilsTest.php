@@ -14,7 +14,7 @@ final class GameUtilsTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateNewGame(): void
+    public function testCanNewGameBeCreated(): void
     {
         $isGameCreated = GameUtils::createGame("a phpunit game", 1, 1, GameDifficulties::DIFFICULTY_HARD);
         $this->assertTrue($isGameCreated);
@@ -26,13 +26,13 @@ final class GameUtilsTest extends TestCase
         $this->assertTrue($doesGameBelongToPlayer);
     }
 
-    public function testGetModel(): void
+    public function testCanGetModel(): void
     {
         $doesModelExist = GameUtils::getModel(1, 1);
         $this->assertIsString($doesModelExist);
     }
 
-    public function testUpdateModel(): void
+    public function testCanUpdateModel(): void
     {
         $isModelUpdated = GameUtils::updateModel(1, GameModels::MODEL_EASY->value);
         $this->assertTrue($isModelUpdated);
@@ -45,5 +45,21 @@ final class GameUtilsTest extends TestCase
     {
         $hasGameDeleteFailed = GameUtils::deleteGame(12345, 1);
         $this->assertFalse($hasGameDeleteFailed);
+    }
+
+    public function testCanLogBeInserted(): void
+    {
+        $isLogInserted = GameUtils::insertLog(1, 1, "test phpunit log", 1);
+        $this->assertTrue($isLogInserted);
+    }
+
+
+    /**
+     * @throws Exception
+     */
+    public function testCanLogsBeFetched(): void
+    {
+        $getLogs = GameUtils::findAllLogs(1, 1);
+        $this->assertIsArray($getLogs);
     }
 }
