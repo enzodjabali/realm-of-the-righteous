@@ -1,6 +1,6 @@
 import {Player} from '../Model/Player.js';
 
-const gameId = new URLSearchParams(window.location.search).get('game_id');
+const gameId = new URLSearchParams(window.location.search).get('gameId');
 
 export class PlayerController{
     constructor(name, money, life) {
@@ -39,9 +39,7 @@ export class PlayerController{
     }
     async postLogs(content, type) {
         $.post("api/v1/game/insertLog", {gameId: gameId, content: content, type: type}, function (response) {
-            console.log(response, 'response')
         }).fail(function (response) {
-            console.log(response)
         });
         return false;
 

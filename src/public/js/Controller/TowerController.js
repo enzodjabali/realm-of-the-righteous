@@ -1,6 +1,5 @@
 import {Tower} from "../Model/Tower.js";
 import {enumTower} from '../Model/enumTower.js';
-const gameId = new URLSearchParams(window.location.search).get('game_id');
 
 export class TowerController {
     constructor(model, display, player) {
@@ -92,7 +91,7 @@ export class TowerController {
             this.towerLogics(tower, row, col);
 
         } else {
-            console.log('Il y a déjà une tour sur cette case.');
+            this.playerController.postLogs("There is already a tower on this tile", 2)
             return;
         }
         this.display.pile = -1;
@@ -103,9 +102,6 @@ export class TowerController {
         let towerHolder = this.display.initializeTower(tower);
 
         towerHolder.onclick = () => {
-            console.log(gameId, 'JE SUIS LID DU JEU')
-            this.playerController.postLogs("texte", 1)
-            console.log("send")
             this.display.showTowerRange(tower.position, tower.range*2)
             displayTabHUD('hud-tab-tower-actions')
             this.playerController.player.tab = Date.now()/1000;
@@ -137,16 +133,13 @@ export class TowerController {
             document.getElementById('tower-src-value').src = tower.path;
             document.getElementById('tower-type-value').innerText = "Tower "+tower.type
 
-
-
-
             sellContainer.appendChild(sellButton);
             upgradeContainer.appendChild(upgradeButton);
         }
         // appel le boucle pour faire fonctionner la logique des tours.
 
         if(tower.type == "rock"){
-            console.log("je bloque le passage")
+            this.playerController.postLogs("I'm blocking the way ! (x: "+tower.position.x+" y: "+tower.position.y+")", 1)
         } else {
             this.runTower(tower);
         }
@@ -250,7 +243,6 @@ export class TowerController {
                             let closeEnemies = this.findNeighbour(enemy.position.x, enemy.position.y, tower.splashRange,"splash")
                             if(closeEnemies){
                                 for (enemy of closeEnemies){
-                                    console.log("provide damage to an enemy")
                                     this.provideDamage(enemy, tower.damage*0.5)
                                     //REVOIR POUR GAME DESIGN   -----THOMAS----
                                     }
@@ -293,14 +285,22 @@ export class TowerController {
     upgradeTower(tower)
     {
         //Permit to upgrade a tower
-        if(tower.level == enumTower[tower.type].damage.length-1){
-            //Mximum tower level already reached
-            return
+        // REVOIR ICI 
+        if (this.playerController.buyTower(enumTower[tower.type].price[tower.level+1])){
+            if(tower.level == enumTower[tower.type].damage.length-1){
+                //Mximum tower level already reached
+                return
+            } else {
+                tower.level++
+            }
+            this.sellTower(tower, false)
+            this.playerController.postLogs("Upgraded "+tower.type+" tower for "+enumTower[tower.type].price[tower.level+1]+" coins", 1)
+            this.placeTowerInMatrice(enumTower[tower.type],tower.type,null, tower.level, tower.position)
         } else {
-            tower.level++
+            console.log('here')
+            this.playerController.postLogs("You can't afford it, sorry", 1)
         }
-        this.sellTower(tower, false)
-        this.placeTowerInMatrice(enumTower[tower.type],tower.type,null, tower.level, tower.position)
+
 
     }
     sellTower(tower, getMoneyFromTower = true)
@@ -317,6 +317,7 @@ export class TowerController {
         tower.remove = true;
         //Remove tower from the logical board
         this.checkPlayerTab(true)
+        this.playerController.postLogs("Sold "+tower.type+" tower for "+tower.price[tower.level]*0.75+" coins", 1)
         this.model.matrice[tower.position.x][tower.position.y].tower = null;
 
 

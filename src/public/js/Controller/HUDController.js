@@ -30,6 +30,7 @@ export class HUDController {
                 } else {
                     if(this.playerController.buyTower(enumTower[key].price[0])){
                         this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies);
+                        this.playerController.postLogs("Bought "+key+" tower for "+enumTower[key].price[0]+" coins", 1)
                         if(this.model.matrice[this.display.pile[1][0]][this.display.pile[1][1]].tile == 'basepath' && key != "rock"){
                             console.log("vous ne pouvez pas place de tours ici")
                             return
