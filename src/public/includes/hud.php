@@ -8,20 +8,19 @@
                 <a class="nav-link" onclick="displayTab('hud-tab-tower-shop')">Buy Tower</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" onclick="displayTab('hud-tab-tower-actions')">Tower Actions</a>
+                <a class="nav-link">Tower Actions</a>
             </li>
         </ul>
     </div>
 
     <div id="hud-tab-general" class="mt-3">
-        <h4 class="text-center mb-3">Current Health: 100❤️</h4>
-
+        <h4 id="life" class="text-center mb-3">Current Health: 100❤️</h4>
         <div class="d-flex game-stats">
-            <div class="p-2 flex-fill w-25">🪙 1000</div>
+            <div id ="money" class="p-2 flex-fill w-25"></div>
             <div class="p-2 flex-fill w-25">⏱️ 30g/m</div>
         </div>
         <div class="d-flex game-stats">
-            <div class="p-2 flex-fill w-25">💀 151</div>
+            <div id ="killedEnemies" class="p-2 flex-fill w-25"></div>
             <div class="p-2 flex-fill w-25">🧟 I</div>
         </div>
 
@@ -45,80 +44,46 @@
     <div id="hud-tab-tower-shop" class="mt-3 visually-hidden">
 
         <div class="d-flex flex-wrap">
-            <div class="p-2 flex-fill hud-button" style="width: 150px">
-                <a href="">
-                    Buy Wood Tower
-                    <img height="40px" src="assets/images/towers/WT1.png">
-                    999G
-                </a>
-            </div>
-            <div class="p-2 flex-fill hud-button" style="width: 150px">
-                <a href="">
-                    Buy Wood Tower
-                    <img height="40px" src="assets/images/towers/WT1.png">
-                    999G
-                </a>
-            </div>
+            <div id="button-buy-tower-container" class="d-flex flex-wrap">
 
-            <div class="p-2 flex-fill hud-button" style="width: 150px">
-                <a href="">
-                    Buy Wood Tower
-                    <img height="40px" src="assets/images/towers/WT1.png">
-                    999G
-                </a>
-            </div>
-            <div class="p-2 flex-fill hud-button" style="width: 150px">
-                <a href="">
-                    Buy Wood Tower
-                    <img height="40px" src="assets/images/towers/WT1.png">
-                    999G
-                </a>
-            </div>
-            <div class="p-2 flex-fill hud-button" style="width: 150px">
-                <a href="">
-                    Buy Wood Tower
-                    <img height="40px" src="assets/images/towers/WT1.png">
-                    999G
-                </a>
-            </div>
-            <div class="p-2 flex-fill hud-button" style="width: 150px">
-                <a href="">
-                    Buy Wood Tower
-                    <img height="40px" src="assets/images/towers/WT1.png">
-                    999G
-                </a>
             </div>
         </div>
     </div>
 
     <div id="hud-tab-tower-actions" class="mt-3 visually-hidden">
-        <div class="hud-button mb-3" style="height: 20%; width: 100%">
-            <a href="#">Upgrade tower ⚒️ 999G</a>
+        <div id="upgrade-tower" class="hud-button mb-3" style="height: 20%; width: 100%">
         </div>
 
-        <div class="hud-button mb-3" style="height: 20%; width: 100%">
-            <a href="#">Sell tower ❌ 999G</a>
+        <div id ="sell-tower" class="hud-button mb-3" style="height: 20%; width: 100%">
         </div>
 
         <div class="tower-stats mt-4">
             <header class="text-center">
-                <img height="60px" src="assets/images/towers/WT1.png">
-                <h5 class="fw-bold">Wooden tower</h5>
+                <img id="tower-src-value" height="60px" src="">
+                <h5 id="tower-type-value" class="fw-bold">Wooden tower</h5>
             </header>
 
             <table class="table">
                 <tbody class="text-center">
                 <tr>
                     <th>Attack</th>
-                    <td>10</td>
+                    <td id="attack-value"></td>
                 </tr>
                 <tr>
                     <th>Attack speed</th>
-                    <td>0.8</td>
+                    <td id="attack-speed-value"></td>
                 </tr>
                 <tr>
                     <th>Range</th>
-                    <td>1000</td>
+                    <td id="range-value"></td>
+                </tr>
+                <tr>
+                    <th>Level</th>
+                    <td id="level-value"></td>
+                </tr>
+                <tr>
+                    <th>Current damage boost</th>
+                    <td id="current-damage-boost-value"></td>
                 </tr>
                 </tbody>
             </table>

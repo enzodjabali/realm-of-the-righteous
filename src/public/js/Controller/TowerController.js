@@ -102,18 +102,45 @@ export class TowerController {
         let towerHolder = this.display.initializeTower(tower);
 
         towerHolder.onclick = () => {
-            //Implémenter le menu pour améliorer les tours
+            this.display.showTowerRange(tower.position, tower.range*2)
+            displayTab('hud-tab-tower-actions')
+            this.playerController.player.tab = Date.now()/1000;
+            let sellContainer = document.getElementById('sell-tower')
+            let upgradeContainer = document.getElementById('upgrade-tower')
 
-            //Sell, upgrade, shoot priority
-            // this.sellTower(tower)
-            this.display.showTowerRange(tower.position, tower.range*2);
-            // Upgrade tower
-            // this.upgradeTower(tower)
+            //Permit to empty the tab
+            sellContainer.innerHTML = ''
+            upgradeContainer.innerHTML = ''
 
-            // Show range of tower
+            let sellButton = document.createElement('p')
+            let upgradeButton = document.createElement('p')
+            upgradeButton.innerText = "Upgrade "+tower.type+" ⚒️ ("+tower.price[tower.level]+" 🪙)"
+            sellButton.innerText = "Sell "+tower.type+" ❌ ("+tower.price[tower.level]*0.75+" 🪙) ";
 
+            sellButton.onclick = () => {
+                this.sellTower(tower);
+                displayTab('hud-tab-general')
+            }
+            upgradeButton.onclick = () => {
+                this.upgradeTower(tower)
+                displayTab('hud-tab-general')
+            }
+            document.getElementById('attack-value').innerText = tower.damage;
+            document.getElementById('attack-speed-value').innerText = tower.shotRate;
+            document.getElementById('range-value').innerText = tower.range;
+            document.getElementById('level-value').innerText = tower.level+1;
+            document.getElementById('current-damage-boost-value').innerText = tower.damage - tower.memoryDamage;
+            document.getElementById('tower-src-value').src = tower.path;
+            document.getElementById('tower-type-value').innerText = "Tower "+tower.type
+
+
+
+
+            sellContainer.appendChild(sellButton);
+            upgradeContainer.appendChild(upgradeButton);
         }
         // appel le boucle pour faire fonctionner la logique des tours.
+
         if(tower.type == "rock"){
             console.log("je bloque le passage")
         } else {
@@ -203,6 +230,7 @@ export class TowerController {
             if (tower.remove) {
                 break;
             }
+            this.checkPlayerTab()
             this.slowedEnemy()
             await new Promise(r => setTimeout(r, tower.shotRate)); // frequency of fire
             let {range, damage} = tower;
@@ -278,7 +306,7 @@ export class TowerController {
         if(getMoneyFromTower){
             this.playerController.player.money += (0.75 * tower.price[tower.level])
         }
-        this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life)
+        this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies)
         //Remove tower from de board
         this.display.removeTower(tower);
         //break the while loop
@@ -299,6 +327,12 @@ export class TowerController {
             if(value[0] < Date.now()/1000){
                 value[1].speed = value[1].memorySpeed ;
             }
+        }
+    }
+    checkPlayerTab(tower){
+        console.log()
+        if (this.playerController.player.tab+3 < Date.now()/1000){
+            this.display.hideTowerRange();
         }
     }
 }
