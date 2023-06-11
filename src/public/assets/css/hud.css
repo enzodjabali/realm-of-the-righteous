@@ -1,0 +1,76 @@
+.game-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.hud {
+    width: 400px;
+    padding: 20px;
+}
+
+.game-stats > .flex-fill {
+    background-color: #D6A76C;
+    margin-bottom: 10px;
+    border: 2px solid #24292F;
+    border-radius: 5px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0px 1px 0px #000;
+}
+
+.game-stats {
+    gap: 10px;
+    text-align: center;
+}
+
+.hud-button a {
+    color: white;
+    font-weight: bold;
+    font-size: 17px;
+    text-align: center;
+    text-decoration: none;
+    background-color: #D6A76C;
+    display: block;
+    position: relative;
+    padding: 20px 20px;
+    text-shadow: 0px 1px 0px #000;
+    filter: dropshadow(color=#000, offx=0px, offy=1px);
+    box-shadow: inset 0 1px 0 #a4620e, 0 10px 0 #a4620e;
+    border-radius: 5px;
+    border: 2px solid #24292F;
+}
+
+.hud-button a:active {
+    top: 10px;
+    background-color: #c09661;
+    box-shadow: inset 0 1px 0 #FFE5C4, inset 0 -3px 0 #915100;
+}
+
+.tower-stats {
+    background-color: #D6A76C;
+    margin-bottom: 10px;
+    border: 2px solid #24292F;
+    border-radius: 5px;
+    box-shadow: rgba(50, 50, 93, 0.0) 0px 50px 100px -10px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+    color: #fff !important;
+    text-shadow: 0px 1px 0px #000;
+}
+
+th {
+    background-color: #D6A76C !important;
+    border: none !important;
+    width: 50%;
+    color: #fff !important;
+}
+
+td {
+    background-color: #D6A76C !important;
+    border: none !important;
+    color: #fff !important;
+}
+
+.nav-item {
+    cursor: pointer;
+}

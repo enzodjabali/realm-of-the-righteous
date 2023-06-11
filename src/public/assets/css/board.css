@@ -1,16 +1,17 @@
-html{
-    background: #24292F;
+body {
+    margin:10px;
 }
-#board-container{
+
+#board-container {
     display: grid;
     z-index: 0;
-
-
 }
-#container-enemies{
+
+#container-enemies {
     position: absolute;
 }
-#container-towers{
+
+#container-towers {
     position: absolute;
     z-index: 1;
 }
@@ -20,15 +21,11 @@ html{
     z-index: 2;
 }
 
-body {
-    margin:10px; /*margin pour mise en page*/
-}
 .rangeCircle{
     display: inline-block;
     text-align: center;
     border-radius: 50%;
     vertical-align: middle;
     position:relative;
-
     background-color: rgba(0, 0, 0, 0.2);
 }
