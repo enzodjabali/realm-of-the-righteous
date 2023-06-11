@@ -8,7 +8,7 @@
                 <a class="nav-link" onclick="displayTab('hud-tab-tower-shop')">Buy Tower</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" onclick="displayTab('hud-tab-tower-actions')">Tower Actions</a>
+                <a class="nav-link">Tower Actions</a>
             </li>
         </ul>
     </div>
@@ -46,38 +46,44 @@
         <div class="d-flex flex-wrap">
             <div id="button-buy-tower-container" class="d-flex flex-wrap">
 
-            <div>
+            </div>
         </div>
     </div>
 
     <div id="hud-tab-tower-actions" class="mt-3 visually-hidden">
-        <div class="hud-button mb-3" style="height: 20%; width: 100%">
-            <a href="#">Upgrade tower ⚒️ 999G</a>
+        <div id="upgrade-tower" class="hud-button mb-3" style="height: 20%; width: 100%">
         </div>
 
-        <div class="hud-button mb-3" style="height: 20%; width: 100%">
-            <a href="#">Sell tower ❌ 999G</a>
+        <div id ="sell-tower" class="hud-button mb-3" style="height: 20%; width: 100%">
         </div>
 
         <div class="tower-stats mt-4">
             <header class="text-center">
-                <img height="60px" src="assets/images/towers/WT1.png">
-                <h5 class="fw-bold">Wooden tower</h5>
+                <img id="tower-src-value" height="60px" src="">
+                <h5 id="tower-type-value" class="fw-bold">Wooden tower</h5>
             </header>
 
             <table class="table">
                 <tbody class="text-center">
                 <tr>
                     <th>Attack</th>
-                    <td>10</td>
+                    <td id="attack-value"></td>
                 </tr>
                 <tr>
                     <th>Attack speed</th>
-                    <td>0.8</td>
+                    <td id="attack-speed-value"></td>
                 </tr>
                 <tr>
                     <th>Range</th>
-                    <td>1000</td>
+                    <td id="range-value"></td>
+                </tr>
+                <tr>
+                    <th>Level</th>
+                    <td id="level-value"></td>
+                </tr>
+                <tr>
+                    <th>Current damage boost</th>
+                    <td id="current-damage-boost-value"></td>
                 </tr>
                 </tbody>
             </table>
