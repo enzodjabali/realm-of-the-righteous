@@ -43,21 +43,41 @@
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <link rel="icon" type="image/x-icon" href="assets/images/website/favicon.ico">
         <link rel="stylesheet" href="assets/css/board.css">
+        <link rel="stylesheet" href="assets/css/hud.css">
         <script src="node_modules/jquery/dist/jquery.js"></script>
+
+        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+        <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+        <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.min.css">
     </head>
 
     <body>
-        <div id="board-container"></div>
-        <div id="container-enemies"></div>
-        <div id="container-towers"></div>
-        <div style='display:flex'>
-            <div>
-                <p style="color: blue; text-decoration: underline" id="money"></p>
-                <p style="color: red; text-decoration: underline" id="life"></p>
-            </div>
+        <div class="game-container">
+            <section>
+                <div id="board-container"></div>
+                <div id="container-enemies"></div>
+                <div id="container-towers"></div>
+                <div style='display:flex'>
+                    <div>
+                        <p style="color: blue; text-decoration: underline" id="money"></p>
+                        <p style="color: red; text-decoration: underline" id="life"></p>
+                    </div>
+                </div>
+                <div id='button-container'></div>
+            </section>
+
+            <?php include_once("includes/hud.php") ?>
         </div>
-        <div id='button-container'></div>
     </body>
+
+    <script>
+        function displayTab(tabId) {
+            $("#hud-tab-general").addClass("visually-hidden");
+            $("#hud-tab-tower-shop").addClass("visually-hidden");
+            $("#hud-tab-tower-actions").addClass("visually-hidden");
+            $("#" + tabId).removeClass("visually-hidden");
+        }
+    </script>
 
     <script src="js/Main.js" type="module"></script>
     <?php include_once("includes/activityUpdater.php") ?>
