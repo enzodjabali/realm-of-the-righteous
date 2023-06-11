@@ -1,5 +1,6 @@
 import {Tower} from "../Model/Tower.js";
 import {enumTower} from '../Model/enumTower.js';
+const gameId = new URLSearchParams(window.location.search).get('game_id');
 
 export class TowerController {
     constructor(model, display, player) {
@@ -102,6 +103,9 @@ export class TowerController {
         let towerHolder = this.display.initializeTower(tower);
 
         towerHolder.onclick = () => {
+            console.log(gameId, 'JE SUIS LID DU JEU')
+            this.playerController.postLogs("texte", 1)
+            console.log("send")
             this.display.showTowerRange(tower.position, tower.range*2)
             displayTabHUD('hud-tab-tower-actions')
             this.playerController.player.tab = Date.now()/1000;
@@ -312,6 +316,7 @@ export class TowerController {
         //break the while loop
         tower.remove = true;
         //Remove tower from the logical board
+        this.checkPlayerTab(true)
         this.model.matrice[tower.position.x][tower.position.y].tower = null;
 
 
@@ -329,9 +334,8 @@ export class TowerController {
             }
         }
     }
-    checkPlayerTab(tower){
-        console.log()
-        if (this.playerController.player.tab+3 < Date.now()/1000){
+    checkPlayerTab(sell = false){
+        if (this.playerController.player.tab+3 < Date.now()/1000 || sell == true){
             this.display.hideTowerRange();
         }
     }
