@@ -158,6 +158,11 @@ export class Controller{
         }
     }
     saveModel(model) {
+        for (let i = 0; i < model.matrice.length; i++) {
+            for (let j = 0; j < model.matrice[i].length; j++) {
+                model.matrice[i][j].enemies = [];
+            }
+        }
         model = JSON.stringify(model);
         /**
          * This function calls the update game model method
