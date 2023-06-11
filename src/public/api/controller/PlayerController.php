@@ -109,7 +109,7 @@ class PlayerController {
             $terms === 'true'
         );
 
-        if ($register == "1") {
+        if ($register === true) {
             http_response_code(200);
         } else {
             http_response_code(400);
@@ -154,7 +154,7 @@ class PlayerController {
             htmlspecialchars($newEmail)
         );
 
-        if ($update == "1") {
+        if ($update === true) {
             http_response_code(200);
         } else {
             http_response_code(400);
@@ -181,7 +181,7 @@ class PlayerController {
             $retypedNewPassword
         );
 
-        if ($updatePassword == "1") {
+        if ($updatePassword === true) {
             http_response_code(200);
         } else {
             http_response_code(400);
@@ -207,7 +207,7 @@ class PlayerController {
             $retypedNewPassword
         );
 
-        if ($updatePassword == "1") {
+        if ($updatePassword === true) {
             http_response_code(200);
         } else {
             http_response_code(400);
@@ -231,7 +231,7 @@ class PlayerController {
             htmlspecialchars($playerEmail)
         );
 
-        if ($generateResetPasswordLink == "1") {
+        if ($generateResetPasswordLink === true) {
             http_response_code(200);
         } else {
             http_response_code(400);
@@ -253,7 +253,7 @@ class PlayerController {
             htmlspecialchars($_GET["link"])
         );
 
-        if ($verify == "1") {
+        if ($verify === true) {
             http_response_code(200);
         } else {
             http_response_code(400);

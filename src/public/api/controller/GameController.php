@@ -74,7 +74,7 @@ class GameController {
             }
         );
 
-        if ($create == "1") {
+        if ($create === true) {
             http_response_code(200);
         } else {
             http_response_code(400);
@@ -99,7 +99,7 @@ class GameController {
             intval($_SESSION["player_id"])
         );
 
-        if ($delete == "1") {
+        if ($delete === true) {
             http_response_code(200);
         } else {
             http_response_code(400);
@@ -174,6 +174,32 @@ class GameController {
         echo json_encode($response);
     }
 
+    /**
+     * @route('/game/insertLog')
+     * @method('POST')
+     * @return void
+     * @throws Exception
+     */
+    protected function insertLog(): void
+    {
+        extract($_POST);
+
+        $insertLog = GameUtils::insertLog(
+            intval($gameId),
+            intval($_SESSION["player_id"]),
+            htmlspecialchars($content),
+            intval($type)
+        );
+
+        if ($insertLog === true) {
+            http_response_code(200);
+        } else {
+            http_response_code(400);
+        }
+        $response['response'] = $insertLog;
+
+        echo json_encode($response);
+    }
 }
 
 new GameController($_GET["route"]);

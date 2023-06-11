@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : database
--- Généré le : sam. 10 juin 2023 à 21:40
+-- Généré le : dim. 11 juin 2023 à 10:40
 -- Version du serveur : 8.0.33
 -- Version de PHP : 8.1.19
 
@@ -34,6 +34,13 @@ CREATE TABLE `chat` (
   `date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Déchargement des données de la table `chat`
+--
+
+INSERT INTO `chat` (`id`, `player_id`, `message`, `date`) VALUES
+(1, 1, 'Hello!', '2023-06-10');
+
 -- --------------------------------------------------------
 
 --
@@ -63,6 +70,19 @@ INSERT INTO `game` (`id`, `name`, `player_id`, `map_id`, `difficulty`, `model`, 
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `game_log`
+--
+
+CREATE TABLE `game_log` (
+  `id` int NOT NULL,
+  `game_id` int NOT NULL,
+  `content` varchar(50) NOT NULL,
+  `type` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `player`
 --
 
@@ -82,7 +102,7 @@ CREATE TABLE `player` (
 --
 
 INSERT INTO `player` (`id`, `username`, `password`, `email`, `xp`, `last_activity`, `is_verified`, `is_admin`) VALUES
-(1, 'test', '$2y$10$jCoM/1zBhr/BnHW8u5temuqgesr0Vc0bLXMzyo.cBhFrB1uXZ3316', 'test@test.dev', 100, 1686433247, 1, 1),
+(1, 'test', '$2y$10$jCoM/1zBhr/BnHW8u5temuqgesr0Vc0bLXMzyo.cBhFrB1uXZ3316', 'test@test.dev', 100, 1686480022, 1, 1),
 (2, 'test2', '$2y$10$YKx.8E2SVlk4vF.3j20zTu3EeIuIk06yWZPbdIQkBmcMT940hMwmm', 'test2@test.dev', 10, 1686427934, 1, 0);
 
 -- --------------------------------------------------------
@@ -126,6 +146,13 @@ ALTER TABLE `game`
   ADD KEY `player_id_constraint2` (`player_id`);
 
 --
+-- Index pour la table `game_log`
+--
+ALTER TABLE `game_log`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `game_id_constraint` (`game_id`);
+
+--
 -- Index pour la table `player`
 --
 ALTER TABLE `player`
@@ -139,13 +166,19 @@ ALTER TABLE `player`
 -- AUTO_INCREMENT pour la table `chat`
 --
 ALTER TABLE `chat`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- AUTO_INCREMENT pour la table `game`
 --
 ALTER TABLE `game`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+
+--
+-- AUTO_INCREMENT pour la table `game_log`
+--
+ALTER TABLE `game_log`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `player`
@@ -168,6 +201,12 @@ ALTER TABLE `chat`
 --
 ALTER TABLE `game`
   ADD CONSTRAINT `player_id_constraint2` FOREIGN KEY (`player_id`) REFERENCES `player` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `game_log`
+--
+ALTER TABLE `game_log`
+  ADD CONSTRAINT `game_id_constraint` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

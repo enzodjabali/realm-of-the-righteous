@@ -139,8 +139,8 @@ class GameUtils
 
     /**
      * This method deletes a game from the database
-     * @param int $gameId the id of the game
-     * @param int $playerId the id of the player owner of the game
+     * @param int $gameId the ID of the game
+     * @param int $playerId the ID of the player owner of the game
      * @return bool returns true if the operation succeed, false if it failed
      * @throws Exception
      */
@@ -156,6 +156,60 @@ class GameUtils
         } catch (Exception $e) {
             echo $e->getMessage();
             return false;
+        }
+    }
+
+    /**
+     * This method inserts a new game log
+     * @param int $gameId the ID of the game
+     * @param int $playerId the ID of the player owner of the game
+     * @param string $content the log content
+     * @return string|bool returns true if the operation succeed, and returns a string containing an error message if it failed
+     */
+    public static function insertLog(int $gameId, int $playerId, string $content = "", int $type = 1): string|bool
+    {
+        // Checks if the game belongs to player
+        try {
+            if (!GameUtils::doesGameBelongToPlayer($gameId, $playerId)) {
+                throw new Exception("This game doesn't belong to you");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        // Checks if the content isn't empty
+        try {
+            if (empty($content)) {
+                throw new Exception("The content can't be empty");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        // Check if the content doesn't have too many characters
+        try {
+            if (strlen($content) > 50) {
+                throw new Exception("The content can't have more than 50 characters");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        // Checks if the type is valid
+        try {
+            if ($type != 1 && $type != 2 && $type != 3) {
+                throw new Exception("The type isn't valid");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+
+        try {
+            // Insert the new log into the database
+            DbUtils::insert(DbTable::TABLE_GAME_LOG,
+                ["game_id", "content", "type"],
+                [$gameId, $content, $type]
+            );
+            return true;
+        } catch (Exception $e) {
+            return $e->getMessage();
         }
     }
 

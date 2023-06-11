@@ -64,7 +64,7 @@ class ChatController {
             htmlspecialchars($message)
         );
 
-        if ($insert == "1") {
+        if ($insert === true) {
             http_response_code(200);
         } else {
             http_response_code(400);
@@ -73,7 +73,6 @@ class ChatController {
 
         echo json_encode($response);
     }
-
 }
 
 new ChatController($_GET["route"]);
