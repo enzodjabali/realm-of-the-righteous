@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    $sessionId = $_SESSION["player_id"] ?? 0;
+    $sessionId = $_SESSION["playerId"] ?? 0;
 
     if (!intval($sessionId) > 0) {
         header("Location:/login");
@@ -24,7 +24,7 @@
     </head>
 
     <body>
-        <?php include_once("includes/settings-sidebar.php") ?>
+        <?php include_once("includes/settingsSidebar.php") ?>
 
         <div class="position-absolute top-0 start-0 translate-middle m-4">
             <button onclick="showSidebar()" class="btn btn-secondary">

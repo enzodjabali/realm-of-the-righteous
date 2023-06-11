@@ -60,7 +60,7 @@ class ChatController {
         extract($_POST);
 
         $insert = ChatUtils::insertMessage(
-            intval($_SESSION["player_id"]),
+            intval($_SESSION["playerId"]),
             htmlspecialchars($message)
         );
 

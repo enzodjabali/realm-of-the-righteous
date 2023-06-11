@@ -1,13 +1,13 @@
 import {Controller} from "./Controller/Controller.js";
 
-const gameId = new URLSearchParams(window.location.search).get('game_id');
+const gameId = new URLSearchParams(window.location.search).get('gameId');
 
 
 
 
 function getGameModel() {
 	const request = new XMLHttpRequest();
-	request.open('GET', '/api/v1/game/getModel?game_id='+gameId, false);  // `false` makes the request synchronous
+	request.open('GET', '/api/v1/game/getModel?gameId='+gameId, false);  // `false` makes the request synchronous
 	request.send(null);
 
 	if (request.status === 200) {

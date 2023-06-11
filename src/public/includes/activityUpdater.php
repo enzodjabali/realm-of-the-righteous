@@ -1,6 +1,6 @@
 <?php
 
-if (isset($_SESSION["player_id"])) {
+if (isset($_SESSION["playerId"])) {
     ?>
         <script>
             /**
@@ -11,7 +11,7 @@ if (isset($_SESSION["player_id"])) {
                     $.get("api/v1/player/updateActivity", function(response) {
                     });
                 });
-            }, 5000);
+            }, 2500);
         </script>
     <?php
 }

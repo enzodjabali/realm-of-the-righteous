@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    $sessionId = $_SESSION["player_id"] ?? 0;
+    $sessionId = $_SESSION["playerId"] ?? 0;
 
     if (!intval($sessionId) > 0) {
         header("Location:/login");
@@ -134,7 +134,7 @@
                     let name = games[i]['name'];
                     let date = games[i]['date'];
 
-                    document.getElementById('game-list').innerHTML += "<li class='list-group-item d-flex justify-content-between align-items-start'><div class='ms-2 me-auto'><button class='btn btn-primary ps-2 pe-2 pt-1 pb-1 me-2' onclick='displayDeleteGameModal(" + id + ")'><i class='bi bi-trash-fill'></i></button><a class='fw-bold' href='/game?game_id=" + id + "'>" + name + "</a></div><span class='badge bg-primary rounded-pill'>" + date + "</span></li>";
+                    document.getElementById('game-list').innerHTML += "<li class='list-group-item d-flex justify-content-between align-items-start'><div class='ms-2 me-auto'><button class='btn btn-primary ps-2 pe-2 pt-1 pb-1 me-2' onclick='displayDeleteGameModal(" + id + ")'><i class='bi bi-trash-fill'></i></button><a class='fw-bold' href='/game?gameId=" + id + "'>" + name + "</a></div><span class='badge bg-primary rounded-pill'>" + date + "</span></li>";
                    if (i < games.length - 1) {
                        document.getElementById('game-list').innerHTML += "<hr>";
                    }
