@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    $sessionId = $_SESSION["player_id"] ?? 0;
+    $sessionId = $_SESSION["playerId"] ?? 0;
 
     if (!intval($sessionId) > 0) {
         header("Location:/login");
@@ -56,9 +56,9 @@
             </div>
             <div class="card-body">
                 <div class="mb-3">
-                    <a>Username: <?= $_SESSION["player_username"] ?></a>
+                    <a>Username: <?= $_SESSION["playerUsername"] ?></a>
                     <br>
-                    <a>Email: <?= $_SESSION["player_email"] ?></a>
+                    <a>Email: <?= $_SESSION["playerEmail"] ?></a>
                     <p class="mt-2">
                         Deleting your account will also delete:<br>
                         &nbsp - Your games<br>

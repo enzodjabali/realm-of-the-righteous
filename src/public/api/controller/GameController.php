@@ -39,7 +39,7 @@ class GameController {
     protected function getAll(): void
     {
         $getAll = GameUtils::findAllGames(
-            intval($_SESSION["player_id"])
+            intval($_SESSION["playerId"])
         );
 
         if (is_array($getAll)) {
@@ -65,7 +65,7 @@ class GameController {
 
         $create = GameUtils::createGame(
             htmlspecialchars($name),
-            intval($_SESSION["player_id"]),
+            intval($_SESSION["playerId"]),
             1,
             match (intval($difficulty)) {
                 2 => GameDifficulties::DIFFICULTY_NORMAL,
@@ -96,7 +96,7 @@ class GameController {
 
         $delete = GameUtils::deleteGame(
             intval($gameId),
-            intval($_SESSION["player_id"])
+            intval($_SESSION["playerId"])
         );
 
         if ($delete === true) {
@@ -110,15 +110,15 @@ class GameController {
     }
 
     /**
-     * @route('/game/doesBelongToPlayer?game_id={id}&player_id={id}')
+     * @route('/game/doesBelongToPlayer?gameId={id}&playerId={id}')
      * @method('GET')
      * @return void
      * @throws Exception
      */
     protected function doesBelongToPlayer(): void
     {
-        $gameId = $_GET["game_id"] ?? 0;
-        $playerId = $_GET["player_id"] ?? 0;
+        $gameId = $_GET["gameId"] ?? 0;
+        $playerId = $_GET["playerId"] ?? 0;
 
         $response["response"] = GameUtils::doesGameBelongToPlayer(
             intval($gameId),
@@ -131,18 +131,18 @@ class GameController {
     }
 
     /**
-     * @route('/game/getModel?game_id={id}')
+     * @route('/game/getModel?gameId={id}')
      * @method('GET')
      * @return void
      * @throws Exception
      */
     protected function getModel(): void
     {
-        $gameId = $_GET["game_id"] ?? 0;
+        $gameId = $_GET["gameId"] ?? 0;
 
         $getModel = GameUtils::getModel(
             intval($gameId),
-            intval($_SESSION["player_id"])
+            intval($_SESSION["playerId"])
         );
 
         if (!empty($getModel)) {
@@ -175,18 +175,18 @@ class GameController {
     }
 
     /**
-     * @route('/game/getLogs?game_id={id}')
+     * @route('/game/getLogs?gameId={id}')
      * @method('GET')
      * @return void
      * @throws Exception
      */
     protected function getLogs(): void
     {
-        $gameId = $_GET["game_id"] ?? 0;
+        $gameId = $_GET["gameId"] ?? 0;
 
         $getLogs = GameUtils::findAllLogs(
             intval($gameId),
-            intval($_SESSION["player_id"])
+            intval($_SESSION["playerId"])
         );
 
         if (is_array($getLogs)) {
@@ -212,7 +212,7 @@ class GameController {
 
         $insertLog = GameUtils::insertLog(
             intval($gameId),
-            intval($_SESSION["player_id"]),
+            intval($_SESSION["playerId"]),
             htmlspecialchars($content),
             intval($type)
         );

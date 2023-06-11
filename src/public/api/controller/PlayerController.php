@@ -39,7 +39,7 @@ class PlayerController {
     protected function getAll(): void
     {
         $getAll = PlayerUtils::findAllPlayers(
-            intval($_SESSION["player_id"])
+            intval($_SESSION["playerId"])
         );
 
         if (is_array($getAll)) {
@@ -72,10 +72,10 @@ class PlayerController {
             $playerInformation = PlayerUtils::getPlayerInformation($login);
 
             if (is_array($playerInformation)) {
-                $_SESSION["player_id"] = $login;
-                $_SESSION["player_is_admin"] = PlayerUtils::isPlayerAdmin($login);
-                $_SESSION["player_username"] = $playerInformation["username"];
-                $_SESSION["player_email"] = $playerInformation["email"];
+                $_SESSION["playerId"] = $login;
+                $_SESSION["playerIsAdmin"] = PlayerUtils::isPlayerAdmin($login);
+                $_SESSION["playerUsername"] = $playerInformation["username"];
+                $_SESSION["playerEmail"] = $playerInformation["email"];
 
                 http_response_code(200);
                 $response['response'] = $login;
@@ -128,7 +128,7 @@ class PlayerController {
     protected function delete(): void
     {
         $response["response"] = PlayerUtils::deletePlayer(
-            intval($_SESSION["player_id"])
+            intval($_SESSION["playerId"])
         );
 
         http_response_code(200);
@@ -147,7 +147,7 @@ class PlayerController {
         extract($_POST);
 
         $update = PlayerUtils::updatePlayer(
-            intval($_SESSION["player_id"]),
+            intval($_SESSION["playerId"]),
             $currentUsername,
             $currentEmail,
             htmlspecialchars($newUsername),
@@ -155,6 +155,8 @@ class PlayerController {
         );
 
         if ($update === true) {
+            $_SESSION["playerUsername"] = htmlspecialchars($newUsername);
+            $_SESSION["playerEmail"] = htmlspecialchars($newEmail);
             http_response_code(200);
         } else {
             http_response_code(400);
@@ -175,7 +177,7 @@ class PlayerController {
         extract($_POST);
 
         $updatePassword = PlayerUtils::updatePassword(
-            intval($_SESSION["player_id"]),
+            intval($_SESSION["playerId"]),
             $currentPassword,
             $newPassword,
             $retypedNewPassword
@@ -289,7 +291,7 @@ class PlayerController {
     protected function updateActivity(): void
     {
         $response["response"] = PlayerUtils::updateActivity(
-            intval($_SESSION["player_id"])
+            intval($_SESSION["playerId"])
         );
 
         http_response_code(200);

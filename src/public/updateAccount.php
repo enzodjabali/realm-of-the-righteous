@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    $sessionId = $_SESSION["player_id"] ?? 0;
+    $sessionId = $_SESSION["playerId"] ?? 0;
 
     if (!intval($sessionId) > 0) {
         header("Location:/login");
@@ -49,11 +49,11 @@
                 <form id="update-player-form" method="post" class="needs-validation" novalidate>
                     <div class="mb-3">
                         <label for="newUsername" class="form-label">Username</label>
-                        <input type="text" class="form-control" name="newUsername" id="newUsername" placeholder="<?= $_SESSION['player_username'] ?>" value="<?= $_SESSION['player_username'] ?>" required>
+                        <input type="text" class="form-control" name="newUsername" id="newUsername" placeholder="<?= $_SESSION['playerUsername'] ?>" value="<?= $_SESSION['playerUsername'] ?>" required>
                     </div>
                     <div class="mb-3">
                         <label for="newEmail" class="form-label">Email address</label>
-                        <input type="email" class="form-control" name="newEmail" id="newEmail" placeholder="<?= $_SESSION['player_email'] ?>" value="<?= $_SESSION['player_email'] ?>" required>
+                        <input type="email" class="form-control" name="newEmail" id="newEmail" placeholder="<?= $_SESSION['playerEmail'] ?>" value="<?= $_SESSION['playerEmail'] ?>" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Edit</button>
                 </form>
@@ -88,8 +88,8 @@
          */
         $(function(){
             $("#update-player-form").submit(function(){
-                let currentUsername = "<?= $_SESSION['player_username'] ?>";
-                let currentEmail = "<?= $_SESSION['player_email'] ?>";
+                let currentUsername = "<?= $_SESSION['playerUsername'] ?>";
+                let currentEmail = "<?= $_SESSION['playerEmail'] ?>";
                 let newUsername = $(this).find("input[name=newUsername]").val();
                 let newEmail = $(this).find("input[name=newEmail]").val();
 

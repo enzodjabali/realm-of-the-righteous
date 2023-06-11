@@ -168,7 +168,7 @@ export class Controller{
          * This function calls the update game model method
          */
         $(function () {
-            let gameId = new URLSearchParams(window.location.search).get('game_id');
+            let gameId = new URLSearchParams(window.location.search).get('gameId');
             $.post("api/v1/game/updateModel", { gameId: gameId, newModel: model}, function (response) {
                 if (response["response"] === true) {
                     console.log('Game saved')

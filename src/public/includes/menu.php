@@ -1,6 +1,6 @@
 <?php
     declare(strict_types = 1);
-    $sessionId = $_SESSION["player_id"] ?? 0;
+    $sessionId = $_SESSION["playerId"] ?? 0;
 
     if ($sessionId > 0) {
         ?>
@@ -36,7 +36,7 @@
                             </ul>
                             <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <a class="nav-user"><?= $_SESSION["player_username"] . " (" . $_SESSION["player_id"] . ")" ?> -</a>
+                                    <a class="nav-user"><?= $_SESSION["playerUsername"] . " (" . $_SESSION["playerId"] . ")" ?> -</a>
                                     <a href="/logout">Logout <i class="bi bi-box-arrow-in-right"></i></a>
                                 </li>
                             </ul>

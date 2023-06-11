@@ -1,8 +1,8 @@
 <?php
     session_start();
 
-    $sessionId = $_SESSION["player_id"] ?? 0;
-    $gameId = $_GET["game_id"] ?? 0;
+    $sessionId = $_SESSION["playerId"] ?? 0;
+    $gameId = $_GET["gameId"] ?? 0;
 
     if (!intval($sessionId) > 0) {
         header("Location:/login");
@@ -16,7 +16,7 @@
         return $protocol.$server.$port;
     }
 
-    $url = getServerUrl() . "/api/v1/game/doesBelongToPlayer?game_id=$gameId&player_id=$sessionId";
+    $url = getServerUrl() . "/api/v1/game/doesBelongToPlayer?gameId=$gameId&playerId=$sessionId";
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
@@ -87,7 +87,7 @@
              * This function gets all the chat messages and display them
              */
             $(function(){
-                $.get("api/v1/game/getLogs?game_id=<?= $gameId ?>", function(response) {
+                $.get("api/v1/game/getLogs?gameId=<?= $gameId ?>", function(response) {
                     console.log('getLogs!')
                     let gameLogs = response;
                     console.log(response)
