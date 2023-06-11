@@ -175,6 +175,32 @@ class GameController {
     }
 
     /**
+     * @route('/game/getLogs?game_id={id}')
+     * @method('GET')
+     * @return void
+     * @throws Exception
+     */
+    protected function getLogs(): void
+    {
+        $gameId = $_GET["game_id"] ?? 0;
+
+        $getLogs = GameUtils::findAllLogs(
+            intval($gameId),
+            intval($_SESSION["player_id"])
+        );
+
+        if (is_array($getLogs)) {
+            http_response_code(200);
+            $response = $getLogs;
+        } else {
+            http_response_code(400);
+            $response["response"] = "An error has occurred.";
+        }
+
+        echo json_encode($response);
+    }
+
+    /**
      * @route('/game/insertLog')
      * @method('POST')
      * @return void

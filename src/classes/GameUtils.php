@@ -160,6 +160,28 @@ class GameUtils
     }
 
     /**
+     * This method returns the fetched logs of a game
+     * @param int $gameId the game ID
+     * @param int $playerId the player's ID
+     * @return bool|string returns the json encoded data of the game logs
+     * @throws Exception
+     */
+    public static function findAllLogs(int $gameId, int $playerId): bool|array
+    {
+        $result_array = [];
+
+        if (GameUtils::doesGameBelongToPlayer($gameId, $playerId)) {
+            $result = DbUtils::select(DbTable::TABLE_GAME_LOG, ["content", "type"], "WHERE game_id = '$gameId' ORDER BY id DESC");
+
+            while($row = $result->fetch()) {
+                $result_array[] = $row;
+            }
+        }
+
+        return $result_array;
+    }
+
+    /**
      * This method inserts a new game log
      * @param int $gameId the ID of the game
      * @param int $playerId the ID of the player owner of the game
@@ -212,5 +234,4 @@ class GameUtils
             return $e->getMessage();
         }
     }
-
 }
