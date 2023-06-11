@@ -14,14 +14,13 @@
     </div>
 
     <div id="hud-tab-general" class="mt-3">
-        <h4 class="text-center mb-3">Current Health: 100❤️</h4>
-
+        <h4 id="life" class="text-center mb-3">Current Health: 100❤️</h4>
         <div class="d-flex game-stats">
-            <div class="p-2 flex-fill w-25">🪙 1000</div>
+            <div id ="money" class="p-2 flex-fill w-25"></div>
             <div class="p-2 flex-fill w-25">⏱️ 30g/m</div>
         </div>
         <div class="d-flex game-stats">
-            <div class="p-2 flex-fill w-25">💀 151</div>
+            <div id ="killedEnemies" class="p-2 flex-fill w-25"></div>
             <div class="p-2 flex-fill w-25">🧟 I</div>
         </div>
 
@@ -45,49 +44,9 @@
     <div id="hud-tab-tower-shop" class="mt-3 visually-hidden">
 
         <div class="d-flex flex-wrap">
-            <div class="p-2 flex-fill hud-button" style="width: 150px">
-                <a href="">
-                    Buy Wood Tower
-                    <img height="40px" src="assets/images/towers/WT1.png">
-                    999G
-                </a>
-            </div>
-            <div class="p-2 flex-fill hud-button" style="width: 150px">
-                <a href="">
-                    Buy Wood Tower
-                    <img height="40px" src="assets/images/towers/WT1.png">
-                    999G
-                </a>
-            </div>
+            <div id="button-buy-tower-container" class="d-flex flex-wrap">
 
-            <div class="p-2 flex-fill hud-button" style="width: 150px">
-                <a href="">
-                    Buy Wood Tower
-                    <img height="40px" src="assets/images/towers/WT1.png">
-                    999G
-                </a>
-            </div>
-            <div class="p-2 flex-fill hud-button" style="width: 150px">
-                <a href="">
-                    Buy Wood Tower
-                    <img height="40px" src="assets/images/towers/WT1.png">
-                    999G
-                </a>
-            </div>
-            <div class="p-2 flex-fill hud-button" style="width: 150px">
-                <a href="">
-                    Buy Wood Tower
-                    <img height="40px" src="assets/images/towers/WT1.png">
-                    999G
-                </a>
-            </div>
-            <div class="p-2 flex-fill hud-button" style="width: 150px">
-                <a href="">
-                    Buy Wood Tower
-                    <img height="40px" src="assets/images/towers/WT1.png">
-                    999G
-                </a>
-            </div>
+            <div>
         </div>
     </div>
 

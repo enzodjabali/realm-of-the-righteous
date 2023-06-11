@@ -25,6 +25,7 @@
     text-align: center;
 }
 
+.hud-button p,
 .hud-button a {
     color: white;
     font-weight: bold;
@@ -41,7 +42,7 @@
     border-radius: 5px;
     border: 2px solid #24292F;
 }
-
+.hud-button p:active,
 .hud-button a:active {
     top: 10px;
     background-color: #c09661;

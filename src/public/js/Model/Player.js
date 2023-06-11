@@ -3,5 +3,6 @@ export class Player{
         this.name = name;
         this.money = money;
         this.life = life;
+        this.killedEnemies = 0;
     }
 }

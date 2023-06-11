@@ -57,12 +57,6 @@
                 <div id="board-container"></div>
                 <div id="container-enemies"></div>
                 <div id="container-towers"></div>
-                <div style='display:flex'>
-                    <div>
-                        <p style="color: blue; text-decoration: underline" id="money"></p>
-                        <p style="color: red; text-decoration: underline" id="life"></p>
-                    </div>
-                </div>
                 <div id='button-container'></div>
             </section>
 

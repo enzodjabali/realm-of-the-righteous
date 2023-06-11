@@ -331,11 +331,10 @@ export class Display{
         healthBar.style.width = (enemy.curent_life/enemy.max_life)*100 +'%';
     }
     
-    updatePlayerData(money, life){
-        let playerMoney = document.getElementById('money');
-        let playerLife = document.getElementById('life');
-        playerMoney.innerText = money
-        playerLife.innerText = life
+    updatePlayerData(money, life, killedEnemies){
+        document.getElementById('money').innerText = "🪙 "+money+"";
+        document.getElementById('life').innerText = "Current life : "+life+" ❤️";
+        document.getElementById('killedEnemies').innerText = "💀 "+killedEnemies
     }
     showTowerRange(towerPosition, range){
         this.hideTowerRange()

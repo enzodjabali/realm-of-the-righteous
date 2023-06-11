@@ -102,6 +102,7 @@ export class TowerController {
         let towerHolder = this.display.initializeTower(tower);
 
         towerHolder.onclick = () => {
+            //Bind HUD in info tower Actions
             //Implémenter le menu pour améliorer les tours
 
             //Sell, upgrade, shoot priority
@@ -278,7 +279,7 @@ export class TowerController {
         if(getMoneyFromTower){
             this.playerController.player.money += (0.75 * tower.price[tower.level])
         }
-        this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life)
+        this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies)
         //Remove tower from de board
         this.display.removeTower(tower);
         //break the while loop
