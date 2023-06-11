@@ -1,11 +1,11 @@
-<section class="hud">
+<section class="wrap-container">
     <div>
         <ul class="nav nav-tabs justify-content-center">
             <li class="nav-item">
-                <a class="nav-link" onclick="displayTab('hud-tab-general')">General</a>
+                <a class="nav-link" onclick="displayTabHUD('hud-tab-general')">General</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" onclick="displayTab('hud-tab-tower-shop')">Buy Tower</a>
+                <a class="nav-link" onclick="displayTabHUD('hud-tab-tower-shop')">Buy Tower</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link">Tower Actions</a>
@@ -39,6 +39,8 @@
         <div class="hud-button mb-3" style="height: 20%; width: 100%">
             <a href="#">Boost Tower Range 🔍 999G</a>
         </div>
+
+        <div id="game-logger"></div>
     </div>
 
     <div id="hud-tab-tower-shop" class="mt-3 visually-hidden">

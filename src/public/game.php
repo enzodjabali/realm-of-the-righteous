@@ -61,18 +61,65 @@
             </section>
 
             <?php include_once("includes/hud.php") ?>
+            <?php include_once("includes/gameChat.php") ?>
         </div>
     </body>
 
     <script>
-        function displayTab(tabId) {
+        function displayTabHUD(tabId) {
             $("#hud-tab-general").addClass("visually-hidden");
             $("#hud-tab-tower-shop").addClass("visually-hidden");
             $("#hud-tab-tower-actions").addClass("visually-hidden");
             $("#" + tabId).removeClass("visually-hidden");
         }
-    </script>
 
+        function displayTabChat(tabId) {
+            $("#chat-tab-logger").addClass("visually-hidden");
+            $("#chat-tab-general").addClass("visually-hidden");
+            $("#" + tabId).removeClass("visually-hidden");
+        }
+
+        /**
+         * This function reloads the messages every 500ms
+         */
+        setInterval(function(){
+            /**
+             * This function gets all the chat messages and display them
+             */
+            $(function(){
+                $.get("api/v1/game/getLogs?game_id=<?= $gameId ?>", function(response) {
+                    console.log('getLogs!')
+                    let gameLogs = response;
+                    console.log(response)
+
+                    document.getElementById('event-list').innerHTML = '';
+
+                    for (let i = 0; i < gameLogs.length; i++) {
+                        let content = gameLogs[i]['content'];
+                        let type = gameLogs[i]['type'];
+                        console.log(type)
+
+                        let badge;
+
+                        switch (type) {
+                            case 1:
+                                badge = '<span class="badge text-bg-primary">INFO</span>';
+                                break;
+                            case 2:
+                                badge = '<span class="badge text-bg-success">SUCCESS</span>';
+                                break;
+                        }
+
+                        document.getElementById('event-list').innerHTML += '<a>' + badge + ' ' + content + '</a><br>';
+
+
+                    }
+                });
+            });
+        }, 500);
+    </script>
+    <script src="js/Chat.js"></script>
     <script src="js/Main.js" type="module"></script>
+
     <?php include_once("includes/activityUpdater.php") ?>
 </html>

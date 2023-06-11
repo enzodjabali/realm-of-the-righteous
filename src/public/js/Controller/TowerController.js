@@ -103,7 +103,7 @@ export class TowerController {
 
         towerHolder.onclick = () => {
             this.display.showTowerRange(tower.position, tower.range*2)
-            displayTab('hud-tab-tower-actions')
+            displayTabHUD('hud-tab-tower-actions')
             this.playerController.player.tab = Date.now()/1000;
             let sellContainer = document.getElementById('sell-tower')
             let upgradeContainer = document.getElementById('upgrade-tower')
@@ -119,11 +119,11 @@ export class TowerController {
 
             sellButton.onclick = () => {
                 this.sellTower(tower);
-                displayTab('hud-tab-general')
+                displayTabHUD('hud-tab-general')
             }
             upgradeButton.onclick = () => {
                 this.upgradeTower(tower)
-                displayTab('hud-tab-general')
+                displayTabHUD('hud-tab-general')
             }
             document.getElementById('attack-value').innerText = tower.damage;
             document.getElementById('attack-speed-value').innerText = tower.shotRate;

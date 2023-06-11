@@ -4,7 +4,7 @@
     flex-wrap: wrap;
 }
 
-.hud {
+.wrap-container {
     width: 400px;
     padding: 20px;
 }
