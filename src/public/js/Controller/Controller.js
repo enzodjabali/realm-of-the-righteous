@@ -82,6 +82,7 @@ export class Controller{
 
                 this.indexOfEntryPoints = (this.model.waves[diffculty][i].indexOf(group)) % (this.model.entryPoints.length);
                 this.indexOfEndPoints = (this.model.waves[diffculty][i].indexOf(group)) % (this.model.endPoints.length);
+                console.log("passing here")
                 this.HUDController.setStartPoints(this.indexOfEntryPoints)
                 this.HUDController.setEndPoints(this.indexOfEndPoints)
                 let path = this.model.findPathForWaves(this.model.getMatrice(), this.model.entryPoints[this.indexOfEntryPoints], this.model.endPoints[this.indexOfEndPoints]);

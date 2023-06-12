@@ -52,18 +52,30 @@ export class Model {
         const movesToDo = [];
         const startNode = { coord: start, gCost: 0, fCost: 0 + this.heuristic(start, end), parent: null };
         let counterToStopFunction = 0; //BAPLEC SI TU PASSES PAR LA REGARDES BG
+        let availableTiles = ['eastwest', 'forkeast', 'forknorth', 'forksouth', 'forwest', 'ne', 'northsouth', 'nw', 'rock', 'se','sw'];
         openList.push(startNode);
         gCosts[this.coordToString(start)] = 0;
         fCosts[this.coordToString(start)] = startNode.fCost;
 
-        if(matrix[start[0]][start[1]].tile != 'basepath'){
+        if(!availableTiles.includes(matrix[start[0]][start[1]].tile)){
             console.log(start, ' n\'est pas un début')
+            console.log(matrix[start[0]][start[1]])
             return 0;
         }
-        if(matrix[end[0]][end[1]].tile != 'basepath'){
-            console.log(start, ' n\'est pas une fin')
+
+        if(!availableTiles.includes(matrix[2][0].tile)){
+            console.log(start, ' n\'testing')
+
             return 0;
         }
+
+        if(!availableTiles.includes(matrix[end[0]][end[1]].tile)) {
+            console.log(end, ' n\'est pas une fin');
+            // console.log(matrix[end[0]][end[1]);
+            return 0;
+        }
+
+
 
 
       while (openList.length > 0) {
@@ -90,7 +102,7 @@ export class Model {
           if (nx < 0 || nx >= matrix.length || ny < 0 || ny >= matrix[0].length) {
             continue;
           }
-          if (matrix[nx][ny].tile == 'basepath') {
+          if (['eastwest', 'forkeast', 'forknorth', 'forksouth', 'forwest', 'ne', 'northsouth', 'nw', 'rock', 'se','sw'].includes(matrix[nx][ny].tile)) {
               try {
                   if (matrix[nx][ny].tower.type == "rock") {
                       counterToStopFunction++
