@@ -42,7 +42,7 @@ export class Display{
         container.style.gridTemplateColumns = columns;
 
         let imgDict = {
-            'basegrass': "../../assets/images/tiles/basegrass.png",
+            'basegrass': "../../assets/images/tiles/",
             'basepath':"../../assets/images/tiles/basepath.png",
             'basepathrockhorizontal': "../../assets/images/tiles/basepathrockhorizontal.png",
             'basepathrockvertical': "../../assets/images/tiles/basepathrockvertical.png",
