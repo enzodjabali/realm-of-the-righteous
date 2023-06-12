@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\public\controller\api;
+namespace App\public\api\controller;
 
 session_start();
 
@@ -25,8 +25,14 @@ header("Content-Type:application/json");
 (new DotEnv('../.env'))->load();
 
 class GameController {
+    /**
+     * @var int the connected user's session ID
+     */
+    private int $sessionId;
+
     public function __construct(protected string $route)
     {
+        $this->sessionId = isset($_SESSION["playerId"]) ? (int)$_SESSION["playerId"] : 0;
         $this->$route();
     }
 
@@ -39,7 +45,7 @@ class GameController {
     protected function getAll(): void
     {
         $getAll = GameUtils::findAllGames(
-            intval($_SESSION["playerId"])
+            $this->sessionId
         );
 
         if (is_array($getAll)) {
@@ -65,9 +71,9 @@ class GameController {
 
         $create = GameUtils::createGame(
             htmlspecialchars($name),
-            intval($_SESSION["playerId"]),
+            $this->sessionId,
             1,
-            match (intval($difficulty)) {
+            match ((int)$difficulty) {
                 2 => GameDifficulties::DIFFICULTY_NORMAL,
                 3 => GameDifficulties::DIFFICULTY_HARD,
                 default => GameDifficulties::DIFFICULTY_EASY,
@@ -95,8 +101,8 @@ class GameController {
         extract($_POST);
 
         $delete = GameUtils::deleteGame(
-            intval($gameId),
-            intval($_SESSION["playerId"])
+            (int)$gameId,
+            $this->sessionId
         );
 
         if ($delete === true) {
@@ -117,12 +123,12 @@ class GameController {
      */
     protected function doesBelongToPlayer(): void
     {
-        $gameId = $_GET["gameId"] ?? 0;
-        $playerId = $_GET["playerId"] ?? 0;
+        $gameId = isset($_GET["gameId"]) ? (int)$_GET["gameId"] : 0;
+        $playerId = isset($_GET["playerId"]) ? (int)$_GET["playerId"] : 0;
 
         $response["response"] = GameUtils::doesGameBelongToPlayer(
-            intval($gameId),
-            intval($playerId)
+            $gameId,
+            $playerId
         );
 
         http_response_code(200);
@@ -138,11 +144,11 @@ class GameController {
      */
     protected function getModel(): void
     {
-        $gameId = $_GET["gameId"] ?? 0;
+        $gameId = isset($_GET["gameId"]) ? (int)$_GET["gameId"] : 0;
 
         $getModel = GameUtils::getModel(
-            intval($gameId),
-            intval($_SESSION["playerId"])
+            $gameId,
+            $this->sessionId
         );
 
         if (!empty($getModel)) {
@@ -165,7 +171,7 @@ class GameController {
         extract($_POST);
 
         $response["response"] = GameUtils::updateModel(
-            intval($gameId),
+            (int)$gameId,
             $newModel
         );
 
@@ -182,11 +188,11 @@ class GameController {
      */
     protected function getLogs(): void
     {
-        $gameId = $_GET["gameId"] ?? 0;
+        $gameId = isset($_GET["gameId"]) ? (int)$_GET["gameId"] : 0;
 
         $getLogs = GameUtils::findAllLogs(
-            intval($gameId),
-            intval($_SESSION["playerId"])
+            $gameId,
+            $this->sessionId
         );
 
         if (is_array($getLogs)) {
@@ -211,10 +217,10 @@ class GameController {
         extract($_POST);
 
         $insertLog = GameUtils::insertLog(
-            intval($gameId),
-            intval($_SESSION["playerId"]),
+            (int)$gameId,
+            $this->sessionId,
             htmlspecialchars($content),
-            intval($type)
+            (int)$type
         );
 
         if ($insertLog === true) {

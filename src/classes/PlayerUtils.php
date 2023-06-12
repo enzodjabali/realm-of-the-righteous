@@ -172,8 +172,8 @@ class PlayerUtils
         // Checks if the username matches the password
 		try {
             if ($query = DbUtils::select(DbTable::TABLE_PLAYER, ["id", "password"], "WHERE username = '$username'")->fetch()) {
-                if (password_verify($password, $query["password"]) ? intval($query["id"]) : 0) {
-                    $playerId = intval($query["id"]);
+                if (password_verify($password, $query["password"]) ? (int)($query["id"]) : 0) {
+                    $playerId = (int)($query["id"]);
                 } else {
                     throw new Exception("Wrong username or password, please try again.");
                 }
@@ -486,7 +486,7 @@ class PlayerUtils
             return $e->getMessage();
         }
 
-        $updatePassword = PlayerUtils::updatePassword(intval($playerId), "", $newPassword, $retypedNewPassword, true);
+        $updatePassword = PlayerUtils::updatePassword((int)($playerId), "", $newPassword, $retypedNewPassword, true);
         if ($updatePassword === true) {
             DbUtils::delete(DbTable::TABLE_RESET_PASSWORD_LINK, "WHERE link = '$link'");
         }
