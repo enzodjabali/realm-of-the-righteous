@@ -88,16 +88,13 @@
              */
             $(function(){
                 $.get("api/v1/game/getLogs?gameId=<?= $gameId ?>", function(response) {
-                    console.log('getLogs!')
                     let gameLogs = response;
-                    console.log(response)
 
                     document.getElementById('event-list').innerHTML = '';
 
                     for (let i = 0; i < gameLogs.length; i++) {
                         let content = gameLogs[i]['content'];
                         let type = gameLogs[i]['type'];
-                        console.log(type)
 
                         let badge;
 
@@ -108,11 +105,11 @@
                             case 2:
                                 badge = '<span class="badge text-bg-success">SUCCESS</span>';
                                 break;
+                            case 3:
+                                badge = '<span class="badge text-bg-warning">WARNING</span>';
+                                break;
                         }
-
                         document.getElementById('event-list').innerHTML += '<a>' + badge + ' ' + content + '</a><br>';
-
-
                     }
                 });
             });

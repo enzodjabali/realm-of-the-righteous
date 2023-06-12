@@ -54,27 +54,34 @@ export class Controller{
          * Main loop of the enemies, permit make them run wioth their logic
          * @param {String} diffculty chosen difficulty.
          */
-
-        console.log('wait timeBeforeStart', this.model.timeBeforeStart)
+        this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave, this.model.currentWave);
         await new Promise(r => setTimeout(r, this.model.timeBeforeStart));
+        let spawnedEnemies = 0;
+        for(let i = this.model.currentWave; i < this.model.waves[diffculty].length; i++){
+                await new Promise((resolve, reject) => {
+                        document.getElementById("play-game").onclick = () => {
+                            if(spawnedEnemies == 0 && this.model.currentWave < this.model.waves[diffculty].length) {
+                                this.playerController.postLogs("New wave is coming!", 1)
+                                this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave, this.model.currentWave);
+                                resolve()
+                            } else {
+                                this.playerController.postLogs("You must end this wave first..", 1)
+                            }
+                        }
+                 })
 
-        for(let waves of this.model.waves[diffculty]){
-            if (this.model.waves[diffculty].indexOf(waves) != 0)
-            {console.log('wait timeBetweenWaves', this.model.timeBetweenWaves)
-                await new Promise(r => setTimeout(r, this.model.timeBetweenWaves));
-            }
-            this.model.currentWave++;
 
-            for (let group of waves){
-                if (waves.indexOf(group) != 0)
-                {console.log('wait timeBetweenGroups', this.model.timeBetweenGroups)
+            for (let group of this.model.waves[diffculty][i]){
+                if (this.model.waves[diffculty][i].indexOf(group) != 0)
+                {
+                    console.log('wait timeBetweenGroups', this.model.timeBetweenGroups)
                     await new Promise(r => setTimeout(r, this.model.timeBetweenGroups));
                 }
 
                 this.model.currentGroup++;
 
-                this.indexOfEntryPoints = (waves.indexOf(group)) % (this.model.entryPoints.length);
-                this.indexOfEndPoints = (waves.indexOf(group)) % (this.model.endPoints.length);
+                this.indexOfEntryPoints = (this.model.waves[diffculty][i].indexOf(group)) % (this.model.entryPoints.length);
+                this.indexOfEndPoints = (this.model.waves[diffculty][i].indexOf(group)) % (this.model.endPoints.length);
                 this.HUDController.setStartPoints(this.indexOfEntryPoints)
                 this.HUDController.setEndPoints(this.indexOfEndPoints)
                 let path = this.model.findPathForWaves(this.model.getMatrice(), this.model.entryPoints[this.indexOfEntryPoints], this.model.endPoints[this.indexOfEndPoints]);
@@ -85,9 +92,18 @@ export class Controller{
                 }
 
                 for (let mob = 0; mob < group[0]; mob++){
+                    spawnedEnemies++;
                     let enemy = this.enemiesController.createEnnemyObject(this.model.mobId, enumEnemies, path, this.model.entryPoints[this.indexOfEntryPoints], group[1])
                     this.display.initializeEnemy(enemy);
-                    this.run(enemy, path, this.model.endPoints[this.indexOfEndPoints])
+                    let test = this.run(enemy, path, this.model.endPoints[this.indexOfEndPoints])
+                        .then((test) => {
+                            if(!test){
+                                spawnedEnemies--;
+                                if(spawnedEnemies == 0){
+                                    this.model.currentWave++
+                                }
+                            }
+                        })
                     await new Promise(r => setTimeout(r, 500)); // Delay 500ms between each enemy's movement for smoother animation
                     this.model.mobId++;
                 }
@@ -108,7 +124,9 @@ export class Controller{
                 if (enemy.position.x == endPoints[0] && enemy.position.y == endPoints[1] ){
                     if(!this.playerController.modifyPlayerLife(1)){
                         // Implémenter la fin de jeu (défaite)
-                        // alert('endgame')
+                        this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave, this.model.currentWave)
+                        this.playerController.postLogs("Game over!", 3)
+
                     }
                     this.display.removeEnemy(enemy);
 
@@ -127,10 +145,11 @@ export class Controller{
                     // Permit to give money to the player when an ennemy died
                     this.playerController.player.money += enemy.price;
                     this.playerController.player.killedEnemies++
-                    this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies);
+                    this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave);
                     this.display.removeEnemy(enemy);
                     this.model.matrice[enemy.position.x][enemy.position.y].enemies.filter(enemy => enemy.id !== enemy.id);
-                    break;
+
+                    return false;
                 }
 
                 if (step <= path.length-1) {

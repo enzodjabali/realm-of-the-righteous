@@ -91,7 +91,7 @@ export class TowerController {
             this.towerLogics(tower, row, col);
 
         } else {
-            console.log('Il y a déjà une tour sur cette case.');
+            this.playerController.postLogs("There is already a tower on this tile", 2)
             return;
         }
         this.display.pile = -1;
@@ -133,16 +133,13 @@ export class TowerController {
             document.getElementById('tower-src-value').src = tower.path;
             document.getElementById('tower-type-value').innerText = "Tower "+tower.type
 
-
-
-
             sellContainer.appendChild(sellButton);
             upgradeContainer.appendChild(upgradeButton);
         }
         // appel le boucle pour faire fonctionner la logique des tours.
 
         if(tower.type == "rock"){
-            console.log("je bloque le passage")
+            this.playerController.postLogs("I'm blocking the way ! (x: "+tower.position.x+" y: "+tower.position.y+")", 1)
         } else {
             this.runTower(tower);
         }
@@ -246,7 +243,6 @@ export class TowerController {
                             let closeEnemies = this.findNeighbour(enemy.position.x, enemy.position.y, tower.splashRange,"splash")
                             if(closeEnemies){
                                 for (enemy of closeEnemies){
-                                    console.log("provide damage to an enemy")
                                     this.provideDamage(enemy, tower.damage*0.5)
                                     //REVOIR POUR GAME DESIGN   -----THOMAS----
                                     }
@@ -289,29 +285,40 @@ export class TowerController {
     upgradeTower(tower)
     {
         //Permit to upgrade a tower
-        if(tower.level == enumTower[tower.type].damage.length-1){
-            //Mximum tower level already reached
-            return
+
+        if (this.playerController.buyTower(enumTower[tower.type].price[tower.level+1])){
+            if(tower.level == enumTower[tower.type].damage.length-1){
+                //Mximum tower level already reached
+                return
+            } else {
+                tower.level++
+            }
+            this.sellTower(tower, false)
+            this.playerController.postLogs("Upgraded "+tower.type+" for "+enumTower[tower.type].price[tower.level+1]+" coins", 1)
+            this.placeTowerInMatrice(enumTower[tower.type],tower.type,null, tower.level, tower.position)
         } else {
-            tower.level++
+            console.log('here')
+            this.playerController.postLogs("You can't afford it, sorry", 1)
         }
-        this.sellTower(tower, false)
-        this.placeTowerInMatrice(enumTower[tower.type],tower.type,null, tower.level, tower.position)
+
 
     }
     sellTower(tower, getMoneyFromTower = true)
     {
         //Permit to sell a tower
+
         //Add money to player
         if(getMoneyFromTower){
             this.playerController.player.money += (0.75 * tower.price[tower.level])
+            this.playerController.postLogs("Sold "+tower.type+" tower for "+tower.price[tower.level]*0.75+" coins", 1)
         }
-        this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies)
+        this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave)
         //Remove tower from de board
         this.display.removeTower(tower);
         //break the while loop
         tower.remove = true;
         //Remove tower from the logical board
+        this.checkPlayerTab(true)
         this.model.matrice[tower.position.x][tower.position.y].tower = null;
 
 
@@ -329,9 +336,8 @@ export class TowerController {
             }
         }
     }
-    checkPlayerTab(tower){
-        console.log()
-        if (this.playerController.player.tab+3 < Date.now()/1000){
+    checkPlayerTab(sell = false){
+        if (this.playerController.player.tab+3 < Date.now()/1000 || sell == true){
             this.display.hideTowerRange();
         }
     }
