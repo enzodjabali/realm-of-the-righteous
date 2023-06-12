@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\public\controller\api;
+namespace App\public\api\controller;
 
 session_start();
 
@@ -23,8 +23,14 @@ header("Content-Type:application/json");
 (new DotEnv('../.env'))->load();
 
 class ChatController {
+    /**
+     * @var int the connected player's session ID
+     */
+    private int $sessionId;
+
     public function __construct(protected string $route)
     {
+        $this->sessionId = isset($_SESSION["playerId"]) ? (int)$_SESSION["playerId"] : 0;
         $this->$route();
     }
 
@@ -36,7 +42,9 @@ class ChatController {
      */
     protected function getAll(): void
     {
-        $getAll = ChatUtils::findAllMessages();
+        $getAll = ChatUtils::findAllMessages(
+            $this->sessionId
+        );
 
         if (is_array($getAll)) {
             http_response_code(200);
@@ -60,7 +68,7 @@ class ChatController {
         extract($_POST);
 
         $insert = ChatUtils::insertMessage(
-            intval($_SESSION["playerId"]),
+            $this->sessionId,
             htmlspecialchars($message)
         );
 

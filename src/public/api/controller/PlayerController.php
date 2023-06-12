@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace App\public\controller\api;
+namespace App\public\api\controller;
 
 session_start();
 
@@ -25,8 +25,14 @@ header("Content-Type:application/json");
 (new DotEnv('../.env'))->load();
 
 class PlayerController {
+    /**
+     * @var int the connected player's session ID
+     */
+    private int $sessionId;
+
     public function __construct(protected string $route)
     {
+        $this->sessionId = isset($_SESSION["playerId"]) ? (int)$_SESSION["playerId"] : 0;
         $this->$route();
     }
 
@@ -39,7 +45,7 @@ class PlayerController {
     protected function getAll(): void
     {
         $getAll = PlayerUtils::findAllPlayers(
-            intval($_SESSION["playerId"])
+            $this->sessionId
         );
 
         if (is_array($getAll)) {
@@ -128,7 +134,7 @@ class PlayerController {
     protected function delete(): void
     {
         $response["response"] = PlayerUtils::deletePlayer(
-            intval($_SESSION["playerId"])
+            $this->sessionId
         );
 
         http_response_code(200);
@@ -147,7 +153,7 @@ class PlayerController {
         extract($_POST);
 
         $update = PlayerUtils::updatePlayer(
-            intval($_SESSION["playerId"]),
+            $this->sessionId,
             $currentUsername,
             $currentEmail,
             htmlspecialchars($newUsername),
@@ -177,7 +183,7 @@ class PlayerController {
         extract($_POST);
 
         $updatePassword = PlayerUtils::updatePassword(
-            intval($_SESSION["playerId"]),
+            $this->sessionId,
             $currentPassword,
             $newPassword,
             $retypedNewPassword
@@ -275,7 +281,11 @@ class PlayerController {
     {
         $link = $_GET["link"] ?? "";
 
-        $response["response"] = !DbUtils::doesThisValueExist(DbTable::TABLE_RESET_PASSWORD_LINK, "link", $link);
+        $response["response"] = !DbUtils::doesThisValueExist(
+            DbTable::TABLE_RESET_PASSWORD_LINK,
+            "link",
+            $link
+        );
 
         http_response_code(200);
 
@@ -291,7 +301,7 @@ class PlayerController {
     protected function updateActivity(): void
     {
         $response["response"] = PlayerUtils::updateActivity(
-            intval($_SESSION["playerId"])
+            $this->sessionId
         );
 
         http_response_code(200);
