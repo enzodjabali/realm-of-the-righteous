@@ -42,10 +42,10 @@ export class Display{
         container.style.gridTemplateColumns = columns;
 
         let imgDict = {
-            'basegrass': "../../assets/images/tiles/",
-            'basepath':"../../assets/images/tiles/basepath.png",
-            'basepathrockhorizontal': "../../assets/images/tiles/basepathrockhorizontal.png",
-            'basepathrockvertical': "../../assets/images/tiles/basepathrockvertical.png",
+            'basegrass': "../../assets/images/tiles/grasses.png",
+            // 'basepath':"../../assets/images/tiles/basepath.png",
+            // 'basepathrockhorizontal': "../../assets/images/tiles/basepathrockhorizontal.png",
+            // 'basepathrockvertical': "../../assets/images/tiles/basepathrockvertical.png",
             'bordereast': "../../assets/images/tiles/bordereast.png",
             'bordernorth': "../../assets/images/tiles/bordernorth.png",
             'bordersouth': "../../assets/images/tiles/bordersouth.png",
