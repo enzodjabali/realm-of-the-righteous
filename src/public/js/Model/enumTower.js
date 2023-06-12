@@ -108,7 +108,7 @@ export const enumTower = {
         buffTower: [1.2, 1.5, 2]
     },
     "rock":{
-        path : ['../../assets/images/zombie.gif'],
+        path : ['../../assets/images/tiles/rock.png'],
 
         pathWeapon : ['../../assets/images/towers/weapons/weapons/WT1weapon.png'],
 
