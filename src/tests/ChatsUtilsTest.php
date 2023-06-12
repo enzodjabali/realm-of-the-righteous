@@ -23,7 +23,7 @@ final class ChatsUtilsTest extends TestCase
      */
     public function testGetAllMessages(): void
     {
-        $findAllMessages = ChatUtils::findAllMessages();
+        $findAllMessages = ChatUtils::findAllMessages(1);
         $this->assertGreaterThan(0, count($findAllMessages));
     }
 }

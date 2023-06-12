@@ -34,7 +34,7 @@ final class GameUtilsTest extends TestCase
 
     public function testCanUpdateModel(): void
     {
-        $isModelUpdated = GameUtils::updateModel(1, GameModels::MODEL_EASY->value);
+        $isModelUpdated = GameUtils::updateModel(1, 1, GameModels::MODEL_EASY->value);
         $this->assertTrue($isModelUpdated);
     }
 
