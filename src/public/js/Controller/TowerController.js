@@ -312,7 +312,7 @@ export class TowerController {
             this.playerController.player.money += (0.75 * tower.price[tower.level])
             this.playerController.postLogs("Sold "+tower.type+" tower for "+tower.price[tower.level]*0.75+" coins", 1)
         }
-        this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies)
+        this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave)
         //Remove tower from de board
         this.display.removeTower(tower);
         //break the while loop

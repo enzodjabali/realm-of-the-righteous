@@ -21,11 +21,11 @@
         </div>
         <div class="d-flex game-stats">
             <div id ="killedEnemies" class="p-2 flex-fill w-25"></div>
-            <div class="p-2 flex-fill w-25">🧟 I</div>
+            <div id="wave-counter" class="p-2 flex-fill w-25"></div>
         </div>
 
         <div class="hud-button mb-3 mt-2" style="height: 20%; width: 100%">
-            <a href="#">Regain Health ❤️ 999G</a>
+            <p id="play-game">Play game</p>
         </div>
 
         <div class="hud-button mb-3" style="height: 20%; width: 100%">

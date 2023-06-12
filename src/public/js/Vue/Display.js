@@ -331,10 +331,12 @@ export class Display{
         healthBar.style.width = (enemy.curent_life/enemy.max_life)*100 +'%';
     }
     
-    updatePlayerData(money, life, killedEnemies){
+    updatePlayerData(money, life, killedEnemies, currentWave){
+        console.log("Update playe data wave = ", currentWave)
         document.getElementById('money').innerText = "🪙 "+money+"";
         document.getElementById('life').innerText = "Current life : "+life+" ❤️";
         document.getElementById('killedEnemies').innerText = "💀 "+killedEnemies
+        document.getElementById('wave-counter').innerText = "🧟 "+this.romanizeNumber(currentWave+1);
     }
     showTowerRange(towerPosition, range){
         this.hideTowerRange()
@@ -361,5 +363,18 @@ export class Display{
         while(elements.length > 0){
             elements[0].parentNode.removeChild(elements[0]);
         }
+    }
+    romanizeNumber (num) {
+        if (isNaN(num) || num == 0)
+            return 1;
+        var digits = String(+num).split(""),
+            key = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM",
+                "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC",
+                "","I","II","III","IV","V","VI","VII","VIII","IX"],
+            roman = "",
+            i = 3;
+        while (i--)
+            roman = (key[+digits.pop() + (i * 10)] || "") + roman;
+        return Array(+digits.join("") + 1).join("M") + roman;
     }
 }

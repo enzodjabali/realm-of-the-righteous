@@ -13,7 +13,7 @@ export const enumEnemies = {
         pathDead: '../../assets/images/mobs/batdeath.gif',
         life: 10,  
         armor: 0,
-        speed: 100,
+        speed: 20,
         price: 10,
         isFlying: true,
     },
