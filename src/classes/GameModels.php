@@ -34,8 +34,8 @@ enum GameModels: string
             "mobId" : 0,
             "towerId" : 0,
             "towerWeaponId" : 0,
-            "entryPoints" : [[19,5]],
-            "endPoints" : [[19,8]] }';
+            "entryPoints" : [[5,0]],
+            "endPoints" : [[2,0]] }';
     
     case MODEL_NORMAL = "normal";
     case MODEL_HARD = "hard";

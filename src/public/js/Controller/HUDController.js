@@ -54,6 +54,8 @@ export class HUDController {
                                 null,
                                 null,
                             )
+                            console.log(this.model.entryPoints, this.model.endPoints)
+                            console.log(this.model.entryPoints[this.indexOfEntryPoints], this.model.endPoints[this.indexOfEndPoints], "OYYYY WHY")
                             let pathForEnemies = this.model.findPathForWaves(tempMatrice,this.model.entryPoints[this.indexOfEntryPoints], this.model.endPoints[this.indexOfEndPoints])
                             if(pathForEnemies.length > 0){
                                 console.log("you can put this rock in matrice")
