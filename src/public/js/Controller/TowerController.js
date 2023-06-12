@@ -285,7 +285,7 @@ export class TowerController {
     upgradeTower(tower)
     {
         //Permit to upgrade a tower
-        // REVOIR ICI 
+
         if (this.playerController.buyTower(enumTower[tower.type].price[tower.level+1])){
             if(tower.level == enumTower[tower.type].damage.length-1){
                 //Mximum tower level already reached
@@ -294,7 +294,7 @@ export class TowerController {
                 tower.level++
             }
             this.sellTower(tower, false)
-            this.playerController.postLogs("Upgraded "+tower.type+" tower for "+enumTower[tower.type].price[tower.level+1]+" coins", 1)
+            this.playerController.postLogs("Upgraded "+tower.type+" for "+enumTower[tower.type].price[tower.level+1]+" coins", 1)
             this.placeTowerInMatrice(enumTower[tower.type],tower.type,null, tower.level, tower.position)
         } else {
             console.log('here')
@@ -306,9 +306,11 @@ export class TowerController {
     sellTower(tower, getMoneyFromTower = true)
     {
         //Permit to sell a tower
+
         //Add money to player
         if(getMoneyFromTower){
             this.playerController.player.money += (0.75 * tower.price[tower.level])
+            this.playerController.postLogs("Sold "+tower.type+" tower for "+tower.price[tower.level]*0.75+" coins", 1)
         }
         this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies)
         //Remove tower from de board
@@ -317,7 +319,6 @@ export class TowerController {
         tower.remove = true;
         //Remove tower from the logical board
         this.checkPlayerTab(true)
-        this.playerController.postLogs("Sold "+tower.type+" tower for "+tower.price[tower.level]*0.75+" coins", 1)
         this.model.matrice[tower.position.x][tower.position.y].tower = null;
 
 
