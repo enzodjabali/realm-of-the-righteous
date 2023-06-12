@@ -26,7 +26,7 @@ header("Content-Type:application/json");
 
 class PlayerController {
     /**
-     * @var int the connected user's session ID
+     * @var int the connected player's session ID
      */
     private int $sessionId;
 

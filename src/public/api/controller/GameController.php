@@ -26,7 +26,7 @@ header("Content-Type:application/json");
 
 class GameController {
     /**
-     * @var int the connected user's session ID
+     * @var int the connected player's session ID
      */
     private int $sessionId;
 
@@ -172,6 +172,7 @@ class GameController {
 
         $response["response"] = GameUtils::updateModel(
             (int)$gameId,
+            $this->sessionId,
             $newModel
         );
 

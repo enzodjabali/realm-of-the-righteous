@@ -24,7 +24,7 @@ header("Content-Type:application/json");
 
 class ChatController {
     /**
-     * @var int the connected user's session ID
+     * @var int the connected player's session ID
      */
     private int $sessionId;
 
@@ -42,7 +42,9 @@ class ChatController {
      */
     protected function getAll(): void
     {
-        $getAll = ChatUtils::findAllMessages();
+        $getAll = ChatUtils::findAllMessages(
+            $this->sessionId
+        );
 
         if (is_array($getAll)) {
             http_response_code(200);

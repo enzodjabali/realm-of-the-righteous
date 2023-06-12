@@ -228,7 +228,7 @@ class PlayerUtils
 
     /**
      * This method updates a player from the database
-     * @param int $playerId the id of the player
+     * @param int $playerId the ID of the player
      * @param string $currentUsername the current username of the player
      * @param string $currentEmail the current email of the player
      * @param string $newUsername the new username of the player
@@ -515,10 +515,12 @@ class PlayerUtils
     {
         $date = new DateTimeImmutable();
 
-        if (DbUtils::update(DbTable::TABLE_PLAYER, "last_activity", $date->getTimestamp(), "WHERE id = $playerId")) {
-            return true;
-        } else {
-            return false;
+        if ($playerId > 0) {
+            if (DbUtils::update(DbTable::TABLE_PLAYER, "last_activity", $date->getTimestamp(), "WHERE id = $playerId")) {
+                return true;
+            }
         }
+
+        return false;
     }
 }

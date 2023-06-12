@@ -15,11 +15,14 @@ class GameUtils
      */
     public static function findAllGames(int $playerId): bool|array
     {
-        $result = DbUtils::select(DbTable::TABLE_GAME, ["id", "name", "date"], "WHERE player_id = '$playerId' ORDER BY id DESC");
         $result_array = [];
 
-        while($row = $result->fetch()) {
-            $result_array[] = $row;
+        if ($playerId > 0) {
+            $result = DbUtils::select(DbTable::TABLE_GAME, ["id", "name", "date"], "WHERE player_id = '$playerId' ORDER BY id DESC");
+
+            while ($row = $result->fetch()) {
+                $result_array[] = $row;
+            }
         }
 
         return $result_array;
@@ -28,13 +31,21 @@ class GameUtils
     /**
      * This method creates a new game
      * @param string $name the name of the game
-     * @param int $playerId the id of the player who created the game
-     * @param int $mapId the id of the map
+     * @param int $playerId the ID of the player who created the game
+     * @param int $mapId the ID of the map
      * @param GameDifficulties $difficulty the level of difficulty of the game
      * @return string|bool returns true if the operation succeed, and returns a string containing an error message if it failed
      */
     public static function createGame(string $name, int $playerId, int $mapId = 1, GameDifficulties $difficulty = GameDifficulties::DIFFICULTY_EASY): string|bool
     {
+        // Checks if the player's ID is valid
+        try {
+            if (!$playerId > 0) {
+                throw new Exception("You've been disconnected, please try to log back in");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
         // Checks if the game name isn't empty
         try {
             if (empty($name)) {
@@ -55,14 +66,6 @@ class GameUtils
         try {
             if (strlen($name) > 25) {
                 throw new Exception("The game name can't have more than 25 characters");
-            }
-        } catch (Exception $e) {
-            return $e->getMessage();
-        }
-        // Checks if the player's ID is valid
-        try {
-            if (!$playerId > 0) {
-                throw new Exception("You've been disconnected, please try to log back in");
             }
         } catch (Exception $e) {
             return $e->getMessage();
@@ -125,16 +128,21 @@ class GameUtils
     /**
      * This method updates the model of a given game ID
      * @param int $gameId the game ID
+     * @param int $playerId the player's ID owner of the game
      * @return bool returns true is the operation succeed, false if it failed
      */
-    public static function updateModel(int $gameId, string $newModel): bool
+    public static function updateModel(int $gameId, int $playerId, string $newModel): bool
     {
-        try {
-            return DbUtils::update(DbTable::TABLE_GAME, "model", $newModel, "WHERE id = '$gameId'");
-        } catch (Exception $e) {
-            echo $e->getMessage();
-            return false;
+        if (GameUtils::doesGameBelongToPlayer($gameId, $playerId)) {
+            try {
+                return DbUtils::update(DbTable::TABLE_GAME, "model", $newModel, "WHERE id = '$gameId'");
+            } catch (Exception $e) {
+                echo $e->getMessage();
+
+            }
         }
+
+        return false;
     }
 
     /**
@@ -162,7 +170,7 @@ class GameUtils
     /**
      * This method returns the fetched logs of a game
      * @param int $gameId the game ID
-     * @param int $playerId the player's ID
+     * @param int $playerId the player's ID owner of the game
      * @return bool|string returns the json encoded data of the game logs
      * @throws Exception
      */
