@@ -1,7 +1,6 @@
-FROM nginx:1.23.3
+FROM nginx:stable
 
 RUN apt update \
     && curl -sL https://deb.nodesource.com/setup_14.x | bash - \
     && apt-get install -y nodejs
 WORKDIR /var/www
-
