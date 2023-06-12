@@ -324,7 +324,6 @@ export class Display{
     }
     
     updatePlayerData(money, life, killedEnemies, currentWave){
-        console.log("Update playe data wave = ", currentWave)
         document.getElementById('money').innerText = "🪙 "+money+"";
         document.getElementById('life').innerText = "Current life : "+life+" ❤️";
         document.getElementById('killedEnemies').innerText = "💀 "+killedEnemies
@@ -358,7 +357,7 @@ export class Display{
     }
     romanizeNumber (num) {
         if (isNaN(num) || num == 0)
-            return 1;
+            return "I";
         var digits = String(+num).split(""),
             key = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM",
                 "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC",

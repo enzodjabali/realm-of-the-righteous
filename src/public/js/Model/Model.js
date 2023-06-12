@@ -102,7 +102,6 @@ export class Model {
           if (nx < 0 || nx >= matrix.length || ny < 0 || ny >= matrix[0].length) {
             continue;
           }
-            console.log("hey", matrix[nx][ny].tile)
           if (['eastwest', 'forkeast', 'forknorth', 'forksouth', 'forwest', 'ne', 'northsouth', 'nw', 'rock', 'se','sw'].includes(matrix[nx][ny].tile)) {
               try {
                   if (matrix[nx][ny].tower.type == "rock") {
