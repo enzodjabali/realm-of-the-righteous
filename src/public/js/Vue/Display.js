@@ -42,26 +42,18 @@ export class Display{
         container.style.gridTemplateColumns = columns;
 
         let imgDict = {
-            'basegrass': "../../assets/images/tiles/",
-            'basepath':"../../assets/images/tiles/basepath.png",
-            'basepathrockhorizontal': "../../assets/images/tiles/basepathrockhorizontal.png",
-            'basepathrockvertical': "../../assets/images/tiles/basepathrockvertical.png",
-            'bordereast': "../../assets/images/tiles/bordereast.png",
-            'bordernorth': "../../assets/images/tiles/bordernorth.png",
-            'bordersouth': "../../assets/images/tiles/bordersouth.png",
-            'borderwest': "../../assets/images/tiles/borderwest.png",
-            'towereast': "../../assets/images/tiles/towereast.png",
-            'towernorth': "../../assets/images/tiles/towernorth.png",
-            'towersouth': "../../assets/images/tiles/towersouth.png",
-            'towerwest': "../../assets/images/tiles/towerwest.png",
-            'northwest': "../../assets/images/tiles/northwest.png",
-            'southwest': "../../assets/images/tiles/southwest.png",
-            'northeast': "../../assets/images/tiles/northeast.png",
-            'southeast': "../../assets/images/tiles/southeast.png",
-            'northwestcorner': "../../assets/images/tiles/northwestcorner.png",
-            'southwestcorner': "../../assets/images/tiles/southwestcorner.png",
-            'northeastcorner': "../../assets/images/tiles/northeastcorner.png",
-            'southeastcorner': "../../assets/images/tiles/southeastcorner.png",
+            'basegrass': "../../assets/images/tiles/grasses.png",
+            'estwest': "../../assets/images/tiles/estwest.png",
+            'forkeast': "../../assets/images/tiles/forkeast.png",
+            'forknorth': "../../assets/images/tiles/forknorth.png",
+            'forsouth': "../../assets/images/tiles/forsouth.png",
+            'forwest': "../../assets/images/tiles/forwest.png",
+            'ne': "../../assets/images/tiles/ne.png",
+            'northsouth': "../../assets/images/tiles/northsouth.png",
+            'nw': "../../assets/images/tiles/nw.png",
+            'rock': "../../assets/images/tiles/rock.png",
+            'se': "../../assets/images/tiles/se.png",
+            'sw': "../../assets/images/tiles/sw.png",
         }
 
         for (let x = 0 ; x < matrice.length ; x++){

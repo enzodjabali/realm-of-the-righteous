@@ -57,7 +57,7 @@ export class HUDController {
                             let pathForEnemies = this.model.findPathForWaves(tempMatrice,this.model.entryPoints[this.indexOfEntryPoints], this.model.endPoints[this.indexOfEndPoints])
                             if(pathForEnemies.length > 0){
                                 console.log("you can put this rock in matrice")
-                                if(this.model.matrice[this.display.pile[1][0]][this.display.pile[1][1]].tile == 'basepath'){
+                                if(this.model.matrice[this.display.pile[1][0]][this.display.pile[1][1]].tile != 'basegrass'){
                                     this.towerController.placeTowerInMatrice(enumTower[key], key);
                                     this.display.pile = -1;
                                 }
