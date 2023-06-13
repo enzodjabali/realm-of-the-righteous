@@ -11,8 +11,8 @@ setInterval(function(){
 
             document.getElementById('message-list').innerHTML = '';
 
-            let d = new Date();
-            let currentDate = d.getFullYear() + "-" +((d.getMonth()+1).length !== 2 ? "0" + (d.getMonth() + 1) : (d.getMonth()+1)) + "-" + (d.getDate().length !== 2 ?"0" + d.getDate() : d.getDate());
+            let date = new Date();
+            let currentDate = date.toLocaleString("default", { year: "numeric" }) + "-" + date.toLocaleString("default", { month: "2-digit" }) + "-" + date.toLocaleString("default", { day: "2-digit" });
 
             for (let i = 0; i < chatMessages.length; i++) {
                 let username = chatMessages[i]['username'];
@@ -25,7 +25,7 @@ setInterval(function(){
                     date = chatMessages[i]['date'];
                 }
 
-                document.getElementById('message-list').innerHTML += '<a><b>' + username + '</b> (' + date + '): ' + message + '</a><br>';
+                document.getElementById('message-list').innerHTML += '<b>' + username + '</b> (' + date + '): ' + message + '<br>';
             }
         });
     });
@@ -43,6 +43,8 @@ $(function(){
             document.getElementById('message').value = "";
         }).fail(function(response) {
             $(document).ready(function() {
+                $(".toast").removeClass('text-bg-valid');
+                $(".toast").addClass('text-bg-danger');
                 $(".toast").toast('show');
                 $(".toast-body").html(JSON.parse(response.responseText).response);
             });

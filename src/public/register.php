@@ -1,5 +1,11 @@
 <?php
     session_start();
+
+    $sessionId = isset($_SESSION["playerId"]) ? (int)$_SESSION["playerId"] : 0;
+
+    if ($sessionId > 0) {
+        header("Location:/lobby");
+    }
 ?>
 
 <!DOCTYPE html>
@@ -19,14 +25,7 @@
 
     <body>
         <?php include_once("includes/menu.php") ?>
-
-        <!--Toast gets displayed with an error message if mistakes have been made in the form -->
-        <div class="toast align-items-center text-bg-danger border-0 position-absolute top-0 start-50 translate-middle mt-5 z-2" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body"></div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-        </div>
+        <?php include_once("includes/toast.php") ?>
 
         <!-- Modal gets displayed if the user has been successfully registered -->
         <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
@@ -42,7 +41,7 @@
                         A verification email has been sent to you.
                     </div>
                     <div class="modal-footer">
-                        <a href="/login"><button type="button" class="btn btn-primary">Login</button></a>
+                        <a href="/login"><button type="button" class="btn btn-form-submit">Login</button></a>
                     </div>
                 </div>
             </div>
@@ -57,23 +56,23 @@
                 <form id="register-form" method="post" class="needs-validation" novalidate>
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" name="username" id="username" placeholder="Mark" required>
+                        <input type="text" class="form-control shadow-none" name="username" id="username" placeholder="Mark" required>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" name="email" id="email" placeholder="mark@realm-of-the-righteous.fr" required>
+                        <input type="email" class="form-control shadow-none" name="email" id="email" placeholder="mark@realm-of-the-righteous.fr" required>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" name="password" id="password" required>
+                        <input type="password" class="form-control shadow-none" name="password" id="password" required>
                     </div>
                     <div class="mb-3">
                         <label for="retype-password" class="form-label">Retype password</label>
-                        <input type="password" class="form-control" name="retype-password" id="retype-password" required>
+                        <input type="password" class="form-control shadow-none" name="retype-password" id="retype-password" required>
                     </div>
                     <div class="col-12 mb-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="terms" id="terms" required>
+                            <input class="form-check-input shadow-none" type="checkbox" name="terms" id="terms" required>
                             <label class="form-check-label" for="terms">
                                 Agree to terms and conditions
                             </label>
@@ -82,7 +81,9 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Register</button>
+                    <button type="submit" class="btn hud-button p-0 w-25">
+                        <p id="play-game">Register</p>
+                    </button>
                 </form>
             </div>
         </div>
@@ -124,6 +125,8 @@
                     $('#modal').modal('show');
                 }).fail(function(response) {
                     $(document).ready(function() {
+                        $(".toast").removeClass('text-bg-valid');
+                        $(".toast").addClass('text-bg-danger');
                         $(".toast").toast('show');
                         $(".toast-body").html(JSON.parse(response.responseText).response);
                     });

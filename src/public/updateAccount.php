@@ -1,9 +1,9 @@
 <?php
     session_start();
 
-    $sessionId = $_SESSION["playerId"] ?? 0;
+    $sessionId = isset($_SESSION["playerId"]) ? (int)$_SESSION["playerId"] : 0;
 
-    if (!intval($sessionId) > 0) {
+    if (!$sessionId > 0) {
         header("Location:/login");
     }
 ?>
@@ -25,20 +25,7 @@
 
     <body>
         <?php include_once("includes/settingsSidebar.php") ?>
-
-        <div class="position-absolute top-0 start-0 translate-middle m-4">
-            <button onclick="showSidebar()" class="btn btn-secondary">
-                <i class="bi bi-list"></i>
-            </button>
-        </div>
-
-        <!-- Toast gets displayed with the status message of the form -->
-        <div class="toast align-items-center border-0 position-absolute top-0 start-50 translate-middle mt-5 z-2" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body"></div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-        </div>
+        <?php include_once("includes/toast.php") ?>
 
         <div class="card w-75 position-absolute top-50 start-50 translate-middle">
             <div class="card-header text-center">
@@ -49,13 +36,15 @@
                 <form id="update-player-form" method="post" class="needs-validation" novalidate>
                     <div class="mb-3">
                         <label for="newUsername" class="form-label">Username</label>
-                        <input type="text" class="form-control" name="newUsername" id="newUsername" placeholder="<?= $_SESSION['playerUsername'] ?>" value="<?= $_SESSION['playerUsername'] ?>" required>
+                        <input type="text" class="form-control shadow-none" name="newUsername" id="newUsername" placeholder="<?= $_SESSION['playerUsername'] ?>" value="<?= $_SESSION['playerUsername'] ?>" required>
                     </div>
                     <div class="mb-3">
                         <label for="newEmail" class="form-label">Email address</label>
-                        <input type="email" class="form-control" name="newEmail" id="newEmail" placeholder="<?= $_SESSION['playerEmail'] ?>" value="<?= $_SESSION['playerEmail'] ?>" required>
+                        <input type="email" class="form-control shadow-none" name="newEmail" id="newEmail" placeholder="<?= $_SESSION['playerEmail'] ?>" value="<?= $_SESSION['playerEmail'] ?>" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Edit</button>
+                    <button type="submit" class="btn hud-button p-0 w-25">
+                        <p>Edit</p>
+                    </button>
                 </form>
             </div>
         </div>
@@ -94,12 +83,12 @@
                 let newEmail = $(this).find("input[name=newEmail]").val();
 
                 $.post("../api/v1/player/update", {currentUsername: currentUsername, currentEmail: currentEmail, newUsername: newUsername, newEmail: newEmail}, function() {
-                    $(".toast").addClass('text-bg-success');
+                    $(".toast").addClass('text-bg-valid');
                     $(".toast").removeClass('text-bg-danger');
                     $(".toast").toast('show');
                     $(".toast-body").html("Your information has been successfully updated.");
                 }).fail(function(response) {
-                    $(".toast").removeClass('text-bg-success');
+                    $(".toast").removeClass('text-bg-valid');
                     $(".toast").addClass('text-bg-danger');
                     $(".toast").toast('show');
                     $(".toast-body").html(JSON.parse(response.responseText).response);

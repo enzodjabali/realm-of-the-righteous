@@ -18,7 +18,7 @@ class GameUtils
         $result_array = [];
 
         if ($playerId > 0) {
-            $result = DbUtils::select(DbTable::TABLE_GAME, ["id", "name", "date"], "WHERE player_id = '$playerId' ORDER BY id DESC");
+            $result = DbUtils::select(DbTable::TABLE_GAME, ["id", "name", "difficulty", "date"], "WHERE player_id = '$playerId' ORDER BY id DESC");
 
             while ($row = $result->fetch()) {
                 $result_array[] = $row;

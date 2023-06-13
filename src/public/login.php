@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    $sessionId = $_SESSION["playerId"] ?? 0;
+    $sessionId = isset($_SESSION["playerId"]) ? (int)$_SESSION["playerId"] : 0;
 
     if ($sessionId > 0) {
         header("Location:/lobby");
@@ -25,14 +25,7 @@
 
     <body>
         <?php include_once("includes/menu.php") ?>
-
-        <!-- Toast gets displayed with an error message if the user's credentials aren't valid or with the status of the reset password form -->
-        <div class="toast align-items-center border-0 position-absolute top-0 start-50 translate-middle mt-5 z-2" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body"></div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-        </div>
+        <?php include_once("includes/toast.php") ?>
 
         <div class="card w-75 position-absolute top-50 start-50 translate-middle">
             <div class="card-header text-center">
@@ -46,13 +39,15 @@
                 <form id="login-form" method="post">
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" name="username" id="username" required>
+                        <input type="text" class="form-control shadow-none" name="username" id="username" required>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" name="password" id="password" required>
+                        <input type="password" class="form-control shadow-none" name="password" id="password" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="submit" class="btn hud-button p-0 w-25">
+                        <p>Login</p>
+                    </button>
                     <div class="pt-2">
                         <a href="/register">Don't have an account yet? Register</a>
                         <br>
@@ -75,12 +70,12 @@
                         <div id="create-game-text" class="modal-body">
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="text" class="form-control" name="email" id="email" required>
+                                <input type="text" class="form-control shadow-none" name="email" id="email" required>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Send a reset link</button>
+                            <button type="button" class="btn btn-form-cancel" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-form-submit">Send a reset link</button>
                         </div>
                     </form>
                 </div>
@@ -109,7 +104,7 @@
                     $("#spinner").addClass("visually-hidden");
                     $("#login-form").removeClass("visually-hidden");
 
-                    $(".toast").removeClass('text-bg-success');
+                    $(".toast").removeClass('text-bg-valid');
                     $(".toast").addClass('text-bg-danger');
                     $(".toast").toast('show');
                     $(".toast-body").html(JSON.parse(response.responseText).response);
@@ -132,7 +127,7 @@
                     $("#delete-game-spinner").addClass("visually-hidden");
                     $("#create-game-text").removeClass("visually-hidden");
 
-                    $(".toast").addClass('text-bg-success');
+                    $(".toast").addClass('text-bg-valid');
                     $(".toast").removeClass('text-bg-danger');
                     $(".toast").toast('show');
                     $(".toast-body").html("A reset link has been sent to " + playerEmail + ".");
@@ -140,7 +135,7 @@
                     $("#delete-game-spinner").addClass("visually-hidden");
                     $("#create-game-text").removeClass("visually-hidden");
 
-                    $(".toast").removeClass('text-bg-success');
+                    $(".toast").removeClass('text-bg-valid');
                     $(".toast").addClass('text-bg-danger');
                     $(".toast").toast('show');
                     $(".toast-body").html(JSON.parse(response.responseText).response);

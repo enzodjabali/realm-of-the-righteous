@@ -1,9 +1,9 @@
 <?php
     session_start();
 
-    $sessionId = $_SESSION["playerId"] ?? 0;
+    $sessionId = isset($_SESSION["playerId"]) ? (int)$_SESSION["playerId"] : 0;
 
-    if (!intval($sessionId) > 0) {
+    if (!$sessionId > 0) {
         header("Location:/login");
     }
 ?>
@@ -25,20 +25,7 @@
 
     <body>
         <?php include_once("includes/settingsSidebar.php") ?>
-
-        <div class="position-absolute top-0 start-0 translate-middle m-4">
-            <button onclick="showSidebar()" class="btn btn-secondary">
-                <i class="bi bi-list"></i>
-            </button>
-        </div>
-
-        <!-- Toast gets displayed with the status message of the form -->
-        <div class="toast align-items-center border-0 position-absolute top-0 start-50 translate-middle mt-5 z-2" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body"></div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-        </div>
+        <?php include_once("includes/toast.php") ?>
 
         <div class="card w-75 position-absolute top-50 start-50 translate-middle">
             <div class="card-header text-center">
@@ -49,17 +36,19 @@
                 <form id="update-player-form" method="post" class="needs-validation" novalidate>
                     <div class="mb-3">
                         <label for="current-password" class="form-label">Current password</label>
-                        <input type="password" class="form-control" name="currentPassword" id="current-password" required>
+                        <input type="password" class="form-control shadow-none" name="currentPassword" id="current-password" required>
                     </div>
                     <div class="mb-3">
                         <label for="new-password" class="form-label">New password</label>
-                        <input type="password" class="form-control" name="newPassword" id="new-password" required>
+                        <input type="password" class="form-control shadow-none" name="newPassword" id="new-password" required>
                     </div>
                     <div class="mb-3">
                         <label for="retype-new-password" class="form-label">Retype new password</label>
-                        <input type="password" class="form-control" name="retypedNewPassword" id="retype-new-password" required>
+                        <input type="password" class="form-control shadow-none" name="retypedNewPassword" id="retype-new-password" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Edit</button>
+                    <button type="submit" class="btn hud-button p-0 w-25">
+                        <p>Edit</p>
+                    </button>
                 </form>
             </div>
         </div>
@@ -97,12 +86,12 @@
                 let retypedNewPassword = $(this).find("input[name=retypedNewPassword]").val();
 
                 $.post("../api/v1/player/updatePassword", {currentPassword: currentPassword, newPassword: newPassword, retypedNewPassword: retypedNewPassword}, function() {
-                    $(".toast").addClass('text-bg-success');
+                    $(".toast").addClass('text-bg-valid');
                     $(".toast").removeClass('text-bg-danger');
                     $(".toast").toast('show');
                     $(".toast-body").html("Your password has been successfully updated.");
                 }).fail(function(response) {
-                    $(".toast").removeClass('text-bg-success');
+                    $(".toast").removeClass('text-bg-valid');
                     $(".toast").addClass('text-bg-danger');
                     $(".toast").toast('show');
                     $(".toast-body").html(JSON.parse(response.responseText).response);

@@ -1,9 +1,11 @@
 <?php
     session_start();
 
-    $sessionId = $_SESSION["playerId"] ?? 0;
+    $sessionId = isset($_SESSION["playerId"]) ? (int)$_SESSION["playerId"] : 0;
+    $sessionUsername = isset($_SESSION["playerUsername"]) ? (string)$_SESSION["playerUsername"] : "";
+    $sessionEmail = isset($_SESSION["playerEmail"]) ? (string)$_SESSION["playerEmail"] : "";
 
-    if (!intval($sessionId) > 0) {
+    if (!$sessionId > 0) {
         header("Location:/login");
     }
 ?>
@@ -25,12 +27,6 @@
 
     <body>
         <?php include_once("includes/settingsSidebar.php") ?>
-
-        <div class="position-absolute top-0 start-0 translate-middle m-4">
-            <button onclick="showSidebar()" class="btn btn-secondary">
-                <i class="bi bi-list"></i>
-            </button>
-        </div>
 
         <!-- Modal gets displayed to ask the user if he's sure that he wants to delete his account -->
         <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
@@ -56,9 +52,9 @@
             </div>
             <div class="card-body">
                 <div class="mb-3">
-                    <a>Username: <?= $_SESSION["playerUsername"] ?></a>
+                    Username: <?= $sessionUsername ?>
                     <br>
-                    <a>Email: <?= $_SESSION["playerEmail"] ?></a>
+                    Email: <?= $sessionEmail ?>
                     <p class="mt-2">
                         Deleting your account will also delete:<br>
                         &nbsp - Your games<br>

@@ -1,3 +1,11 @@
+<nav class="navbar navbar-dark">
+    <div class="container-fluid">
+        <button class="navbar-toggler" onclick="showSidebar()" type="button" data-bs-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
+
 <div class="offcanvas offcanvas-start" data-bs-scroll="false" tabindex="-1" id="sidebar" aria-labelledby="sidebar-label">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="sidebar-label">Settings</h5>
