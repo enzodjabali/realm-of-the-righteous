@@ -6,6 +6,7 @@ export class HUDController {
         this.display = display;
         this.towerController = towerController;
         this.playerController = playerController
+        this.goldPerMinute = {"gold": 0, "date": Date.now(), "average": [], "playerGold": this.playerController.player.money};
 
         //Set up the inital value of the player
         document.getElementById('money').innerText = "🪙 "+this.playerController.player.money+"";
@@ -29,11 +30,10 @@ export class HUDController {
                 if(this.display.pile == -1){
                 } else {
                     if(this.playerController.buyTower(enumTower[key].price[0])){
-                        // this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies);
+                        this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies);
                         if (key != "rock"){
                             this.playerController.postLogs("Bought "+key+" tower for "+enumTower[key].price[0]+" coins", 1)
                         }
-
                         if(this.model.matrice[this.display.pile[1][0]][this.display.pile[1][1]].tile == 'basepath' && key != "rock"){
                             console.log("vous ne pouvez pas place de tours ici")
                             return
@@ -93,4 +93,18 @@ export class HUDController {
     setEndPoints(end){
         this.indexOfEndPoints = end;
     }
+    calculateGoldPerMinute(){
+        if(this.goldPerMinute.date+10000 <= Date.now()) {
+            this.goldPerMinute.gold = ((this.playerController.player.money - this.goldPerMinute.playerGold) / 10) * 60
+            if(this.goldPerMinute.gold < 0){
+                this.goldPerMinute.gold = 0;
+            }
+            document.getElementById('gold-per-minute').innerText = "⏱️ "+this.goldPerMinute.gold.toFixed(0)+" g/min"
+
+            this.goldPerMinute.gold = 0;
+            this.goldPerMinute.playerGold = this.playerController.player.money;
+            this.goldPerMinute.date = Date.now();
+        }
+    }
+
 }

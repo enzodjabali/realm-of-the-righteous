@@ -16,8 +16,8 @@
     <div id="hud-tab-general" class="mt-3">
         <h4 id="life" class="text-center mb-3">Current Health: 100❤️</h4>
         <div class="d-flex game-stats">
-            <div id ="money" class="p-2 flex-fill w-25"></div>
-            <div class="p-2 flex-fill w-25">⏱️ 30g/m</div>
+            <div id="money" class="p-2 flex-fill w-25"></div>
+            <div id="gold-per-minute" class="p-2 flex-fill w-25">⏱️ 0 g/min</div>
         </div>
         <div class="d-flex game-stats">
             <div id ="killedEnemies" class="p-2 flex-fill w-25"></div>

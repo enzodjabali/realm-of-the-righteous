@@ -121,6 +121,7 @@ export class Controller{
          */
         try {
             for (let step = 0; step <= path.length; step++) {
+                this.HUDController.calculateGoldPerMinute()
                 // Add your code to handle end of path reached
                 if (enemy.position.x == endPoints[0] && enemy.position.y == endPoints[1] ){
                     if(!this.playerController.modifyPlayerLife(1)){
@@ -145,6 +146,7 @@ export class Controller{
                 if (enemy.curent_life <= 0){
                     // Permit to give money to the player when an ennemy died
                     this.playerController.player.money += enemy.price;
+
                     this.playerController.player.killedEnemies++
                     this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave);
                     this.display.removeEnemy(enemy);
