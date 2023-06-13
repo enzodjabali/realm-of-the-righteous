@@ -14,7 +14,7 @@ final class ChatsUtilsTest extends TestCase
      */
     public function testInsertNewMessage(): void
     {
-        $isMessageInserted = ChatUtils::insertMessage(1, "test message from PHPUnit");
+        $isMessageInserted = ChatUtils::insertMessage(1, "test message from PHPUnit", 1686643628, time());
         $this->assertTrue($isMessageInserted);
     }
 

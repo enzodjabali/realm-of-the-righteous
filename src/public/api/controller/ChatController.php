@@ -28,15 +28,9 @@ class ChatController {
      */
     private int $sessionId;
 
-    /**
-     * @var int the TimeStamp of the last message sent by the user
-     */
-    private int $lastMessageTime;
-
     public function __construct(protected string $route)
     {
         $this->sessionId = isset($_SESSION["playerId"]) ? (int)$_SESSION["playerId"] : 0;
-        $this->lastMessageTime = isset($_SESSION["lastMessageTime"]) ? (int)$_SESSION["lastMessageTime"] : 0;
         $this->$route();
     }
 
@@ -72,12 +66,14 @@ class ChatController {
     protected function insert(): void
     {
         extract($_POST);
-        $currentMessageTime = "";
+
+        $lastMessageTime = isset($_SESSION["lastMessageTime"]) ? (int)$_SESSION["lastMessageTime"] : 0;
+        $currentMessageTime = time();
 
         $insert = ChatUtils::insertMessage(
             $this->sessionId,
             htmlspecialchars($message),
-            $this->lastMessageTime,
+            $lastMessageTime,
             $currentMessageTime
         );
 
