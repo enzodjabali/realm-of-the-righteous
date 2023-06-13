@@ -99,43 +99,13 @@ export class TowerController {
 
     towerLogics(tower) {
 
-        let towerHolder = this.display.initializeTower(tower);
+        let towerHolderId = this.display.initializeTower(tower);
+        let towerHolder = document.getElementById(towerHolderId);
+        towerHolder.tower = tower;
+        towerHolder.this = this;
+        towerHolder.addEventListener("click", this.towerOnclick)
 
-        towerHolder.onclick = () => {
-            this.display.showTowerRange(tower.position, tower.range*2)
-            displayTabHUD('hud-tab-tower-actions')
-            this.playerController.player.tab = Date.now()/1000;
-            let sellContainer = document.getElementById('sell-tower')
-            let upgradeContainer = document.getElementById('upgrade-tower')
 
-            //Permit to empty the tab
-            sellContainer.innerHTML = ''
-            upgradeContainer.innerHTML = ''
-
-            let sellButton = document.createElement('p')
-            let upgradeButton = document.createElement('p')
-            upgradeButton.innerText = "Upgrade "+tower.type+" ⚒️ ("+tower.price[tower.level]+" 🪙)"
-            sellButton.innerText = "Sell "+tower.type+" ❌ ("+tower.price[tower.level]*0.75+" 🪙) ";
-
-            sellButton.onclick = () => {
-                this.sellTower(tower);
-                displayTabHUD('hud-tab-general')
-            }
-            upgradeButton.onclick = () => {
-                this.upgradeTower(tower)
-                displayTabHUD('hud-tab-general')
-            }
-            document.getElementById('attack-value').innerText = tower.damage;
-            document.getElementById('attack-speed-value').innerText = tower.shotRate;
-            document.getElementById('range-value').innerText = tower.range;
-            document.getElementById('level-value').innerText = tower.level+1;
-            document.getElementById('current-damage-boost-value').innerText = tower.damage - tower.memoryDamage;
-            document.getElementById('tower-src-value').src = tower.path;
-            document.getElementById('tower-type-value').innerText = "Tower "+tower.type
-
-            sellContainer.appendChild(sellButton);
-            upgradeContainer.appendChild(upgradeButton);
-        }
         // appel le boucle pour faire fonctionner la logique des tours.
 
         if(tower.type == "rock"){
@@ -145,9 +115,6 @@ export class TowerController {
         }
 
     }
-
-
-
 
     findNeighbour(centerX, centerY, radius, searchType, listEnemyToAvoid = null) {
         let tower = [];
@@ -274,8 +241,9 @@ export class TowerController {
             if (tower.type == "WT"){
                 let towersNearby = this.findNeighbour(tower.position.x, tower.position.y, range, "tower")
                 for (let closeTower of towersNearby){
-                    if(closeTower.damage == closeTower.memoryDamage){
+                    if(closeTower.damage == enumTower[closeTower.type].damage[closeTower.level]){
                         closeTower.damage = (closeTower.damage *= tower.buffTower).toFixed(1);
+                        tower.addBuffedTower(this.model.matrice[closeTower.position.x][closeTower.position.y].tower);
                     }
                 }
             }
@@ -297,13 +265,12 @@ export class TowerController {
             this.playerController.postLogs("Upgraded "+tower.type+" for "+enumTower[tower.type].price[tower.level+1]+" coins", 1)
             this.placeTowerInMatrice(enumTower[tower.type],tower.type,null, tower.level, tower.position)
         } else {
-            console.log('here')
             this.playerController.postLogs("You can't afford it, sorry", 1)
         }
 
 
     }
-    sellTower(tower, getMoneyFromTower = true)
+    async sellTower(tower, getMoneyFromTower = true)
     {
         //Permit to sell a tower
 
@@ -320,6 +287,13 @@ export class TowerController {
         //Remove tower from the logical board
         this.checkPlayerTab(true)
         this.model.matrice[tower.position.x][tower.position.y].tower = null;
+
+        await new Promise(r => setTimeout(r, 500));
+        if(tower.type == "WT"){
+            for (const buffedTower of tower.buffedTower){
+                buffedTower.damage = enumTower[buffedTower.type].damage[buffedTower.level];
+            }
+        }
 
 
     }
@@ -340,5 +314,54 @@ export class TowerController {
         if (this.playerController.player.tab+3 < Date.now()/1000 || sell == true){
             this.display.hideTowerRange();
         }
+    }
+    fillTowerSpecs(x, y){
+        //Fill Tower Actions tab
+        document.getElementById('attack-value').innerText = this.model.matrice[x][y].tower.damage;
+        document.getElementById('attack-speed-value').innerText = this.model.matrice[x][y].tower.shotRate;
+        document.getElementById('range-value').innerText = this.model.matrice[x][y].tower.range;
+        document.getElementById('level-value').innerText = this.model.matrice[x][y].tower.level+1;
+        document.getElementById('current-damage-boost-value').innerText = (this.model.matrice[x][y].tower.damage - enumTower[this.model.matrice[x][y].tower.type].damage[this.model.matrice[x][y].tower.level]).toFixed(1);
+        document.getElementById('tower-src-value').src = this.model.matrice[x][y].tower.path;
+        document.getElementById('tower-type-value').innerText = "Tower "+this.model.matrice[x][y].tower.type
+    }
+
+    towerOnclick(tower){
+        let towerObject = tower.currentTarget.tower
+        let thisParam = tower.currentTarget.this
+
+        //Get rid of tile selection while looking for tower
+        $(".tile-shadow").removeClass("tile-shadow");
+
+        thisParam.display.showTowerRange(towerObject.position, towerObject.range*2)
+        displayTabHUD('hud-tab-tower-actions')
+        thisParam.playerController.player.tab = Date.now()/1000;
+        let sellContainer = document.getElementById('sell-tower')
+        let upgradeContainer = document.getElementById('upgrade-tower')
+
+        //Permit to empty the tab
+        sellContainer.innerHTML = ''
+        upgradeContainer.innerHTML = ''
+
+        let sellButton = document.createElement('p')
+        let upgradeButton = document.createElement('p')
+        upgradeButton.innerText = "Upgrade "+towerObject.type+" ⚒️ ("+towerObject.price[towerObject.level]+" 🪙)"
+        sellButton.innerText = "Sell "+towerObject.type+" ❌ ("+towerObject.price[towerObject.level]*0.75+" 🪙) ";
+
+        sellButton.onclick = () => {
+            thisParam.sellTower(towerObject);
+            displayTabHUD('hud-tab-general')
+        }
+
+        upgradeButton.onclick = () => {
+            thisParam.upgradeTower(towerObject)
+            displayTabHUD('hud-tab-general')
+        }
+
+        thisParam.fillTowerSpecs(towerObject.position.x, towerObject.position.y);
+
+        sellContainer.appendChild(sellButton);
+        upgradeContainer.appendChild(upgradeButton);
+
     }
 }

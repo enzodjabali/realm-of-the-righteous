@@ -26,12 +26,12 @@ export class Tower{
         this.pathAmmo = pathAmmo;
         this.pathImpact = pathImpact;
         this.towerAmmoId = 0;
-        this.memoryDamage = damage;
 
         this.splashRange;
         this.slowness;
         this.rebound;
         this.buffTower
+        this.buffedTower = [];
 
 
     }
@@ -52,5 +52,8 @@ export class Tower{
     }
     setBuffTower(buffTower){
         this.buffTower = buffTower;
+    }
+    addBuffedTower(tower){
+        this.buffedTower.push(tower)
     }
 }

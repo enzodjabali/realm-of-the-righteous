@@ -159,7 +159,7 @@ export class Display{
 
         document.getElementById('container-towers').appendChild(towerContainer);
 
-        return towerContainer;
+        return `div_${tower.id}`;
     }
 
     initializeAmmo(tower) {
