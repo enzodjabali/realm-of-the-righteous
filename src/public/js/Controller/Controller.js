@@ -127,6 +127,7 @@ export class Controller{
                     if(!this.playerController.modifyPlayerLife(1)){
                         // Implémenter la fin de jeu (défaite)
                         this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave, this.model.currentWave)
+                        $('#game-modal').modal('show');
                         this.playerController.postLogs("Game over!", 3)
 
                     }
