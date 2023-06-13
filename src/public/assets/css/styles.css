@@ -1,46 +1,56 @@
-@import url('https://fonts.googleapis.com/css2?family=Smythe&display=swap');
+/*
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@200&display=swap');
+*/
+@import url('https://fonts.googleapis.com/css2?family=Play&display=swap');
 
 body {
-    background-color: #0D1117 !important;
+    background-color: #1d1613 !important;
+    /*
+    font-family: 'Archivo', sans-serif !important;
+    */
+    font-family: 'Play', sans-serif !important;
 }
 
 footer {
     color: #E6EDF3;
 }
 
+a {
+    color: #D98721 !important;
+}
+
 .card {
+    background-color: #2a211a !important;
     border-color: #30363D !important;
 }
 
 .card-header {
-    background-color: #161B22 !important;
+    background-color: #2b221c !important;
     color: #CFD6DC !important;
+    font-weight: bold;
+    font-size: 1.3em;
 }
 
 .card-body {
-    background-color: #0D1117;
+    background-color: #2a211a !important;
     color: #E6EDF3 !important;
 }
 
 .card-footer {
-    background-color: #161B22 !important;
+    background-color: #2b221c !important;
 }
 
 .card-footer-text {
     color: #CFD6DC !important;
 }
 
-.card-title {
-    font-family: 'Smythe', cursive;
-    font-size: 2.5em;
-}
-
 .navbar {
-    background-color: #161B22;
+    background-color: #29201c;
 }
 
 .nav-link {
     color: #B9BBBD !important;
+    font-weight: bold;
 }
 
 .navbar-brand {
@@ -52,12 +62,8 @@ footer {
     color: #E6EDF3 !important;
 }
 
-.offcanvas-header {
-    background-color: #161B22;
-}
-
-.offcanvas-body {
-    background-color: #161B22;
+.offcanvas-header, .offcanvas-body {
+    background-color: #2a211a;
 }
 
 .offcanvas-body > a {
@@ -77,29 +83,68 @@ footer {
 }
 
 .form-control {
-    background-color: #010409 !important;
+    background-color: #120d0b !important;
     border-color: #30363D !important;
     color: #E6EDF3 !important;
+    height: 50px;
+}
+
+.form-control:focus {
+    border: 3px solid rgba(214, 144, 56, 0.2) !important;
 }
 
 .form-control::placeholder {
     color: #434952 !important;
 }
 
+input[type="checkbox"]:checked, input[type="radio"]:checked {
+    background-color: #D69038 !important;
+    border: #30363D 1px solid !important;
+}
+
 .modal-header {
-    background-color: #161B22 !important;
+    background-color: #2b221c !important;
     border-color: #30363D !important;
     color: #CFD6DC !important;
 }
 
 .modal-body {
-    background-color: #0D1117 !important;
+    background-color: #2a211a !important;
     color: #E6EDF3;
 }
 
 .modal-footer {
-    background-color: #161B22 !important;
+    background-color: #2b221c !important;
     border-color: #30363D !important;
+}
+
+.btn {
+    border: none !important;
+    outline: none !important;
+}
+
+.text-bg-valid {
+    background-color: #D69038 !important;
+    color: #E6EDF3 !important;
+    text-shadow: 0px 1px 0px #000;
+}
+
+.text-bg-danger {
+    text-shadow: 0px 1px 0px #000;
+}
+
+.btn-form-submit {
+    background-color: #d69038 !important;
+    color: #E6EDF3 !important;
+    border: 3px solid #212121 !important;
+    text-shadow: 0px 1px 0px #000;
+}
+
+.btn-form-cancel {
+    background-color: #5b5959 !important;
+    color: #E6EDF3 !important;
+    border: 3px solid #212121 !important;
+    text-shadow: 0px 1px 0px #000;
 }
 
 .btn-close {
@@ -107,17 +152,41 @@ footer {
 }
 
 .modal-content {
-    background-color: #0D1117 !important;
+    background-color: #2a211a !important;
 }
 
-th {
-    background-color: #0D1117 !important;
+th, td {
+    background-color: #2a211a !important;
     border-color: #30363D !important;
     color: #E6EDF3 !important;
 }
 
-td {
-    background-color: #0D1117 !important;
-    border-color: #30363D !important;
-    color: #E6EDF3 !important;
+.hud-button p, .hud-button a {
+    color: white;
+    font-weight: bold;
+    font-size: 17px;
+    text-align: center;
+    text-decoration: none;
+    background-color: #d69038;
+    display: block;
+    position: relative;
+    padding: 20px 20px;
+    text-shadow: 0px 1px 0px #000;
+    filter: dropshadow(color=#000, offx=0px, offy=1px);
+    box-shadow: inset 0 1px 0 #a4620e, 0 10px 0 #a4620e;
+    border-radius: 5px;
+    border: 2px solid #24292F;
+}
+
+.hud-button p:active, .hud-button a:active {
+    border: 0px solid red !important;
+    outline: none !important;
+    top: 10px;
+    background-color: #bf8238;
+    box-shadow: inset 0 1px 0 #FFE5C4, inset 0 -3px 0 #915100;
+}
+
+.badge-game {
+    text-shadow: 0px 1px 0px #000;
+    background-color: #d69038;
 }

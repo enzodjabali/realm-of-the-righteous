@@ -1,6 +1,9 @@
 <?php
     declare(strict_types = 1);
-    $sessionId = $_SESSION["playerId"] ?? 0;
+
+    $sessionId = isset($_SESSION["playerId"]) ? (int)$_SESSION["playerId"] : 0;
+    $sessionUsername = isset($_SESSION["playerUsername"]) ? (string)$_SESSION["playerUsername"] : "";
+    $sessionEmail = isset($_SESSION["playerEmail"]) ? (string)$_SESSION["playerEmail"] : "";
 
     if ($sessionId > 0) {
         ?>
@@ -36,14 +39,32 @@
                             </ul>
                             <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <a class="nav-user"><?= $_SESSION["playerUsername"] . " (" . $_SESSION["playerId"] . ")" ?> -</a>
-                                    <a href="/logout">Logout <i class="bi bi-box-arrow-in-right"></i></a>
+                                    <button class="btn btn-form-submit" onclick="$('#player-modal').modal('show');"><i class="bi bi-person"></i></button>
+                                    <a href="/logout" class="btn btn-form-submit">Logout <i class="bi bi-box-arrow-in-right"></i></a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </nav>
             </header>
+
+            <!-- Modal gets displayed when the player wants to view his profile -->
+            <div id="player-modal" class="modal fade" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                <div id="delete-game-id" class="visually-hidden"></div>
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="modalLabel">Player</h1>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-center">
+                            ID: <?= $sessionId ?><br>
+                            Username: <?= $sessionUsername ?><br>
+                            Email: <?= $sessionEmail ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
         <?php
     } else {
         ?>

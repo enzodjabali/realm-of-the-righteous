@@ -25,9 +25,8 @@
                 About
             </div>
             <div class="card-body">
-                <h5 class="card-title">Realm Of The Righteous</h5>
-                <p class="card-text">The best tower defense in all the realm.</p>
-                <p>In a fantastic world, the inhabitants of the four kingdoms lived in peace until
+                <img src="assets/images/website/logo-text-2l.png" alt="realm-of-the-righteous-logo-text">
+                <p class="mt-2">In a fantastic world, the inhabitants of the four kingdoms lived in peace until
                     a threat of hordes of <br>orcs, goblins, and evil creatures gathered to conquer the
                     four kingdoms and spread chaos throughout the world.<br>
                     The leaders of the kingdoms formed an alliance and gathered an army to defend the borders.<br>

@@ -1,9 +1,9 @@
 <?php
     session_start();
 
-    $sessionId = $_SESSION["playerId"] ?? 0;
+    $sessionId = isset($_SESSION["playerId"]) ? (int)$_SESSION["playerId"] : 0;
 
-    if (!intval($sessionId) > 0) {
+    if (!$sessionId > 0) {
         header("Location:/login");
     }
 ?>
@@ -24,14 +24,7 @@
     </head>
     <body>
         <?php include_once("includes/menu.php") ?>
-
-        <!-- Toast gets displayed with an error message if the user's message isn't valid -->
-        <div class="toast align-items-center text-bg-danger border-0 position-absolute top-0 start-50 translate-middle mt-5 z-2" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body"></div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-        </div>
+        <?php include_once("includes/toast.php") ?>
 
         <!-- Card of the message list -->
         <div class="card w-75 position-absolute top-50 start-50 translate-middle">
@@ -44,9 +37,9 @@
                 </div>
             </div>
             <form id="chat-form" method="post" class="input-group card-footer text-body-secondary">
-                <input type="text" class="form-control me-3" name="message" id="message">
+                <input type="text" class="form-control me-2 shadow-none" name="message" id="message">
                 <div class="input-group-prepend">
-                    <button class="btn btn-primary" type="submit">Send</button>
+                    <button class="btn btn-form-submit h-100" type="submit">Send</button>
                 </div>
             </form>
         </div>
