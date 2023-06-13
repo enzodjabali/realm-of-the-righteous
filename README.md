@@ -1,6 +1,5 @@
-## Realm Of The Righteous
-
-<img src="https://cdn.discordapp.com/attachments/774340712585625603/1094390740659998800/realm-of-the-righteous-logo.png" width="200" />
+<br>
+<img src="https://cdn.discordapp.com/attachments/774340712585625603/1118150138850983986/realm_of_the_righteous_remove-bg-font_1.png" height="50" />
 <br>
 
 <p float="left">
