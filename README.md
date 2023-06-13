@@ -4,10 +4,6 @@
 <p float="left">
     <img src="https://img.shields.io/static/v1?label=License&message=MIT&color=blue">
     <img src="https://img.shields.io/static/v1?label=Version&message=1.6.3&color=blue">
-    <img src="https://img.shields.io/static/v1?label=&message=Docker&color=grey&logo=docker&logoColor=white">
-    <img src="https://img.shields.io/static/v1?label=&message=MySQL&color=grey&logo=mysql&logoColor=white">
-    <img src="https://img.shields.io/static/v1?label=&message=PHP&color=grey&logo=php&logoColor=white">
-    <img src="https://img.shields.io/static/v1?label=&message=JavaScript&color=grey&logo=javascript&logoColor=white">
 </p>
 
 Realm Of The Righteous is Tower Defense game. It is a subgenre of strategy games where 
