@@ -1,4 +1,4 @@
-## Realm of the righteous
+## Realm Of The Righteous
 
 <img src="https://cdn.discordapp.com/attachments/774340712585625603/1094390740659998800/realm-of-the-righteous-logo.png" width="200" />
 <br>
@@ -10,7 +10,7 @@
     <img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E" />
 </p>
 
-Realm of the righteous is Tower Defense game. It is a subgenre of strategy games where 
+Realm Of The Righteous is Tower Defense game. It is a subgenre of strategy games where 
 the goal is to defend a player's territories or possessions by stopping enemies from 
 reaching the exits, usually achieved by placing defensive structures along their path 
 of attack. This means building a variety of different structures that serve 
@@ -22,12 +22,16 @@ of defensive elements is an essential strategy of the genre.
 <br>
 [Creating an environment file](https://github.com/enzodjabali/realm-of-the-righteous/wiki/Creating-an-environment-file)
 <br>
-[Deploy the Docker containers](https://github.com/enzodjabali/realm-of-the-righteous/wiki/Deploy-the-containers)
+[Deploying the Docker containers](https://github.com/enzodjabali/realm-of-the-righteous/wiki/Deploying-the-containers)
 <br>
-[Run the Docker scripts](https://github.com/enzodjabali/realm-of-the-righteous/wiki/Run-the-Docker-scripts)
+[Running the Docker scripts](https://github.com/enzodjabali/realm-of-the-righteous/wiki/Running-the-Docker-scripts)
 
 ## Production
 [Installing the production server on Debian 11](https://github.com/enzodjabali/realm-of-the-righteous/wiki/Installing-the-production-server-on-Debian-11)
 <br>
 [Triggering the project deployment script through Apple Shortcuts](https://github.com/enzodjabali/realm-of-the-righteous/wiki/Triggering-the-project-deployment-script-through-Apple-Shortcuts)
 
+## Others
+[Accessing and managing the databases: Database access & management](https://github.com/enzodjabali/realm-of-the-righteous/wiki/Database-access-&-management)
+<br>
+[Getting to know the API: API-DOCS](https://github.com/enzodjabali/realm-of-the-righteous/wiki/API-DOCS)
