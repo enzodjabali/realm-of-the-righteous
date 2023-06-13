@@ -1,4 +1,4 @@
-<section class="wrap-container">
+<section class="wrap-container" style="z-index: 10;">
     <div>
         <ul class="nav nav-tabs justify-content-center">
             <li class="nav-item">
