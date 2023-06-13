@@ -2,12 +2,13 @@
 <img src="https://cdn.discordapp.com/attachments/774340712585625603/1118150138850983986/realm_of_the_righteous_remove-bg-font_1.png" height="50" />
 <br>
 
-<p float="left">
-    <img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white" />
-    <img src="https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white" />
-    <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white" />
-    <img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E" />
-</p>
+<img src="https://img.shields.io/static/v1?label=License&message=MIT&color=blue">
+<img src="https://img.shields.io/static/v1?label=Version&message=1.6.3&color=blue">
+
+<img src="https://img.shields.io/static/v1?label=&message=Docker&color=grey&logo=docker&logoColor=white">
+<img src="https://img.shields.io/static/v1?label=&message=MySQL&color=grey&logo=mysql&logoColor=white">
+<img src="https://img.shields.io/static/v1?label=&message=PHP&color=grey&logo=php&logoColor=white">
+<img src="https://img.shields.io/static/v1?label=&message=JavaScript&color=grey&logo=javascript&logoColor=white">
 
 Realm Of The Righteous is Tower Defense game. It is a subgenre of strategy games where 
 the goal is to defend a player's territories or possessions by stopping enemies from 
