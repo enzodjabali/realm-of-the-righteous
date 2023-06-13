@@ -59,13 +59,6 @@ export class Model {
 
         if(!availableTiles.includes(matrix[start[0]][start[1]].tile)){
             console.log(start, ' n\'est pas un début')
-            console.log(matrix[start[0]][start[1]])
-            return 0;
-        }
-
-        if(!availableTiles.includes(matrix[2][0].tile)){
-            console.log(start, ' n\'testing')
-
             return 0;
         }
 
