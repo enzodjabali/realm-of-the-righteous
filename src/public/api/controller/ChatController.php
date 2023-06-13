@@ -67,12 +67,18 @@ class ChatController {
     {
         extract($_POST);
 
+        $lastMessageTime = isset($_SESSION["lastMessageTime"]) ? (int)$_SESSION["lastMessageTime"] : 0;
+        $currentMessageTime = time();
+
         $insert = ChatUtils::insertMessage(
             $this->sessionId,
-            htmlspecialchars($message)
+            htmlspecialchars($message),
+            $lastMessageTime,
+            $currentMessageTime
         );
 
         if ($insert === true) {
+            $_SESSION["lastMessageTime"] = $currentMessageTime;
             http_response_code(200);
         } else {
             http_response_code(400);

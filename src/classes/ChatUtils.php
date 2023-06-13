@@ -36,14 +36,24 @@ class ChatUtils
      * This method inserts a new message
      * @param int $playerId the ID of the player who inserted the message
      * @param string $message the message content
+     * @param int $lastMessageTime Unix Time of the last sent message by the player
+     * @param int $currentMessageTime Unix Time of the current message which is being sent by the player
      * @return string|bool returns true if the operation succeed, and returns a string containing an error message if it failed
      */
-    public static function insertMessage(int $playerId, string $message): string|bool
+    public static function insertMessage(int $playerId, string $message = "", int $lastMessageTime = 0, int $currentMessageTime = 0): string|bool
     {
         // Checks if the player's ID is valid
         try {
             if (!$playerId > 0) {
                 throw new Exception("You've been disconnected, please try to log back in");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        // Checks if there is a delay of 3s between the last message and the current
+        try {
+            if ($lastMessageTime != 0 &&  $currentMessageTime - $lastMessageTime <= 3) {
+                throw new Exception("Anti Spam: You have to wait 3s before sending a new message");
             }
         } catch (Exception $e) {
             return $e->getMessage();
