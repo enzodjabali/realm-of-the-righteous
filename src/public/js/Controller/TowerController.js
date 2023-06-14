@@ -281,6 +281,7 @@ export class TowerController {
         //Add money to player
         if(getMoneyFromTower){
             this.playerController.player.money += (0.75 * tower.price[tower.level])
+            this.model.defaultMoneyPlayer[this.model.difficulty] = this.playerController.player.money
             this.playerController.postLogs("Sold "+tower.type+" tower for "+tower.price[tower.level]*0.75+" coins", 1)
         }
         this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave)
@@ -311,7 +312,6 @@ export class TowerController {
         // Damage given to enemy = towerDamage - 5% * towerDamage
         
         let armorDifference = enemy.armor - armorDamage
-        console.log(armorDifference, "différence d'armure")
         if(armorDifference <= 0){
             enemy.curent_life -= damage;
         } else {

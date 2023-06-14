@@ -12,7 +12,7 @@ export class Controller{
         this.model = new Model(model);
         this.display = new Display();
         this.enemiesController = new EnemiesController(this.model);
-        this.playerController = new PlayerController("John", 1000, 1);
+        this.playerController = new PlayerController(this.model.defaultMoneyPlayer[this.model.difficulty], this.model.defaultLifePlayer[this.model.difficulty], this.model);
         this.towerController = new TowerController(this.model, this.display, this.playerController)
         this.HUDController = new HUDController(this.model, this.display, this.towerController, this.playerController)
         this.fetchController = new FetchController(this.towerController, this.model)
@@ -128,11 +128,12 @@ export class Controller{
                 // Add your code to handle end of path reached
                 if (enemy.position.x == endPoints[0] && enemy.position.y == endPoints[1] ){
                     if(!this.playerController.modifyPlayerLife(1)){
-                        // Implémenter la fin de jeu (défaite)
                         this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave, this.model.currentWave)
+                        // Implémenter la fin de jeu (défaite)
                         this.endGame(false)
 
                     }
+                    this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave, this.model.currentWave)
                     this.display.removeEnemy(enemy);
 
                     this.model.matrice[enemy.position.x][enemy.position.y].enemies.filter(enemy => enemy.id !== enemy.id);
@@ -149,8 +150,10 @@ export class Controller{
                 if (enemy.curent_life <= 0){
                     // Permit to give money to the player when an ennemy died
                     this.playerController.player.money += enemy.price;
+                    this.model.defaultMoneyPlayer[this.model.difficulty] = this.playerController.player.money
 
                     this.playerController.player.killedEnemies++
+                    this.model.killedEnemies = this.playerController.player.killedEnemies;
                     this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave);
                     this.display.removeEnemy(enemy);
                     this.model.matrice[enemy.position.x][enemy.position.y].enemies.filter(enemy => enemy.id !== enemy.id);
@@ -182,7 +185,7 @@ export class Controller{
             console.error('Error:', error);
         }
     }
-    saveModel(model) {
+    saveModel(model, playerValue) {
         for (let i = 0; i < model.matrice.length; i++) {
             for (let j = 0; j < model.matrice[i].length; j++) {
                 model.matrice[i][j].enemies = [];
