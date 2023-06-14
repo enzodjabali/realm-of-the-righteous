@@ -55,13 +55,13 @@
                     <form id="reset-password-form" method="post">
                         <div class="mb-3">
                             <label for="new-password" class="form-label">New password</label>
-                            <input type="password" class="form-control" name="newPassword" id="new-password" required>
+                            <input type="password" class="form-control shadow-none" name="newPassword" id="new-password" required>
                         </div>
                         <div class="mb-3">
                             <label for="retype-new-password" class="form-label">Retype new password</label>
-                            <input type="password" class="form-control" name="retypedNewPassword" id="retype-new-password" required>
+                            <input type="password" class="form-control shadow-none" name="retypedNewPassword" id="retype-new-password" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Reset</button>
+                        <button type="submit" class="btn btn-form-submit">Reset</button>
                     </form>
                 </div>
             </div>
@@ -95,6 +95,8 @@
                     $("#spinner").addClass("visually-hidden");
                     $("#reset-password-form").removeClass("visually-hidden");
 
+                    $(".toast").removeClass('text-bg-valid');
+                    $(".toast").addClass('text-bg-danger');
                     $(".toast").toast('show');
                     $(".toast-body").html(JSON.parse(response.responseText).response);
                 });
