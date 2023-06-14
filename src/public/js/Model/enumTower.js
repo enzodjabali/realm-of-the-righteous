@@ -28,6 +28,7 @@ export const enumTower = {
         totalAmmoFrames : [5,6,8],
         totalImpactFrames : [9,9,9],
         damage : [3,6,10],
+        armorDamage: [100,2,3],
         shotRate: [500, 400, 300],//in ms
         price: [100,200,300],
         isAttackingAir: false,
@@ -54,6 +55,7 @@ export const enumTower = {
         totalAmmoFrames : [6,6,6],
         totalImpactFrames : [6,6,6],
         damage : [3,2,3],
+        armorDamage: [1,2,3],
         shotRate: [400,150,100],//in ms
         price: [10,20,30],
         rebound: [3,6,9],
@@ -79,6 +81,7 @@ export const enumTower = {
         totalImpactFrames : [6],
         shotRate: [300,4000,3000],//in ms
         damage: [1,40,60],
+        armorDamage: [1,2,3],
         price: [100,200,300],
         isAttackingAir: false,
         slowness: [1.3, 1.5, 1.8]
@@ -102,6 +105,7 @@ export const enumTower = {
         totalAmmoFrames : [3,6,9],
         totalImpactFrames : [6],
         damage : [3,6,10],
+        armorDamage: [1,2,3],
         shotRate: [500,400,300],//in ms
         price: [1,2,3],
         isAttackingAir: false,

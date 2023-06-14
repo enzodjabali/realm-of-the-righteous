@@ -32,6 +32,7 @@ export class Tower{
         this.rebound;
         this.buffTower
         this.buffedTower = [];
+        this.armorDamage;
 
 
     }
@@ -55,5 +56,8 @@ export class Tower{
     }
     addBuffedTower(tower){
         this.buffedTower.push(tower)
+    }
+    setArmorDamage(armorDamage){
+        this.armorDamage = armorDamage;
     }
 }

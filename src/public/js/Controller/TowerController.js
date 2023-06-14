@@ -48,6 +48,8 @@ export class TowerController {
             let slowness = null;
             let splashRange = null;
             let buffTower = null;
+            let armorDamage = towerData.armorDamage[towerLevel];
+            console.log(armorDamage, "armor daamge")
             switch (type) {
                 case "OT":
                     rebound = towerData.rebound[towerLevel];
@@ -86,6 +88,7 @@ export class TowerController {
             tower.setRebound(rebound);
             tower.setSplashRange(splashRange)
             tower.setBuffTower(buffTower);
+            tower.setArmorDamage(armorDamage);
 
             this.model.matrice[row][col].tower = tower;
             this.towerLogics(tower, row, col);
@@ -202,7 +205,7 @@ export class TowerController {
             let enemy = this.findNeighbour(x, y, range, "enemy");
             if (enemy) {
                 if (tower.isAttackingAir && enemy.isFlying || !tower.isAttackingAir && !enemy.isFlying) {
-                    this.provideDamage(enemy, damage)
+                    this.provideDamage(enemy, damage, tower.armorDamage)
                     this.display.playTowerSprite(tower, enemy);
                     switch (tower.type) {
                         case "BT":
@@ -210,7 +213,7 @@ export class TowerController {
                             let closeEnemies = this.findNeighbour(enemy.position.x, enemy.position.y, tower.splashRange,"splash")
                             if(closeEnemies){
                                 for (enemy of closeEnemies){
-                                    this.provideDamage(enemy, tower.damage*0.5)
+                                    this.provideDamage(enemy, tower.damage*0.5, tower.armorDamage)
                                     //REVOIR POUR GAME DESIGN   -----THOMAS----
                                     }
                                 }
@@ -223,7 +226,7 @@ export class TowerController {
                                     hitEnemies.push(enemy.id);
                                     enemy = this.findNeighbour(enemy.position.x, enemy.position.y, 1, "rebound", hitEnemies);
                                     if (enemy.curent_life > 0) {
-                                        this.provideDamage(enemy, (tower.damage / 2));
+                                        this.provideDamage(enemy, (tower.damage / 2), tower.armorDamage);
                                     }
                                 }
                             }
@@ -297,9 +300,25 @@ export class TowerController {
 
 
     }
-    provideDamage(enemy, damage)
+    provideDamage(enemy, damage, armorDamage)
     {
-        enemy.curent_life -= damage;
+        // Thomas :
+        // si :
+        // Tower armor damage = 95
+        // Enemy armor = 100
+        // Damage given to enemy = towerDamage - 5% * towerDamage
+        
+        let armorDifference = enemy.armor - armorDamage
+        console.log(armorDifference, "différence d'armure")
+        if(armorDifference <= 0){
+            enemy.curent_life -= damage;
+        } else {
+            let test = 100 - armorDifference
+            enemy.curent_life -= damage*test/100;
+            console.log(enemy.curent_life)
+
+        }
+
     }
     async slowedEnemy()
     {
