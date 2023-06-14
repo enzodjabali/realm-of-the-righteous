@@ -341,8 +341,8 @@ export class Display{
         let width = (this.tilesSize * range).toString()+"px"
         let height = (this.tilesSize * range).toString()+"px"
 
-        x = ((towerPosition.x * this.tilesSize) +10 - ((this.tilesSize/2)*(range-1))).toString() + 'px'; /*10 = margin css*/
-        y = ((towerPosition.y * this.tilesSize) +10 - towerPosition.y - (this.tilesSize/2*(range-1))).toString() + 'px'; /*10 = margin css*/
+        x = ((towerPosition.x * this.tilesSize) + this.offsetsTop - ((this.tilesSize/2)*(range-1))).toString() + 'px'; /*10 = margin css*/
+        y = ((towerPosition.y * this.tilesSize) + this.offsetsLeft - towerPosition.y - (this.tilesSize/2*(range-1))).toString() + 'px'; /*10 = margin css*/
 
         let circle = document.createElement('div')
         circle.style.position = "absolute"
