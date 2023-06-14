@@ -44,6 +44,7 @@
         <link rel="icon" type="image/x-icon" href="assets/images/website/favicon.ico">
         <link rel="stylesheet" href="assets/css/board.css">
         <link rel="stylesheet" href="assets/css/hud.css">
+        <link href="assets/css/game.css" rel="stylesheet">
         <script src="node_modules/jquery/dist/jquery.js"></script>
 
         <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
@@ -126,10 +127,10 @@
 
                         switch (type) {
                             case 1:
-                                badge = '<span class="badge text-bg-primary">INFO</span>';
+                                badge = '<span class="badge text-bg-valid">INFO</span>';
                                 break;
                             case 2:
-                                badge = '<span class="badge text-bg-success">SUCCESS</span>';
+                                badge = '<span class="badge text-bg-valid">SUCCESS</span>';
                                 break;
                             case 3:
                                 badge = '<span class="badge text-bg-warning">WARNING</span>';

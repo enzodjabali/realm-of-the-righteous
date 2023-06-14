@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Play&display=swap');
+
+body {
+    background-color: #1d1613 !important;
+    font-family: 'Play', sans-serif !important;
+}
+
+.wrap-container {
+    background-color: #2a211a !important;
+    width: 400px;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+
+.form-control {
+    background-color: #120d0b !important;
+    border-color: #30363D !important;
+    color: #E6EDF3 !important;
+    height: 50px;
+}
+
+.form-control:focus {
+    border: 3px solid rgba(214, 144, 56, 0.2) !important;
+}
+
+.btn-form-submit {
+    background-color: #d69038 !important;
+    color: #E6EDF3 !important;
+    border: 3px solid #212121 !important;
+    text-shadow: 0px 1px 0px #000;
+}
+
+.card {
+    background-color: #2a211a !important;
+    border-color: #30363D !important;
+}
+
+.card-header {
+    background-color: #2b221c !important;
+    color: #CFD6DC !important;
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+.card-body {
+    background-color: #2a211a !important;
+    color: #E6EDF3 !important;
+}
+
+.card-footer {
+    background-color: #2b221c !important;
+}
+
+.health-stats {
+    background-color: #d69038;
+    margin-bottom: 10px;
+    border: 2px solid #24292F;
+    border-radius: 5px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0px 1px 0px #000;
+}
