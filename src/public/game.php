@@ -56,6 +56,9 @@
         <?php include_once("includes/toast.php") ?>
 
         <div class="game-container">
+
+            <?php include_once("includes/gameChat.php") ?>
+            
             <section>
                 <div id="board-container"></div>
                 <div id="container-enemies"></div>
@@ -64,7 +67,7 @@
             </section>
 
             <?php include_once("includes/hud.php") ?>
-            <?php include_once("includes/gameChat.php") ?>
+            
         <a href="/lobby">
         <div id="game-modal" class="modal fade" style="background: #1d1613">
             <div class="modal-dialog modal-dialog-centered modal-xl">
