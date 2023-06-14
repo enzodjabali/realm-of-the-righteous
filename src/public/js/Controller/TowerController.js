@@ -246,6 +246,7 @@ export class TowerController {
                 for (let closeTower of towersNearby){
                     if(closeTower.damage == enumTower[closeTower.type].damage[closeTower.level]){
                         closeTower.damage = (closeTower.damage *= tower.buffTower).toFixed(1);
+                        closeTower.armorDamage = (closeTower.armorDamage *= tower.buffTower).toFixed(1);
                         tower.addBuffedTower(this.model.matrice[closeTower.position.x][closeTower.position.y].tower);
                     }
                 }
@@ -295,6 +296,7 @@ export class TowerController {
         if(tower.type == "WT"){
             for (const buffedTower of tower.buffedTower){
                 buffedTower.damage = enumTower[buffedTower.type].damage[buffedTower.level];
+                buffedTower.armorDamage = enumTower[buffedTower.type].armorDamage[buffedTower.level];
             }
         }
 
@@ -338,6 +340,7 @@ export class TowerController {
         //Fill Tower Actions tab
         document.getElementById('attack-value').innerText = this.model.matrice[x][y].tower.damage;
         document.getElementById('attack-speed-value').innerText = this.model.matrice[x][y].tower.shotRate;
+        document.getElementById('armor-damage-value').innerText = this.model.matrice[x][y].tower.armorDamage;
         document.getElementById('range-value').innerText = this.model.matrice[x][y].tower.range;
         document.getElementById('level-value').innerText = this.model.matrice[x][y].tower.level+1;
         document.getElementById('current-damage-boost-value').innerText = (this.model.matrice[x][y].tower.damage - enumTower[this.model.matrice[x][y].tower.type].damage[this.model.matrice[x][y].tower.level]).toFixed(1);
