@@ -39,6 +39,7 @@
                             </ul>
                             <ul class="navbar-nav">
                                 <li class="nav-item">
+                                    <button class="btn btn-form-submit" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i class="bi bi-chat-left-text"></i></button>
                                     <button class="btn btn-form-submit" onclick="$('#player-modal').modal('show');"><i class="bi bi-person"></i></button>
                                     <a href="/logout" class="btn btn-form-submit">Logout <i class="bi bi-box-arrow-in-right"></i></a>
                                 </li>
@@ -65,6 +66,9 @@
                     </div>
                 </div>
             </div>
+
+            <?php include_once("privateChat.php") ?>
+
         <?php
     } else {
         ?>
