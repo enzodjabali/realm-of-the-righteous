@@ -1,4 +1,4 @@
-<section class="wrap-container">
+<section class="wrap-container" style="width: 23%">
     <div>
         <ul class="nav nav-tabs justify-content-center border-0">
             <li class="btn btn-form-submit" style="width: 50%" onclick="displayTabChat('chat-tab-logger')">
