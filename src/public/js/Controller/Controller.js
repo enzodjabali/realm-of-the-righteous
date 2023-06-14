@@ -103,7 +103,12 @@ export class Controller{
                             if(!test){
                                 spawnedEnemies--;
                                 if(spawnedEnemies == 0){
-                                    this.model.currentWave++
+                                    if(i == this.model.waves[diffculty].length-1 && this.playerController.player.life > 0){
+                                        this.endGame(true)
+                                    } else {
+                                        this.model.currentWave++
+                                    }
+
                                 }
                             }
                         })
@@ -112,7 +117,6 @@ export class Controller{
                 }
             }
         }
-        this.endGame(true)
     }
 
     async run(enemy, path, endPoints) {
@@ -130,6 +134,7 @@ export class Controller{
                     if(!this.playerController.modifyPlayerLife(1)){
                         this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave, this.model.currentWave)
                         // Implémenter la fin de jeu (défaite)
+                        console.log("passin false thru end game")
                         this.endGame(false)
 
                     }
@@ -212,17 +217,21 @@ export class Controller{
         if(bool){
             //win case
             $(`.game-over-background`).removeClass("game-over-background");
-            document.getElementById("game-over-title").style.color = "black";
-            document.getElementById("game-over-speech").style.color = "black";
-            document.getElementById("game-over-speech").innerHTML = "<p>As the sun began to set, the player, a seasoned strategist, stood resolute atop their towering fortress. Waves of relentless enemies surged forward, their forces no match for the player's well-placed defenses. The player fought fiercely, commanding their troops with unwavering determination and tactical brilliance. With each passing wave, the enemies grew weaker and more desperate. <span style='color:green'> Finally, as the dust settled, the player stood triumphant, their fortress standing tall and unscathed.</span> The enemies lay defeated, scattered in disarray, as the player's victory echoed through the battlefield.</p>"
+            document.getElementById("game-over-title").innerText = "Congratulation!"
+            document.getElementById("game-over-speech").innerHTML = "<p>As the sun began to set, the player, a seasoned strategist, stood resolute atop their towering fortress. Waves of relentless enemies surged forward, their forces no match for the player's well-placed defenses. The player fought fiercely, commanding their troops with unwavering determination and tactical brilliance. With each passing wave, the enemies grew weaker and more desperate. <span style='color:green'> Finally, as the dust settled, the player stood triumphant, their fortress standing tall and unscathed.</span> The enemies lay defeated, scattered in disarray, as the player's victory echoed through the battlefield.</p>";
+            $('#game-modal').modal('show');
             this.playerController.postLogs("Congratulation!", 4)
         } else {
+            console.log("lost")
             //lost case
             this.playerController.postLogs("Game over!", 3)
+            document.getElementById("game-over-speech").innerHTML = "<p> As the sun began to set, the player, a skilled strategist, stood confidently atop their towering fortress. Waves of relentless enemies surged forward, hell-bent on destruction. The player fought valiantly, commanding their defenses with precision and cunning. Yet, as the final assault descended upon them, the overwhelming force proved insurmountable. With sweat on their brow and exhaustion in their eyes <span id=\"game-over-speech-red\">the player watched helplessly as the enemies breached their defenses,realizing that despite their best efforts, victory had slipped through their fingers.</span></p>"
+            $('#game-modal').modal('show');
+            document.getElementById("game-over-title").innerText = "Game over!"
+            //Delete game
         }
-        $('#game-modal').modal('show');
-        document.getElementById("game-over-title").innerText = "Congratulation!"
-        //Delete game
         $.post("api/v1/game/delete", {gameId: gameId}, function (response) {}).fail(function (response) {})
+
     }
 }
+

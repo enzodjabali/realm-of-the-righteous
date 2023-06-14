@@ -26,7 +26,7 @@ export class EnemiesController {
                         let newLife = mobValues.life + mobValues.life*(0.02*this.model.currentWave)
                         let newArmor = mobValues.armor + mobValues.armor*(0.01*this.model.currentWave)
                         let newPrice = mobValues.price + mobValues.price*(0.03*this.model.currentWave)
-                        
+
                         let enemy = new Enemy(id, mobKey,path, mobValues.pathAlive, position, newLife,
                             mobValues.life, newArmor, mobValues.speed, newPrice, mobValues.isFlying);
                         return enemy

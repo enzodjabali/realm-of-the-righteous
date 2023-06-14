@@ -66,13 +66,13 @@
                                 <div class="form-check">
                                     <input class="form-check-input shadow-none" type="radio" name="difficulty" id="normal" value="2">
                                     <label class="form-check-label" for="normal">
-                                        Normal (not available yet)
+                                        Normal
                                     </label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input shadow-none" type="radio" name="difficulty" id="hard" value="3">
                                     <label class="form-check-label" for="hard">
-                                        Hard (not available yet)
+                                        Hard
                                     </label>
                                 </div>
                             </div>

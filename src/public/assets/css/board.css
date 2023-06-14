@@ -33,12 +33,6 @@ body {
     z-index: 1;
 }
 
-#game-over-title {
-    font-family: 'Press Start 2P', cursive;
-    font-size: 10vh;
-    color:red;
-}
-
 #button-to-menu {
     width: 20%;
     text-align: center;
