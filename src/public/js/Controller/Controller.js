@@ -83,6 +83,14 @@ export class Controller{
                 this.indexOfEntryPoints = (this.model.waves[diffculty][i].indexOf(group)) % (this.model.entryPoints.length);
                 this.indexOfEndPoints = (this.model.waves[diffculty][i].indexOf(group)) % (this.model.endPoints.length);
                 console.log("passing here")
+                console.log(this.model.entryPoints)
+                console.log(this.model.endPoints)
+                console.log(this.indexOfEntryPoints)
+                console.log(this.indexOfEndPoints)
+                console.log(this.model.waves[diffculty][i].indexOf(group))
+                console.log(this.model.waves[diffculty][i])
+                console.log('Test')
+
                 this.HUDController.setStartPoints(this.indexOfEntryPoints)
                 this.HUDController.setEndPoints(this.indexOfEndPoints)
                 let path = this.model.findPathForWaves(this.model.getMatrice(), this.model.entryPoints[this.indexOfEntryPoints], this.model.endPoints[this.indexOfEndPoints]);
@@ -164,6 +172,7 @@ export class Controller{
                             enemy.step = 0;
                             path = newPath;
                             step = -1;
+                            endPoints = this.model.endPoints[this.indexOfEndPoints]
                             continue;
                         }
                     } catch (error){
