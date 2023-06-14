@@ -161,7 +161,7 @@ export class Controller{
                     return false;
                 }
 
-                if (step <= path.length-1) {
+                if (step <= path.length - 1) {
                     //Ici update la liste de step enemy si rock trouvé
                     try {
                         if (this.model.matrice[enemy.position.x + path[step][0]][enemy.position.y + path[step][1]].tower.type == "rock") {
@@ -170,9 +170,10 @@ export class Controller{
                             enemy.step = 0;
                             path = newPath;
                             step = -1;
+                            endPoints = this.model.endPoints[this.indexOfEndPoints]
                             continue;
                         }
-                    } catch (error){
+                    } catch (error) {
                         this.updateEnemiesPosition(enemy, path[step]); // Await the update of the enemy's position
                         await this.display.updateEnemyHealthBar(enemy);
                     }
