@@ -34,7 +34,6 @@ export class TowerController {
             col = towerPosition.y;
         }
 
-
         if (this.model.matrice[row][col].tower === null && !tower) {
             if(towerLevel == 0){
                 this.display.pile[0].classList.remove('tile-shadow'); // remove class (not selected anymore)
@@ -207,8 +206,10 @@ export class TowerController {
             let enemy = this.findNeighbour(x, y, range, "enemy");
             if (enemy) {
                 if (tower.isAttackingAir && enemy.isFlying || !tower.isAttackingAir && !enemy.isFlying) {
-                    this.provideDamage(enemy, damage, tower.armorDamage)
-                    this.display.playTowerSprite(tower, enemy);
+                    this.provideDamage(enemy, damage, tower.armorDamage);
+
+                    this.display.ShootEnemy(tower, enemy);
+
                     switch (tower.type) {
                         case "BT":
                             //Splash Tower
@@ -317,8 +318,8 @@ export class TowerController {
         if(armorDifference <= 0){
             enemy.curent_life -= damage;
         } else {
-            let test = 100 - armorDifference
-            enemy.curent_life -= damage*test/100;
+            let grossDamage = 100 - armorDifference
+            enemy.curent_life -= damage * grossDamage/100;
         }
     }
     async slowedEnemy()

@@ -10,18 +10,29 @@ export class Tower{
         this.towerLevel = towerLevel;
         this.level = towerLevel;
         this.position = position
-        this.path = path;
         this.pathWeapon = pathWeapon;
         this.price = price;
         this.type = type;
         this.isAttackingAir = isAttackingAir;
+        
         this.totalTowerFrames = totalTowerFrames;
         this.totalAmmoFrames = totalAmmoFrames;
         this.totalImpactFrames = totalImpactFrames;
-        this.currentFrame = 0;
-        this.animateSprite;
-        this.animationInterval;
+        
+        this.currentTowerFrame = 0;
+        this.currentAmmoFrame = 0;
+        this.currentImpactFrame = 0;
+        
+        this.animateTowerSprite;
+        this.animateAmmoSprite;
+        this.animateImpactSprite;
+        
+        this.animationTowerInterval;
+        this.animationAmmoInterval;
+        this.animationImpactInterval;
+        
         this.remove = false;
+        this.path = path;
         this.pathAmmo = pathAmmo;
         this.pathImpact = pathImpact;
         this.towerAmmoId = 0;

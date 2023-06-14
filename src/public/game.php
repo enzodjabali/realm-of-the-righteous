@@ -68,6 +68,7 @@
                 <div id="board-container"></div>
                 <div id="container-enemies"></div>
                 <div id="container-towers"></div>
+                <div id='container-Ammo'></div>
                 <div id='button-container'></div>
             </section>
 

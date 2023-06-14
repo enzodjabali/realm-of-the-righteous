@@ -25,7 +25,7 @@ export const enumTower = {
                       '../../assets/images/towers/weapons/impact/BT3impact.png'],
 
         totalTowerFrames : [17,17,17],
-        totalAmmoFrames : [5,6,8],
+        totalAmmoFrames : [6,6,8],
         totalImpactFrames : [9,9,9],
         damage : [5,7,10],
         armorDamage: [5,10,20],
@@ -127,7 +127,7 @@ export const enumTower = {
         totalTowerFrames : [0],
         totalAmmoFrames : [0],
         totalImpactFrames : [6],
-        damage : [0],
+        damage: [0],
         armorDamage: [0],
         shotRate: [0],//in ms
         price: [1000],

@@ -58,7 +58,8 @@ export class Controller{
         await new Promise(r => setTimeout(r, this.model.timeBeforeStart));
         let spawnedEnemies = 0;
         for(let i = this.model.currentWave; i < this.model.waves[diffculty].length; i++){
-                await new Promise((resolve, reject) => {
+
+            await new Promise((resolve, reject) => {
                         document.getElementById("play-game").onclick = () => {
                             if(spawnedEnemies == 0 && this.model.currentWave < this.model.waves[diffculty].length) {
                                 this.playerController.postLogs("New wave is coming!", 1)
@@ -86,6 +87,7 @@ export class Controller{
 
                 this.HUDController.setStartPoints(this.indexOfEntryPoints)
                 this.HUDController.setEndPoints(this.indexOfEndPoints)
+                
                 let path = this.model.findPathForWaves(this.model.getMatrice(), this.model.entryPoints[this.indexOfEntryPoints], this.model.endPoints[this.indexOfEndPoints]);
 
                 if(path == 0){
