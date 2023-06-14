@@ -64,8 +64,13 @@
                         let lastActivity = response[i]['last_activity'];
                         let position = i+1;
 
+                        let isMe = "";
+                        if (username == "<?= $sessionUsername ?>") {
+                            isMe = "(me)";
+                        }
+
                         let activity = (Math.floor(new Date().getTime() / 1000) - lastActivity) > 7 ? '<span class="badge text-bg-secondary">Offline</span>' : '<span class="badge text-bg-valid">Online</span>';
-                        $('#leaderboard-table').append('<tr><th scope="row">' + position + '</th><td>' + username + '</td><td>' + xp + '</td><td>' + activity + '</td></tr>');
+                        $('#leaderboard-table').append('<tr><th scope="row">' + position + '</th><td>' + username + ' ' + isMe + '</td><td>' + xp + '</td><td>' + activity + '</td></tr>');
                     }
                 });
             });

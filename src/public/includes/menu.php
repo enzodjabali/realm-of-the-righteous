@@ -66,6 +66,9 @@
                     </div>
                 </div>
             </div>
+
+            <?php include_once("privateChat.php") ?>
+
         <?php
     } else {
         ?>

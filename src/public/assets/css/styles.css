@@ -184,3 +184,8 @@ th, td {
     text-shadow: 0px 1px 0px #000;
     background-color: #d69038;
 }
+
+.select-player:hover {
+    background-color: #32271f;
+    cursor: pointer;
+}

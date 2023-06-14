@@ -7,7 +7,7 @@ use App\classes\ChatUtils;
 use Exception;
 use PHPUnit\Framework\TestCase;
 
-final class ChatsUtilsTest extends TestCase
+final class ChatUtilsTest extends TestCase
 {
     /**
      * @throws Exception
