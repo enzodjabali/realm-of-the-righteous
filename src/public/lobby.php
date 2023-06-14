@@ -95,7 +95,7 @@
                         <h1 class="modal-title fs-5" id="modalLabel">Oh oh..</h1>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div id="delete-game-spinner" class="spinner-border visually-hidden m-auto mt-4 mb-4" role="status"></div>
+                    <div id="delete-game-spinner" class="spinner-border visually-hidden text-light m-auto mt-4 mb-4" role="status"></div>
                     <div id="create-game-text" class="modal-body">
                         Are you sure you want to delete this game? This action is irreversible.
                     </div>
