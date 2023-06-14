@@ -25,7 +25,7 @@ export class HUDController {
             button.setAttribute("id", "tower_"+key)
             button.setAttribute("class", "p-2 flex-fill hud-button")
             button.style.width = "150px"
-            button.innerHTML = '<p>Buy '+key+' tower<img height="50px" src="'+enumTower[key].path[0]+'"><br><br> '+enumTower[key].price[0]+' 🪙</p>';
+            button.innerHTML = '<p>Buy '+key+' tower <img height="50px" src="'+enumTower[key].path[0]+'"><br><br> '+enumTower[key].price[0]+' 🪙</p>';
             button.onclick = () => {
                 if(this.display.pile == -1){
                 } else {

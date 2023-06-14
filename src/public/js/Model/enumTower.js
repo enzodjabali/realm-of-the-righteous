@@ -124,6 +124,7 @@ export const enumTower = {
         totalAmmoFrames : [0],
         totalImpactFrames : [6],
         damage : [0],
+        armorDamage: [0],
         shotRate: [0],//in ms
         price: [0],
         isAttackingAir: false,

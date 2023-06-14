@@ -1,11 +1,11 @@
-<section class="wrap-container" style="z-index: 10;">
+<section class="wrap-container" style="z-index: 10; width: 24%">
     <div>
         <ul class="nav nav-tabs justify-content-center border-0">
             <li class="btn btn-form-submit" style="width: 33%" onclick="displayTabHUD('hud-tab-general')">
                 General
             </li>
             <li class="btn btn-form-submit" style="width: 33%" onclick="displayTabHUD('hud-tab-tower-shop')">
-                Buy Tower
+                Tower
             </li>
             <li class="btn btn-form-submit" style="width: 33%">
                 Settings
