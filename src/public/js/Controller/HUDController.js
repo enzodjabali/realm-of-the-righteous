@@ -34,8 +34,10 @@ export class HUDController {
                         if (key != "rock"){
                             this.playerController.postLogs("Bought "+key+" tower for "+enumTower[key].price[0]+" coins", 1)
                         }
-                        if(this.model.matrice[this.display.pile[1][0]][this.display.pile[1][1]].tile == 'basepath' && key != "rock"){
+                        if(this.model.matrice[this.display.pile[1][0]][this.display.pile[1][1]].tile != 'basegrass' && key != "rock"){
                             console.log("vous ne pouvez pas place de tours ici")
+                            this.playerController.player.money += enumTower[key].price[0];
+                            this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies);
                             return
                         } else if (key == "rock") {
                             let tempMatrice = JSON.parse(JSON.stringify(this.model.matrice));
@@ -67,7 +69,7 @@ export class HUDController {
                                         this.display.pile = -1;
                                     }
                                 } else {
-                                    this.playerController.postLogs("No", 2)
+                                    this.playerController.postLogs("You can't put rock here", 2)
                                     console.log("what the fuck are you thinking, you can't put this rock in matrice little shit")
                                     return;
                                 }
@@ -75,6 +77,7 @@ export class HUDController {
                                 this.playerController.postLogs("Not allowed (round 0)", 3)
                             }
                         } else {
+
                             this.towerController.placeTowerInMatrice(enumTower[key], key);
                             this.display.pile = -1;
                         }
