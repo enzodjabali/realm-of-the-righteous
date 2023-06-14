@@ -3,8 +3,9 @@ import {Player} from '../Model/Player.js';
 const gameId = new URLSearchParams(window.location.search).get('gameId');
 
 export class PlayerController{
-    constructor(name, money, life) {
-        this.player = new Player(name, money, life);
+    constructor(money, life, model) {
+        this.model = model;
+        this.player = new Player(money, life, this.model.killedEnemies);
     }
     buyTower(price){
         /**
@@ -13,6 +14,7 @@ export class PlayerController{
          */
         if(this.player.money >= price){
             this.player.money -= price
+            this.model.defaultMoneyPlayer[this.model.difficulty] = this.player.money
             return true;
         } else {
             return false;
@@ -25,6 +27,7 @@ export class PlayerController{
          *
          */
         this.player.life -= value;
+        this.model.defaultLifePlayer[this.model.difficulty] = this.player.life
         return this.isPlayerAlive()
     }
     isPlayerAlive(){

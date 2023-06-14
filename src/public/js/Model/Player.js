@@ -1,9 +1,8 @@
 export class Player{
-    constructor(name, money, life){
+    constructor(money, life, killedEnemies){
         this.tab;
-        this.name = name;
         this.money = money;
         this.life = life;
-        this.killedEnemies = 0;
+        this.killedEnemies = killedEnemies;
     }
 }

@@ -14,6 +14,16 @@ export class Model {
         this.towerWeaponId = fetchModel.towerWeaponId,
         this.entryPoints = fetchModel.entryPoints,
         this.endPoints = fetchModel.endPoints
+        if(fetchModel.defaultMoneyPlayer ){
+            this.defaultMoneyPlayer = fetchModel.defaultMoneyPlayer;
+            this.defaultLifePlayer = fetchModel.defaultLifePlayer
+            this.killedEnemies = fetchModel.killedEnemies;
+        } else {
+            this.defaultMoneyPlayer = {"easy": 1000, "normal": 750, "hard": 500}
+            this.defaultLifePlayer = {"easy": 100, "normal": 75, "hard": 50}
+            this.killedEnemies = 0;
+        }
+
     }
     
     getMatrice(){
