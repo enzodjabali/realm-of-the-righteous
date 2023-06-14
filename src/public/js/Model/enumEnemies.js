@@ -22,7 +22,7 @@ export const enumEnemies = {
         pathDead: '../../assets/images/mobs/golemdeath.gif', 
         life: 20,
         armor: 20,
-        speed: 20,
+        speed: 200,
         price: 10,
         isFlying: false,
     },

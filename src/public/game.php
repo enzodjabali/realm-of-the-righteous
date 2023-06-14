@@ -53,12 +53,17 @@
     </head>
 
     <body>
-        <?php include_once("includes/toast.php") ?>
+        <audio id="audio">
+            <source src="" type="audio/mpeg">
+        </audio>
+        <audio id="backgroundAudio">
+            <source src="" type="audio/mpeg">
+        </audio>
+       <?php include_once("includes/toast.php") ?>
 
         <div class="game-container">
 
             <?php include_once("includes/gameChat.php") ?>
-            
             <section>
                 <div id="board-container"></div>
                 <div id="container-enemies"></div>
@@ -87,6 +92,8 @@
     </body>
     <script>
         function displayTabHUD(tabId) {
+            let changeTab = new Audio("assets/audio/change-tab.mp3")
+            changeTab.play()
             $("#hud-tab-general").addClass("visually-hidden");
             $("#hud-tab-tower-shop").addClass("visually-hidden");
             $("#hud-tab-tower-actions").addClass("visually-hidden");
@@ -115,7 +122,6 @@
                     for (let i = 0; i < gameLogs.length; i++) {
                         let content = gameLogs[i]['content'];
                         let type = gameLogs[i]['type'];
-
                         let badge;
 
                         switch (type) {

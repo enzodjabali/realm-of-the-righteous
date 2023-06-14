@@ -12,7 +12,7 @@ export class Controller{
         this.model = new Model(model);
         this.display = new Display();
         this.enemiesController = new EnemiesController(this.model);
-        this.playerController = new PlayerController(this.model.defaultMoneyPlayer[this.model.difficulty], this.model.defaultLifePlayer[this.model.difficulty], this.model);
+        this.playerController = new PlayerController(this.model.defaultMoneyPlayer[this.model.difficulty], this.model.defaultLifePlayer[this.model.difficulty], this.model, this.display);
         this.towerController = new TowerController(this.model, this.display, this.playerController)
         this.HUDController = new HUDController(this.model, this.display, this.towerController, this.playerController)
         this.fetchController = new FetchController(this.towerController, this.model)
@@ -58,6 +58,9 @@ export class Controller{
         await new Promise(r => setTimeout(r, this.model.timeBeforeStart));
         let spawnedEnemies = 0;
         for(let i = this.model.currentWave; i < this.model.waves[diffculty].length; i++){
+            if(i > 0){
+                this.display.playSong(false, "endWave");
+            }
                 await new Promise((resolve, reject) => {
                         document.getElementById("play-game").onclick = () => {
                             if(spawnedEnemies == 0 && this.model.currentWave < this.model.waves[diffculty].length) {
@@ -69,8 +72,12 @@ export class Controller{
                             }
                         }
                  })
-
-
+            if(i==0){
+                this.display.playSong(false, "startGame")
+            }
+            let song;
+            this.model.difficulty == "hard" ? song = "hardMusic" : song = "easyMusic"
+            this.display.playSong(true, song)
             for (let group of this.model.waves[diffculty][i]){
                 if (this.model.waves[diffculty][i].indexOf(group) != 0)
                 {
@@ -83,8 +90,6 @@ export class Controller{
                 this.indexOfEntryPoints = (this.model.waves[diffculty][i].indexOf(group)) % (this.model.entryPoints.length);
                 this.indexOfEndPoints = (this.model.waves[diffculty][i].indexOf(group)) % (this.model.endPoints.length);
 
-                console.log("passing here")
-                
                 this.HUDController.setStartPoints(this.indexOfEntryPoints)
                 this.HUDController.setEndPoints(this.indexOfEndPoints)
                 let path = this.model.findPathForWaves(this.model.getMatrice(), this.model.entryPoints[this.indexOfEntryPoints], this.model.endPoints[this.indexOfEndPoints]);
@@ -103,12 +108,12 @@ export class Controller{
                             if(!test){
                                 spawnedEnemies--;
                                 if(spawnedEnemies == 0){
+                                    this.display.stopSong();
                                     if(i == this.model.waves[diffculty].length-1 && this.playerController.player.life > 0){
                                         this.endGame(true)
                                     } else {
                                         this.model.currentWave++
                                     }
-
                                 }
                             }
                         })
@@ -116,6 +121,7 @@ export class Controller{
                     this.model.mobId++;
                 }
             }
+
         }
     }
 
@@ -219,17 +225,19 @@ export class Controller{
             $(`.game-over-background`).removeClass("game-over-background");
             document.getElementById("game-over-title").innerText = "Congratulation!"
             document.getElementById("game-over-speech").innerHTML = "<p>As the sun began to set, the player, a seasoned strategist, stood resolute atop their towering fortress. Waves of relentless enemies surged forward, their forces no match for the player's well-placed defenses. The player fought fiercely, commanding their troops with unwavering determination and tactical brilliance. With each passing wave, the enemies grew weaker and more desperate. <span style='color:green'> Finally, as the dust settled, the player stood triumphant, their fortress standing tall and unscathed.</span> The enemies lay defeated, scattered in disarray, as the player's victory echoed through the battlefield.</p>";
+            this.display.playSong(false, 'winGame')
             $('#game-modal').modal('show');
             this.playerController.postLogs("Congratulation!", 4)
         } else {
-            console.log("lost")
             //lost case
+            this.display.playSong(false, 'loseGame')
             this.playerController.postLogs("Game over!", 3)
             document.getElementById("game-over-speech").innerHTML = "<p> As the sun began to set, the player, a skilled strategist, stood confidently atop their towering fortress. Waves of relentless enemies surged forward, hell-bent on destruction. The player fought valiantly, commanding their defenses with precision and cunning. Yet, as the final assault descended upon them, the overwhelming force proved insurmountable. With sweat on their brow and exhaustion in their eyes <span id=\"game-over-speech-red\">the player watched helplessly as the enemies breached their defenses,realizing that despite their best efforts, victory had slipped through their fingers.</span></p>"
             $('#game-modal').modal('show');
             document.getElementById("game-over-title").innerText = "Game over!"
-            //Delete game
+
         }
+        //Delete game
         $.post("api/v1/game/delete", {gameId: gameId}, function (response) {}).fail(function (response) {})
 
     }

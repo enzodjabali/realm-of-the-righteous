@@ -1,6 +1,7 @@
 import {Tower} from "../Model/Tower.js";
 import {enumTower} from '../Model/enumTower.js';
 
+
 export class TowerController {
     constructor(model, display, player) {
         this.model = model;
@@ -260,10 +261,11 @@ export class TowerController {
 
         if (this.playerController.buyTower(enumTower[tower.type].price[tower.level+1])){
             if(tower.level == enumTower[tower.type].damage.length-1){
-                //Mximum tower level already reached
+                //Maximum tower level already reached
                 return
             } else {
                 tower.level++
+                this.display.playSong(false, "upgradeTower")
             }
             this.sellTower(tower, false)
             this.playerController.postLogs("Upgraded "+tower.type+" for "+enumTower[tower.type].price[tower.level+1]+" coins", 1)
@@ -277,12 +279,13 @@ export class TowerController {
     async sellTower(tower, getMoneyFromTower = true)
     {
         //Permit to sell a tower
-
         //Add money to player
+
         if(getMoneyFromTower){
             this.playerController.player.money += (0.75 * tower.price[tower.level])
             this.model.defaultMoneyPlayer[this.model.difficulty] = this.playerController.player.money
             this.playerController.postLogs("Sold "+tower.type+" tower for "+tower.price[tower.level]*0.75+" coins", 1)
+            this.display.playSong(false, 'sellTower')
         }
         this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave)
         //Remove tower from de board
@@ -300,16 +303,14 @@ export class TowerController {
                 buffedTower.armorDamage = enumTower[buffedTower.type].armorDamage[buffedTower.level];
             }
         }
-
-
     }
     provideDamage(enemy, damage, armorDamage)
     {
         // Thomas :
         // si :
-        // Tower armor damage = 95
+        // Tower armor damage = 99
         // Enemy armor = 100
-        // Damage given to enemy = towerDamage - 5% * towerDamage
+        // Damage given to enemy = towerDamage - 1% * towerDamage
         
         let armorDifference = enemy.armor - armorDamage
         if(armorDifference <= 0){
@@ -318,9 +319,7 @@ export class TowerController {
             let test = 100 - armorDifference
             enemy.curent_life -= damage*test/100;
             console.log(enemy.curent_life)
-
         }
-
     }
     async slowedEnemy()
     {
