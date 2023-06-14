@@ -3,7 +3,7 @@
 
 <p float="left">
     <img src="https://img.shields.io/static/v1?label=License&message=MIT&color=blue">
-    <img src="https://img.shields.io/static/v1?label=Version&message=1.6.4&color=blue">
+    <img src="https://img.shields.io/static/v1?label=Version&message=1.6.5&color=blue">
 </p>
 
 Realm Of The Righteous is Tower Defense game. It is a subgenre of strategy games where 
