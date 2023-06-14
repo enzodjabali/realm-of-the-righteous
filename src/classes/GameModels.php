@@ -32,7 +32,7 @@ enum GameModels: string
 [{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"northsouth","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null}]
 ],
             "waves" : {
-                "easy" : [[[1,"golem"]], [[15, "knight"]],[[40, "knight"]],[[20, "knight"]],[[3, "knight"]]],
+                "easy" : [[[2,"bat"]], [[15, "knight"]],[[40, "knight"]],[[20, "knight"]],[[3, "knight"]]],
                 "medium" : [[[1,"bat"],[2,"golem"],[2,"knight"],[2,"witch"],[2,"wolf"]], [[2,"bat"],[4,"golem"],[4,"knight"],[4,"witch"],[4,"wolf"]]],
                 "hard" : [[[1,100],[0,110]]] },
             "timeBetweenWaves" : 1000,

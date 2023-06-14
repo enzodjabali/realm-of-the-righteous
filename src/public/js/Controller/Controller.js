@@ -6,7 +6,7 @@ import {Display} from "../Vue/Display.js";
 import { enumEnemies } from '../Model/enumEnemies.js';
 import { PlayerController } from '../Controller/PlayerController.js';
 import { FetchController } from '../Controller/FetchController.js';
-
+let gameId = new URLSearchParams(window.location.search).get('gameId');
 export class Controller{
     constructor(model) {
         this.model = new Model(model);
@@ -110,6 +110,7 @@ export class Controller{
                 }
             }
         }
+        this.endGame(true)
     }
 
     async run(enemy, path, endPoints) {
@@ -127,8 +128,7 @@ export class Controller{
                     if(!this.playerController.modifyPlayerLife(1)){
                         // Implémenter la fin de jeu (défaite)
                         this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave, this.model.currentWave)
-                        $('#game-modal').modal('show');
-                        this.playerController.postLogs("Game over!", 3)
+                        this.endGame(false)
 
                     }
                     this.display.removeEnemy(enemy);
@@ -191,7 +191,7 @@ export class Controller{
          * This function calls the update game model method
          */
         $(function () {
-            let gameId = new URLSearchParams(window.location.search).get('gameId');
+
             $.post("api/v1/game/updateModel", { gameId: gameId, newModel: model}, function (response) {
                 if (response["response"] === true) {
                     console.log('Game saved')
@@ -201,5 +201,22 @@ export class Controller{
             });
             return false;
         });
+    }
+    endGame(bool){
+        if(bool){
+            //win case
+            $(`.game-over-background`).removeClass("game-over-background");
+            document.getElementById("game-over-title").style.color = "black";
+            document.getElementById("game-over-speech").style.color = "black";
+            document.getElementById("game-over-speech").innerHTML = "<p>As the sun began to set, the player, a seasoned strategist, stood resolute atop their towering fortress. Waves of relentless enemies surged forward, their forces no match for the player's well-placed defenses. The player fought fiercely, commanding their troops with unwavering determination and tactical brilliance. With each passing wave, the enemies grew weaker and more desperate. <span style='color:green'> Finally, as the dust settled, the player stood triumphant, their fortress standing tall and unscathed.</span> The enemies lay defeated, scattered in disarray, as the player's victory echoed through the battlefield.</p>"
+            this.playerController.postLogs("Congratulation!", 4)
+        } else {
+            //lost case
+            this.playerController.postLogs("Game over!", 3)
+        }
+        $('#game-modal').modal('show');
+        document.getElementById("game-over-title").innerText = "Congratulation!"
+        //Delete game
+        $.post("api/v1/game/delete", {gameId: gameId}, function (response) {}).fail(function (response) {})
     }
 }
