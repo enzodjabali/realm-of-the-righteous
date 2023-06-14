@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : database
--- Généré le : mer. 14 juin 2023 à 20:34
+-- Généré le : mer. 14 juin 2023 à 22:07
 -- Version du serveur : 8.0.33
 -- Version de PHP : 8.1.19
 
@@ -39,7 +39,7 @@ CREATE TABLE `chat` (
 --
 
 INSERT INTO `chat` (`id`, `player_id`, `message`, `date`) VALUES
-(133, 1, 'Hello World!', '2023-06-14');
+(1, 1, 'Hello World!', '2023-06-14');
 
 -- --------------------------------------------------------
 
@@ -97,16 +97,17 @@ CREATE TABLE `player` (
   `xp` int NOT NULL DEFAULT '0',
   `last_activity` bigint NOT NULL DEFAULT '0',
   `is_verified` tinyint(1) NOT NULL DEFAULT '0',
-  `is_admin` tinyint(1) NOT NULL DEFAULT '0'
+  `is_admin` tinyint(1) NOT NULL DEFAULT '0',
+  `is_banned` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `player`
 --
 
-INSERT INTO `player` (`id`, `username`, `password`, `email`, `xp`, `last_activity`, `is_verified`, `is_admin`) VALUES
-(1, 'test', '$2y$10$jCoM/1zBhr/BnHW8u5temuqgesr0Vc0bLXMzyo.cBhFrB1uXZ3316', 'test@test.dev', 100, 1686774847, 1, 1),
-(2, 'test2', '$2y$10$YKx.8E2SVlk4vF.3j20zTu3EeIuIk06yWZPbdIQkBmcMT940hMwmm', 'test2@test.dev', 10, 1686427934, 1, 0);
+INSERT INTO `player` (`id`, `username`, `password`, `email`, `xp`, `last_activity`, `is_verified`, `is_admin`, `is_banned`) VALUES
+(1, 'test', '$2y$10$jCoM/1zBhr/BnHW8u5temuqgesr0Vc0bLXMzyo.cBhFrB1uXZ3316', 'test@test.dev', 100, 1686780463, 1, 1, 0),
+(2, 'test2', '$2y$10$YKx.8E2SVlk4vF.3j20zTu3EeIuIk06yWZPbdIQkBmcMT940hMwmm', 'test2@test.dev', 10, 1686427934, 1, 0, 0);
 
 -- --------------------------------------------------------
 

@@ -1,3 +1,7 @@
+<?php
+    $sessionIsAdmin = isset($_SESSION["playerIsAdmin"]) ? (bool)$_SESSION["playerIsAdmin"] : "";
+?>
+
 <nav class="navbar navbar-dark">
     <div class="container-fluid">
         <button class="navbar-toggler" onclick="showSidebar()" type="button" data-bs-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,6 +28,14 @@
                 <a class="nav-link" href="/settings/delete">Delete my account</a>
             </li>
         </ul>
+        <?php if ($sessionIsAdmin) { ?>
+            <a>Admin</a>
+            <ul class="nav flex-column mb-3">
+                <li class="nav-item">
+                    <a class="nav-link" href="/settings/banishments">Banishments</a>
+                </li>
+            </ul>
+        <?php } ?>
         <a>Others</a>
         <ul class="nav flex-column">
             <li class="nav-item">

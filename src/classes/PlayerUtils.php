@@ -17,7 +17,7 @@ class PlayerUtils
     public static function findAllPlayers(int $playerId): bool|array
     {
         if ($playerId > 0) {
-            $result = DbUtils::select(DbTable::TABLE_PLAYER, ["id", "username", "xp", "last_activity"], "WHERE is_verified IS TRUE ORDER BY xp DESC");
+            $result = DbUtils::select(DbTable::TABLE_PLAYER, ["id", "username", "xp", "last_activity", "is_banned"], "WHERE is_verified IS TRUE ORDER BY xp DESC");
             $result_array = [];
 
             while($row = $result->fetch()) {
@@ -168,7 +168,6 @@ class PlayerUtils
         } catch (Exception $e) {
             return $e->getMessage();
         }
-
         // Checks if the username matches the password
 		try {
             if ($query = DbUtils::select(DbTable::TABLE_PLAYER, ["id", "password"], "WHERE username = '$username'")->fetch()) {
@@ -181,11 +180,18 @@ class PlayerUtils
 		} catch (Exception $e) {
 			return $e->getMessage();
 		}
-
         // Checks if the player is verified
         try {
             if (!DbUtils::select(DbTable::TABLE_PLAYER, ["is_verified"], "WHERE username = '$username'")->fetch()["is_verified"]) {
                 throw new Exception("This account hasn't been verified yet.");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        // Checks if the player is banned
+        try {
+            if (DbUtils::select(DbTable::TABLE_PLAYER, ["is_banned"], "WHERE username = '$username'")->fetch()["is_banned"]) {
+                throw new Exception("This account has been banned. Contact the support for more information.");
             }
         } catch (Exception $e) {
             return $e->getMessage();
@@ -522,5 +528,59 @@ class PlayerUtils
         }
 
         return false;
+    }
+
+    /**
+     * This method bans a player from the game
+     * @param int $playerId the ID of the player who bans
+     * @param int $playerIdToBan the ID of the player to ban
+     * @return string|bool returns true if the operation succeed, and returns a string containing an error message if it failed
+     * @throws Exception
+     */
+    public static function banPlayer(int $playerId, int $playerIdToBan): string|bool
+    {
+        // Checks if the player who bans is admin
+        try {
+            if (!PlayerUtils::isPlayerAdmin($playerId)) {
+                throw new Exception("You don't the permission to perform this action");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+
+        try {
+            // Updates the ban boolean into the database
+            DbUtils::update(DbTable::TABLE_PLAYER, "is_banned", 1, "WHERE id = $playerIdToBan");
+            return true;
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    /**
+     * This method unbans a player from the game
+     * @param int $playerId the ID of the player who unbans
+     * @param int $playerIdToUnban the ID of the player to unban
+     * @return string|bool returns true if the operation succeed, and returns a string containing an error message if it failed
+     * @throws Exception
+     */
+    public static function unbanPlayer(int $playerId, int $playerIdToUnban): string|bool
+    {
+        // Checks if the player who unbans is admin
+        try {
+            if (!PlayerUtils::isPlayerAdmin($playerId)) {
+                throw new Exception("You don't the permission to perform this action");
+            }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+
+        try {
+            // Updates the ban boolean into the database
+            DbUtils::update(DbTable::TABLE_PLAYER, "is_banned", 0, "WHERE id = $playerIdToUnban");
+            return true;
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
 }
