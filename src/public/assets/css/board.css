@@ -40,7 +40,6 @@ body {
 }
 #button-to-menu{
     width: 20%;
-
     text-align: center;
     font-size: 12px;
 }
@@ -56,8 +55,10 @@ body {
 #game-over-speech-red{
     color:red !important;
 }
-#game-over-background{
+
+.game-over-background{
     background-color: #2B221C !important;
+
 }
 #game-over-title{
     color: #CFD6DC;

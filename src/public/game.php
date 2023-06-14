@@ -67,7 +67,7 @@
         <a href="/lobby">
         <div id="game-modal" class="modal fade" style="background: #1d1613">
             <div class="modal-dialog modal-dialog-centered modal-xl">
-                    <div id="game-over-background" class="card text-center w-75 position-absolute top-50 start-50 translate-middle" style="#2a211a !important">
+                    <div class="card text-center w-75 position-absolute top-50 start-50 translate-middle game-over-background" style="#2a211a !important">
                             <div class="card-header" id="game-over-title">
                                 Game over
                             </div>
