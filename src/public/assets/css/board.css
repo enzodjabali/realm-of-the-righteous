@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 body {
-    margin:10px !important;
+    margin: 10px !important;
 }
 
 #board-container {
@@ -18,12 +18,12 @@ body {
     z-index: 1;
 }
 
-.tile-shadow{
+.tile-shadow {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
     z-index: 2;
 }
 
-.rangeCircle{
+.rangeCircle {
     display: inline-block;
     text-align: center;
     border-radius: 50%;
@@ -33,18 +33,19 @@ body {
     z-index: 1;
 }
 
-#game-over-title{
+#game-over-title {
     font-family: 'Press Start 2P', cursive;
     font-size: 10vh;
     color:red;
 }
-#button-to-menu{
+
+#button-to-menu {
     width: 20%;
     text-align: center;
     font-size: 12px;
 }
 
-#game-over-speech{
+#game-over-speech {
     padding-right: 10%;
     padding-left: 10%;
     line-height: 2.2;
@@ -52,15 +53,17 @@ body {
     font-family: 'Press Start 2P', cursive;
     font-size: 10px;
 }
-#game-over-speech-red{
-    color:red !important;
+
+#game-over-speech-red {
+    color: red !important;
 }
 
 .game-over-background{
     background-color: #2B221C !important;
 
 }
-#game-over-title{
+
+#game-over-title {
     color: #CFD6DC;
     font-family: 'Press Start 2P', cursive;
     font-size: 16px;

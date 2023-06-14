@@ -1,20 +1,20 @@
 <section class="wrap-container" style="z-index: 10;">
     <div>
-        <ul class="nav nav-tabs justify-content-center">
-            <li class="nav-item">
-                <a class="nav-link" onclick="displayTabHUD('hud-tab-general')">General</a>
+        <ul class="nav nav-tabs justify-content-center border-0">
+            <li class="btn btn-form-submit" style="width: 33%" onclick="displayTabHUD('hud-tab-general')">
+                General
             </li>
-            <li class="nav-item">
-                <a class="nav-link" onclick="displayTabHUD('hud-tab-tower-shop')">Buy Tower</a>
+            <li class="btn btn-form-submit" style="width: 33%" onclick="displayTabHUD('hud-tab-tower-shop')">
+                Buy Tower
             </li>
-            <li class="nav-item">
-                <a class="nav-link">Tower Actions</a>
+            <li class="btn btn-form-submit" style="width: 33%">
+                Settings
             </li>
         </ul>
     </div>
 
     <div id="hud-tab-general" class="mt-3">
-        <h4 id="life" class="text-center mb-3">Current Health: 100❤️</h4>
+        <h4 id="life" class="health-stats text-center mb-3 pt-2 pb-2">Current Health: 100❤️</h4>
         <div class="d-flex game-stats">
             <div id="money" class="p-2 flex-fill w-25"></div>
             <div id="gold-per-minute" class="p-2 flex-fill w-25">⏱️ 0 g/min</div>

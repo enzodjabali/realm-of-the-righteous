@@ -1,11 +1,11 @@
 <section class="wrap-container">
     <div>
-        <ul class="nav nav-tabs justify-content-center">
-            <li class="nav-item">
-                <a class="nav-link" onclick="displayTabChat('chat-tab-logger')">Events</a>
+        <ul class="nav nav-tabs justify-content-center border-0">
+            <li class="btn btn-form-submit" style="width: 50%" onclick="displayTabChat('chat-tab-logger')">
+                Events
             </li>
-            <li class="nav-item">
-                <a class="nav-link" onclick="displayTabChat('chat-tab-general')">Chat</a>
+            <li class="btn btn-form-submit" style="width: 50%" onclick="displayTabChat('chat-tab-general')">
+                Chat
             </li>
         </ul>
     </div>
@@ -36,9 +36,9 @@
                 </div>
             </div>
             <form id="chat-form" method="post" class="input-group card-footer text-body-secondary">
-                <input type="text" class="form-control me-3" name="message" id="message">
+                <input type="text" class="form-control shadow-none me-2" name="message" id="message">
                 <div class="input-group-prepend">
-                    <button class="btn btn-primary" type="submit">Send</button>
+                    <button class="btn btn-form-submit h-100" type="submit">Send</button>
                 </div>
             </form>
         </div>
