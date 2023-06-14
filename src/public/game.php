@@ -64,9 +64,33 @@
 
             <?php include_once("includes/hud.php") ?>
             <?php include_once("includes/gameChat.php") ?>
+        <a href="/lobby">
+        <div id="game-modal" class="modal fade" style="background: #1d1613">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                    <div id="game-over-background" class="card text-center w-75 position-absolute top-50 start-50 translate-middle" style="#2a211a !important">
+                            <div class="card-header" id="game-over-title">
+                                Game over
+                            </div>
+                            <div id="game-list" class="card-body"></div>
+                            <p id="game-over-speech">As the sun began to set, the player, a skilled strategist,
+                            stood confidently atop their towering fortress.
+                            Waves of relentless enemies surged forward,
+                            hell-bent on destruction.
+                            The player fought valiantly, commanding their defenses with precision and cunning.
+                            Yet, as the final assault descended upon them, the overwhelming force proved insurmountable.
+                            With sweat on their brow and exhaustion in their eyes,
+                            <span id="game-over-speech-red">the player watched helplessly as the enemies breached their defenses,
+                            realizing that despite their best efforts, victory had slipped through their fingers.<span></p>
+                            <div class="card-footer text-body-secondary">
+                                <button href="/lobby" class=" z-3 btn hud-button mt-1 w-25" data-bs-toggle="modal" data-bs-target="#create-game-modal" data-bs-whatever="@mdo">
+                                <p>Back to lobby</p>
+                            </button>
+                        </div>
+                    </div>
+            </div>
         </div>
+        </a>
     </body>
-
     <script>
         function displayTabHUD(tabId) {
             $("#hud-tab-general").addClass("visually-hidden");

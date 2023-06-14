@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 body {
     margin:10px !important;
 }
@@ -29,4 +31,36 @@ body {
     position:relative;
     background-color: rgba(0, 0, 0, 0.2);
     z-index: 1;
+}
+
+#game-over-title{
+    font-family: 'Press Start 2P', cursive;
+    font-size: 10vh;
+    color:red;
+}
+#button-to-menu{
+    width: 20%;
+
+    text-align: center;
+    font-size: 12px;
+}
+
+#game-over-speech{
+    padding-right: 10%;
+    padding-left: 10%;
+    line-height: 2.2;
+    color: #CFD6DC;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 10px;
+}
+#game-over-speech-red{
+    color:red !important;
+}
+#game-over-background{
+    background-color: #2B221C !important;
+}
+#game-over-title{
+    color: #CFD6DC;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 16px;
 }
