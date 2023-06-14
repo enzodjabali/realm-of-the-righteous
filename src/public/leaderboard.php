@@ -50,7 +50,7 @@
          */
         setInterval(function(){
             /**
-             * This function gets all the chat messages and display them
+             * This function gets all the chat players and display them
              */
             $(function(){
                 $.get("api/v1/player/getAll", function(response) {

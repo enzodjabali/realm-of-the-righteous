@@ -25,6 +25,7 @@
     <body>
         <?php include_once("includes/menu.php") ?>
         <?php include_once("includes/toast.php") ?>
+        <?php include_once("includes/privateChat.php") ?>
 
         <!-- Card of the game list -->
         <div class="card text-center w-75 position-absolute top-50 start-50 translate-middle">
