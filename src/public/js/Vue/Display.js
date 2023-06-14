@@ -5,6 +5,8 @@ export class Display{
         this.enemiesIds = [];
         this.tilesSize = 0;
         this.pile = -1;
+        this.offsetsTop = 0;
+        this.offsetsLeft = 0;
     }
     initializeBoard(matrice){
         /**
@@ -31,6 +33,11 @@ export class Display{
         }
         let container = document.getElementById('board-container');
 
+        var container_offsets = document.getElementById('board-container').getBoundingClientRect();
+        this.offsetsTop = container_offsets.top;
+        this.offsetsLeft  = container_offsets.left;
+
+        
         let containerEnemies = document.getElementById('container-enemies');
         containerEnemies.style.top = 0;
         containerEnemies.style.left = 0;
@@ -92,8 +99,8 @@ export class Display{
         enemyDiv.id = `enemy_${enemyId}`;
         enemyDiv.className = 'enemy';
         enemyDiv.style.position = 'absolute';
-        enemyDiv.style.top = (enemy.position.x * this.tilesSize).toString() + 'px';
-        enemyDiv.style.left = (enemy.position.y * this.tilesSize).toString() + 'px';
+        enemyDiv.style.top = (enemy.position.x * this.tilesSize) + this.offsetsTop.toString() + 'px';
+        enemyDiv.style.left = (enemy.position.y * this.tilesSize) + this.offsetsLeft - enemy.position.y.toString() + 'px';
         document.getElementById('container-enemies').appendChild(enemyDiv);
 
         let enemyImg = new Image();
@@ -123,8 +130,8 @@ export class Display{
         towerContainer.style.position = 'absolute';
         towerContainer.style.height = this.tilesSize + 'px';
         towerContainer.style.width = this.tilesSize + 'px';
-        towerContainer.style.top = ((tower.position.x * this.tilesSize) +10).toString() + 'px'; /*10 = margin css*/
-        towerContainer.style.left = ((tower.position.y * this.tilesSize) + 10 - tower.position.y).toString() + 'px'; /*10 = margin css*/
+        towerContainer.style.top = ((tower.position.x * this.tilesSize) + this.offsetsTop ).toString() + 'px';
+        towerContainer.style.left = ((tower.position.y * this.tilesSize) + this.offsetsLeft - tower.position.y).toString() + 'px';
         document.getElementById('container-towers').appendChild(towerContainer);
 
         let imgTower = new Image();
@@ -158,7 +165,6 @@ export class Display{
         weaponDiv.appendChild(imgTowerWeapon);
 
         document.getElementById('container-towers').appendChild(towerContainer);
-
         return `div_${tower.id}`;
     }
 
@@ -265,8 +271,8 @@ export class Display{
             // Use the anime.js library to animate the enemyImage's top and left properties
             anime({
                 targets: enemyDiv,
-                top: (enemy.position.x) * this.tilesSize, // Set the top property to the new position's x coordinate
-                left: (enemy.position.y) * this.tilesSize, // Set the left property to the new position's y coordinate
+                top: ((enemy.position.x * this.tilesSize) + this.offsetsTop).toString() + 'px', // Set the top property to the new position's x coordinate
+                left: ((enemy.position.y * this.tilesSize) + this.offsetsLeft - enemy.position.y).toString() + 'px', // Set the left property to the new position's y coordinate
                 easing: 'linear', // Use linear easing for smooth movement
                 duration: 10000/enemy.speed, // Set the duration of the animation to 300 milliseconds
                 complete: function (){
