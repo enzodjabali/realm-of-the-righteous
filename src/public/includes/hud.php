@@ -76,6 +76,10 @@
                     <td id="attack-speed-value"></td>
                 </tr>
                 <tr>
+                    <th>Armor damage</th>
+                    <td id="armor-damage-value"></td>
+                </tr>
+                <tr>
                     <th>Range</th>
                     <td id="range-value"></td>
                 </tr>
