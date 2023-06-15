@@ -18,7 +18,7 @@ class GameUtils
         $result_array = [];
 
         if ($playerId > 0) {
-            $result = DbUtils::select(DbTable::TABLE_GAME, ["id", "name", "difficulty", "date"], "WHERE player_id = '$playerId' ORDER BY id DESC");
+            $result = DbUtils::select(DbTable::TABLE_GAME, ["id", "name", "map", "difficulty", "date"], "WHERE player_id = '$playerId' ORDER BY id DESC");
 
             while ($row = $result->fetch()) {
                 $result_array[] = $row;
@@ -32,11 +32,11 @@ class GameUtils
      * This method creates a new game
      * @param string $name the name of the game
      * @param int $playerId the ID of the player who created the game
-     * @param int $mapId the ID of the map
-     * @param GameDifficulties $difficulty the level of difficulty of the game
+     * @param int $map the map of the game
+     * @param int $difficulty the level of difficulty of the game
      * @return string|bool returns true if the operation succeed, and returns a string containing an error message if it failed
      */
-    public static function createGame(string $name, int $playerId, int $mapId = 1, GameDifficulties $difficulty = GameDifficulties::DIFFICULTY_EASY): string|bool
+    public static function createGame(string $name, int $playerId, int $map = 1, int $difficulty = 1): string|bool
     {
         // Checks if the player's ID is valid
         try {
@@ -71,17 +71,17 @@ class GameUtils
             return $e->getMessage();
         }
 
-        $model = match ($difficulty) {
-            GameDifficulties::DIFFICULTY_NORMAL => GameModels::MODEL_NORMAL,
-            GameDifficulties::DIFFICULTY_HARD => GameModels::MODEL_HARD,
-            default => GameModels::MODEL_EASY,
+        $model = match($map) {
+            1 => GameModels::MODEL_SERPENTS_PASS,
+            2 => GameModels::MODEL_CONTEBURGH,
+            3 => GameModels::MODEL_FEARSOME_FOREST,
         };
 
         try {
             // Insert the new game into the database
             DbUtils::insert(DbTable::TABLE_GAME,
-                ["name", "player_id", "map_id", "difficulty", "model", "date"],
-                [$name, $playerId, $mapId, $difficulty->value, $model->value, date("Y-m-d")]
+                ["name", "player_id", "map", "difficulty", "model", "date"],
+                [$name, $playerId, $map, $difficulty, $model->value, date("Y-m-d")]
             );
             return true;
         } catch (Exception $e) {
@@ -165,6 +165,25 @@ class GameUtils
             echo $e->getMessage();
             return false;
         }
+    }
+
+    /**
+     * This method gets the difficulty of a given game ID
+     * @param int $gameId the game ID
+     * @param int $playerId the player's ID
+     * @return int returns an int containing the difficulty of the game
+     */
+    public static function getDifficulty(int $gameId, int $playerId): int
+    {
+        if (GameUtils::doesGameBelongToPlayer($gameId, $playerId)) {
+            try {
+                return DbUtils::select(DbTable::TABLE_GAME, ["difficulty"], "WHERE id = '$gameId'")->fetch()["difficulty"] ?? 1;
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+        }
+
+        return 1;
     }
 
     /**
