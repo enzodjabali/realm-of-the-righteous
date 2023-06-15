@@ -260,9 +260,12 @@ export class TowerController {
     upgradeTower(tower)
     {
         //Permit to upgrade a tower
-
+        console.log("upgrade")
+        console.log(enumTower[tower.type].price[tower.level+1])
         if (this.playerController.buyTower(enumTower[tower.type].price[tower.level+1])){
+            console.log("upgrade1")
             if(tower.level == enumTower[tower.type].damage.length-1){
+                console.log("upgrade2")
                 //Maximum tower level already reached
                 return
             } else {
@@ -270,7 +273,8 @@ export class TowerController {
                 this.display.playSong(false, "upgradeTower")
             }
             this.sellTower(tower, false)
-            this.playerController.postLogs("Upgraded "+tower.type+" for "+enumTower[tower.type].price[tower.level+1]+" coins", 1)
+            this.playerController.postLogs("Upgraded "+tower.type+" for "+enumTower[tower.type].price[tower.level]+" coins", 1)
+
             this.placeTowerInMatrice(enumTower[tower.type],tower.type,null, tower.level, tower.position)
         } else {
             this.playerController.postLogs("You can't afford it, sorry", 1)
@@ -367,7 +371,12 @@ export class TowerController {
 
         let sellButton = document.createElement('p')
         let upgradeButton = document.createElement('p')
-        upgradeButton.innerText = "Upgrade "+towerObject.type+" ⚒️ ("+towerObject.price[towerObject.level]+" 🪙)"
+        if(towerObject.price.length <= towerObject.level+1){
+            upgradeButton.innerText = "Upgrade "+towerObject.type+" ⚒️ Max level achieved";
+        } else {
+            upgradeButton.innerText = "Upgrade "+towerObject.type+" ⚒️ ("+towerObject.price[towerObject.level+1]+" 🪙)"
+        }
+
         sellButton.innerText = "Sell "+towerObject.type+" ❌ ("+towerObject.price[towerObject.level]*0.75+" 🪙) ";
 
         sellButton.onclick = () => {
