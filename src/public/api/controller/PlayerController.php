@@ -319,17 +319,17 @@ class PlayerController {
     {
         extract($_POST);
 
-        $updatePassword = PlayerUtils::banPlayer(
+        $ban = PlayerUtils::banPlayer(
             $this->sessionId,
             (int)$playerIdToBan,
         );
 
-        if ($updatePassword === true) {
+        if ($ban === true) {
             http_response_code(200);
         } else {
             http_response_code(400);
         }
-        $response['response'] = $updatePassword;
+        $response['response'] = $ban;
 
         echo json_encode($response);
     }
@@ -344,17 +344,67 @@ class PlayerController {
     {
         extract($_POST);
 
-        $updatePassword = PlayerUtils::unbanPlayer(
+        $unban = PlayerUtils::unbanPlayer(
             $this->sessionId,
             (int)$playerIdToUnban,
         );
 
-        if ($updatePassword === true) {
+        if ($unban === true) {
             http_response_code(200);
         } else {
             http_response_code(400);
         }
-        $response['response'] = $updatePassword;
+        $response['response'] = $unban;
+
+        echo json_encode($response);
+    }
+
+    /**
+     * @route('/player/incrementXP')
+     * @method('POST')
+     * @return void
+     * @throws Exception
+     */
+    protected function incrementXP(): void
+    {
+        extract($_POST);
+
+        $incrementXP = PlayerUtils::incrementXP(
+            $this->sessionId,
+            (int)$xp,
+        );
+
+        if ($incrementXP === true) {
+            http_response_code(200);
+        } else {
+            http_response_code(400);
+        }
+        $response['response'] = $incrementXP;
+
+        echo json_encode($response);
+    }
+
+    /**
+     * @route('/player/decrementXP')
+     * @method('POST')
+     * @return void
+     * @throws Exception
+     */
+    protected function decrementXP(): void
+    {
+        extract($_POST);
+
+        $decrementXP = PlayerUtils::decrementXP(
+            $this->sessionId,
+            (int)$xp,
+        );
+
+        if ($decrementXP === true) {
+            http_response_code(200);
+        } else {
+            http_response_code(400);
+        }
+        $response['response'] = $decrementXP;
 
         echo json_encode($response);
     }
