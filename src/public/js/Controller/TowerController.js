@@ -370,7 +370,12 @@ export class TowerController {
 
         let sellButton = document.createElement('p')
         let upgradeButton = document.createElement('p')
-        upgradeButton.innerText = "Upgrade "+towerObject.type+" ⚒️ ("+towerObject.price[towerObject.level+1]+" 🪙)"
+        if(towerObject.price.length <= towerObject.level+1){
+            upgradeButton.innerText = "Upgrade "+towerObject.type+" ⚒️ Max level achieved";
+        } else {
+            upgradeButton.innerText = "Upgrade "+towerObject.type+" ⚒️ ("+towerObject.price[towerObject.level+1]+" 🪙)"
+        }
+
         sellButton.innerText = "Sell "+towerObject.type+" ❌ ("+towerObject.price[towerObject.level]*0.75+" 🪙) ";
 
         sellButton.onclick = () => {
