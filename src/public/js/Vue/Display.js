@@ -1,6 +1,6 @@
 import anime from '../../node_modules/animejs/lib/anime.es.js';
-import {enumSongs} from '../Model/enumSongs.js';
-export class Display{
+import { enumSongs } from '../Model/enumSongs.js';
+export class Display {
     constructor() {
         this.enemiesIds = [];
         this.tilesSize = 0;
@@ -135,7 +135,6 @@ export class Display{
 
         /*------------------------------------------*/
 
-
         let imgTower = new Image();
         imgTower.id = `Img_${tower.id}`;
         imgTower.src = tower.path;
@@ -171,7 +170,7 @@ export class Display{
         weaponDiv.appendChild(imgTowerWeapon);
 
         /*------------------------------------------*/
-        
+
         document.getElementById('container-towers').appendChild(towerContainer);
         return `div_${tower.id}`;
     }
@@ -180,46 +179,39 @@ export class Display{
 
     ShootEnemy(tower, enemy) {
         this.playTowerSprite(tower, enemy);
+
         let ammoDiv = this.initializeAmmo(tower);
-        this.playAmmoSprite(tower);
+        this.playAmmoSprite(tower);        
+
+        if (tower.type == 'T' || tower.type == 'WT') {
+            this.rotateAmmoSprite(tower, enemy);
+        }
+
         this.moveAmmoSprite(tower, enemy).then(() => {
             ammoDiv.remove()
-            console.log('now playing impact')
-            
             let impactDiv = this.initializeImpact(tower, enemy)
-            console.log('impactDiv', impactDiv)
             this.playImpactSprite(tower).then(() => {
-                console.log('impact div to remove ', impactDiv)
                 impactDiv.remove()
-                
                 tower.towerAmmoId++
             });
         });
-        
-        //this.clearAmmoSprite(tower);
-        //remove ammo
-        //create the impact
-        //play the impact
-        /*
-        should create the ammo and display it
-        initializeAmmo
-        playAmmoSprite
-        remove sprite
-        should create the impact and display it
-        animateImpactSprite
-        playImpactSprite
-        remove sprite
-        */
-        
-
     }
+
     /*--------------------------------------------------------------------------------*/
 
     initializeAmmo(tower) {
+        let imgAmmoRationSize = 8
+
+
+        //condition pour vérifier que l'ammo à afficher est une flêche ou non
+        
+        if (tower.type == 'T' || tower.type == 'WT') {
+            imgAmmoRationSize = 3;
+        }
         const ammoDiv = document.createElement('div');
         ammoDiv.id = `AmmoDiv_${tower.towerAmmoId}`;
         ammoDiv.style.position = 'absolute';
-        ammoDiv.style.height = Math.floor((this.tilesSize / 8)).toString() + 'px';
+        ammoDiv.style.height = Math.floor((this.tilesSize / imgAmmoRationSize)).toString() + 'px';
         ammoDiv.style.width = Math.floor(Math.round((this.tilesSize / 8))).toString() + 'px';
         ammoDiv.style.top = ((tower.position.x * this.tilesSize) + this.offsetsTop + this.tilesSize / 2 - this.tilesSize * 0.2).toString() + 'px';
         ammoDiv.style.left = ((tower.position.y * this.tilesSize) + this.offsetsLeft - tower.position.y + this.tilesSize / 2).toString() + 'px';
@@ -230,8 +222,8 @@ export class Display{
         const imgAmmo = new Image();
         imgAmmo.src = tower.pathAmmo;
         imgAmmo.id = `ammoImg_${tower.towerAmmoId}`;
-        imgAmmo.height = Math.floor(this.tilesSize / 8)
-        imgAmmo.width = Math.floor(((this.tilesSize / 8) * tower.totalAmmoFrames))
+        imgAmmo.height = Math.floor(this.tilesSize / imgAmmoRationSize)
+        imgAmmo.width = Math.floor(((this.tilesSize / 8 ) * tower.totalAmmoFrames))
         imgAmmo.style.position = 'absolute';
         imgAmmo.style.top = '0';
         imgAmmo.style.left = '0';
@@ -279,7 +271,7 @@ export class Display{
         clearInterval(tower.animationTowerInterval);
         tower.currentTowerFrame = 0;
         const { originX, originY } = this.getOriginWeapon(tower);
-        let angle = this.rotateWeapon(tower, enemy)
+        let angle = this.getRotateAngle(tower, enemy)
         if (!document.getElementById(`weaponDiv_${tower.id}`)) {
             return;
         }
@@ -288,7 +280,7 @@ export class Display{
         weaponDiv.style.transform = `rotate(${angle}deg)`;
         let imgTowerWeapon = document.getElementById(`weaponImg_${tower.id}`);
         imgTowerWeapon.style.left = '0px';
-        const frameDuration = Math.floor(tower.shotRate / tower.totalTowerFrames);
+        const frameDuration = Math.floor(500 / tower.totalTowerFrames);     //250 
         tower.animationTowerInterval = setInterval(() => {
             this.animateTowerSprite(tower);
             if (tower.currentTowerFrame >= tower.totalTowerFrames) {
@@ -297,6 +289,8 @@ export class Display{
         }, frameDuration);
     }
 
+    /*------------------------------------------*/
+    
     animateTowerSprite(tower) {
         if (tower.currentTowerFrame >= tower.totalTowerFrames) {
             clearInterval(tower.animationTowerInterval);
@@ -317,12 +311,11 @@ export class Display{
         clearInterval(tower.animationAmmoInterval);
         tower.currentAmmoFrame = 0;
         if (!document.getElementById(`ammoImg_${tower.towerAmmoId}`)) {
-            console.log('cant find ammo');
             return;
         }
         let imgAmmo = document.getElementById(`ammoImg_${tower.towerAmmoId}`);
         imgAmmo.style.left = '0px';
-        const frameDuration = Math.floor(tower.shotRate / tower.totalAmmoFrames);
+        const frameDuration = Math.floor(250 / tower.totalAmmoFrames);
         tower.animationAmmoInterval = setInterval(() => {
             this.animateAmmoSprite(tower);
             if (tower.currentAmmoFrame >= tower.totalAmmoFrames) {
@@ -330,7 +323,9 @@ export class Display{
             }
         }, frameDuration);
     }
-
+    
+    /*------------------------------------------*/
+    
     animateAmmoSprite(tower) {
         if (tower.currentAmmoFrame >= tower.totalAmmoFrames) {
             clearInterval(tower.animationAmmoInterval);
@@ -346,20 +341,44 @@ export class Display{
     }
 
     moveAmmoSprite(tower, enemy) {
-        let enemyId = enemy.id;
+        
         let ammoDiv = document.getElementById(`AmmoDiv_${tower.towerAmmoId}`);
-        return new Promise((resolve) => { 
+
+        return new Promise((resolve) => {
             anime({
                 targets: ammoDiv,
-                top: ((enemy.position.x * this.tilesSize) + this.offsetsTop + this.tilesSize/2).toString() + 'px', // Set the top property to the new position's x coordinate
-                left: ((enemy.position.y * this.tilesSize) + this.offsetsLeft + this.tilesSize / 2 - enemy.position.y).toString() + 'px', // Set the left property to the new position's y coordinate
+                top: ((enemy.position.x * this.tilesSize) + this.offsetsTop).toString() + 'px', // Set the top property to the new position's x coordinate
+                left: ((enemy.position.y * this.tilesSize) + this.offsetsLeft - enemy.position.y).toString() + 'px', // Set the left property to the new position's y coordinate
                 easing: 'linear', // Use linear easing for smooth movement
-                duration: tower.shotRate, // Set the duration of the animation to 300 milliseconds
+                duration: 250, // Set the duration of the animation to 300 milliseconds
                 complete: function () {
                     resolve(true); // Resolve the promise when the animation is complete
                 }
             });
         });
+    }
+
+    rotateAmmoSprite(tower, enemy) {
+        let imgAmmoRationSize = 8;
+        //condition pour vérifier sur l'ammo a afficehr est une fleche ou non
+        if (tower.type == 'T' || tower.type == 'WT') {
+            imgAmmoRationSize = 3;
+        }
+
+        let ammoDiv = document.getElementById(`AmmoDiv_${tower.towerAmmoId}`);        
+
+        const progress = tower.currentAmmoFrame / tower.totalAmmoFrames;
+        
+        const originX = this.tilesSize / imgAmmoRationSize + (this.tilesSize / imgAmmoRationSize) * progress;
+        const originY = this.tilesSize / imgAmmoRationSize
+
+
+        let angle = this.getRotateAngle(tower, enemy)
+
+        ammoDiv.style.transformOrigin = `${originX}px ${originY}px`; 
+
+
+        ammoDiv.style.transform = `rotate(${angle}deg)`;
     }
 
     /*--------------------------------------------------------------------------------*/
@@ -369,14 +388,12 @@ export class Display{
             clearInterval(tower.animationImpactInterval);
             tower.currentImpactFrame = 0;
             if (!document.getElementById(`impactImg_${tower.towerAmmoId}`)) {
-                console.log('cant find impact');
                 reject('Impact element not found');
                 return;
             }
             let imgImpact = document.getElementById(`impactImg_${tower.towerAmmoId}`);
-            console.log(imgImpact, 'imgImpact');
             imgImpact.style.left = '0px';
-            const frameDuration = Math.floor(tower.shotRate / tower.totalImpactFrames);
+            const frameDuration = Math.floor(250 / tower.totalImpactFrames);
             tower.animationImpactInterval = setInterval(() => {
                 this.animateImpactSprite(tower);
                 if (tower.currentImpactFrame >= tower.totalImpactFrames) {
@@ -387,18 +404,13 @@ export class Display{
         });
     }
 
-
-
-
     animateImpactSprite(tower) {
         if (tower.currentImpactFrame >= tower.totalImpactFrames) {
             clearInterval(tower.animationImpactInterval);
-            console.log('clearInterval for impact sprite');
             return;
         }
-        
+
         if (!document.getElementById(`impactImg_${tower.towerAmmoId}`)) {
-            console.log("can't find impact img")
             return null;
         }
         let framePositionX = -tower.currentImpactFrame * this.tilesSize / 8;
@@ -416,7 +428,7 @@ export class Display{
         return { originX, originY };
     }
 
-    rotateWeapon(tower, cell) {
+    getRotateAngle(tower, cell) {
         const deltaX = cell.position.x - tower.position.x;
         const deltaY = cell.position.y - tower.position.y;
         let angle = Math.atan2(deltaX, deltaY) * (180 / Math.PI); // Calculate angle in degrees
@@ -544,10 +556,10 @@ export class Display{
             roman = (key[+digits.pop() + (i * 10)] || "") + roman;
         return Array(+digits.join("") + 1).join("M") + roman;
     }
-    playSong(backgroundMusic, songName){
+    playSong(backgroundMusic, songName) {
         let audio = document.getElementById("audio");
         let backgroundAudio = document.getElementById("backgroundAudio");
-        if(backgroundMusic) {
+        if (backgroundMusic) {
             backgroundAudio.type = "audio/mpeg";
             backgroundAudio.src = enumSongs[songName];
             backgroundAudio.volume = 0.30;
@@ -559,7 +571,7 @@ export class Display{
         }
     }
 
-    stopSong(){
+    stopSong() {
         let backgroundAudio = document.getElementById("backgroundAudio");
         backgroundAudio.currentTime = 0;
         backgroundAudio.volume = 0;
