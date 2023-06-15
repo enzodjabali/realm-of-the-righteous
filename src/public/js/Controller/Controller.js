@@ -197,6 +197,9 @@ export class Controller{
     saveModel(model, playerValue) {
         for (let i = 0; i < model.matrice.length; i++) {
             for (let j = 0; j < model.matrice[i].length; j++) {
+                if(model.matrice[i][j].tower){
+                    model.matrice[i][j].tower.buffedTower = [];
+                }
                 model.matrice[i][j].enemies = [];
             }
         }

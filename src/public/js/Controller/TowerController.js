@@ -250,7 +250,12 @@ export class TowerController {
                     if(closeTower.damage == enumTower[closeTower.type].damage[closeTower.level]){
                         closeTower.damage = (closeTower.damage *= tower.buffTower).toFixed(1);
                         closeTower.armorDamage = (closeTower.armorDamage *= tower.buffTower).toFixed(1);
-                        tower.addBuffedTower(this.model.matrice[closeTower.position.x][closeTower.position.y].tower);
+                        try{
+                            tower.buffedTower.push(this.model.matrice[closeTower.position.x][closeTower.position.y].tower)
+                        } catch (error){
+                            console.log(this.model.matrice[closeTower.position.x][closeTower.position.y].tower, "faire remonter aux cop1s")
+                            console.log(error)
+                        }
                     }
                 }
             }
