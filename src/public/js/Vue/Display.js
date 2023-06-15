@@ -10,7 +10,7 @@ export class Display{
         this.snd1;
         this.snd2;
     }
-    initializeBoard(matrice){
+    initializeBoard(matrice) {
         /**
          * @param {Dict} matrice dictionnary of all the data about the game.
          * Permit to initialize board
@@ -19,35 +19,31 @@ export class Display{
         // HELP ME
         let xRatio;
         let yRatio;
-        xRatio = (0.95*window.innerWidth) / (matrice[0].length);
-        yRatio = (0.95*window.innerHeight) / (matrice.length);
-
-        if (xRatio >= yRatio){
+        xRatio = (0.95 * window.innerWidth) / (matrice[0].length);
+        yRatio = (0.95 * window.innerHeight) / (matrice.length);
+        if (xRatio >= yRatio) {
             this.tilesSize = yRatio
             this.tilesSize = Math.floor(this.tilesSize)
         } else {
             this.tilesSize = xRatio
             this.tilesSize = Math.floor(this.tilesSize)
         }
-        for (let a = 0 ; a < matrice[0].length ; a++){
-            columns += `${this.tilesSize-1}px `
-
+        for (let a = 0; a < matrice[0].length; a++) {
+            columns += `${this.tilesSize - 1}px `
         }
         let container = document.getElementById('board-container');
-
         var container_offsets = document.getElementById('board-container').getBoundingClientRect();
         this.offsetsTop = container_offsets.top;
-        this.offsetsLeft  = container_offsets.left;
-
-        
+        this.offsetsLeft = container_offsets.left;
         let containerEnemies = document.getElementById('container-enemies');
         containerEnemies.style.top = 0;
         containerEnemies.style.left = 0;
-
         let containerTowers = document.getElementById('container-towers');
         containerTowers.style.top = 0;
         containerTowers.style.left = 0;
-
+        let containerAmmo = document.getElementById('container-Ammo');
+        containerAmmo.style.top = 0;
+        containerAmmo.style.left = 0;
         container.style.gridTemplateColumns = columns;
 
         let imgDict = {
@@ -65,22 +61,22 @@ export class Display{
             'sw': "../../assets/images/tiles/sw.png",
         }
 
-        for (let x = 0 ; x < matrice.length ; x++){
-            for (let y = 0 ; y < matrice[x].length ; y++){
-                for(let [img_tile, path] of Object.entries(imgDict)){
-                    if(matrice[x][y].tile == img_tile){
+        for (let x = 0; x < matrice.length; x++) {
+            for (let y = 0; y < matrice[x].length; y++) {
+                for (let [img_tile, path] of Object.entries(imgDict)) {
+                    if (matrice[x][y].tile == img_tile) {
                         let img = document.createElement("img");
                         img.src = path;
                         img.width = this.tilesSize;
                         img.height = this.tilesSize;
                         document.getElementById('board-container').appendChild(img);
-                        if(img_tile = 'basegrass'){
+                        if (img_tile = 'basegrass') {
                             img.onclick = () => {
-                                if(this.pile == -1){
-                                    this.pile = [img, [x,y]];
+                                if (this.pile == -1) {
+                                    this.pile = [img, [x, y]];
                                 } else {
                                     this.pile[0].classList.remove('tile-shadow'); // remove class (not selected anymore)
-                                    this.pile = [img, [x,y]]
+                                    this.pile = [img, [x, y]]
                                 }
                                 this.pile[0].setAttribute('class', 'tile-shadow');
                             }
@@ -91,7 +87,7 @@ export class Display{
         }
     }
 
-    initializeEnemy(enemy){
+    initializeEnemy(enemy) {
         /**
          * @param {Enemy} enemy instance of enemy.
          * Permit to initialize the enemy
@@ -101,8 +97,9 @@ export class Display{
         enemyDiv.id = `enemy_${enemyId}`;
         enemyDiv.className = 'enemy';
         enemyDiv.style.position = 'absolute';
-        enemyDiv.style.top = (enemy.position.x * this.tilesSize) + this.offsetsTop.toString() + 'px';
-        enemyDiv.style.left = (enemy.position.y * this.tilesSize) + this.offsetsLeft - enemy.position.y.toString() + 'px';
+        enemyDiv.style.top = (enemy.position.x * this.tilesSize + this.offsetsTop).toString() + 'px';
+        enemyDiv.style.left = (enemy.position.y * this.tilesSize + this.offsetsLeft - enemy.position.y).toString() + 'px';
+
         document.getElementById('container-enemies').appendChild(enemyDiv);
 
         let enemyImg = new Image();
@@ -117,8 +114,8 @@ export class Display{
         healthBar.id = healthBarId;
         healthBar.className = 'health-bar';
         healthBar.style.backgroundColor = 'green';
-        healthBar.style.height = this.tilesSize/8+'px'; // Set initial health to 100%
-        healthBar.style.width = (enemy.max_life/enemy.curent_life)*100 +'%'; // Set initial health to 100%
+        healthBar.style.height = this.tilesSize / 8 + 'px'; // Set initial health to 100%
+        healthBar.style.width = (enemy.max_life / enemy.curent_life) * 100 + '%'; // Set initial health to 100%
         enemyDiv.appendChild(healthBar);
     }
 
@@ -132,29 +129,36 @@ export class Display{
         towerContainer.style.position = 'absolute';
         towerContainer.style.height = this.tilesSize + 'px';
         towerContainer.style.width = this.tilesSize + 'px';
-        towerContainer.style.top = ((tower.position.x * this.tilesSize) + this.offsetsTop ).toString() + 'px';
+        towerContainer.style.top = ((tower.position.x * this.tilesSize) + this.offsetsTop).toString() + 'px';
         towerContainer.style.left = ((tower.position.y * this.tilesSize) + this.offsetsLeft - tower.position.y).toString() + 'px';
         document.getElementById('container-towers').appendChild(towerContainer);
+
+        /*------------------------------------------*/
+
 
         let imgTower = new Image();
         imgTower.id = `Img_${tower.id}`;
         imgTower.src = tower.path;
-        imgTower.style.height = this.tilesSize+ 'px';
+        imgTower.style.height = this.tilesSize + 'px';
         imgTower.style.width = this.tilesSize + 'px';
         imgTower.style.position = 'absolute';
         imgTower.style.top = 0 + 'px';;
         imgTower.style.left = '0';
         towerContainer.appendChild(imgTower);
 
+        /*------------------------------------------*/
+
         let weaponDiv = document.createElement('div');
         weaponDiv.id = `weaponDiv_${tower.id}`;
         weaponDiv.style.position = 'absolute';
         weaponDiv.style.height = this.tilesSize + 'px';
         weaponDiv.style.width = this.tilesSize + 'px';
-        weaponDiv.style.top = -this.tilesSize*0.2 + 'px';;
+        weaponDiv.style.top = -this.tilesSize * 0.2 + 'px';
         weaponDiv.style.left = '0';
         weaponDiv.style.overflow = 'hidden';
         towerContainer.appendChild(weaponDiv);
+
+        /*------------------------------------------*/
 
         let imgTowerWeapon = new Image();
         imgTowerWeapon.src = tower.pathWeapon;
@@ -166,58 +170,117 @@ export class Display{
         imgTowerWeapon.style.left = '0';
         weaponDiv.appendChild(imgTowerWeapon);
 
+        /*------------------------------------------*/
+        
         document.getElementById('container-towers').appendChild(towerContainer);
         return `div_${tower.id}`;
     }
+
+    /*--------------------------------------------------------------------------------*/
+
+    ShootEnemy(tower, enemy) {
+        this.playTowerSprite(tower, enemy);
+        let ammoDiv = this.initializeAmmo(tower);
+        this.playAmmoSprite(tower);
+        this.moveAmmoSprite(tower, enemy).then(() => {
+            ammoDiv.remove()
+            console.log('now playing impact')
+            
+            let impactDiv = this.initializeImpact(tower, enemy)
+            console.log('impactDiv', impactDiv)
+            this.playImpactSprite(tower).then(() => {
+                console.log('impact div to remove ', impactDiv)
+                impactDiv.remove()
+                
+                tower.towerAmmoId++
+            });
+        });
+        
+        //this.clearAmmoSprite(tower);
+        //remove ammo
+        //create the impact
+        //play the impact
+        /*
+        should create the ammo and display it
+        initializeAmmo
+        playAmmoSprite
+        remove sprite
+        should create the impact and display it
+        animateImpactSprite
+        playImpactSprite
+        remove sprite
+        */
+        
+
+    }
+    /*--------------------------------------------------------------------------------*/
 
     initializeAmmo(tower) {
         const ammoDiv = document.createElement('div');
         ammoDiv.id = `AmmoDiv_${tower.towerAmmoId}`;
         ammoDiv.style.position = 'absolute';
-        ammoDiv.style.height = this.tilesSize + 'px';
-        ammoDiv.style.width = this.tilesSize + 'px';
-        ammoDiv.style.top = -this.tilesSize * 0.50 + 'px';
-        ammoDiv.style.left = '0';
+        ammoDiv.style.height = Math.floor((this.tilesSize / 8)).toString() + 'px';
+        ammoDiv.style.width = Math.floor(Math.round((this.tilesSize / 8))).toString() + 'px';
+        ammoDiv.style.top = ((tower.position.x * this.tilesSize) + this.offsetsTop + this.tilesSize / 2 - this.tilesSize * 0.2).toString() + 'px';
+        ammoDiv.style.left = ((tower.position.y * this.tilesSize) + this.offsetsLeft - tower.position.y + this.tilesSize / 2).toString() + 'px';
         ammoDiv.style.overflow = 'hidden';
+
+        /*------------------------------------------*/
 
         const imgAmmo = new Image();
         imgAmmo.src = tower.pathAmmo;
-        imgAmmo.id = `weaponImg_${tower.id}`;
-        imgAmmo.height = this.tilesSize;
-        imgAmmo.width = this.tilesSize * tower.totalTowerFrames;
+        imgAmmo.id = `ammoImg_${tower.towerAmmoId}`;
+        imgAmmo.height = Math.floor(this.tilesSize / 8)
+        imgAmmo.width = Math.floor(((this.tilesSize / 8) * tower.totalAmmoFrames))
         imgAmmo.style.position = 'absolute';
         imgAmmo.style.top = '0';
         imgAmmo.style.left = '0';
+
         ammoDiv.appendChild(imgAmmo);
-        const weaponDiv = document.getElementById(`weaponImg_${tower.id}`);
-        weaponDiv.appendChild(ammoDiv);
-        tower.towerAmmoId++;
+
+        const containerAmmo = document.getElementById(`container-Ammo`);
+        containerAmmo.appendChild(ammoDiv);
+        return ammoDiv;
     }
 
-    playAmmoSprite(tower) {
-        const ammoDiv = document.getElementById(`AmmoDiv_${tower.towerAmmoId}`);
-        const imgAmmo = document.getElementById(`weaponImg_${tower.id}`);
-        let frame_2 = 0;
-        let id = setInterval(frame, 1000);
-        function frame() {
-            if (frame === tower.totalTowerFrames) {
-                clearInterval(id);
-                ammoDiv.remove();
-            } else {
-                frame++;
-                imgAmmo.style.left = -frame * this.tilesSize + 'px';
-            }
-        }
+    /*--------------------------------------------------------------------------------*/
+
+    initializeImpact(tower, enemy) {
+        const impactDiv = document.createElement('div');
+        impactDiv.id = `ImpactDiv_${tower.towerAmmoId}`;
+        impactDiv.style.position = 'absolute';
+        impactDiv.style.height = Math.floor((this.tilesSize / 4)).toString() + 'px';
+        impactDiv.style.width = Math.floor(Math.round((this.tilesSize / 4))).toString() + 'px';
+        impactDiv.style.top = ((enemy.position.x * this.tilesSize) + this.offsetsTop + this.tilesSize / 2 - this.tilesSize * 0.2).toString() + 'px';
+        impactDiv.style.left = ((enemy.position.y * this.tilesSize) + this.offsetsLeft - tower.position.y + this.tilesSize / 2).toString() + 'px';
+        impactDiv.style.overflow = 'hidden';
+
+        /*------------------------------------------*/
+
+        const imgImpact = new Image();
+        imgImpact.src = tower.pathImpact;
+        imgImpact.id = `impactImg_${tower.towerAmmoId}`;
+        imgImpact.height = Math.floor(this.tilesSize / 4)
+        imgImpact.width = Math.floor(((this.tilesSize / 4) * tower.totalImpactFrames))
+        imgImpact.style.position = 'absolute';
+        imgImpact.style.top = '0';
+        imgImpact.style.left = '0';
+
+        impactDiv.appendChild(imgImpact);
+
+        const containerImpact = document.getElementById(`container-Ammo`);
+        containerImpact.appendChild(impactDiv);
+        return impactDiv;
     }
 
+    /*--------------------------------------------------------------------------------*/
 
     playTowerSprite(tower, enemy) {
-        this.initializeAmmo(tower)
-        clearInterval(tower.animationInterval);
-        tower.currentFrame = 0;
+        clearInterval(tower.animationTowerInterval);
+        tower.currentTowerFrame = 0;
         const { originX, originY } = this.getOriginWeapon(tower);
         let angle = this.rotateWeapon(tower, enemy)
-        if(!document.getElementById(`weaponDiv_${tower.id}`)){
+        if (!document.getElementById(`weaponDiv_${tower.id}`)) {
             return;
         }
         let weaponDiv = document.getElementById(`weaponDiv_${tower.id}`);
@@ -226,29 +289,128 @@ export class Display{
         let imgTowerWeapon = document.getElementById(`weaponImg_${tower.id}`);
         imgTowerWeapon.style.left = '0px';
         const frameDuration = Math.floor(tower.shotRate / tower.totalTowerFrames);
-        tower.animationInterval = setInterval(() => {
-            this.animateSprite(tower);
-            if (tower.currentFrame >= tower.totalTowerFrames) {
-                clearInterval(tower.animationInterval);
+        tower.animationTowerInterval = setInterval(() => {
+            this.animateTowerSprite(tower);
+            if (tower.currentTowerFrame >= tower.totalTowerFrames) {
+                clearInterval(tower.animationTowerInterval);
             }
         }, frameDuration);
     }
-    animateSprite(tower) {
-        if (tower.currentFrame >= tower.totalTowerFrames) {
-            clearInterval(tower.animationInterval);
+
+    animateTowerSprite(tower) {
+        if (tower.currentTowerFrame >= tower.totalTowerFrames) {
+            clearInterval(tower.animationTowerInterval);
             return;
         }
-        if(!document.getElementById(`weaponImg_${tower.id}`)){
+        if (!document.getElementById(`weaponImg_${tower.id}`)) {
             return;
         }
-        let framePositionX = -tower.currentFrame * this.tilesSize;
+        let framePositionX = -tower.currentTowerFrame * this.tilesSize;
         let imgTowerWeapon = document.getElementById(`weaponImg_${tower.id}`);
         imgTowerWeapon.style.left = `${framePositionX}px`;
-        tower.currentFrame++;
+        tower.currentTowerFrame++;
     }
 
+    /*--------------------------------------------------------------------------------*/
+
+    playAmmoSprite(tower) {
+        clearInterval(tower.animationAmmoInterval);
+        tower.currentAmmoFrame = 0;
+        if (!document.getElementById(`ammoImg_${tower.towerAmmoId}`)) {
+            console.log('cant find ammo');
+            return;
+        }
+        let imgAmmo = document.getElementById(`ammoImg_${tower.towerAmmoId}`);
+        imgAmmo.style.left = '0px';
+        const frameDuration = Math.floor(tower.shotRate / tower.totalAmmoFrames);
+        tower.animationAmmoInterval = setInterval(() => {
+            this.animateAmmoSprite(tower);
+            if (tower.currentAmmoFrame >= tower.totalAmmoFrames) {
+                clearInterval(tower.animationAmmoInterval);
+            }
+        }, frameDuration);
+    }
+
+    animateAmmoSprite(tower) {
+        if (tower.currentAmmoFrame >= tower.totalAmmoFrames) {
+            clearInterval(tower.animationAmmoInterval);
+            return;
+        }
+        if (!document.getElementById(`ammoImg_${tower.towerAmmoId}`)) {
+            return null;
+        }
+        let framePositionX = -tower.currentAmmoFrame * this.tilesSize / 8;
+        let imgAmmo = document.getElementById(`ammoImg_${tower.towerAmmoId}`);
+        imgAmmo.style.left = `${framePositionX}px`;
+        tower.currentAmmoFrame++;
+    }
+
+    moveAmmoSprite(tower, enemy) {
+        let enemyId = enemy.id;
+        let ammoDiv = document.getElementById(`AmmoDiv_${tower.towerAmmoId}`);
+        return new Promise((resolve) => { 
+            anime({
+                targets: ammoDiv,
+                top: ((enemy.position.x * this.tilesSize) + this.offsetsTop + this.tilesSize/2).toString() + 'px', // Set the top property to the new position's x coordinate
+                left: ((enemy.position.y * this.tilesSize) + this.offsetsLeft + this.tilesSize / 2 - enemy.position.y).toString() + 'px', // Set the left property to the new position's y coordinate
+                easing: 'linear', // Use linear easing for smooth movement
+                duration: tower.shotRate, // Set the duration of the animation to 300 milliseconds
+                complete: function () {
+                    resolve(true); // Resolve the promise when the animation is complete
+                }
+            });
+        });
+    }
+
+    /*--------------------------------------------------------------------------------*/
+
+    playImpactSprite(tower) {
+        return new Promise((resolve, reject) => {
+            clearInterval(tower.animationImpactInterval);
+            tower.currentImpactFrame = 0;
+            if (!document.getElementById(`impactImg_${tower.towerAmmoId}`)) {
+                console.log('cant find impact');
+                reject('Impact element not found');
+                return;
+            }
+            let imgImpact = document.getElementById(`impactImg_${tower.towerAmmoId}`);
+            console.log(imgImpact, 'imgImpact');
+            imgImpact.style.left = '0px';
+            const frameDuration = Math.floor(tower.shotRate / tower.totalImpactFrames);
+            tower.animationImpactInterval = setInterval(() => {
+                this.animateImpactSprite(tower);
+                if (tower.currentImpactFrame >= tower.totalImpactFrames) {
+                    clearInterval(tower.animationImpactInterval);
+                    resolve(); // Resolve the Promise when animation is completed
+                }
+            }, frameDuration);
+        });
+    }
+
+
+
+
+    animateImpactSprite(tower) {
+        if (tower.currentImpactFrame >= tower.totalImpactFrames) {
+            clearInterval(tower.animationImpactInterval);
+            console.log('clearInterval for impact sprite');
+            return;
+        }
+        
+        if (!document.getElementById(`impactImg_${tower.towerAmmoId}`)) {
+            console.log("can't find impact img")
+            return null;
+        }
+        let framePositionX = -tower.currentImpactFrame * this.tilesSize / 8;
+        let imgImpact = document.getElementById(`impactImg_${tower.towerAmmoId}`);
+        imgImpact.style.left = `${framePositionX}px`;
+        tower.currentImpactFrame++;
+    }
+
+    /*--------------------------------------------------------------------------------*/
+
     getOriginWeapon(tower) {
-        const progress = tower.currentFrame / tower.totalTowerFrames;
+        const progress = tower.currentTowerFrame / tower.totalTowerFrames;
         const originX = this.tilesSize / 2 + this.tilesSize * progress;
         const originY = this.tilesSize / 2;
         return { originX, originY };
@@ -262,7 +424,9 @@ export class Display{
         return angle
     }
 
-    nextMoveEnemy(enemy){
+    /*--------------------------------------------------------------------------------*/
+
+    nextMoveEnemy(enemy) {
         /**
          * @param {enemy} enemy instance of enemy.
          * Permit to make move the enemy by its coordinates in matrice
@@ -276,15 +440,15 @@ export class Display{
                 top: ((enemy.position.x * this.tilesSize) + this.offsetsTop).toString() + 'px', // Set the top property to the new position's x coordinate
                 left: ((enemy.position.y * this.tilesSize) + this.offsetsLeft - enemy.position.y).toString() + 'px', // Set the left property to the new position's y coordinate
                 easing: 'linear', // Use linear easing for smooth movement
-                duration: 10000/enemy.speed, // Set the duration of the animation to 300 milliseconds
-                complete: function (){
+                duration: 10000 / enemy.speed, // Set the duration of the animation to 300 milliseconds
+                complete: function () {
                     resolve('all good'); // Resolve the promise when the animation is complete
                 }
             });
         });
     }
-    
-    removeEnemy(enemy){
+
+    removeEnemy(enemy) {
         /**
          * @param {enemy} enemy instance of enemy.
          * Permit to remove the enemy from matrice
@@ -293,8 +457,8 @@ export class Display{
         const parentElement = enemyDiv.parentNode; // Get the parent element of the div
         parentElement.removeChild(enemyDiv); // Remove the div element from its parent
     }
-    
-    removeTower(tower){
+
+    removeTower(tower) {
         /**
          * @param {tower} tower instance of tower.
          * Permit to remove the tower from matrice
@@ -303,8 +467,10 @@ export class Display{
         const parentElement = towerContainer.parentNode; // Get the parent element of the div
         parentElement.removeChild(towerContainer); // Remove the div element from its parent
     }
-    
-    flipItLeft(enemy){
+
+    /*--------------------------------------------------------------------------------*/
+
+    flipItLeft(enemy) {
         /**
          * @param {enemy} enemy instance of enemy.
          * Permit to flip left enemy
@@ -313,8 +479,8 @@ export class Display{
         let enemyImage = document.getElementById(`enemy_${enemyId}`)
         enemyImage.style.transform = 'scaleX(-1)';
     }
-    
-    flipItLeftRight(enemy){
+
+    flipItLeftRight(enemy) {
         /**
          * @param {enemy} enemy instance of enemy.
          * Permit to flip left to right enemy
@@ -323,28 +489,30 @@ export class Display{
         let enemyImage = document.getElementById(`enemy_${enemyId}`)
         enemyImage.style.transform = 'scaleX(1)';
     }
-    
-    updateEnemyHealthBar(enemy){
+
+    /*--------------------------------------------------------------------------------*/
+
+    updateEnemyHealthBar(enemy) {
         const enemyId = `enemy_${enemy.id}`;
         const enemyDiv = document.getElementById(enemyId);
         let healthBar = enemyDiv.querySelector(`#health_${enemyId}`);
-        healthBar.style.width = (enemy.curent_life/enemy.max_life)*100 +'%';
+        healthBar.style.width = (enemy.curent_life / enemy.max_life) * 100 + '%';
     }
-    
-    updatePlayerData(money, life, killedEnemies, currentWave){
-        document.getElementById('money').innerText = "🪙 "+money+"";
-        document.getElementById('life').innerText = "Current life : "+life+" ❤️";
-        document.getElementById('killedEnemies').innerText = "💀 "+killedEnemies
-        document.getElementById('wave-counter').innerText = "🧟 "+this.romanizeNumber(currentWave+1);
+
+    updatePlayerData(money, life, killedEnemies, currentWave) {
+        document.getElementById('money').innerText = "🪙 " + money + "";
+        document.getElementById('life').innerText = "Current life : " + life + " ❤️";
+        document.getElementById('killedEnemies').innerText = "💀 " + killedEnemies
+        document.getElementById('wave-counter').innerText = "🧟 " + this.romanizeNumber(currentWave + 1);
     }
-    showTowerRange(towerPosition, range){
+    showTowerRange(towerPosition, range) {
         this.hideTowerRange()
         let x, y;
-        let width = (this.tilesSize * range).toString()+"px"
-        let height = (this.tilesSize * range).toString()+"px"
+        let width = (this.tilesSize * range).toString() + "px"
+        let height = (this.tilesSize * range).toString() + "px"
 
-        x = ((towerPosition.x * this.tilesSize) + this.offsetsTop - ((this.tilesSize/2)*(range-1))).toString() + 'px'; /*10 = margin css*/
-        y = ((towerPosition.y * this.tilesSize) + this.offsetsLeft - towerPosition.y - (this.tilesSize/2*(range-1))).toString() + 'px'; /*10 = margin css*/
+        x = ((towerPosition.x * this.tilesSize) + this.offsetsTop - ((this.tilesSize / 2) * (range - 1))).toString() + 'px'; /*10 = margin css*/
+        y = ((towerPosition.y * this.tilesSize) + this.offsetsLeft - towerPosition.y - (this.tilesSize / 2 * (range - 1))).toString() + 'px'; /*10 = margin css*/
 
         let circle = document.createElement('div')
         circle.style.position = "absolute"
@@ -357,19 +525,19 @@ export class Display{
         circle.setAttribute('class', 'rangeCircle')
         document.body.appendChild(circle)
     }
-    hideTowerRange(){
+    hideTowerRange() {
         const elements = document.getElementsByClassName('rangeCircle');
-        while(elements.length > 0){
+        while (elements.length > 0) {
             elements[0].parentNode.removeChild(elements[0]);
         }
     }
-    romanizeNumber (num) {
+    romanizeNumber(num) {
         if (isNaN(num) || num == 0)
             return "I";
         var digits = String(+num).split(""),
-            key = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM",
-                "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC",
-                "","I","II","III","IV","V","VI","VII","VIII","IX"],
+            key = ["", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM",
+                "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC",
+                "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"],
             roman = "",
             i = 3;
         while (i--)
