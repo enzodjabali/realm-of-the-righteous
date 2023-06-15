@@ -19,8 +19,8 @@ export class Model {
             this.defaultLifePlayer = fetchModel.defaultLifePlayer
             this.killedEnemies = fetchModel.killedEnemies;
         } else {
-            this.defaultMoneyPlayer = {"easy": 10000, "normal": 10000, "hard": 500}
-            this.defaultLifePlayer = {"easy": 9999, "normal": 100, "hard": 1}
+            this.defaultMoneyPlayer = {"easy": 400, "normal": 200, "hard": 100}
+            this.defaultLifePlayer = {"easy": 150, "normal": 100, "hard": 50}
             this.killedEnemies = 0;
         }
 

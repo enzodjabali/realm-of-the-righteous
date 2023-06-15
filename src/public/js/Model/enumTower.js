@@ -27,12 +27,12 @@ export const enumTower = {
         totalTowerFrames : [17,17,17],
         totalAmmoFrames : [5,6,8],
         totalImpactFrames : [9,9,9],
-        damage : [3,6,10],
-        armorDamage: [100,2,3],
-        shotRate: [500, 400, 300],//in ms
-        price: [100,200,300],
+        damage : [5,7,10],
+        armorDamage: [5,10,20],
+        shotRate: [2000, 1500, 1000],//in ms
+        price: [200,350,500],
         isAttackingAir: false,
-        splashRange: [2,4,6]
+        splashRange: [0.5,1,1.5]
     },
     'OT':{
         path : ['../../assets/images/towers/OT1.png',
@@ -54,10 +54,10 @@ export const enumTower = {
         totalTowerFrames : [8,8,8],
         totalAmmoFrames : [6,6,6],
         totalImpactFrames : [6,6,6],
-        damage : [3,2,3],
-        armorDamage: [1,2,3],
-        shotRate: [400,150,100],//in ms
-        price: [10,20,30],
+        damage : [4,6,9],
+        armorDamage: [5,10,20],
+        shotRate: [1500,1000,750],//in ms
+        price: [200,350,500],
         rebound: [3,6,9],
         isAttackingAir: true,
     },
@@ -79,10 +79,10 @@ export const enumTower = {
         totalTowerFrames : [6,6,6],
         totalAmmoFrames : [3,4,4],
         totalImpactFrames : [6],
-        shotRate: [300,4000,3000],//in ms
-        damage: [1,40,60],
-        armorDamage: [1,2,3],
-        price: [100,200,300],
+        shotRate: [1500,1250,1000],//in ms
+        damage: [5,7,10],
+        armorDamage: [7,14,25],
+        price: [100,250,400],
         isAttackingAir: false,
         slowness: [1.3, 1.5, 1.8]
     },
@@ -104,10 +104,10 @@ export const enumTower = {
         totalTowerFrames : [6,6,6],
         totalAmmoFrames : [3,6,9],
         totalImpactFrames : [6],
-        damage : [3,6,10],
-        armorDamage: [1,2,3],
-        shotRate: [500,400,300],//in ms
-        price: [1,2,3],
+        damage : [4,6,9],
+        armorDamage: [4,6,9],
+        shotRate: [2000,1000,500],//in ms
+        price: [250,450,650],
         isAttackingAir: false,
         buffTower: [1.2, 1.5, 2]
     },
@@ -126,7 +126,7 @@ export const enumTower = {
         damage : [0],
         armorDamage: [0],
         shotRate: [0],//in ms
-        price: [0],
+        price: [1000],
         isAttackingAir: false,
         buffTower: [0]
     },
