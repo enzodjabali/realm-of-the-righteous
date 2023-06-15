@@ -8,8 +8,8 @@ import { PlayerController } from '../Controller/PlayerController.js';
 import { FetchController } from '../Controller/FetchController.js';
 let gameId = new URLSearchParams(window.location.search).get('gameId');
 export class Controller{
-    constructor(model) {
-        this.model = new Model(model);
+    constructor(model, difficulty) {
+        this.model = new Model(model, difficulty);
         this.display = new Display();
         this.enemiesController = new EnemiesController(this.model);
         this.playerController = new PlayerController(this.model.defaultMoneyPlayer[this.model.difficulty], this.model.defaultLifePlayer[this.model.difficulty], this.model, this.display);
