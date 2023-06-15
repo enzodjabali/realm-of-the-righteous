@@ -8,6 +8,7 @@
         <title>Realm Of The Righteous - About</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="In a fantastic world, the inhabitants of the four kingdoms lived in peace until a threat of hordes of orcs, goblins, and evil creatures gathered to conquer the kingdoms and spread chaos. Learn more about the game Realm Of The Righteous.">
         <link rel="icon" type="image/x-icon" href="assets/images/website/favicon.ico">
         <link href="assets/css/styles.css" rel="stylesheet">
         <script src="node_modules/jquery/dist/jquery.js"></script>
