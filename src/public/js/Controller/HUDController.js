@@ -31,12 +31,9 @@ export class HUDController {
                 } else {
                     if(this.playerController.buyTower(enumTower[key].price[0])){
                         this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies);
-                        if (key != "rock"){
-                            this.playerController.postLogs("Bought "+key+" tower for "+enumTower[key].price[0]+" coins", 1)
-                        }
                         if(this.model.matrice[this.display.pile[1][0]][this.display.pile[1][1]].tile != 'basegrass' && key != "rock"){
-                            console.log("vous ne pouvez pas place de tours ici")
-                            this.playerController.player.money += enumTower[key].price[0];
+                            this.playerController.postLogs("You can't put a tower", 3)
+                            this.playerController.player.money += Math.round(enumTower[key].price[0]);
                             this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies);
                             return
                         } else if (key == "rock") {
@@ -59,31 +56,34 @@ export class HUDController {
                                 null,
                                 null,
                             )
-                            if(this.model.entryPoints[this.indexOfEntryPoints] && this.model.endPoints[this.indexOfEndPoints]) {
-                                let pathForEnemies = this.model.findPathForWaves(tempMatrice, this.model.entryPoints[this.indexOfEntryPoints], this.model.endPoints[this.indexOfEndPoints])
-                                if (pathForEnemies.length > 0) {
-                                    console.log("you can put this rock in matrice")
-                                    if (this.model.matrice[this.display.pile[1][0]][this.display.pile[1][1]].tile != 'basegrass') {
-                                        this.towerController.placeTowerInMatrice(enumTower[key], key);
-                                        this.playerController.postLogs("Bought "+key+" tower for "+enumTower[key].price[0]+" coins", 1)
-
-                                        this.display.pile = -1;
+                                let counter = 0;
+                                for(let x = 0; x < this.model.entryPoints.length; x++) {
+                                    console.log('hey')
+                                    let pathForEnemies = this.model.findPathForWaves(tempMatrice, this.model.entryPoints[x], this.model.endPoints)
+                                    if (pathForEnemies.length > 0) {
+                                        if (this.model.matrice[this.display.pile[1][0]][this.display.pile[1][1]].tile != 'basegrass') {
+                                            counter++
+                                        }
                                     }
-                                } else {
-                                    this.playerController.postLogs("You can't put rock here", 2)
-                                    console.log("what the fuck are you thinking, you can't put this rock in matrice little shit")
+                                }
+                                if(counter == this.model.entryPoints.length){
+                                    this.towerController.placeTowerInMatrice(enumTower[key], key);
+                                    this.playerController.postLogs("Bought " + key + " for " + enumTower[key].price[0] + " coins", 1)
+                                    this.display.pile = -1;
                                     return;
                                 }
-                            } else {
-                                this.playerController.postLogs("Not allowed (round 0)", 3)
-                            }
+                            this.playerController.postLogs("You can't put rock here", 3)
+                            this.playerController.player.money += Math.round(enumTower[key].price[0]);
+                            this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies);
+
                         } else {
+                            this.playerController.postLogs("Bought "+key+" tower for "+enumTower[key].price[0]+" coins", 1)
                             this.display.playSong(false, "putTower")
                             this.towerController.placeTowerInMatrice(enumTower[key], key);
                             this.display.pile = -1;
                         }
                     } else{
-                        console.log(this.playerController.player, 'NOT ENOUGH MONEY')
+                        this.playerController.postLogs("You have not enought money", 1)
                     }
                 }
             }
@@ -91,12 +91,7 @@ export class HUDController {
         }
 
     }
-    setStartPoints(start){
-        this.indexOfEntryPoints = start;
-    }
-    setEndPoints(end){
-        this.indexOfEndPoints = end;
-    }
+
     calculateGoldPerMinute(){
         if(this.goldPerMinute.date+10000 <= Date.now()) {
             this.goldPerMinute.gold = ((this.playerController.player.money - this.goldPerMinute.playerGold) / 10) * 60
