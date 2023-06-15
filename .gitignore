@@ -6,3 +6,5 @@ src/public/.DS_Store
 src/public/api/.env
 .vs/
 .env
+.DS_Store
+src/.DS_Store
