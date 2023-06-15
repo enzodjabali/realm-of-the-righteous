@@ -66,6 +66,7 @@ export class HUDController {
                                     if (this.model.matrice[this.display.pile[1][0]][this.display.pile[1][1]].tile != 'basegrass') {
                                         this.towerController.placeTowerInMatrice(enumTower[key], key);
                                         this.playerController.postLogs("Bought "+key+" tower for "+enumTower[key].price[0]+" coins", 1)
+
                                         this.display.pile = -1;
                                     }
                                 } else {
@@ -77,7 +78,7 @@ export class HUDController {
                                 this.playerController.postLogs("Not allowed (round 0)", 3)
                             }
                         } else {
-
+                            this.display.playSong(false, "putTower")
                             this.towerController.placeTowerInMatrice(enumTower[key], key);
                             this.display.pile = -1;
                         }

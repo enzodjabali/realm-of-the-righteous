@@ -32,8 +32,8 @@ enum GameModels: string
                 [{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"northsouth","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null}]
                 ],
             "waves" : {
-                "easy" : [[[100,"golem"]], [[15, "knight"]],[[40, "knight"]],[[20, "knight"]],[[3, "knight"]]],
-                "medium" : [[[1,"bat"],[2,"golem"],[2,"knight"],[2,"witch"],[2,"wolf"]], [[2,"bat"],[4,"golem"],[4,"knight"],[4,"witch"],[4,"wolf"]]],
+                "easy" : [[[1,"golem"]], [[15, "knight"]],[[40, "knight"]],[[20, "knight"]],[[3, "knight"]]],
+                "normal" : [[[1,"bat"],[2,"golem"],[2,"knight"],[2,"witch"],[2,"wolf"]], [[2,"bat"],[4,"golem"],[4,"knight"],[4,"witch"],[4,"wolf"]]],
                 "hard" : [[[1,100],[0,110]]] },
             "timeBetweenWaves" : 1000,
             "timeBetweenGroups" : 500,
@@ -72,7 +72,7 @@ enum GameModels: string
                 ],
             "waves" : {
                 "easy" : [[[1,"bat"]], [[15, "knight"]],[[40, "knight"]],[[20, "knight"]],[[3, "knight"]]],
-                "normal" : [[[1,"knight"]]],
+                "normal" : [[[2,"knight"]], [[1,"knight"]]],
                 "hard" : [[[1,100],[0,110]]] },
             "timeBetweenWaves" : 1000,
             "timeBetweenGroups" : 500,
@@ -108,10 +108,11 @@ enum GameModels: string
                [{"tile":"basegrass","enemies":[],"tower":null},{"tile":"ne","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"nw","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"northsouth","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"ne","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"nw","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null}],
                [{"tile" :"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"northsouth","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null}]
             ],
-            "waves" : {
-                "easy" : [[[12,"golem"],[10, "knight"]], [[15, "knight"],[40, "wolf"]],[[40, "knight"]],[[20, "knight"]],[[3, "knight"]]],
-                "normal" : [[[1,"golem"]]],
-                "hard" : [[[1,100],[0,110]]] },
+           "waves" : {
+               "easy" : [[[1,"bat"]], [[15, "knight"]],[[40, "knight"]],[[20, "knight"]],[[3, "knight"]]],
+               "normal" : [[[1,"golem"]],
+               "hard" : [[[1,"bat"]], [[15, "knight"]],[[40, "knight"]],[[20, "knight"]],[[3, "knight"]]]
+           },
             "timeBetweenWaves" : 1000,
             "timeBetweenGroups" : 500,
             "difficulty" : "hard",

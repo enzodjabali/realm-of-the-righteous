@@ -3,9 +3,10 @@ import {Player} from '../Model/Player.js';
 const gameId = new URLSearchParams(window.location.search).get('gameId');
 
 export class PlayerController{
-    constructor(money, life, model) {
+    constructor(money, life, model, display) {
         this.model = model;
         this.player = new Player(money, life, this.model.killedEnemies);
+        this.display = display;
     }
     buyTower(price){
         /**
@@ -27,7 +28,9 @@ export class PlayerController{
          *
          */
         this.player.life -= value;
+        this.display.playSong(false, 'loseHealth')
         this.model.defaultLifePlayer[this.model.difficulty] = this.player.life
+
         return this.isPlayerAlive()
     }
     isPlayerAlive(){

@@ -1,5 +1,5 @@
 import anime from '../../node_modules/animejs/lib/anime.es.js';
-
+import {enumSongs} from '../Model/enumSongs.js';
 export class Display{
     constructor() {
         this.enemiesIds = [];
@@ -7,6 +7,8 @@ export class Display{
         this.pile = -1;
         this.offsetsTop = 0;
         this.offsetsLeft = 0;
+        this.snd1;
+        this.snd2;
     }
     initializeBoard(matrice){
         /**
@@ -373,5 +375,25 @@ export class Display{
         while (i--)
             roman = (key[+digits.pop() + (i * 10)] || "") + roman;
         return Array(+digits.join("") + 1).join("M") + roman;
+    }
+    playSong(backgroundMusic, songName){
+        let audio = document.getElementById("audio");
+        let backgroundAudio = document.getElementById("backgroundAudio");
+        if(backgroundMusic) {
+            backgroundAudio.type = "audio/mpeg";
+            backgroundAudio.src = enumSongs[songName];
+            backgroundAudio.volume = 0.30;
+            backgroundAudio.play();
+        } else {
+            audio.type = "audio/mpeg";
+            audio.src = enumSongs[songName];
+            audio.play();
+        }
+    }
+
+    stopSong(){
+        let backgroundAudio = document.getElementById("backgroundAudio");
+        backgroundAudio.currentTime = 0;
+        backgroundAudio.volume = 0;
     }
 }
