@@ -58,9 +58,6 @@ export class Controller{
         await new Promise(r => setTimeout(r, this.model.timeBeforeStart));
         let spawnedEnemies = 0;
         for(let i = this.model.currentWave; i < this.model.waves[diffculty].length; i++){
-            if(i > 0){
-                this.display.playSong(false, "endWave");
-            }
                 await new Promise((resolve, reject) => {
                         document.getElementById("play-game").onclick = () => {
                             if(spawnedEnemies == 0 && this.model.currentWave < this.model.waves[diffculty].length) {
@@ -72,9 +69,6 @@ export class Controller{
                             }
                         }
                  })
-            if(i==0){
-                this.display.playSong(false, "startGame")
-            }
             let song;
             this.model.difficulty == "hard" ? song = "hardMusic" : song = "easyMusic"
             this.display.playSong(true, song)
@@ -112,6 +106,7 @@ export class Controller{
                                     if(i == this.model.waves[diffculty].length-1 && this.playerController.player.life > 0){
                                         this.endGame(true)
                                     } else {
+                                        this.display.playSong(false, "gainXp");
                                         this.model.currentWave++
                                     }
                                 }

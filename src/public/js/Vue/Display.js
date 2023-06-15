@@ -96,7 +96,6 @@ export class Display{
          * @param {Enemy} enemy instance of enemy.
          * Permit to initialize the enemy
          */
-        console.log(enemy)
         let enemyDiv = document.createElement('div');
         let enemyId = enemy.getId();
         enemyDiv.id = `enemy_${enemyId}`;
@@ -381,9 +380,6 @@ export class Display{
         let audio = document.getElementById("audio");
         let backgroundAudio = document.getElementById("backgroundAudio");
         if(backgroundMusic) {
-            // this.snd1 = new Audio();
-            // let src1 = document.createElement("source");
-            console.log(songName)
             backgroundAudio.type = "audio/mpeg";
             backgroundAudio.src = enumSongs[songName];
             backgroundAudio.volume = 0.30;
@@ -399,6 +395,5 @@ export class Display{
         let backgroundAudio = document.getElementById("backgroundAudio");
         backgroundAudio.currentTime = 0;
         backgroundAudio.volume = 0;
-        // this.snd1.pause();
     }
 }

@@ -50,7 +50,6 @@ export class TowerController {
             let splashRange = null;
             let buffTower = null;
             let armorDamage = towerData.armorDamage[towerLevel];
-            console.log(armorDamage, "armor daamge")
             switch (type) {
                 case "OT":
                     rebound = towerData.rebound[towerLevel];
@@ -318,7 +317,6 @@ export class TowerController {
         } else {
             let test = 100 - armorDifference
             enemy.curent_life -= damage*test/100;
-            console.log(enemy.curent_life)
         }
     }
     async slowedEnemy()

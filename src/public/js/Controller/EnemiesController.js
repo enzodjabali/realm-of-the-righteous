@@ -16,18 +16,12 @@ export class EnemiesController {
          * @param {string} typeOfEnemies type of mob.
          * Permit to create an enemy object
          */
-        console.log("passing in createEnnemyObject ")
         if (this.model.entryPoints) {
             let xCord = entry[0];
             let yCord = entry[1];
             let position = {x: xCord,  y: yCord};
             for(let [mobKey, mobValues] of Object.entries(mobDict)){
-                console.log("passing in for loop")
-                console.log(typeOfEnemies, "check 1")
-                console.log(mobKey, "check 2")
                     if(typeOfEnemies == mobKey){
-                        console.log("passing in condiiton for ")
-
                         let newLife = mobValues.life + mobValues.life*(0.02*this.model.currentWave)
                         let newArmor = mobValues.armor + mobValues.armor*(0.01*this.model.currentWave)
                         let newPrice = mobValues.price + mobValues.price*(0.03*this.model.currentWave)
