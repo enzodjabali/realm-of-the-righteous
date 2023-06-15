@@ -49,7 +49,7 @@ export class TowerController {
             let splashRange = null;
             let buffTower = null;
             let armorDamage = towerData.armorDamage[towerLevel];
-            console.log(armorDamage, "armor daamge")
+            console.log(armorDamage, "armor damage")
             switch (type) {
                 case "OT":
                     rebound = towerData.rebound[towerLevel];
