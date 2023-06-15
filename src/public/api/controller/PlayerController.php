@@ -308,6 +308,56 @@ class PlayerController {
 
         echo json_encode($response);
     }
+
+    /**
+     * @route('/player/ban')
+     * @method('POST')
+     * @return void
+     * @throws Exception
+     */
+    protected function ban(): void
+    {
+        extract($_POST);
+
+        $updatePassword = PlayerUtils::banPlayer(
+            $this->sessionId,
+            (int)$playerIdToBan,
+        );
+
+        if ($updatePassword === true) {
+            http_response_code(200);
+        } else {
+            http_response_code(400);
+        }
+        $response['response'] = $updatePassword;
+
+        echo json_encode($response);
+    }
+
+    /**
+     * @route('/player/unban')
+     * @method('POST')
+     * @return void
+     * @throws Exception
+     */
+    protected function unban(): void
+    {
+        extract($_POST);
+
+        $updatePassword = PlayerUtils::unbanPlayer(
+            $this->sessionId,
+            (int)$playerIdToUnban,
+        );
+
+        if ($updatePassword === true) {
+            http_response_code(200);
+        } else {
+            http_response_code(400);
+        }
+        $response['response'] = $updatePassword;
+
+        echo json_encode($response);
+    }
 }
 
 new PlayerController($_GET["route"]);

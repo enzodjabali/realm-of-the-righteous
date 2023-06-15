@@ -112,11 +112,6 @@ input[type="checkbox"]:checked, input[type="radio"]:checked {
     border-color: #30363D !important;
 }
 
-.btn {
-    border: none !important;
-    outline: none !important;
-}
-
 .text-bg-valid {
     background-color: #D69038 !important;
     color: #E6EDF3 !important;
@@ -125,6 +120,11 @@ input[type="checkbox"]:checked, input[type="radio"]:checked {
 
 .text-bg-danger {
     text-shadow: 0px 1px 0px #000;
+}
+
+.btn {
+    border: none !important;
+    outline: none !important;
 }
 
 .btn-form-submit {
@@ -136,6 +136,12 @@ input[type="checkbox"]:checked, input[type="radio"]:checked {
 
 .btn-form-cancel {
     background-color: #5b5959 !important;
+    color: #E6EDF3 !important;
+    border: 3px solid #212121 !important;
+    text-shadow: 0px 1px 0px #000;
+}
+
+.btn-danger {
     color: #E6EDF3 !important;
     border: 3px solid #212121 !important;
     text-shadow: 0px 1px 0px #000;
@@ -185,7 +191,22 @@ th, td {
     background-color: #d69038;
 }
 
+.badge-unban {
+    cursor: pointer;
+}
+
 .select-player:hover {
     background-color: #32271f;
     cursor: pointer;
+}
+
+select {
+    background-color: #120d0b !important;
+    border-color: #30363D !important;
+    color: #E6EDF3 !important;
+    height: 50px;
+}
+
+select:focus {
+    border: 3px solid rgba(214, 144, 56, 0.2) !important;
 }

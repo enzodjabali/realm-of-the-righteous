@@ -42,6 +42,8 @@
             $.get("api/v1/privateChat/getAll?matePlayerId=" + id, function (response) {
                 let offcanvas = document.getElementById('offcanvasRight');
                 offcanvas.addEventListener('hidden.bs.offcanvas', function () {
+                    $('#player-list').removeClass('visually-hidden');
+                    $('#private-chat').addClass('visually-hidden');
                     stopDisplayChat(refreshIntervalId);
                 });
 

@@ -28,8 +28,9 @@
                 <p>Baptiste Leclert - Frontend Developer</p>
                 <p>Gabriel Titeux - Frontend Developer</p>
                 <p>Thomas Taylor - Game & Level Designer</p>
-                <p>Younes Baddou - Web designer</p>
+                <p>Younes Baddou - Web Designer</p>
                 <p>Enzo Djabali - DevOps & Backend Developer</p>
+                <p>Adèle Lemaux - Music Composer</p>
             </div>
         </div>
 

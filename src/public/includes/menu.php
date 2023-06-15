@@ -4,6 +4,7 @@
     $sessionId = isset($_SESSION["playerId"]) ? (int)$_SESSION["playerId"] : 0;
     $sessionUsername = isset($_SESSION["playerUsername"]) ? (string)$_SESSION["playerUsername"] : "";
     $sessionEmail = isset($_SESSION["playerEmail"]) ? (string)$_SESSION["playerEmail"] : "";
+    $sessionIsAdmin = isset($_SESSION["playerIsAdmin"]) ? (bool)$_SESSION["playerIsAdmin"] : "";
 
     if ($sessionId > 0) {
         ?>
