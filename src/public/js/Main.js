@@ -9,48 +9,37 @@ function getGameModel() {
 	const request = new XMLHttpRequest();
 	request.open('GET', '/api/v1/game/getModel?gameId='+gameId, false);  // `false` makes the request synchronous
 	request.send(null);
-
 	if (request.status === 200) {
 		return JSON.parse(request.responseText);
 	}
 	return "";
 }
-
-/*function getGameWaves() {
+function getGameDifficulty() {
 	const request = new XMLHttpRequest();
-	request.open('GET', '/api/GetGameModel.php?gameId=' + gameId, false);  // `false` makes the request synchronous
+	request.open('GET', ' /api/v1/game/getDifficulty?gameId='+gameId, false);  // `false` makes the request synchronous
 	request.send(null);
-
 	if (request.status === 200) {
-		return JSON.parse(request.responseText);
+		return JSON.parse(request.responseText).response;
 	}
 	return "";
 }
-
-function getGamePlayer() {
-	const request = new XMLHttpRequest();
-	request.open('GET', '/api/GetGameModel.php?gameId=' + gameId, false);  // `false` makes the request synchronous
-	request.send(null);
-
-	if (request.status === 200) {
-		return JSON.parse(request.responseText);
-	}
-	return "";
-}*/
 
 async function main() {
 	let model = getGameModel()
-    /*let player = getGamePlayer()
-    let waves  = getGameWaves()*/
-
-	/*console.log(matrix)
-	console.log(player)
-	console.log(waves)*/
-	let controller = new Controller(model)
-	/*let controller = new Controller(matrix)
-	let controller = new Controller(matrix)*/
-
-	
+	let diff = getGameDifficulty()
+	switch (diff){
+		case 1:
+			diff= "easy"
+			break;
+		case 2:
+			diff = "normal";
+			break;
+		case 3:
+			diff = "hard";
+			break;
+	}
+	console.log(diff)
+	let controller = new Controller(model, diff)
 	const difficulty = model.difficulty;
 
 	controller.setup();

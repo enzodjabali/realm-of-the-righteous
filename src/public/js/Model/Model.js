@@ -1,11 +1,11 @@
 //Permit to store data of the game (Matrice, Enemies, Towers, Money, Life)
 export class Model {
-    constructor(fetchModel) {
+    constructor(fetchModel, difficulty) {
         this.matrice = fetchModel.matrice,
         this.waves = fetchModel.waves,
         this.timeBetweenWaves = fetchModel.timeBetweenWaves,
         this.timeBetweenGroups = fetchModel.timeBetweenGroups,
-        this.difficulty = fetchModel.difficulty,
+        this.difficulty = difficulty,
         this.timeBeforeStart = fetchModel.timeBeforeStart,
         this.currentWave = fetchModel.currentWave,
         this.currentGroup = fetchModel.currentGroup,
@@ -20,7 +20,7 @@ export class Model {
             this.killedEnemies = fetchModel.killedEnemies;
         } else {
             this.defaultMoneyPlayer = {"easy": 400, "normal": 200, "hard": 100}
-            this.defaultLifePlayer = {"easy": 150, "normal": 100, "hard": 50}
+            this.defaultLifePlayer = {"easy": 1, "normal": 100, "hard": 50}
             this.killedEnemies = 0;
         }
 
