@@ -8,7 +8,7 @@ namespace App\classes;
  */
 enum GameModels: string
 {
-    case MODEL_EASY = '{
+    case MODEL_SERPENTS_PASS = '{
             "matrice": [
                 [{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"northsouth","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null}],
                 [{"tile":"basegrass","enemies":[],"tower":null},{"tile":"se","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"nw","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null}],
@@ -47,7 +47,7 @@ enum GameModels: string
             "entryPoints" : [[0,9]],
             "endPoints" : [[19,10]]}';
 
-    case MODEL_NORMAL = '{
+    case MODEL_CONTEBURGH = '{
             "matrice": [
                 [{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null}],
                 [{"tile":"basegrass","enemies":[],"tower":null},{"tile":"se","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"forksouth","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"sw","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null}],
@@ -85,7 +85,8 @@ enum GameModels: string
             "towerWeaponId" : 0,
             "entryPoints" : [[18,0]],
             "endPoints" : [[19,18]]}';
-    case MODEL_HARD = '{
+
+    case MODEL_FEARSOME_FOREST = '{
            "matrice": [
                [{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"northsouth","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null}],
                [{"tile":"basegrass","enemies":[],"tower":null},{"tile":"se","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"sw","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"se","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"nw","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null}],
@@ -108,20 +109,19 @@ enum GameModels: string
                [{"tile":"basegrass","enemies":[],"tower":null},{"tile":"ne","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"nw","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"northsouth","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"ne","enemies":[],"tower":null},{"tile":"eastwest","enemies":[],"tower":null},{"tile":"nw","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null}],
                [{"tile" :"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"northsouth","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null},{"tile":"basegrass","enemies":[],"tower":null}]
             ],
-            "waves" : {
+           "waves" : {
                 "easy" : [[[1,"golem"],[1, "knight"],[1, "wolf"],[1, "bat"],[1, "witch"]], [[15, "knight"],[40, "wolf"]],[[40, "knight"]],[[20, "knight"]],[[3, "knight"]]],
                 "normal" : [[[1,"golem"]]],
                 "hard" : [[[2,"wolf"]],[[1,"knight"]],[[3,"knight"],[1,"knight"]],[[3,"knight"],[1,"witch"]]  ] },
-            "timeBetweenWaves" : 1000,
-            "timeBetweenGroups" : 500,
-            "difficulty" : "hard",
-            "timeBeforeStart" : 1000,
-            "currentWave" : 0,
-            "currentGroup" : 0,
-            "mobId" : 0,
-            "towerId" : 0,
-            "towerWeaponId" : 0,
-            "entryPoints" : [[19,12],[10,0]],
-            "endPoints" : [[2,19],[0,16]]}';
+           "timeBetweenWaves" : 1000,
+           "timeBetweenGroups" : 500,
+           "difficulty" : "hard",
+           "timeBeforeStart" : 1000,
+           "currentWave" : 0,
+           "currentGroup" : 0,
+           "mobId" : 0,
+           "towerId" : 0,
+           "towerWeaponId" : 0,
+           "entryPoints" : [[19,12],[10,0]],
+           "endPoints" : [[2,19],[0,16]]}';
 }
-

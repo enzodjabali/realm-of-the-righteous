@@ -31,9 +31,9 @@
                     four kingdoms and spread chaos throughout the world.<br>
                     The leaders of the kingdoms formed an alliance and gathered an army to defend the borders.<br>
                     After attempting to build fortifications, they decided to construct a network of defense towers
-                    equipped with weapons to repel the enemies.<br> The first attacks were repelled, but
-                    the enemies sent more powerful and dangerous troops, which prompted the kings and
-                    queens to form legendary heroes to lead the battle.</p>
+                    equipped with weapons<br> to repel the enemies and the evil murk that follows them.<br>
+                    The first attacks were repelled, but the enemies sent more powerful and dangerous troops,<br>
+                    which prompted the kings and queens to form legendary heroes to lead the battle.</p>
             </div>
         </div>
 
