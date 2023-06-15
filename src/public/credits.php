@@ -8,6 +8,7 @@
         <title>Realm of the righteous - Credits</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Meet the Realm Of The Righteous team.">
         <link rel="icon" type="image/x-icon" href="assets/images/website/favicon.ico">
         <link href="assets/css/styles.css" rel="stylesheet">
         <script src="node_modules/jquery/dist/jquery.js"></script>
