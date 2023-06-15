@@ -91,9 +91,13 @@ a {
     color: #434952 !important;
 }
 
-input[type="checkbox"]:checked, input[type="radio"]:checked {
-    background-color: #D69038 !important;
-    border: #30363D 1px solid !important;
+input[type="checkbox"], input[type="radio"] { 
+    background-color: #120d0b !important; 
+    border: #30363D 1px solid !important; 
+} 
+ 
+input[type="checkbox"]:checked, input[type="radio"]:checked { 
+    background-color: #D69038 !important; 
 }
 
 .modal-header {
