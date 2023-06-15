@@ -9,7 +9,6 @@ export class Tower{
         this.shotRate = shotRate;
         this.towerLevel = towerLevel;
         this.level = towerLevel;
-        this.range = 5;
         this.position = position
         this.path = path;
         this.pathWeapon = pathWeapon;
@@ -33,8 +32,7 @@ export class Tower{
         this.buffTower
         this.buffedTower = [];
         this.armorDamage;
-
-
+        this.range;
     }
     getId(){
         return this.id;
@@ -59,5 +57,8 @@ export class Tower{
     }
     setArmorDamage(armorDamage){
         this.armorDamage = armorDamage;
+    }
+    setRange(range){
+        this.range = range;
     }
 }

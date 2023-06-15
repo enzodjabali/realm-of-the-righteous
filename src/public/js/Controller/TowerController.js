@@ -49,6 +49,7 @@ export class TowerController {
             let slowness = null;
             let splashRange = null;
             let buffTower = null;
+            let range = towerData.range[towerLevel]
             let armorDamage = towerData.armorDamage[towerLevel];
             switch (type) {
                 case "OT":
@@ -89,6 +90,7 @@ export class TowerController {
             tower.setSplashRange(splashRange)
             tower.setBuffTower(buffTower);
             tower.setArmorDamage(armorDamage);
+            tower.setRange(range);
 
             this.model.matrice[row][col].tower = tower;
             this.towerLogics(tower, row, col);

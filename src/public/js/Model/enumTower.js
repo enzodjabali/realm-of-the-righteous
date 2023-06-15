@@ -32,7 +32,8 @@ export const enumTower = {
         shotRate: [2000, 1500, 1000],//in ms
         price: [200,350,500],
         isAttackingAir: false,
-        splashRange: [0.5,1,1.5]
+        splashRange: [2,4,6],
+        range: [3,5,8],
     },
     'OT':{
         path : ['../../assets/images/towers/OT1.png',
@@ -60,6 +61,7 @@ export const enumTower = {
         price: [200,350,500],
         rebound: [3,6,9],
         isAttackingAir: true,
+        range: [3,5,8],
     },
     'T':{
         path : ['../../assets/images/towers/T1.png', 
@@ -84,7 +86,8 @@ export const enumTower = {
         armorDamage: [7,14,25],
         price: [100,250,400],
         isAttackingAir: false,
-        slowness: [1.3, 1.5, 1.8]
+        slowness: [1.3, 1.5, 1.8],
+        range: [3,5,8],
     },
     'WT':{
         path : ['../../assets/images/towers/WT1.png', 
@@ -109,7 +112,8 @@ export const enumTower = {
         shotRate: [2000,1000,500],//in ms
         price: [250,450,650],
         isAttackingAir: false,
-        buffTower: [1.2, 1.5, 2]
+        buffTower: [1.2, 1.5, 2],
+        range: [3,5,8],
     },
     "rock":{
         path : ['../../assets/images/tiles/rock.png'],
@@ -128,7 +132,8 @@ export const enumTower = {
         shotRate: [0],//in ms
         price: [1000],
         isAttackingAir: false,
-        buffTower: [0]
+        buffTower: [0],
+        range: [3,5,8],
     },
 
 }
