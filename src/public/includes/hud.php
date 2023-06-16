@@ -29,15 +29,15 @@
         </div>
 
         <div class="hud-button mb-3" style="height: 20%; width: 100%">
-            <a href="#">Boost Tower Speed ⚡ 999G</a>
+            <p id="boost-tower-shotRate"></p>
         </div>
 
         <div class="hud-button mb-3" style="height: 20%; width: 100%">
-            <a href="#">Arrow Volley 🏹 999G</a>
+            <p id="boost-tower-damage"></p>
         </div>
 
         <div class="hud-button mb-3" style="height: 20%; width: 100%">
-            <a href="#">Boost Tower Range 🔍 999G</a>
+            <p id="boost-tower-range"></p>
         </div>
 
         <div id="game-logger"></div>

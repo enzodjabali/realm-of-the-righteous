@@ -22,6 +22,13 @@ export class TowerController {
             tower = new Tower(fetchedTower)
             tower = fetchedTower;
             this.model.matrice[tower.position.x][tower.position.y].tower = tower;
+
+            // Reset values if tower was in boost state
+            tower.damage = enumTower[tower.type].damage[tower.level];
+            tower.range = enumTower[tower.type].range[tower.level];
+            tower.shotRate = enumTower[tower.type].shotRate[tower.level];
+
+            this.model.inGameTowers[tower.id] = tower;
             this.towerLogics(tower);
             return;
         }
@@ -93,6 +100,7 @@ export class TowerController {
 
             this.model.matrice[row][col].tower = tower;
             this.towerLogics(tower, row, col);
+            this.model.inGameTowers[towerId] = tower;
 
         } else {
             this.playerController.postLogs("There is already a tower on this tile", 2)
@@ -228,6 +236,7 @@ export class TowerController {
                                 break;
                             case "T":
                                 if (enemy) {
+                                    console.log(tower, "regarde stat tower")
                                     this.slowedEnemies[enemy.id] = [(Date.now() / 1000) + 3, enemy]
                                     //Permits to round up speed
                                     enemy.speed = (enemy.speed / tower.slowness).toFixed(1);
@@ -307,6 +316,11 @@ export class TowerController {
                 buffedTower.armorDamage = enumTower[buffedTower.type].armorDamage[buffedTower.level];
             }
         }
+        //Delete tower from inGameTowers
+        if (tower.id in this.model.inGameTowers){
+            delete this.model.inGameTowers[tower.id];
+        }
+
     }
     provideDamage(enemy, damage, armorDamage)
     {

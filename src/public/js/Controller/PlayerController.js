@@ -15,7 +15,7 @@ export class PlayerController{
          */
         if(this.player.money >= price){
             this.player.money -= Math.round(price)
-            this.model.defaultMoneyPlayer[this.model.difficulty] = this.player.money
+            this.model.defaultMoneyPlayer[this.model.difficulty] = this.player.money;
             return true;
         } else {
             return false;

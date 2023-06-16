@@ -48,6 +48,7 @@ async function main() {
 
 	//Tower
 	controller.HUDController.createTower();
+	controller.HUDController.boostTowers();
 
 }
 main();
