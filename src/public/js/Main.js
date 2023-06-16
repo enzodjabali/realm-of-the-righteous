@@ -38,7 +38,6 @@ async function main() {
 			diff = "hard";
 			break;
 	}
-	console.log(diff)
 	let controller = new Controller(model, diff)
 	const difficulty = model.difficulty;
 
