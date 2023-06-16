@@ -153,14 +153,14 @@ export class Controller{
                 let jsonEndpoints = JSON.stringify(this.model.endPoints)
 
                 if(jsonEndpoints.includes(enemyPositon)){
-                    if(!this.playerController.modifyPlayerLife(1)){
+                    if(!this.playerController.modifyPlayerLife(enemy.trueDamage)){
                         this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave, this.model.currentWave)
                         // Implémenter la fin de jeu (défaite)
                         this.endGame(false)
                     }
                     this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave, this.model.currentWave)
                     // Ajouter les damage lorsque balance fait
-                    this.playerController.postLogs(enemy.name+" inflicted XXX damage", 3)
+                    this.playerController.postLogs(enemy.name+" dealt "+enemy.trueDamage+" damage", 3)
                     this.display.removeEnemy(enemy);
 
                     this.model.matrice[enemy.position.x][enemy.position.y].enemies.filter(enemy => enemy.id !== enemy.id);

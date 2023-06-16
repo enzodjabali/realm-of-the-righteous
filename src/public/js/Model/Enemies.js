@@ -2,12 +2,12 @@
  * Base class for enemies
  * ! Les images doivent être en 64x64, sinon voir class display ! */
 export class Enemy{
-    constructor(enemyId, typeOfEnemies,path, path_img, position, curent_life, max_life, armor, speed, price, isFlying, name) {
+    constructor(enemyId, typeOfEnemies,path, path_img, position, curent_life, max_life, armor, speed, price, isFlying, name, trueDamage) {
         this.id = enemyId;
         this.max_life = max_life;
         this.curent_life = curent_life;
         this.armor = armor;
-        this.position = position;  
+        this.position = position;
         this.path_img = path_img;
         this.path = path;
         this.typeOfEnemies = typeOfEnemies;
@@ -17,6 +17,7 @@ export class Enemy{
         this.isFlying = isFlying;
         this.memorySpeed = speed;
         this.name = name;
+        this.trueDamage = trueDamage;
     }
 
     getLife(){
