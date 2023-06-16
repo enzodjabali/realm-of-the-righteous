@@ -2,7 +2,7 @@
 export class Model {
     constructor(fetchModel, difficulty) {
         this.matrice = fetchModel.matrice,
-        this.waves = fetchModel.waves[difficulty],
+        this.waves = fetchModel.waves,
         this.timeBetweenWaves = fetchModel.timeBetweenWaves,
         this.timeBetweenGroups = fetchModel.timeBetweenGroups,
         this.difficulty = difficulty,
