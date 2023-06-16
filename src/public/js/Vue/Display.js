@@ -179,14 +179,11 @@ export class Display {
 
     ShootEnemy(tower, enemy) {
         this.playTowerSprite(tower, enemy);
-
         let ammoDiv = this.initializeAmmo(tower);
         this.playAmmoSprite(tower);        
-
         if (tower.type == 'T' || tower.type == 'WT') {
             this.rotateAmmoSprite(tower, enemy);
         }
-
         this.moveAmmoSprite(tower, enemy).then(() => {
             ammoDiv.remove()
             let impactDiv = this.initializeImpact(tower, enemy)

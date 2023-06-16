@@ -14,7 +14,7 @@ export class PlayerController{
          * @param {price} price price of the tower
          */
         if(this.player.money >= price){
-            this.player.money -= price
+            this.player.money -= Math.round(price)
             this.model.defaultMoneyPlayer[this.model.difficulty] = this.player.money
             return true;
         } else {
@@ -30,7 +30,6 @@ export class PlayerController{
         this.player.life -= value;
         this.display.playSong(false, 'loseHealth')
         this.model.defaultLifePlayer[this.model.difficulty] = this.player.life
-
         return this.isPlayerAlive()
     }
     isPlayerAlive(){
@@ -48,7 +47,8 @@ export class PlayerController{
         }).fail(function (response) {
         });
         return false;
-
-
+    }
+    incrementExperience(gainedXp){
+        $.post("/api/v1/player/incrementXP", {xp: gainedXp}, function (response) {}).fail(function (response) {});
     }
 }

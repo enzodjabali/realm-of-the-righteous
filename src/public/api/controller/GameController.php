@@ -10,7 +10,6 @@ if (file_exists('../../../vendor/autoload.php')) {
     require_once('../../../vendor/autoload.php');
 }
 
-use App\classes\GameDifficulties;
 use App\classes\GameUtils;
 use DevCoder\DotEnv;
 use Exception;
@@ -18,7 +17,6 @@ use Exception;
 require_once('../../../classes/DbUtils.php');
 require_once('../../../classes/DbTable.php');
 require_once('../../../classes/GameUtils.php');
-require_once('../../../classes/GameDifficulties.php');
 
 header("Content-Type:application/json");
 
@@ -72,12 +70,8 @@ class GameController {
         $create = GameUtils::createGame(
             htmlspecialchars($name),
             $this->sessionId,
-            1,
-            match ((int)$difficulty) {
-                2 => GameDifficulties::DIFFICULTY_NORMAL,
-                3 => GameDifficulties::DIFFICULTY_HARD,
-                default => GameDifficulties::DIFFICULTY_EASY,
-            }
+            (int)$map,
+            (int)$difficulty
         );
 
         if ($create === true) {
@@ -174,6 +168,26 @@ class GameController {
             (int)$gameId,
             $this->sessionId,
             $newModel
+        );
+
+        http_response_code(200);
+
+        echo json_encode($response);
+    }
+
+    /**
+     * @route('/game/getDifficulty?gameId={id}')
+     * @method('GET')
+     * @return void
+     * @throws Exception
+     */
+    protected function getDifficulty(): void
+    {
+        $gameId = isset($_GET["gameId"]) ? (int)$_GET["gameId"] : 0;
+
+        $response["response"] = GameUtils::getDifficulty(
+            $gameId,
+            $this->sessionId
         );
 
         http_response_code(200);

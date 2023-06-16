@@ -583,4 +583,42 @@ class PlayerUtils
             return $e->getMessage();
         }
     }
+
+    /**
+     * This method increments a player's XP into the database
+     * @param int $playerId the ID of the player
+     * @param int $xp the number of XP to increment
+     * @return string|bool returns true if the operation succeed, false if it didn't
+     * @throws Exception
+     */
+    public static function incrementXP(int $playerId, int $xp = 0): string|bool
+    {
+        if ($playerId > 0) {
+            $currentXP = (int)DbUtils::select(DbTable::TABLE_PLAYER, ["xp"], "WHERE id = '$playerId'")->fetch()["xp"];
+            if (DbUtils::update(DbTable::TABLE_PLAYER, "xp", $currentXP + $xp, "WHERE id = $playerId")) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * This method decrements a player's XP from the database
+     * @param int $playerId the ID of the player
+     * @param int $xp the number of XP to decrement
+     * @return string|bool returns true if the operation succeed, false if it didn't
+     * @throws Exception
+     */
+    public static function decrementXP(int $playerId, int $xp = 0): string|bool
+    {
+        if ($playerId > 0) {
+            $currentXP = (int)DbUtils::select(DbTable::TABLE_PLAYER, ["xp"], "WHERE id = '$playerId'")->fetch()["xp"];
+            if (DbUtils::update(DbTable::TABLE_PLAYER, "xp", $currentXP - $xp, "WHERE id = $playerId")) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

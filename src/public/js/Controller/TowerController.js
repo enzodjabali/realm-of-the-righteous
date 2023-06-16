@@ -109,15 +109,8 @@ export class TowerController {
         towerHolder.this = this;
         towerHolder.addEventListener("click", this.towerOnclick)
 
-
         // appel le boucle pour faire fonctionner la logique des tours.
-
-        if(tower.type == "rock"){
-            this.playerController.postLogs("I'm blocking the way ! (x: "+tower.position.x+" y: "+tower.position.y+")", 1)
-        } else {
-            this.runTower(tower);
-        }
-
+        this.runTower(tower);
     }
 
     findNeighbour(centerX, centerY, radius, searchType, listEnemyToAvoid = null) {
@@ -187,70 +180,75 @@ export class TowerController {
         }
     }
 
-    async runTower(tower)
-    {
+    async runTower(tower) {
         /**
          * @param {Tower} tower instance of Tower.
          * Permit to make the logic of the tower works
          */
+        if (tower.type != "rock") {
+            while (true) {
+                if (tower.remove) {
+                    break;
+                }
+                this.checkPlayerTab()
+                this.slowedEnemy()
+                await new Promise(r => setTimeout(r, tower.shotRate)); // frequency of fire
+                let {range, damage} = tower;
+                const {x, y} = tower.position;
+                let enemy = this.findNeighbour(x, y, range, "enemy");
+                if (enemy) {
+                    if (tower.isAttackingAir && enemy.isFlying || !tower.isAttackingAir && !enemy.isFlying) {
+                        this.provideDamage(enemy, damage, tower.armorDamage);
 
-        while (true) {
-            if (tower.remove) {
-                break;
-            }
-            this.checkPlayerTab()
-            this.slowedEnemy()
-            await new Promise(r => setTimeout(r, tower.shotRate)); // frequency of fire
-            let {range, damage} = tower;
-            const { x, y } = tower.position;
-            let enemy = this.findNeighbour(x, y, range, "enemy");
-            if (enemy) {
-                if (tower.isAttackingAir && enemy.isFlying || !tower.isAttackingAir && !enemy.isFlying) {
-                    this.provideDamage(enemy, damage, tower.armorDamage);
+                        this.display.ShootEnemy(tower, enemy);
 
-                    this.display.ShootEnemy(tower, enemy);
-
-                    switch (tower.type) {
-                        case "BT":
-                            //Splash Tower
-                            let closeEnemies = this.findNeighbour(enemy.position.x, enemy.position.y, tower.splashRange,"splash")
-                            if(closeEnemies){
-                                for (enemy of closeEnemies){
-                                    this.provideDamage(enemy, tower.damage*0.5, tower.armorDamage)
-                                    //REVOIR POUR GAME DESIGN   -----THOMAS----
+                        switch (tower.type) {
+                            case "BT":
+                                //Splash Tower
+                                let closeEnemies = this.findNeighbour(enemy.position.x, enemy.position.y, tower.splashRange, "splash")
+                                if (closeEnemies) {
+                                    for (enemy of closeEnemies) {
+                                        this.provideDamage(enemy, tower.damage * 0.5, tower.armorDamage)
+                                        //REVOIR POUR GAME DESIGN   -----THOMAS----
                                     }
                                 }
-                            break;
-                        case "OT":
-                            // Rebound Tower
-                            let hitEnemies = []
-                            for (let i = 0; i < tower.range; i++) {
+                                break;
+                            case "OT":
+                                // Rebound Tower
+                                let hitEnemies = []
+                                for (let i = 0; i < tower.range; i++) {
+                                    if (enemy) {
+                                        hitEnemies.push(enemy.id);
+                                        enemy = this.findNeighbour(enemy.position.x, enemy.position.y, 1, "rebound", hitEnemies);
+                                        if (enemy.curent_life > 0) {
+                                            this.provideDamage(enemy, (tower.damage / 2), tower.armorDamage);
+                                        }
+                                    }
+                                }
+                                break;
+                            case "T":
                                 if (enemy) {
-                                    hitEnemies.push(enemy.id);
-                                    enemy = this.findNeighbour(enemy.position.x, enemy.position.y, 1, "rebound", hitEnemies);
-                                    if (enemy.curent_life > 0) {
-                                        this.provideDamage(enemy, (tower.damage / 2), tower.armorDamage);
-                                    }
+                                    this.slowedEnemies[enemy.id] = [(Date.now() / 1000) + 3, enemy]
+                                    //Permits to round up speed
+                                    enemy.speed = (enemy.speed / tower.slowness).toFixed(1);
                                 }
-                            }
-                            break;
-                        case "T":
-                            if (enemy) {
-                                this.slowedEnemies[enemy.id] = [(Date.now()/1000)+3, enemy]
-                                //Permits to round up speed
-                                enemy.speed = (enemy.speed / tower.slowness).toFixed(1);
-                            }
-                            break;
+                                break;
+                        }
                     }
                 }
-            }
-            if (tower.type == "WT"){
-                let towersNearby = this.findNeighbour(tower.position.x, tower.position.y, range, "tower")
-                for (let closeTower of towersNearby){
-                    if(closeTower.damage == enumTower[closeTower.type].damage[closeTower.level]){
-                        closeTower.damage = (closeTower.damage *= tower.buffTower).toFixed(1);
-                        closeTower.armorDamage = (closeTower.armorDamage *= tower.buffTower).toFixed(1);
-                        tower.addBuffedTower(this.model.matrice[closeTower.position.x][closeTower.position.y].tower);
+                if (tower.type == "WT") {
+                    let towersNearby = this.findNeighbour(tower.position.x, tower.position.y, range, "tower")
+                    for (let closeTower of towersNearby) {
+                        if (closeTower.damage == enumTower[closeTower.type].damage[closeTower.level]) {
+                            closeTower.damage = (closeTower.damage *= tower.buffTower).toFixed(1);
+                            closeTower.armorDamage = (closeTower.armorDamage *= tower.buffTower).toFixed(1);
+                            try {
+                                tower.buffedTower.push(this.model.matrice[closeTower.position.x][closeTower.position.y].tower)
+                            } catch (error) {
+                                console.log(this.model.matrice[closeTower.position.x][closeTower.position.y].tower, "faire remonter aux cop1s")
+                                console.log(error)
+                            }
+                        }
                     }
                 }
             }
@@ -260,9 +258,12 @@ export class TowerController {
     upgradeTower(tower)
     {
         //Permit to upgrade a tower
-
+        console.log("upgrade")
+        console.log(enumTower[tower.type].price[tower.level+1])
         if (this.playerController.buyTower(enumTower[tower.type].price[tower.level+1])){
+            console.log("upgrade1")
             if(tower.level == enumTower[tower.type].damage.length-1){
+                console.log("upgrade2")
                 //Maximum tower level already reached
                 return
             } else {
@@ -270,7 +271,8 @@ export class TowerController {
                 this.display.playSong(false, "upgradeTower")
             }
             this.sellTower(tower, false)
-            this.playerController.postLogs("Upgraded "+tower.type+" for "+enumTower[tower.type].price[tower.level+1]+" coins", 1)
+            this.playerController.postLogs("Upgraded "+tower.type+" for "+enumTower[tower.type].price[tower.level]+" coins", 1)
+
             this.placeTowerInMatrice(enumTower[tower.type],tower.type,null, tower.level, tower.position)
         } else {
             this.playerController.postLogs("You can't afford it, sorry", 1)
@@ -284,7 +286,7 @@ export class TowerController {
         //Add money to player
 
         if(getMoneyFromTower){
-            this.playerController.player.money += (0.75 * tower.price[tower.level])
+            this.playerController.player.money += Math.round(0.75 * tower.price[tower.level])
             this.model.defaultMoneyPlayer[this.model.difficulty] = this.playerController.player.money
             this.playerController.postLogs("Sold "+tower.type+" tower for "+tower.price[tower.level]*0.75+" coins", 1)
             this.display.playSong(false, 'sellTower')
@@ -367,7 +369,12 @@ export class TowerController {
 
         let sellButton = document.createElement('p')
         let upgradeButton = document.createElement('p')
-        upgradeButton.innerText = "Upgrade "+towerObject.type+" ⚒️ ("+towerObject.price[towerObject.level]+" 🪙)"
+        if(towerObject.price.length <= towerObject.level+1){
+            upgradeButton.innerText = "Upgrade "+towerObject.type+" ⚒️ Max level achieved";
+        } else {
+            upgradeButton.innerText = "Upgrade "+towerObject.type+" ⚒️ ("+towerObject.price[towerObject.level+1]+" 🪙)"
+        }
+
         sellButton.innerText = "Sell "+towerObject.type+" ❌ ("+towerObject.price[towerObject.level]*0.75+" 🪙) ";
 
         sellButton.onclick = () => {

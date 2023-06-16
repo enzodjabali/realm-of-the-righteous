@@ -63,9 +63,6 @@ export class Tower{
     setBuffTower(buffTower){
         this.buffTower = buffTower;
     }
-    addBuffedTower(tower){
-        this.buffedTower.push(tower)
-    }
     setArmorDamage(armorDamage){
         this.armorDamage = armorDamage;
     }

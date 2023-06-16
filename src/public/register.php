@@ -14,6 +14,7 @@
         <title>Realm Of The Righteous - Register</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Register for Realm Of The Righteous, the best tower defense game in all realms. Join the battle, build defense towers and fend off hordes of orcs, goblins and evil creatures.">
         <link rel="icon" type="image/x-icon" href="assets/images/website/favicon.ico">
         <script src="node_modules/jquery/dist/jquery.js"></script>
         <link href="assets/css/styles.css" rel="stylesheet">

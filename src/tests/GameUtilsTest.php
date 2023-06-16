@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace App\tests;
 
 use App\classes\GameUtils;
-use App\classes\GameDifficulties;
 use App\classes\GameModels;
 use Exception;
 use PHPUnit\Framework\TestCase;
@@ -16,7 +15,7 @@ final class GameUtilsTest extends TestCase
      */
     public function testCanNewGameBeCreated(): void
     {
-        $isGameCreated = GameUtils::createGame("a phpunit game", 1, 1, GameDifficulties::DIFFICULTY_HARD);
+        $isGameCreated = GameUtils::createGame("a phpunit game", 1, 1, 1);
         $this->assertTrue($isGameCreated);
     }
 
@@ -34,7 +33,7 @@ final class GameUtilsTest extends TestCase
 
     public function testCanUpdateModel(): void
     {
-        $isModelUpdated = GameUtils::updateModel(1, 1, GameModels::MODEL_EASY->value);
+        $isModelUpdated = GameUtils::updateModel(1, 1, GameModels::MODEL_CONTEBURGH->value);
         $this->assertTrue($isModelUpdated);
     }
 
@@ -52,7 +51,6 @@ final class GameUtilsTest extends TestCase
         $isLogInserted = GameUtils::insertLog(1, 1, "test phpunit log", 1);
         $this->assertTrue($isLogInserted);
     }
-
 
     /**
      * @throws Exception

@@ -8,8 +8,8 @@ import { PlayerController } from '../Controller/PlayerController.js';
 import { FetchController } from '../Controller/FetchController.js';
 let gameId = new URLSearchParams(window.location.search).get('gameId');
 export class Controller{
-    constructor(model) {
-        this.model = new Model(model);
+    constructor(model, difficulty) {
+        this.model = new Model(model, difficulty);
         this.display = new Display();
         this.enemiesController = new EnemiesController(this.model);
         this.playerController = new PlayerController(this.model.defaultMoneyPlayer[this.model.difficulty], this.model.defaultLifePlayer[this.model.difficulty], this.model, this.display);
@@ -47,6 +47,7 @@ export class Controller{
         this.fetchController.run()
 
         setInterval(this.saveModel, 2000, this.model);
+        // On save, resume with group 0
     }
 
     async loop(diffculty){
@@ -57,12 +58,12 @@ export class Controller{
         this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave, this.model.currentWave);
         await new Promise(r => setTimeout(r, this.model.timeBeforeStart));
         let spawnedEnemies = 0;
-        for(let i = this.model.currentWave; i < this.model.waves[diffculty].length; i++){
-
+        for(let i = this.model.currentWave; i < this.model.waves[this.model.difficulty].length; i++){
+            let xp = 0;
             await new Promise((resolve, reject) => {
                         document.getElementById("play-game").onclick = () => {
-                            if(spawnedEnemies == 0 && this.model.currentWave < this.model.waves[diffculty].length) {
-                                this.playerController.postLogs("New wave is coming!", 1)
+                            if(spawnedEnemies == 0 && this.model.currentWave < this.model.waves[this.model.difficulty].length) {
+                                this.playerController.postLogs("Wave "+this.display.romanizeNumber(i)+" is coming!", 1)
                                 this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave, this.model.currentWave);
                                 resolve()
                             } else {
@@ -73,25 +74,20 @@ export class Controller{
             let song;
             this.model.difficulty == "hard" ? song = "hardMusic" : song = "easyMusic"
             this.display.playSong(true, song)
-            for (let group of this.model.waves[diffculty][i]){
-                if (this.model.waves[diffculty][i].indexOf(group) != 0)
+
+            for (let group of this.model.waves[this.model.difficulty][i]){
+                if (this.model.waves[this.model.difficulty][i].indexOf(group) != 0)
                 {
                     console.log('wait timeBetweenGroups', this.model.timeBetweenGroups)
                     await new Promise(r => setTimeout(r, this.model.timeBetweenGroups));
                 }
-
                 this.model.currentGroup++;
-
-                this.indexOfEntryPoints = (this.model.waves[diffculty][i].indexOf(group)) % (this.model.entryPoints.length);
-                this.indexOfEndPoints = (this.model.waves[diffculty][i].indexOf(group)) % (this.model.endPoints.length);
-
-                this.HUDController.setStartPoints(this.indexOfEntryPoints)
-                this.HUDController.setEndPoints(this.indexOfEndPoints)
-                
-                let path = this.model.findPathForWaves(this.model.getMatrice(), this.model.entryPoints[this.indexOfEntryPoints], this.model.endPoints[this.indexOfEndPoints]);
+                this.indexOfEntryPoints = (this.model.waves[this.model.difficulty][i].indexOf(group)) % (this.model.entryPoints.length);
+                this.indexOfEndPoints = (this.model.waves[this.model.difficulty][i].indexOf(group)) % (this.model.endPoints.length);
+                let path = this.model.findPathForWaves(this.model.getMatrice(), this.model.entryPoints[this.indexOfEntryPoints], [this.model.endPoints[this.indexOfEntryPoints]]);
 
                 if(path == 0){
-                    console.log('can not find path')
+                    this.playerController.postLogs("Cannot find path for enemy", 3)
                     return
                 }
 
@@ -99,16 +95,34 @@ export class Controller{
                     spawnedEnemies++;
                     let enemy = this.enemiesController.createEnnemyObject(this.model.mobId, enumEnemies, path, this.model.entryPoints[this.indexOfEntryPoints], group[1])
                     this.display.initializeEnemy(enemy);
-                    let test = this.run(enemy, path, this.model.endPoints[this.indexOfEndPoints])
-                        .then((test) => {
-                            if(!test){
+                    let runEnemies = this.run(enemy, path)
+                        .then((runEnemies) => {
+                            if(!runEnemies){
+                                xp += enemy.price
                                 spawnedEnemies--;
                                 if(spawnedEnemies == 0){
                                     this.display.stopSong();
-                                    if(i == this.model.waves[diffculty].length-1 && this.playerController.player.life > 0){
+                                    if(i == this.model.waves[this.model.difficulty].length-1 && this.playerController.player.life > 0){
                                         this.endGame(true)
+                                        let xpBonus;
+                                        switch(this.model.difficulty){
+                                            case "easy":
+                                                xpBonus = 300;
+                                                break;
+                                            case "normal":
+                                                xpBonus = 500;
+                                                break;
+                                            case "hard":
+                                                xpBonus = 700;
+                                                break;
+                                        }
+                                        this.playerController.incrementExperience(xpBonus)
                                     } else {
+                                        xp = Math.round(xp)
                                         this.display.playSong(false, "gainXp");
+                                        this.playerController.postLogs("You gained "+xp+" xp !", 2)
+                                        this.playerController.incrementExperience(xp)
+                                        this.playerController.postLogs("End of wave "+this.display.romanizeNumber(i), 2)
                                         this.model.currentWave++
                                     }
                                 }
@@ -118,11 +132,10 @@ export class Controller{
                     this.model.mobId++;
                 }
             }
-
         }
     }
 
-    async run(enemy, path, endPoints) {
+    async run(enemy, path) {
         /**
          * Main loop of the enemies, permit make them run with their logic
          * @param {Enemy} enemy instance of enemy.
@@ -133,15 +146,21 @@ export class Controller{
             for (let step = 0; step <= path.length; step++) {
                 this.HUDController.calculateGoldPerMinute()
                 // Add your code to handle end of path reached
-                if (enemy.position.x == endPoints[0] && enemy.position.y == endPoints[1] ){
-                    if(!this.playerController.modifyPlayerLife(1)){
+
+                let enemyPositon = [enemy.position.x, enemy.position.y];
+                enemyPositon = JSON.stringify(enemyPositon);
+                let positionEnemy = [enemy.position.x, enemy.position.y];
+                let jsonEndpoints = JSON.stringify(this.model.endPoints)
+
+                if(jsonEndpoints.includes(enemyPositon)){
+                    if(!this.playerController.modifyPlayerLife(enemy.trueDamage)){
                         this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave, this.model.currentWave)
                         // Implémenter la fin de jeu (défaite)
-                        console.log("passin false thru end game")
                         this.endGame(false)
-
                     }
                     this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave, this.model.currentWave)
+                    // Ajouter les damage lorsque balance fait
+                    this.playerController.postLogs(enemy.name+" dealt "+enemy.trueDamage+" damage", 3)
                     this.display.removeEnemy(enemy);
 
                     this.model.matrice[enemy.position.x][enemy.position.y].enemies.filter(enemy => enemy.id !== enemy.id);
@@ -157,7 +176,7 @@ export class Controller{
 
                 if (enemy.curent_life <= 0){
                     // Permit to give money to the player when an ennemy died
-                    this.playerController.player.money += enemy.price;
+                    this.playerController.player.money += Math.round(enemy.price);
                     this.model.defaultMoneyPlayer[this.model.difficulty] = this.playerController.player.money
 
                     this.playerController.player.killedEnemies++
@@ -173,19 +192,19 @@ export class Controller{
                     //Ici update la liste de step enemy si rock trouvé
                     try {
                         if (this.model.matrice[enemy.position.x + path[step][0]][enemy.position.y + path[step][1]].tower.type == "rock") {
-                            let newPath = this.model.findPathForWaves(this.model.matrice, [enemy.position.x, enemy.position.y], this.model.endPoints[this.indexOfEndPoints])
+                            let newPath = this.model.findPathForWaves(this.model.matrice, [enemy.position.x, enemy.position.y], this.model.endPoints)
                             enemy.path = newPath;
                             enemy.step = 0;
                             path = newPath;
-                            step = -1;
+                            step = 0;
                             endPoints = this.model.endPoints[this.indexOfEndPoints]
                             continue;
                         }
                     } catch (error) {
-                        this.updateEnemiesPosition(enemy, path[step]); // Await the update of the enemy's position
-                        await this.display.updateEnemyHealthBar(enemy);
                     }
                 }
+                this.updateEnemiesPosition(enemy, path[step]); // Await the update of the enemy's position
+                await this.display.updateEnemyHealthBar(enemy);
                 await this.display.nextMoveEnemy(enemy, path[step]); // Await the next move of the enemy using the nextMoveEnemy() method
             }
 
@@ -197,6 +216,9 @@ export class Controller{
     saveModel(model, playerValue) {
         for (let i = 0; i < model.matrice.length; i++) {
             for (let j = 0; j < model.matrice[i].length; j++) {
+                if(model.matrice[i][j].tower){
+                    model.matrice[i][j].tower.buffedTower = [];
+                }
                 model.matrice[i][j].enemies = [];
             }
         }
@@ -236,7 +258,7 @@ export class Controller{
         }
         //Delete game
         $.post("api/v1/game/delete", {gameId: gameId}, function (response) {}).fail(function (response) {})
-
     }
+
 }
 

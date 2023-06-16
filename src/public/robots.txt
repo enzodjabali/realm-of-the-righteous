@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+Sitemap: https://realm-of-the-righteous.fr/sitemap.xml
+

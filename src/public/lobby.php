@@ -56,25 +56,50 @@
                                 <input type="text" class="form-control shadow-none" name="name" id="name">
                             </div>
                             <div class="mb-3">
-                                <label class="col-form-label">Difficulty</label>
-                                <div class="form-check">
-                                    <input class="form-check-input shadow-none" type="radio" name="difficulty" id="easy" value="1" checked>
-                                    <label class="form-check-label" for="easy">
-                                        Easy
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input shadow-none" type="radio" name="difficulty" id="normal" value="2">
-                                    <label class="form-check-label" for="normal">
-                                        Normal
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input shadow-none" type="radio" name="difficulty" id="hard" value="3">
-                                    <label class="form-check-label" for="hard">
-                                        Hard
-                                    </label>
-                                </div>
+                                <fieldset>
+                                    <label class="col-form-label">Map</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input shadow-none" type="radio" name="map" id="serpents-pass" value="1" checked>
+                                        <label class="form-check-label" for="serpents-pass">
+                                            Serpent's Pass
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input shadow-none" type="radio" name="map" id="conteburgh" value="2">
+                                        <label class="form-check-label" for="conteburgh">
+                                            Conteburgh
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input shadow-none" type="radio" name="map" id="fearsome-forest" value="3">
+                                        <label class="form-check-label" for="fearsome-forest">
+                                            Fearsome Forest
+                                        </label>
+                                    </div>
+                                <fieldset>
+                            </div>
+                            <div class="mb-3">
+                                <fieldset>
+                                    <label class="col-form-label">Difficulty</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input shadow-none" type="radio" name="difficulty" id="easy" value="1" checked>
+                                        <label class="form-check-label" for="easy">
+                                            Easy
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input shadow-none" type="radio" name="difficulty" id="normal" value="2">
+                                        <label class="form-check-label" for="normal">
+                                            Normal
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input shadow-none" type="radio" name="difficulty" id="hard" value="3">
+                                        <label class="form-check-label" for="hard">
+                                            Hard
+                                        </label>
+                                    </div>
+                                </fieldset>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -127,23 +152,37 @@
                 for (let i = 0; i < games.length; i++) {
                     let id = games[i]['id'];
                     let name = games[i]['name'];
+                    let map = games[i]['map'];
                     let difficulty = games[i]['difficulty'];
                     let date = games[i]['date'];
 
                     let difficultyLabel;
                     switch (difficulty) {
                         case 1:
-                            difficultyLabel = 'Easy';
+                            difficultyLabel = "Easy";
                             break;
                         case 2:
-                            difficultyLabel = 'Normal';
+                            difficultyLabel = "Normal";
                             break;
                         case 3:
-                            difficultyLabel = 'Hard';
+                            difficultyLabel = "Hard";
                             break;
                     }
 
-                    document.getElementById('game-list').innerHTML += "<li class='list-group-item d-flex justify-content-between align-items-start'><div class='ms-2 me-auto'><button class='btn btn-form-submit ps-2 pe-2 pt-1 pb-1' onclick='displayDeleteGameModal(" + id + ")'><i class='bi bi-trash-fill'></i></button><a href='/game?gameId=" + id + "' class='btn btn-form-submit ps-2 pe-2 pt-1 pb-1 me-2'><i class='bi bi-play-fill'></i></a><a class='fw-bold text-reset text-decoration-none' href='/game?gameId=" + id + "'>" + name + "</a></div><span class='badge badge-game me-2'>" + difficultyLabel + "</span><span class='badge badge-game'>" + date + "</span></li>";
+                    let mapLabel;
+                    switch (map) {
+                        case 1:
+                            mapLabel = "Serpent's Pass";
+                            break;
+                        case 2:
+                            mapLabel = "Conteburgh";
+                            break;
+                        case 3:
+                            mapLabel = 'Fearsome Forest';
+                            break;
+                    }
+
+                    document.getElementById('game-list').innerHTML += "<li class='list-group-item d-flex justify-content-between align-items-start'><div class='ms-2 me-auto'><button class='btn btn-form-submit ps-2 pe-2 pt-1 pb-1' onclick='displayDeleteGameModal(" + id + ")'><i class='bi bi-trash-fill'></i></button><a href='/game?gameId=" + id + "' class='btn btn-form-submit ps-2 pe-2 pt-1 pb-1 me-2'><i class='bi bi-play-fill'></i></a><a class='fw-bold text-reset text-decoration-none' href='/game?gameId=" + id + "'>" + name + "</a></div><span class='badge badge-game me-2'>" + mapLabel + "</span><span class='badge badge-game me-2'>" + difficultyLabel + "</span><span class='badge badge-game'>" + date + "</span></li>";
                    if (i < games.length - 1) {
                        document.getElementById('game-list').innerHTML += "<hr>";
                    }
@@ -171,9 +210,10 @@
                 $("#create-game-form").addClass("visually-hidden");
 
                 let name = $(this).find("input[name=name]").val();
+                let map = $('input[name="map"]:checked').val();
                 let difficulty = $('input[name="difficulty"]:checked').val();
 
-                $.post( "api/v1/game/create", {name: name, difficulty: difficulty}, function() {
+                $.post( "api/v1/game/create", {name: name, map: map, difficulty: difficulty}, function() {
                     $('#create-game-modal').modal('hide');
                     getGameInformation();
 

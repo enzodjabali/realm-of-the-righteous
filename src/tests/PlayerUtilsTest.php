@@ -52,6 +52,18 @@ final class PlayerUtilsTest extends TestCase
         $this->assertTrue($isPasswordUpdated);
     }
 
+    /**
+     * @throws Exception
+     */
+    public function testCanPlayerXPBeIncrementedAndDecremented(): void
+    {
+        $isPlayerXPIncremented = PlayerUtils::incrementXP(1, 100);
+        $this->assertTrue($isPlayerXPIncremented);
+
+        $isPlayerXPDecremented = PlayerUtils::decrementXP(1, 50);
+        $this->assertTrue($isPlayerXPDecremented);
+    }
+
 	/**
 	 * @throws Exception
 	 */
