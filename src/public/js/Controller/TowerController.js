@@ -372,7 +372,7 @@ export class TowerController {
         if(towerObject.price.length <= towerObject.level+1){
             upgradeButton.innerText = "Upgrade "+towerObject.type+" ⚒️ Max level achieved";
         } else {
-            upgradeButton.innerText = "Upgrade "+towerObject.type+" ⚒️ ("+towerObject.price[towerObject.level+1]+" 🪙)"
+            upgradeButton.innerText = "Upgrade "+towerObject.type+" ⚒️ ("+Math.round(towerObject.price[towerObject.level+1])+" 🪙)"
         }
 
         sellButton.innerText = "Sell "+towerObject.type+" ❌ ("+towerObject.price[towerObject.level]*0.75+" 🪙) ";
