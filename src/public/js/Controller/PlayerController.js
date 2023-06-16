@@ -47,7 +47,8 @@ export class PlayerController{
         }).fail(function (response) {
         });
         return false;
-
-
+    }
+    incrementExperience(gainedXp){
+        $.post("/api/v1/player/incrementXP", {xp: gainedXp}, function (response) {}).fail(function (response) {});
     }
 }

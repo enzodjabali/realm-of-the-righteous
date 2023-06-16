@@ -184,12 +184,9 @@ export class Display{
         this.playAmmoSprite(tower);
         this.moveAmmoSprite(tower, enemy).then(() => {
             ammoDiv.remove()
-            console.log('now playing impact')
-            
+
             let impactDiv = this.initializeImpact(tower, enemy)
-            console.log('impactDiv', impactDiv)
             this.playImpactSprite(tower).then(() => {
-                console.log('impact div to remove ', impactDiv)
                 impactDiv.remove()
                 
                 tower.towerAmmoId++
@@ -374,7 +371,6 @@ export class Display{
                 return;
             }
             let imgImpact = document.getElementById(`impactImg_${tower.towerAmmoId}`);
-            console.log(imgImpact, 'imgImpact');
             imgImpact.style.left = '0px';
             const frameDuration = Math.floor(tower.shotRate / tower.totalImpactFrames);
             tower.animationImpactInterval = setInterval(() => {
@@ -393,12 +389,10 @@ export class Display{
     animateImpactSprite(tower) {
         if (tower.currentImpactFrame >= tower.totalImpactFrames) {
             clearInterval(tower.animationImpactInterval);
-            console.log('clearInterval for impact sprite');
             return;
         }
         
         if (!document.getElementById(`impactImg_${tower.towerAmmoId}`)) {
-            console.log("can't find impact img")
             return null;
         }
         let framePositionX = -tower.currentImpactFrame * this.tilesSize / 8;
