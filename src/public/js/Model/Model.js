@@ -1,20 +1,21 @@
 //Permit to store data of the game (Matrice, Enemies, Towers, Money, Life)
 export class Model {
     constructor(fetchModel, difficulty) {
-        this.matrice = fetchModel.matrice,
-        this.waves = fetchModel.waves,
-        this.timeBetweenWaves = fetchModel.timeBetweenWaves,
-        this.timeBetweenGroups = fetchModel.timeBetweenGroups,
-        this.difficulty = difficulty,
-        this.timeBeforeStart = fetchModel.timeBeforeStart,
-        this.currentWave = fetchModel.currentWave,
-        this.currentGroup = fetchModel.currentGroup,
-        this.mobId = fetchModel.mobId,
-        this.towerId = fetchModel.towerId,
-        this.towerWeaponId = fetchModel.towerWeaponId,
-        this.entryPoints = fetchModel.entryPoints,
+        this.matrice = fetchModel.matrice
+        this.waves = fetchModel.waves
+        this.timeBetweenWaves = fetchModel.timeBetweenWaves
+        this.timeBetweenGroups = fetchModel.timeBetweenGroups
+        this.difficulty = difficulty
+        this.timeBeforeStart = fetchModel.timeBeforeStart
+        this.currentWave = fetchModel.currentWave
+        this.currentGroup = fetchModel.currentGroup
+        this.mobId = fetchModel.mobId
+        this.towerId = fetchModel.towerId
+        this.towerWeaponId = fetchModel.towerWeaponId
+        this.entryPoints = fetchModel.entryPoints
         this.endPoints = fetchModel.endPoints
-        if(fetchModel.defaultMoneyPlayer ){
+        fetchModel.inGameTowers ? this.inGameTowers = fetchModel.inGameTowers : this.inGameTowers = {}
+        if(fetchModel.defaultMoneyPlayer){
             this.defaultMoneyPlayer = fetchModel.defaultMoneyPlayer;
             this.defaultLifePlayer = fetchModel.defaultLifePlayer
             this.killedEnemies = fetchModel.killedEnemies;

@@ -8,7 +8,7 @@ export class HUDController {
         this.playerController = playerController
         this.goldPerMinute = {"gold": 0, "date": Date.now(), "average": [], "playerGold": this.playerController.player.money};
 
-        //Set up the inital value of the player
+        //Set up the inital tower of the player
         document.getElementById('money').innerText = "🪙 "+this.playerController.player.money+"";
         document.getElementById('life').innerText = "Current life : "+this.playerController.player.life+" ❤️";
         document.getElementById('killedEnemies').innerText = "💀 "+ this.playerController.player.killedEnemies;
@@ -105,5 +105,60 @@ export class HUDController {
             this.goldPerMinute.date = Date.now();
         }
     }
+    boostTowers(){
+        let boostPriceDamage = Math.round(400 + this.model.currentWave * ((400/100)*8))
+        let boostPriceRange = Math.round(300 + this.model.currentWave * ((300/100)*8))
+        let boostPriceShotRate = Math.round(400 + this.model.currentWave * ((400/100)*8))
+        let boostDamage = document.getElementById("boost-tower-damage")
+        boostDamage.innerText = "Boost damage 🏹 "+boostPriceDamage+" 🪙";
+        let boostRange = document.getElementById("boost-tower-range")
+        boostRange.innerText = "Boost Tower Range 🔍 "+boostPriceRange+" 🪙"
+        let boostShotRate = document.getElementById("boost-tower-shotRate")
+        boostShotRate.innerText = "Boost Tower Speed ⚡ "+boostPriceShotRate+" 🪙"
 
+        boostDamage.onclick = () => {
+
+            if (this.playerController.buyTower(boostPriceDamage)) {
+                this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies);
+                for (const [key, tower] of Object.entries(this.model.inGameTowers)) {
+                    tower.damage += Math.ceil(enumTower[tower.type].damage[tower.level]*0.2);
+                    setTimeout(() => {
+                        tower.damage = enumTower[tower.type].damage[tower.level];
+                    }, 15000)
+
+                }
+                this.playerController.postLogs("Damage boost on", 1)
+            } else {
+                this.playerController.postLogs("Damage boost costs too much", 3)
+            }
+        }
+        boostRange.onclick = () => {
+            if (this.playerController.buyTower(boostPriceRange)) {
+                this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies);
+                for (const [key, tower] of Object.entries(this.model.inGameTowers)) {
+                    tower.range += Math.ceil(enumTower[tower.type].range[tower.level]*0.2);
+                    setTimeout(() => {
+                        tower.range = enumTower[tower.type].range[tower.level];
+                    }, 15000);
+                }
+                this.playerController.postLogs("Range boost on", 1)
+            } else {
+                this.playerController.postLogs("Range boost costs too much", 3)
+            }
+        }
+        boostShotRate.onclick = () => {
+            if (this.playerController.buyTower(boostPriceShotRate)) {
+                this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies);
+                for (const [key, tower] of Object.entries(this.model.inGameTowers)) {
+                    tower.shotRate += Math.ceil(enumTower[tower.type].shotRate[tower.level]*0.2);
+                    setTimeout(() => {
+                        tower.shotRate = enumTower[tower.type].shotRate[tower.level];
+                    }, 15000);
+                }
+                this.playerController.postLogs("Speed boost on", 1)
+            } else {
+                this.playerController.postLogs("Speed boost costs too much", 3)
+            }
+        }
+    }
 }
