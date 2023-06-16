@@ -22,9 +22,8 @@ export class EnemiesController {
             let position = {x: xCord,  y: yCord};
             for(let [mobKey, mobValues] of Object.entries(mobDict)){
                     if(typeOfEnemies == mobKey){
-
-                        let newLife = mobValues.life + mobValues.life*(0.02*this.model.currentWave)
-                        let newArmor = mobValues.armor + mobValues.armor*(0.01*this.model.currentWave)
+                        let newLife = mobValues.life + mobValues.life*(0.08*this.model.currentWave)
+                        let newArmor = mobValues.armor + mobValues.armor*(0.08*this.model.currentWave)
                         let newPrice = mobValues.price + mobValues.price*(0.03*this.model.currentWave)
 
                         let enemy = new Enemy(id, mobKey,path, mobValues.pathAlive, position, newLife,
