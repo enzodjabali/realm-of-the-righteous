@@ -27,13 +27,13 @@ export const enumTower = {
         totalTowerFrames : [17,17,17],
         totalAmmoFrames : [6,6,8],
         totalImpactFrames : [9,9,9],
-        damage : [5,7,10],
-        armorDamage: [5,10,20],
-        shotRate: [2000, 1500, 1000],//in ms
+        damage : [5,9,15],
+        armorDamage: [5,10,15],
+        shotRate: [1500, 1250, 1000],//in ms
         price: [200,350,500],
         isAttackingAir: false,
         splashRange: [2,4,6],
-        range: [3,5,8],
+        range: [4,5,6],
     },
     'OT':{
         path : ['../../assets/images/towers/OT1.png',
@@ -55,13 +55,13 @@ export const enumTower = {
         totalTowerFrames : [8,8,8],
         totalAmmoFrames : [6,6,6],
         totalImpactFrames : [6,6,6],
-        damage : [4,6,9],
+        damage : [4,8,15],
         armorDamage: [5,10,20],
         shotRate: [1500,1000,750],//in ms
         price: [200,350,500],
         rebound: [3,6,9],
         isAttackingAir: true,
-        range: [3,5,8],
+        range: [4,5,6],
     },
     'T':{
         path : ['../../assets/images/towers/T1.png', 
@@ -82,12 +82,12 @@ export const enumTower = {
         totalAmmoFrames : [3,4,4],
         totalImpactFrames : [6],
         shotRate: [1500,1250,1000],//in ms
-        damage: [5,7,10],
+        damage: [8,14,20],
         armorDamage: [7,14,25],
         price: [100,250,400],
         isAttackingAir: false,
-        slowness: [1.3, 1.5, 1.8],
-        range: [3,5,8],
+        slowness: [1.1, 1.3, 1.5],
+        range: [4,5,6],
     },
     'WT':{
         path : ['../../assets/images/towers/WT1.png', 
@@ -107,13 +107,13 @@ export const enumTower = {
         totalTowerFrames : [6,6,6],
         totalAmmoFrames : [3,6,9],
         totalImpactFrames : [6],
-        damage : [4,6,9],
+        damage : [3,5,10],
         armorDamage: [4,6,9],
         shotRate: [2000,1000,500],//in ms
-        price: [250,450,650],
+        price: [250,450,850],
         isAttackingAir: false,
-        buffTower: [1.2, 1.5, 2],
-        range: [3,5,8],
+        buffTower: [1.2, 1.4, 1.6],
+        range: [4,5,6],
     },
     "rock":{
         path : ['../../assets/images/tiles/rock.png'],
@@ -130,7 +130,7 @@ export const enumTower = {
         damage: [0],
         armorDamage: [0],
         shotRate: [0],//in ms
-        price: [1000],
+        price: [500],
         isAttackingAir: false,
         buffTower: [0],
         range: [3,5,8],
