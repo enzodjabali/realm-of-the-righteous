@@ -55,20 +55,30 @@ export class TowerController {
             let slowness = null;
             let splashRange = null;
             let buffTower = null;
-            let range = towerData.range[towerLevel]
+            let pathImpact = null;
+            let totalImpactFrames = null;
+            let range = towerData.range[towerLevel];
             let armorDamage = towerData.armorDamage[towerLevel];
             switch (type) {
                 case "OT":
                     rebound = towerData.rebound[towerLevel];
+                    pathImpact = towerData.pathImpact[towerLevel];
+                    totalImpactFrames = towerData.totalImpactFrames[towerLevel];
                     break;
                 case "T":
                     slowness = towerData.slowness[towerLevel];
+                    pathImpact = towerData.pathImpact[0];
+                    totalImpactFrames = towerData.totalImpactFrames[0];
                     break;
                 case "BT":
                     splashRange = towerData.splashRange[towerLevel];
+                    pathImpact = towerData.pathImpact[towerLevel];
+                    totalImpactFrames = towerData.totalImpactFrames[towerLevel];
                     break;
                 case "WT":
-                    buffTower = towerData.buffTower[towerLevel]
+                    buffTower = towerData.buffTower[towerLevel];
+                    pathImpact = towerData.pathImpact[0];
+                    totalImpactFrames = towerData.totalImpactFrames[0];
                     break;
             }
             const tower = new Tower(
@@ -85,9 +95,9 @@ export class TowerController {
                 towerData.isAttackingAir,
                 towerData.totalTowerFrames[towerLevel],
                 towerData.totalAmmoFrames[towerLevel],
-                towerData.totalImpactFrames[towerLevel],
+                totalImpactFrames,
                 towerData.pathAmmo[towerLevel],
-                towerData.pathImpact[towerLevel],
+                pathImpact,
             );
 
             //Since constructor does't accept more parameters, create setter
@@ -236,7 +246,6 @@ export class TowerController {
                                 break;
                             case "T":
                                 if (enemy) {
-                                    console.log(tower, "regarde stat tower")
                                     this.slowedEnemies[enemy.id] = [(Date.now() / 1000) + 3, enemy]
                                     //Permits to round up speed
                                     enemy.speed = (enemy.speed / tower.slowness).toFixed(1);
@@ -281,7 +290,6 @@ export class TowerController {
             }
             this.sellTower(tower, false)
             this.playerController.postLogs("Upgraded "+tower.type+" for "+enumTower[tower.type].price[tower.level]+" coins", 1)
-
             this.placeTowerInMatrice(enumTower[tower.type],tower.type,null, tower.level, tower.position)
         } else {
             this.playerController.postLogs("You can't afford it, sorry", 1)
