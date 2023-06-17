@@ -75,10 +75,14 @@ export class HUDController {
                                     return;
                                 }
                                 this.playerController.postLogs("You can't put rock here", 3)
-                                this.playerController.player.money += Math.round(enumTower[key].price[0]);
+                                this.playerController.player.money += enumTower[key].price[0];
+                                this.model.defaultMoneyPlayer[this.model.difficulty] = this.playerController.player.money;
                                 this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies);
                             } else {
                                 this.playerController.postLogs("Wait for the wave to end", 3)
+                                this.playerController.player.money += enumTower[key].price[0]
+                                this.model.defaultMoneyPlayer[this.model.difficulty] = this.playerController.player.money;
+                                this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies);
                             }
                         } else {
                             this.playerController.postLogs("Bought "+key+" tower for "+enumTower[key].price[0]+" coins", 1)
@@ -121,8 +125,8 @@ export class HUDController {
         boostShotRate.innerText = "Boost Tower Speed ⚡ "+boostPriceShotRate+" 🪙"
 
         boostDamage.onclick = () => {
-            if (this.playerController.buyTower(boostPriceDamage)) {
-                if(!this.waveState) {
+            if(!this.waveState) {
+                if (this.playerController.buyTower(boostPriceDamage)) {
                     this.display.playBoostTowerSong("boostTower")
                     this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies);
                     for (const [key, tower] of Object.entries(this.model.inGameTowers)) {
@@ -134,15 +138,15 @@ export class HUDController {
                     }
                     this.playerController.postLogs("Damage boost on", 1)
                 } else {
-                    this.playerController.postLogs("Wait for the wave to end", 3)
+                    this.playerController.postLogs("Damage boost costs too much", 3)
                 }
             } else {
-                this.playerController.postLogs("Damage boost costs too much", 3)
+                this.playerController.postLogs("Wait for the wave to start", 3)
             }
         }
         boostRange.onclick = () => {
-            if (this.playerController.buyTower(boostPriceRange)) {
-                if(!this.waveState) {
+            if(!this.waveState) {
+                if (this.playerController.buyTower(boostPriceRange)) {
                     this.display.playBoostTowerSong("boostTower")
                     this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies);
                     for (const [key, tower] of Object.entries(this.model.inGameTowers)) {
@@ -153,15 +157,15 @@ export class HUDController {
                     }
                     this.playerController.postLogs("Range boost on", 1)
                 } else {
-                    this.playerController.postLogs("Wait for the wave to end", 3)
+                    this.playerController.postLogs("Range boost costs too much", 3)
                 }
             } else {
-                this.playerController.postLogs("Range boost costs too much", 3)
+                this.playerController.postLogs("Wait for the wave to start", 3)
             }
         }
         boostShotRate.onclick = () => {
-            if (this.playerController.buyTower(boostPriceShotRate)) {
-                if(!this.waveState) {
+            if(!this.waveState) {
+                if (this.playerController.buyTower(boostPriceShotRate)) {
                     this.display.playBoostTowerSong("boostTower")
                     this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies);
                     for (const [key, tower] of Object.entries(this.model.inGameTowers)) {
@@ -172,10 +176,10 @@ export class HUDController {
                     }
                     this.playerController.postLogs("Speed boost on", 1)
                 } else {
-                    this.playerController.postLogs("Wait for the wave to end", 3)
+                    this.playerController.postLogs("Speed boost costs too much", 3)
                 }
             } else {
-                this.playerController.postLogs("Speed boost costs too much", 3)
+                this.playerController.postLogs("Wait for the wave to start", 3)
             }
         }
     }
