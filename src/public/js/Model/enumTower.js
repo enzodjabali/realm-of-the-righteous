@@ -34,12 +34,13 @@ export const enumTower = {
         isAttackingAir: false,
         splashRange: [2,4,6],
         range: [4,5,6],
+        fullName: "Thunderous Tower",
     },
     'OT':{
         path : ['../../assets/images/towers/OT1.png',
-                '../../assets/images/towers/OT2.png', 
+                '../../assets/images/towers/OT2.png',
                 '../../assets/images/towers/OT3.png'],
-        
+
         pathWeapon : ['../../assets/images/towers/weapons/weapons/OT1weapon.png',
                     '../../assets/images/towers/weapons/weapons/OT2weapon.png',
                     '../../assets/images/towers/weapons/weapons/OT3weapon.png'],
@@ -62,6 +63,7 @@ export const enumTower = {
         rebound: [3,6,9],
         isAttackingAir: true,
         range: [4,5,6],
+        fullName: "Ricochet Sentinel",
     },
     'T':{
         path : ['../../assets/images/towers/T1.png', 
@@ -88,6 +90,7 @@ export const enumTower = {
         isAttackingAir: false,
         slowness: [1.1, 1.3, 1.5],
         range: [4,5,6],
+        fullName: "Slumberfall Tower",
     },
     'WT':{
         path : ['../../assets/images/towers/WT1.png', 
@@ -114,6 +117,7 @@ export const enumTower = {
         isAttackingAir: false,
         buffTower: [1.2, 1.4, 1.6],
         range: [4,5,6],
+        fullName: "Guardian's Beacon",
     },
     "rock":{
         path : ['../../assets/images/tiles/rock.png'],
@@ -134,6 +138,7 @@ export const enumTower = {
         isAttackingAir: false,
         buffTower: [0],
         range: [0],
+        fullName: "Rock",
     },
 
 }

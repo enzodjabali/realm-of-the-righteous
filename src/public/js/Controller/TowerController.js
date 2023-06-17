@@ -276,12 +276,8 @@ export class TowerController {
     upgradeTower(tower)
     {
         //Permit to upgrade a tower
-        console.log("upgrade")
-        console.log(enumTower[tower.type].price[tower.level+1])
         if (this.playerController.buyTower(enumTower[tower.type].price[tower.level+1])){
-            console.log("upgrade1")
             if(tower.level == enumTower[tower.type].damage.length-1){
-                console.log("upgrade2")
                 //Maximum tower level already reached
                 return
             } else {
@@ -289,7 +285,7 @@ export class TowerController {
                 this.display.playTowerSong("upgradeTower")
             }
             this.sellTower(tower, false)
-            this.playerController.postLogs("Upgraded "+tower.type+" for "+enumTower[tower.type].price[tower.level]+" coins", 1)
+            this.playerController.postLogs("Upgraded "+enumTower[tower.type].fullName+" for "+enumTower[tower.type].price[tower.level]+" golds", 1)
             this.placeTowerInMatrice(enumTower[tower.type],tower.type,null, tower.level, tower.position)
         } else {
             this.playerController.postLogs("You can't afford it, sorry", 1)
@@ -305,7 +301,7 @@ export class TowerController {
         if(getMoneyFromTower){
             this.playerController.player.money += Math.round(0.75 * tower.price[tower.level])
             this.model.defaultMoneyPlayer[this.model.difficulty] = this.playerController.player.money
-            this.playerController.postLogs("Sold "+tower.type+" tower for "+Math.round(tower.price[tower.level]*0.75)+" coins", 1)
+            this.playerController.postLogs("Sold "+enumTower[tower.type].fullName+" tower for "+Math.round(tower.price[tower.level]*0.75)+" coins", 1)
             this.display.playTowerSong('sellTower')
         }
         this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies)
@@ -360,7 +356,7 @@ export class TowerController {
             this.display.hideTowerRange();
         }
     }
-    fillTowerSpecs(x, y){
+    fillTowerSpecs(x, y, fullName){
         //Fill Tower Actions tab
         document.getElementById('attack-value').innerText = this.model.matrice[x][y].tower.damage;
         document.getElementById('attack-speed-value').innerText = this.model.matrice[x][y].tower.shotRate;
@@ -369,7 +365,7 @@ export class TowerController {
         document.getElementById('level-value').innerText = this.model.matrice[x][y].tower.level+1;
         document.getElementById('current-damage-boost-value').innerText = (this.model.matrice[x][y].tower.damage - enumTower[this.model.matrice[x][y].tower.type].damage[this.model.matrice[x][y].tower.level]).toFixed(1);
         document.getElementById('tower-src-value').src = this.model.matrice[x][y].tower.path;
-        document.getElementById('tower-type-value').innerText = "Tower "+this.model.matrice[x][y].tower.type
+        document.getElementById('tower-type-value').innerText = fullName;
     }
 
     towerOnclick(tower){
@@ -392,12 +388,12 @@ export class TowerController {
         let sellButton = document.createElement('p')
         let upgradeButton = document.createElement('p')
         if(towerObject.price.length <= towerObject.level+1){
-            upgradeButton.innerText = "Upgrade "+towerObject.type+" ⚒️ Max level achieved";
+            upgradeButton.innerText = "Upgrade "+enumTower[towerObject.type].fullName+" ⚒️ Max level achieved";
         } else {
-            upgradeButton.innerText = "Upgrade "+towerObject.type+" ⚒️ ("+Math.round(towerObject.price[towerObject.level+1])+" 🪙)"
+            upgradeButton.innerText = "Upgrade "+enumTower[towerObject.type].fullName+" ⚒️ ("+Math.round(towerObject.price[towerObject.level+1])+" 🪙)"
         }
 
-        sellButton.innerText = "Sell "+towerObject.type+" ❌ ("+towerObject.price[towerObject.level]*0.75+" 🪙) ";
+        sellButton.innerText = "Sell "+enumTower[towerObject.type].fullName+" ❌ ("+Math.round(towerObject.price[towerObject.level]*0.75)+" 🪙) ";
 
         sellButton.onclick = () => {
             thisParam.sellTower(towerObject);
@@ -409,7 +405,7 @@ export class TowerController {
             displayTabHUD('hud-tab-general')
         }
 
-        thisParam.fillTowerSpecs(towerObject.position.x, towerObject.position.y);
+        thisParam.fillTowerSpecs(towerObject.position.x, towerObject.position.y, enumTower[towerObject.type].fullName);
 
         sellContainer.appendChild(sellButton);
         upgradeContainer.appendChild(upgradeButton);
