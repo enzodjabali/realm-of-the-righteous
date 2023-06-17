@@ -103,7 +103,7 @@ export class Display {
         document.getElementById('container-enemies').appendChild(enemyDiv);
 
         let enemyImg = new Image();
-        enemyImg.src = enemy.path_img;
+        enemyImg.src = enemy.pathAlive;
         enemyImg.height = this.tilesSize;
         enemyImg.width = this.tilesSize;
         enemyImg.id = `enemyImg_${enemyId}`;
@@ -447,14 +447,26 @@ export class Display {
         });
     }
 
-    removeEnemy(enemy) {
+    async killEnemy(enemy) {
         /**
          * @param {enemy} enemy instance of enemy.
          * Permit to remove the enemy from matrice
-         */
+        */
         let enemyDiv = document.getElementById(`enemy_${enemy.id}`);
-        const parentElement = enemyDiv.parentNode; // Get the parent element of the div
-        parentElement.removeChild(enemyDiv); // Remove the div element from its parent
+        let enemyImg = document.getElementById(`enemyImg_${enemy.id}`);
+        let healthBar = document.getElementById(`health_enemy_${enemy.id}`);
+        const parentElement = enemyImg.parentNode; // Get the parent element of the div
+        parentElement.removeChild(enemyImg); // Remove the enemy image from the parent element
+        parentElement.removeChild(healthBar); // Remove the health bar from the parent element
+
+        enemyImg = new Image();
+        enemyImg.src = enemy.pathDead;
+        enemyImg.height = this.tilesSize;
+        enemyImg.width = this.tilesSize;
+        enemyImg.id = `enemyImg_${enemy.id}`;
+        enemyDiv.appendChild(enemyImg);
+        await new Promise(r => setTimeout(r, 2000));
+        enemyDiv.remove();
     }
 
     removeTower(tower) {

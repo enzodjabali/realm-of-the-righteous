@@ -167,7 +167,7 @@ export class Controller{
                             this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave)
                             // Ajouter les damage lorsque balance fait
                             this.playerController.postLogs(enemy.name + " dealt " + enemy.trueDamage + " damage", 3)
-                            this.display.removeEnemy(enemy);
+                            this.display.killEnemy(enemy);
 
                             this.model.matrice[enemy.position.x][enemy.position.y].enemies.filter(enemy => enemy.id !== enemy.id);
                             break;
@@ -187,8 +187,11 @@ export class Controller{
 
                             this.playerController.player.killedEnemies++
                             this.model.killedEnemies = this.playerController.player.killedEnemies;
+
                             this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies);
-                            this.display.removeEnemy(enemy);
+                            this.display.killEnemy(enemy);
+
+                            
                             this.model.matrice[enemy.position.x][enemy.position.y].enemies.filter(enemy => enemy.id !== enemy.id);
 
                             return false;
