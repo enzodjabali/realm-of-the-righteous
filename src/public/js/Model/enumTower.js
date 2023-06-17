@@ -86,7 +86,7 @@ export const enumTower = {
         shotRate: [1500,1250,1000],//in ms
         damage: [8,14,20],
         armorDamage: [7,14,25],
-        price: [100,250,400],
+        price: [150,300,450],
         isAttackingAir: false,
         slowness: [1.1, 1.3, 1.5],
         range: [4,5,6],
@@ -119,6 +119,60 @@ export const enumTower = {
         range: [4,5,6],
         fullName: "Guardian's Beacon",
     },
+    'NT':{
+        path : ['../../assets/images/towers/OT1.png',
+            '../../assets/images/towers/OT2.png',
+            '../../assets/images/towers/OT3.png'],
+
+        pathWeapon : ['../../assets/images/towers/weapons/weapons/T1weapon.png',
+            '../../assets/images/towers/weapons/weapons/T2weapon.png',
+            '../../assets/images/towers/weapons/weapons/T3weapon.png'],
+
+        pathAmmo : ['../../assets/images/towers/weapons/flying/T1flying.png',
+            '../../assets/images/towers/weapons/flying/T2flying.png',
+            '../../assets/images/towers/weapons/flying/T3flying.png'],
+
+        pathImpact : ['../../assets/images/towers/weapons/impact/Timpact.png'],
+
+        totalTowerFrames : [6,6,6],
+        totalAmmoFrames : [3,4,4],
+        totalImpactFrames : [6],
+        damage : [5,7,13],
+        armorDamage: [8,14,20],
+        shotRate: [1500, 1250, 1000],//in ms
+        price: [100,250,400],
+        isAttackingAir: false,
+        range: [4,5,6],
+        fullName: "Bastion of Honor",
+    },
+    'AR':{
+        path : ['../../assets/images/towers/BT1.png',
+            '../../assets/images/towers/BT2.png',
+            '../../assets/images/towers/BT3.png'],
+
+        pathWeapon : ['../../assets/images/towers/weapons/weapons/OT1weapon.png',
+            '../../assets/images/towers/weapons/weapons/OT2weapon.png',
+            '../../assets/images/towers/weapons/weapons/OT3weapon.png'],
+
+        pathAmmo : ['../../assets/images/towers/weapons/flying/OT1flying.png',
+            '../../assets/images/towers/weapons/flying/OT2flying.png',
+            '../../assets/images/towers/weapons/flying/OT3flying.png'],
+
+        pathImpact : ['../../assets/images/towers/weapons/impact/OT1impact.png',
+            '../../assets/images/towers/weapons/impact/OT2impact.png',
+            '../../assets/images/towers/weapons/impact/OT3impact.png'],
+
+        totalTowerFrames : [8,8,8],
+        totalAmmoFrames : [6,6,6],
+        totalImpactFrames : [6,6,6],
+        damage : [4,8,16],
+        armorDamage: [2,4,6],
+        shotRate: [1000, 750, 500],//in ms
+        price: [175,250,350],
+        isAttackingAir: true,
+        range: [4,5,6],
+        fullName: "Aero Bolt Tower",
+    },
     "rock":{
         path : ['../../assets/images/tiles/rock.png'],
 
@@ -140,5 +194,4 @@ export const enumTower = {
         range: [0],
         fullName: "Rock",
     },
-
 }

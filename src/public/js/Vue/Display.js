@@ -502,7 +502,6 @@ export class Display {
         document.getElementById('life').innerText = "Current life : " + life + " ❤️";
         document.getElementById('killedEnemies').innerText = "💀 " + killedEnemies
         if(currentWave != null){
-            console.log("updating current wave")
             document.getElementById('wave-counter').innerText = "🧟 " + this.romanizeNumber(currentWave);
         }
 

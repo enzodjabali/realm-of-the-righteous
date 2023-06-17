@@ -80,6 +80,14 @@ export class TowerController {
                     pathImpact = towerData.pathImpact[0];
                     totalImpactFrames = towerData.totalImpactFrames[0];
                     break;
+                case "NT":
+                    pathImpact = towerData.pathImpact[0];
+                    totalImpactFrames = towerData.totalImpactFrames[0];
+                    break;
+                case "AT":
+                    pathImpact = towerData.pathImpact[towerLevel];
+                    totalImpactFrames = towerData.totalImpactFrames[towerLevel];
+                    break;
             }
             const tower = new Tower(
                 towerId,
@@ -263,7 +271,6 @@ export class TowerController {
                             try {
                                 tower.buffedTower.push(this.model.matrice[closeTower.position.x][closeTower.position.y].tower)
                             } catch (error) {
-                                console.log(this.model.matrice[closeTower.position.x][closeTower.position.y].tower, "faire remonter aux cop1s")
                                 console.log(error)
                             }
                         }
@@ -313,7 +320,7 @@ export class TowerController {
         this.checkPlayerTab(true)
         this.model.matrice[tower.position.x][tower.position.y].tower = null;
 
-        await new Promise(r => setTimeout(r, 500));
+        await new Promise(r => setTimeout(r, 1000));
         if(tower.type == "WT"){
             for (const buffedTower of tower.buffedTower){
                 buffedTower.damage = enumTower[buffedTower.type].damage[buffedTower.level];
