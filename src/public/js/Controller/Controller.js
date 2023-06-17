@@ -225,6 +225,7 @@ export class Controller{
             }
     }
     saveModel(model, playerValue) {
+        model = JSON.parse(JSON.stringify(model));
         for (let i = 0; i < model.matrice.length; i++) {
             for (let j = 0; j < model.matrice[i].length; j++) {
                 if(model.matrice[i][j].tower){

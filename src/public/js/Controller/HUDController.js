@@ -26,14 +26,15 @@ export class HUDController {
             button.setAttribute("id", "tower_"+key)
             button.setAttribute("class", "p-2 flex-fill hud-button")
             button.style.width = "150px"
-            button.innerHTML = '<p>Buy '+key+' tower <img height="50px" src="'+enumTower[key].path[0]+'"><br><br> '+enumTower[key].price[0]+' 🪙</p>';
+
+            button.innerHTML = '<p>'+enumTower[key].fullName+' <img height="40px" src="'+enumTower[key].path[0]+'"><br><br> '+enumTower[key].price[0]+' 🪙</p>';
             button.onclick = () => {
                 if(this.display.pile == -1){
                 } else {
                     if(this.playerController.buyTower(enumTower[key].price[0])){
                         this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies);
                         if(this.model.matrice[this.display.pile[1][0]][this.display.pile[1][1]].tile != 'basegrass' && key != "rock"){
-                            this.playerController.postLogs("You can't put a tower", 3)
+                            this.playerController.postLogs("Can't put a tower here", 3)
                             this.playerController.player.money += Math.round(enumTower[key].price[0]);
                             this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies);
                             return

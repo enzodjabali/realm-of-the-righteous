@@ -235,7 +235,7 @@ class GameUtils
         }
         // Check if the content doesn't have too many characters
         try {
-            if (strlen($content) > 30) {
+            if (strlen($content) > 50) {
                 throw new Exception("The content can't have more than 30 characters");
             }
         } catch (Exception $e) {
