@@ -65,6 +65,7 @@ export class Controller{
                             if(spawnedEnemies == 0 && this.model.currentWave < this.model.waves[this.model.difficulty].length) {
                                 this.playerController.postLogs("Wave "+this.display.romanizeNumber(this.model.currentWave)+" is coming!", 1)
                                 this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave);
+                                this.HUDController.waveState = false;
                                 resolve()
                             } else {
                                 this.playerController.postLogs("You must end this wave first..", 1)
@@ -85,7 +86,7 @@ export class Controller{
                 this.model.currentGroup++;
                 this.indexOfEntryPoints = (this.model.waves[this.model.difficulty][i].indexOf(group)) % (this.model.entryPoints.length);
                 this.indexOfEndPoints = (this.model.waves[this.model.difficulty][i].indexOf(group)) % (this.model.endPoints.length);
-                let path = this.model.findPathForWaves(this.model.getMatrice(), this.model.entryPoints[this.indexOfEntryPoints], [this.model.endPoints[this.indexOfEntryPoints]]);
+                let path = this.model.findPathForWaves(this.model.getMatrice(), this.model.entryPoints[this.indexOfEntryPoints], this.model.endPoints);
 
                 if(path == 0){
                     this.playerController.postLogs("Cannot find path for enemy", 3)
@@ -104,6 +105,7 @@ export class Controller{
                                 if(spawnedEnemies == 0){
                                     this.model.currentWave++
                                     this.playerController.postLogs("End of wave "+this.display.romanizeNumber(this.model.currentWave-1), 2)
+                                    this.HUDController.waveState = true;
                                     this.display.stopSong();
                                     xp = Math.round(xp)
                                     this.display.playBonusSong("gainXp");

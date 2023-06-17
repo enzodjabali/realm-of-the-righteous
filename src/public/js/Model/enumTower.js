@@ -133,7 +133,7 @@ export const enumTower = {
         price: [500],
         isAttackingAir: false,
         buffTower: [0],
-        range: [3,5,8],
+        range: [0],
     },
 
 }
