@@ -78,7 +78,7 @@ export class HUDController {
 
                         } else {
                             this.playerController.postLogs("Bought "+key+" tower for "+enumTower[key].price[0]+" coins", 1)
-                            this.display.playSong(false, "putTower")
+                            this.display.playTowerSong("putTower")
                             this.towerController.placeTowerInMatrice(enumTower[key], key);
                             this.display.pile = -1;
                         }
@@ -117,8 +117,8 @@ export class HUDController {
         boostShotRate.innerText = "Boost Tower Speed ⚡ "+boostPriceShotRate+" 🪙"
 
         boostDamage.onclick = () => {
-
             if (this.playerController.buyTower(boostPriceDamage)) {
+                this.display.playBoostTowerSong("boostTower")
                 this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies);
                 for (const [key, tower] of Object.entries(this.model.inGameTowers)) {
                     tower.damage += Math.ceil(enumTower[tower.type].damage[tower.level]*0.2);
@@ -134,6 +134,7 @@ export class HUDController {
         }
         boostRange.onclick = () => {
             if (this.playerController.buyTower(boostPriceRange)) {
+                this.display.playBoostTowerSong("boostTower")
                 this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies);
                 for (const [key, tower] of Object.entries(this.model.inGameTowers)) {
                     tower.range += Math.ceil(enumTower[tower.type].range[tower.level]*0.2);
@@ -148,6 +149,7 @@ export class HUDController {
         }
         boostShotRate.onclick = () => {
             if (this.playerController.buyTower(boostPriceShotRate)) {
+                this.display.playBoostTowerSong("boostTower")
                 this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies);
                 for (const [key, tower] of Object.entries(this.model.inGameTowers)) {
                     tower.shotRate += Math.ceil(enumTower[tower.type].shotRate[tower.level]*0.2);
