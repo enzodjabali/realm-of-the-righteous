@@ -12,4 +12,5 @@ export const enumSongs = {
     "endWave":'../../assets/audio/end-wave.mp3',
     "gainXp":'../../assets/audio/gain-xp.mp3',
     "loseHealth":'../../assets/audio/lose-health.mp3',
+    "boostTower":'../../assets/audio/game-bonus.mp3',
 }

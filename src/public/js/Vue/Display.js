@@ -497,12 +497,15 @@ export class Display {
         let healthBar = enemyDiv.querySelector(`#health_${enemyId}`);
         healthBar.style.width = (enemy.curent_life / enemy.max_life) * 100 + '%';
     }
-
-    updatePlayerData(money, life, killedEnemies, currentWave) {
+    updatePlayerData(money, life, killedEnemies, currentWave=null) {
         document.getElementById('money').innerText = "🪙 " + money + "";
         document.getElementById('life').innerText = "Current life : " + life + " ❤️";
         document.getElementById('killedEnemies').innerText = "💀 " + killedEnemies
-        document.getElementById('wave-counter').innerText = "🧟 " + this.romanizeNumber(currentWave + 1);
+        if(currentWave != null){
+            console.log("updating current wave")
+            document.getElementById('wave-counter').innerText = "🧟 " + this.romanizeNumber(currentWave);
+        }
+
     }
     showTowerRange(towerPosition, range) {
         this.hideTowerRange()
@@ -532,7 +535,7 @@ export class Display {
     }
     romanizeNumber(num) {
         if (isNaN(num) || num == 0)
-            return "I";
+            return "0";
         var digits = String(+num).split(""),
             key = ["", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM",
                 "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC",
@@ -543,23 +546,40 @@ export class Display {
             roman = (key[+digits.pop() + (i * 10)] || "") + roman;
         return Array(+digits.join("") + 1).join("M") + roman;
     }
-    playSong(backgroundMusic, songName) {
-        let audio = document.getElementById("audio");
-        let backgroundAudio = document.getElementById("backgroundAudio");
-        if (backgroundMusic) {
-            backgroundAudio.type = "audio/mpeg";
-            backgroundAudio.src = enumSongs[songName];
-            backgroundAudio.volume = 0.30;
-            backgroundAudio.play();
-        } else {
-            audio.type = "audio/mpeg";
-            audio.src = enumSongs[songName];
-            audio.play();
-        }
-    }
 
+    playBackgroundSong(songName) {
+        let backgroundAudio = document.getElementById("background-audio");
+        backgroundAudio.type = "audio/mpeg";
+        backgroundAudio.src = enumSongs[songName];
+        backgroundAudio.volume = 0.30;
+        backgroundAudio.play();
+    }
+    playTowerSong(songName){
+        let audio = document.getElementById("tower-audio");
+        audio.type = "audio/mpeg";
+        audio.src = enumSongs[songName];
+        audio.play();
+    }
+    playBonusSong(songName){
+        let bonusSong = document.getElementById("bonus-audio");
+        bonusSong.type = "audio/mpeg";
+        bonusSong.src = enumSongs[songName];
+        bonusSong.play();
+    }
+    playEndGameSong(songName){
+        let finalSong = document.getElementById("endgame-audio");
+        finalSong.type = "audio/mpeg";
+        finalSong.src = enumSongs[songName];
+        finalSong.play();
+    }
+    playBoostTowerSong(songName){
+        let boostTowerSong = document.getElementById("boost-tower-audio");
+        boostTowerSong.type = "audio/mpeg";
+        boostTowerSong.src = enumSongs[songName];
+        boostTowerSong.play();
+    }
     stopSong() {
-        let backgroundAudio = document.getElementById("backgroundAudio");
+        let backgroundAudio = document.getElementById("background-audio");
         backgroundAudio.currentTime = 0;
         backgroundAudio.volume = 0;
     }

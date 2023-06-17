@@ -286,7 +286,7 @@ export class TowerController {
                 return
             } else {
                 tower.level++
-                this.display.playSong(false, "upgradeTower")
+                this.display.playTowerSong("upgradeTower")
             }
             this.sellTower(tower, false)
             this.playerController.postLogs("Upgraded "+tower.type+" for "+enumTower[tower.type].price[tower.level]+" coins", 1)
@@ -305,10 +305,10 @@ export class TowerController {
         if(getMoneyFromTower){
             this.playerController.player.money += Math.round(0.75 * tower.price[tower.level])
             this.model.defaultMoneyPlayer[this.model.difficulty] = this.playerController.player.money
-            this.playerController.postLogs("Sold "+tower.type+" tower for "+tower.price[tower.level]*0.75+" coins", 1)
-            this.display.playSong(false, 'sellTower')
+            this.playerController.postLogs("Sold "+tower.type+" tower for "+Math.round(tower.price[tower.level]*0.75)+" coins", 1)
+            this.display.playTowerSong('sellTower')
         }
-        this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave)
+        this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies)
         //Remove tower from de board
         this.display.removeTower(tower);
         //break the while loop

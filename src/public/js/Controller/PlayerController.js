@@ -28,7 +28,7 @@ export class PlayerController{
          *
          */
         this.player.life -= value;
-        this.display.playSong(false, 'loseHealth')
+        this.display.playBonusSong('loseHealth')
         this.model.defaultLifePlayer[this.model.difficulty] = this.player.life
         return this.isPlayerAlive()
     }

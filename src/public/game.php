@@ -53,10 +53,19 @@
     </head>
 
     <body>
-        <audio id="audio">
+        <audio id="bonus-audio">
             <source src="" type="audio/mpeg">
         </audio>
-        <audio id="backgroundAudio">
+        <audio id="background-audio">
+            <source src="" type="audio/mpeg">
+        </audio>
+        <audio id="tower-audio">
+            <source src="" type="audio/mpeg">
+        </audio>
+        <audio id="endgame-audio">
+            <source src="" type="audio/mpeg">
+        </audio>
+        <audio id="boost-tower-audio">
             <source src="" type="audio/mpeg">
         </audio>
        <?php include_once("includes/toast.php") ?>
