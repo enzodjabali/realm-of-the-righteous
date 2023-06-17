@@ -502,7 +502,7 @@ export class Display {
         document.getElementById('money').innerText = "🪙 " + money + "";
         document.getElementById('life').innerText = "Current life : " + life + " ❤️";
         document.getElementById('killedEnemies').innerText = "💀 " + killedEnemies
-        document.getElementById('wave-counter').innerText = "🧟 " + this.romanizeNumber(currentWave + 1);
+        document.getElementById('wave-counter').innerText = "🧟 " + this.romanizeNumber(currentWave);
     }
     showTowerRange(towerPosition, range) {
         this.hideTowerRange()
@@ -532,7 +532,7 @@ export class Display {
     }
     romanizeNumber(num) {
         if (isNaN(num) || num == 0)
-            return "I";
+            return "0";
         var digits = String(+num).split(""),
             key = ["", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM",
                 "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC",

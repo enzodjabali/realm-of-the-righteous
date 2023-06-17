@@ -58,24 +58,46 @@ export class Controller{
         this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave, this.model.currentWave);
         await new Promise(r => setTimeout(r, this.model.timeBeforeStart));
         let spawnedEnemies = 0;
+        console.log(this.model.currentWave)
+        let xp =0;
         for(let i = this.model.currentWave; i < this.model.waves[this.model.difficulty].length; i++){
-            let xp = 0;
+            if(i == this.model.waves[this.model.difficulty].length-1 && this.playerController.player.life > 0){
+                this.endGame(true)
+                let xpBonus;
+                switch(this.model.difficulty){
+                    case "easy":
+                        xpBonus = 300;
+                        break;
+                    case "normal":
+                        xpBonus = 500;
+                        break;
+                    case "hard":
+                        xpBonus = 700;
+                        break;
+                }
+                this.playerController.incrementExperience(xpBonus)
+            }
+            console.log(this.model.currentWave > 0, spawnedEnemies == 0)
             await new Promise((resolve, reject) => {
+                        console.log("here")
                         document.getElementById("play-game").onclick = () => {
                             if(spawnedEnemies == 0 && this.model.currentWave < this.model.waves[this.model.difficulty].length) {
-                                this.playerController.postLogs("Wave "+this.display.romanizeNumber(i)+" is coming!", 1)
-                                this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave, this.model.currentWave);
+                                this.playerController.postLogs("End of wave "+this.display.romanizeNumber(this.model.currentWave), 2)
+                                this.playerController.postLogs("Wave "+this.display.romanizeNumber(this.model.currentWave)+" is coming!", 1)
                                 resolve()
                             } else {
                                 this.playerController.postLogs("You must end this wave first..", 1)
                             }
                         }
                  })
+            this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave, this.model.currentWave);
             let song;
             this.model.difficulty == "hard" ? song = "hardMusic" : song = "easyMusic"
             this.display.playSong(true, song)
-
+            console.log(this.model.waves[this.model.difficulty], "what's in here")
+            console.log(i, "je suis i")
             for (let group of this.model.waves[this.model.difficulty][i]){
+                spawnedEnemies = group[0];
                 if (this.model.waves[this.model.difficulty][i].indexOf(group) != 0)
                 {
                     console.log('wait timeBetweenGroups', this.model.timeBetweenGroups)
@@ -92,39 +114,26 @@ export class Controller{
                 }
 
                 for (let mob = 0; mob < group[0]; mob++){
-                    spawnedEnemies++;
+
                     let enemy = this.enemiesController.createEnnemyObject(this.model.mobId, enumEnemies, path, this.model.entryPoints[this.indexOfEntryPoints], group[1])
                     this.display.initializeEnemy(enemy);
+                    console.log("jdedewdew")
                     let runEnemies = this.run(enemy, path)
                         .then((runEnemies) => {
                             if(!runEnemies){
                                 xp += enemy.price
                                 spawnedEnemies--;
-                                if(spawnedEnemies == 0){
+                                console.log(spawnedEnemies, "nbr of enemies spawned")
+                                console.log(this.model.waves[this.model.difficulty][i].indexOf(group), "index group")
+                                console.log(this.model.waves[this.model.difficulty][i].length-1, "length waves groups")
+                                if(spawnedEnemies == 0 && this.model.waves[this.model.difficulty][i].length-1 == this.model.waves[this.model.difficulty][i].indexOf(group)){
+                                    console.log("pasing in condition")
                                     this.display.stopSong();
-                                    if(i == this.model.waves[this.model.difficulty].length-1 && this.playerController.player.life > 0){
-                                        this.endGame(true)
-                                        let xpBonus;
-                                        switch(this.model.difficulty){
-                                            case "easy":
-                                                xpBonus = 300;
-                                                break;
-                                            case "normal":
-                                                xpBonus = 500;
-                                                break;
-                                            case "hard":
-                                                xpBonus = 700;
-                                                break;
-                                        }
-                                        this.playerController.incrementExperience(xpBonus)
-                                    } else {
-                                        xp = Math.round(xp)
-                                        this.display.playSong(false, "gainXp");
-                                        this.playerController.postLogs("You gained "+xp+" xp !", 2)
-                                        this.playerController.incrementExperience(xp)
-                                        this.playerController.postLogs("End of wave "+this.display.romanizeNumber(i), 2)
-                                        this.model.currentWave++
-                                    }
+                                    xp = Math.round(xp)
+                                    this.display.playSong(false, "gainXp");
+                                    this.playerController.postLogs("You gained " + xp + " xp !", 2)
+                                    this.playerController.incrementExperience(xp)
+                                    xp = 0;
                                 }
                             }
                         })
@@ -132,6 +141,7 @@ export class Controller{
                     this.model.mobId++;
                 }
             }
+            this.model.currentWave++
         }
     }
 
