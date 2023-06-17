@@ -16,7 +16,7 @@ export class Display {
         this.healthBarColor = 'green';  // healthBarColor: The color of the health bar displayed for enemies
         this.frameDurationTower = 500;  // frameDurationTower: The duration (in milliseconds) between frames of tower animation
         this.frameDurationAmmo = 250;   // frameDurationAmmo: The duration (in milliseconds) between frames of ammo animation
-        this.frameDurationImpact = 500  // frameDurationImpact: The duration (in milliseconds) between frames of impact animation
+        this.frameDurationImpact = 500;  // frameDurationImpact: The duration (in milliseconds) between frames of impact animation
     }
 
 
@@ -59,8 +59,8 @@ export class Display {
             containerElement.style.left = "0";
         });
 
-        const xRatio = (0.95 * window.innerWidth) / matrice[0].length;
-        const yRatio = (0.95 * window.innerHeight) / matrice.length;
+        const xRatio = (window.innerWidth) / matrice[0].length;
+        const yRatio = (window.innerHeight) / matrice.length;
         this.tilesSize = Math.floor(Math.min(xRatio, yRatio));
 
         const columns = `${this.tilesSize - 1}px `.repeat(matrice[0].length);
@@ -207,6 +207,7 @@ export class Display {
             ammoDiv.remove();
             const impactDiv = this.initializeImpact(tower, enemy);
             this.playImpactSprite(tower).then(() => {
+                console.log(impactDiv,'impactDiv')
                 impactDiv.remove();
                 tower.towerAmmoId++;
             });
@@ -406,7 +407,7 @@ export class Display {
         const angle = this.getRotateAngle(tower, enemy);
         ammoDiv.style.transformOrigin = `${originX}px ${originY}px`;
         ammoDiv.style.transform = `rotate(${angle}deg)`;
-    }
+    }   
 
     /**
      * Moves the ammo sprite of the given tower towards the position of the enemy.
@@ -435,7 +436,7 @@ export class Display {
      * Plays the impact sprite animation for the given tower.
      * 
      * @param {Tower} tower - The tower instance.
-     * @returns {Promise<void>} - A promise that resolves when the impact sprite animation is complete, or rejects if the impact element is not found.
+     * @returns {Promise<boolean>} - A promise that resolves when the impact sprite animation is complete, or rejects if the impact element is not found.
      */
     playImpactSprite(tower) {
         return new Promise((resolve, reject) => {
@@ -468,7 +469,7 @@ export class Display {
         if (tower[frameKey] >= tower[totalFramesKey]) {
             clearInterval(tower[intervalKey]);
             if (resolve) {
-                resolve();
+                resolve(true);
             }
             return;
         }
@@ -588,6 +589,15 @@ export class Display {
         let towerContainer = document.getElementById(`div_${tower.id}`);
         const parentElement = towerContainer.parentNode; // Get the parent element of the div
         parentElement.removeChild(towerContainer); // Remove the div element from its parent
+    }
+
+    /**
+     * Removes the ammo from the game board.
+     */
+    clearAmmoContainer() {
+        const containerImpact = document.getElementById(`container-Ammo`);
+        console.log(containerImpact);
+        containerImpact.innerHTML = "";
     }
 
     /**

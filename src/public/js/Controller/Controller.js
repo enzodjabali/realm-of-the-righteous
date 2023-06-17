@@ -77,7 +77,8 @@ export class Controller{
             this.model.difficulty == "hard" ? song = "hardMusic" : song = "easyMusic"
             this.display.playBackgroundSong(song)
             for(let g of this.model.waves[this.model.difficulty][i]){spawnedEnemies += g[0]}
-            for (let group of this.model.waves[this.model.difficulty][i]){
+            for (let group of this.model.waves[this.model.difficulty][i]) {
+                this.display.clearAmmoContainer();
                 if (this.model.waves[this.model.difficulty][i].indexOf(group) != 0)
                 {
                     console.log('wait timeBetweenGroups', this.model.timeBetweenGroups)
