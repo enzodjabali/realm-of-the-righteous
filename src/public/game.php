@@ -111,6 +111,8 @@
         }
 
         function displayTabChat(tabId) {
+            let changeTab = new Audio("assets/audio/change-tab.mp3")
+            changeTab.play()
             $("#chat-tab-logger").addClass("visually-hidden");
             $("#chat-tab-general").addClass("visually-hidden");
             $("#" + tabId).removeClass("visually-hidden");
