@@ -224,7 +224,6 @@ export class Display {
         imgAmmo.style.position = 'absolute';
         imgAmmo.style.top = '0';
         imgAmmo.style.left = '0';
-
         ammoDiv.appendChild(imgAmmo);
 
         const containerAmmo = document.getElementById(`container-Ammo`);
@@ -238,8 +237,8 @@ export class Display {
         const impactDiv = document.createElement('div');
         impactDiv.id = `ImpactDiv_${tower.towerAmmoId}`;
         impactDiv.style.position = 'absolute';
-        impactDiv.style.height = Math.floor((this.tilesSize / 4)).toString() + 'px';
-        impactDiv.style.width = Math.floor(Math.round((this.tilesSize / 4))).toString() + 'px';
+        impactDiv.style.height = Math.floor((this.tilesSize / 2)).toString() + 'px';
+        impactDiv.style.width = Math.floor(Math.round((this.tilesSize / 2))).toString() + 'px';
         impactDiv.style.top = ((enemy.position.x * this.tilesSize) + this.offsetsTop + this.tilesSize / 2 - this.tilesSize * 0.2).toString() + 'px';
         impactDiv.style.left = ((enemy.position.y * this.tilesSize) + this.offsetsLeft - tower.position.y + this.tilesSize / 2).toString() + 'px';
         impactDiv.style.overflow = 'hidden';
@@ -249,12 +248,11 @@ export class Display {
         const imgImpact = new Image();
         imgImpact.src = tower.pathImpact;
         imgImpact.id = `impactImg_${tower.towerAmmoId}`;
-        imgImpact.height = Math.floor(this.tilesSize / 4)
-        imgImpact.width = Math.floor(((this.tilesSize / 4) * tower.totalImpactFrames))
+        imgImpact.height = Math.floor(this.tilesSize / 2)
+        imgImpact.width = Math.floor(((this.tilesSize / 2) * tower.totalImpactFrames))
         imgImpact.style.position = 'absolute';
         imgImpact.style.top = '0';
         imgImpact.style.left = '0';
-
         impactDiv.appendChild(imgImpact);
 
         const containerImpact = document.getElementById(`container-Ammo`);
@@ -361,20 +359,12 @@ export class Display {
         if (tower.type == 'T' || tower.type == 'WT') {
             imgAmmoRationSize = 3;
         }
-
         let ammoDiv = document.getElementById(`AmmoDiv_${tower.towerAmmoId}`);        
-
-        const progress = tower.currentAmmoFrame / tower.totalAmmoFrames;
-        
+        const progress = tower.currentAmmoFrame / tower.totalAmmoFrames;    
         const originX = this.tilesSize / imgAmmoRationSize + (this.tilesSize / imgAmmoRationSize) * progress;
         const originY = this.tilesSize / imgAmmoRationSize
-
-
         let angle = this.getRotateAngle(tower, enemy)
-
         ammoDiv.style.transformOrigin = `${originX}px ${originY}px`; 
-
-
         ammoDiv.style.transform = `rotate(${angle}deg)`;
     }
 
@@ -390,7 +380,7 @@ export class Display {
             }
             let imgImpact = document.getElementById(`impactImg_${tower.towerAmmoId}`);
             imgImpact.style.left = '0px';
-            const frameDuration = Math.floor(250 / tower.totalImpactFrames);
+            const frameDuration = Math.floor(500 / tower.totalImpactFrames);
             tower.animationImpactInterval = setInterval(() => {
                 this.animateImpactSprite(tower);
                 if (tower.currentImpactFrame >= tower.totalImpactFrames) {
