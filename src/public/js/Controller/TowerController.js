@@ -3,6 +3,13 @@ import {enumTower} from '../Model/enumTower.js';
 
 
 export class TowerController {
+
+    /**
+     * Creates a new TowerController.
+     * @param {object} model - The game model.
+     * @param {object} display - The game display.
+     * @param {object} player - The player controller.
+     */
     constructor(model, display, player) {
         this.model = model;
         this.display = display;
@@ -12,11 +19,15 @@ export class TowerController {
         this.slowedEnemies = {};
     }
 
+    /**
+     * Place a tower in the matrix.
+     * @param {object} towerData - Dictionary of data about the tower.
+     * @param {string} type - Tower type.
+     * @param {object} fetchedTower - Fetched tower object.
+     * @param {number} towerLevel - Tower level.
+     * @param {object} towerPosition - Tower position object.
+     */
     placeTowerInMatrice(towerData=null, type=null, fetchedTower=null, towerLevel = 0, towerPosition = null) {
-        /**
-         * @param {number} towerData dictionnary of data about tower.
-         * Permit to place tower in the matrice
-         */
         let tower;
         if (fetchedTower) {
             tower = new Tower(fetchedTower)
@@ -127,6 +138,10 @@ export class TowerController {
         this.display.pile = -1;
     }
 
+    /**
+     * Perform tower logic.
+     * @param {object} tower - Tower object.
+     */
     towerLogics(tower) {
 
         let towerHolderId = this.display.initializeTower(tower);
@@ -139,6 +154,15 @@ export class TowerController {
         this.runTower(tower);
     }
 
+    /**
+     * Find neighbors within a specified radius around a center position.
+     * @param {number} centerX - X coordinate of the center position.
+     * @param {number} centerY - Y coordinate of the center position.
+     * @param {number} radius - Radius to search for neighbors.
+     * @param {string} searchType - Type of search: "enemy", "tower", "splash", or "rebound".
+     * @param {array} listEnemyToAvoid - List of enemy IDs to avoid (only used for "rebound" search).
+     * @returns {array|object|boolean} - List of towers (for "tower" search), enemy (for "enemy" or "rebound" search), splash (for "splash" search), or false if not found.
+     */
     findNeighbour(centerX, centerY, radius, searchType, listEnemyToAvoid = null) {
         let tower = [];
         let splash = [];
@@ -206,11 +230,12 @@ export class TowerController {
         }
     }
 
+    /**
+     * Run the logic of the tower.
+     * @param {Tower} tower - Instance of the Tower class.
+     */
     async runTower(tower) {
-        /**
-         * @param {Tower} tower instance of Tower.
-         * Permit to make the logic of the tower works
-         */
+
         if (tower.type != "rock") {
             while (true) {
                 if (tower.remove) {
@@ -280,9 +305,11 @@ export class TowerController {
         }
     }
 
-    upgradeTower(tower)
-    {
-        //Permit to upgrade a tower
+    /**
+     * Upgrades the tower to the next level.
+     * @param {Tower} tower - Instance of the Tower class.
+     */
+    upgradeTower(tower) {
         if (this.playerController.buyTower(enumTower[tower.type].price[tower.level+1])){
             if(tower.level == enumTower[tower.type].damage.length-1){
                 //Maximum tower level already reached
@@ -297,14 +324,14 @@ export class TowerController {
         } else {
             this.playerController.postLogs("You can't afford it, sorry", 1)
         }
-
-
     }
-    async sellTower(tower, getMoneyFromTower = true)
-    {
-        //Permit to sell a tower
-        //Add money to player
 
+    /**
+     * Sells the tower and performs necessary cleanup.
+     * @param {Tower} tower - Instance of the Tower class.
+     * @param {boolean} getMoneyFromTower - Flag indicating whether to get money from selling the tower.
+     */
+    async sellTower(tower, getMoneyFromTower = true) {
         if(getMoneyFromTower){
             this.playerController.player.money += Math.round(0.75 * tower.price[tower.level])
             this.model.defaultMoneyPlayer[this.model.difficulty] = this.playerController.player.money
@@ -331,16 +358,15 @@ export class TowerController {
         if (tower.id in this.model.inGameTowers){
             delete this.model.inGameTowers[tower.id];
         }
-
     }
-    provideDamage(enemy, damage, armorDamage)
-    {
-        // Thomas :
-        // si :
-        // Tower armor damage = 99
-        // Enemy armor = 100
-        // Damage given to enemy = towerDamage - 1% * towerDamage
-        
+
+    /**
+     * Inflicts damage to an enemy, considering armor.
+     * @param {Enemy} enemy - Instance of the Enemy class.
+     * @param {number} damage - The base damage to be inflicted.
+     * @param {number} armorDamage - The armor damage of the tower.
+     */
+    provideDamage(enemy, damage, armorDamage) {
         let armorDifference = enemy.armor - armorDamage
         if(armorDifference <= 0){
             enemy.curent_life -= damage;
@@ -349,20 +375,34 @@ export class TowerController {
             enemy.curent_life -= damage * grossDamage/100;
         }
     }
-    async slowedEnemy()
-    {
-        //Checks for enemy slowness
+
+    /**
+     * Restores the speed of slowed enemies after a certain duration.
+     */
+    async slowedEnemy() {
         for (const [key, value] of Object.entries(this.slowedEnemies)) {
             if(value[0] < Date.now()/1000){
                 value[1].speed = value[1].memorySpeed ;
             }
         }
     }
+
+    /**
+     * Checks the player's tab status and performs to hide the tower range.
+     * @param {boolean} sell - Indicates whether the check is triggered by a tower sell action (default: false).
+     */
     checkPlayerTab(sell = false){
         if (this.playerController.player.tab+3 < Date.now()/1000 || sell == true){
             this.display.hideTowerRange();
         }
     }
+
+    /**
+     * Fills the tower specifications in the Tower Actions tab.
+     * @param {number} x - The x-coordinate of the tower's position.
+     * @param {number} y - The y-coordinate of the tower's position.
+     * @param {string} fullName - The full name of the tower.
+     */
     fillTowerSpecs(x, y, fullName){
         //Fill Tower Actions tab
         document.getElementById('attack-value').innerText = this.model.matrice[x][y].tower.damage;
@@ -375,6 +415,10 @@ export class TowerController {
         document.getElementById('tower-type-value').innerText = fullName;
     }
 
+    /**
+     * Event handler for tower click.
+     * @param {Event} tower - The tower object.
+     */
     towerOnclick(tower){
         let towerObject = tower.currentTarget.tower
         let thisParam = tower.currentTarget.this
@@ -416,6 +460,5 @@ export class TowerController {
 
         sellContainer.appendChild(sellButton);
         upgradeContainer.appendChild(upgradeButton);
-
     }
 }

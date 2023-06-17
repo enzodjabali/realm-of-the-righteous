@@ -47,7 +47,7 @@ async function main() {
 	controller.loop(difficulty);
 
 	//Tower
-	controller.HUDController.createTower();
+	controller.HUDController.createTowerButtons();
 	controller.HUDController.boostTowers();
 
 }

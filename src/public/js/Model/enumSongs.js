@@ -1,3 +1,6 @@
+/**
+ * Represents a collection of song paths.
+ */
 export const enumSongs = {
     "loseGame": '../../assets/audio/lose-game.wav',
     "startGame":'../../assets/audio/start_game.wav',
