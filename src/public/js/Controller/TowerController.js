@@ -91,10 +91,6 @@ export class TowerController {
                     pathImpact = towerData.pathImpact[0];
                     totalImpactFrames = towerData.totalImpactFrames[0];
                     break;
-                case "NT":
-                    pathImpact = towerData.pathImpact[0];
-                    totalImpactFrames = towerData.totalImpactFrames[0];
-                    break;
                 case "AT":
                     pathImpact = towerData.pathImpact[towerLevel];
                     totalImpactFrames = towerData.totalImpactFrames[towerLevel];
