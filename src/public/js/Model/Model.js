@@ -1,59 +1,100 @@
 //Permit to store data of the game (Matrice, Enemies, Towers, Money, Life)
 export class Model {
+    /**
+     * Construct a new Model.
+     * @param {Object} fetchModel - The fetched model data.
+     * @param {string} difficulty - The difficulty level.
+     */
     constructor(fetchModel, difficulty) {
-        this.matrice = fetchModel.matrice
-        this.waves = fetchModel.waves
-        this.timeBetweenWaves = fetchModel.timeBetweenWaves
-        this.timeBetweenGroups = fetchModel.timeBetweenGroups
-        this.difficulty = difficulty
-        this.timeBeforeStart = fetchModel.timeBeforeStart
-        this.currentWave = fetchModel.currentWave
-        this.currentGroup = fetchModel.currentGroup
-        this.mobId = fetchModel.mobId
-        this.towerId = fetchModel.towerId
-        this.towerWeaponId = fetchModel.towerWeaponId
-        this.entryPoints = fetchModel.entryPoints
-        this.endPoints = fetchModel.endPoints
-        fetchModel.inGameTowers ? this.inGameTowers = fetchModel.inGameTowers : this.inGameTowers = {}
-        if(fetchModel.defaultMoneyPlayer){
-            this.defaultMoneyPlayer = fetchModel.defaultMoneyPlayer;
-            this.defaultLifePlayer = fetchModel.defaultLifePlayer
-            this.killedEnemies = fetchModel.killedEnemies;
-        } else {
-            this.defaultMoneyPlayer = {"easy": 50000, "normal": 200, "hard": 100}
-            this.defaultLifePlayer = {"easy": 150, "normal": 100, "hard": 50}
-            this.killedEnemies = 0;
-        }
+        this.matrice = fetchModel.matrice; // Store the matrix data
+        this.waves = fetchModel.waves; // Store the waves data
+        this.timeBetweenWaves = fetchModel.timeBetweenWaves; // Store the time between waves
+        this.timeBetweenGroups = fetchModel.timeBetweenGroups; // Store the time between groups
+        this.difficulty = difficulty; // Store the difficulty level
+        this.timeBeforeStart = fetchModel.timeBeforeStart; // Store the time before the game starts
+        this.currentWave = fetchModel.currentWave; // Store the current wave
+        this.currentGroup = fetchModel.currentGroup; // Store the current group
+        this.mobId = fetchModel.mobId; // Store the ID of the mobs
+        this.towerId = fetchModel.towerId; // Store the ID of the towers
+        this.towerWeaponId = fetchModel.towerWeaponId; // Store the ID of the tower weapons
+        this.entryPoints = fetchModel.entryPoints; // Store the entry points
+        this.endPoints = fetchModel.endPoints; // Store the end points
 
+        // Check if in-game towers are present, if not, initialize an empty object
+        fetchModel.inGameTowers ? (this.inGameTowers = fetchModel.inGameTowers) : (this.inGameTowers = {});
+
+        // Check if default money player data is present, if not, use default values
+        if (fetchModel.defaultMoneyPlayer) {
+            this.defaultMoneyPlayer = fetchModel.defaultMoneyPlayer; // Store the default money player data
+            this.defaultLifePlayer = fetchModel.defaultLifePlayer; // Store the default life player data
+            this.killedEnemies = fetchModel.killedEnemies; // Store the number of killed enemies
+        } else {
+            this.defaultMoneyPlayer = {"easy": 500, "normal": 200, "hard": 100}; // Default money values based on difficulty
+            this.defaultLifePlayer = {"easy": 150, "normal": 100, "hard": 50}; // Default life values based on difficulty
+            this.killedEnemies = 0; // Initialize the number of killed enemies to 0
+        }
     }
-    
+
+    /**
+     * Get the matrice property.
+     * @returns {Object} - The matrice property.
+     */
     getMatrice(){
         return this.matrice;
     }
-    
+
+    /**
+     * Update the matrice property with a new value.
+     * @param {Object} newMatrice - The new matrice value to be set.
+     */
     updateMatrice(newMatrice){
         this.matrice = newMatrice;
     }
+
+    /**
+     * Get the waves property.
+     * @returns {Array} The waves array.
+     */
     getWaves(){
         return this.waves;
     }
 
-    // Define a function for the heuristic (H) cost
+    /**
+     * Calculate the heuristic cost between two coordinates using the Manhattan distance.
+     * @param {Array} coord - The starting coordinate [x, y].
+     * @param {Array} end - The target coordinate [x, y].
+     * @returns {number} The heuristic cost between the coordinates.
+     */
     heuristic(coord, end) {
       return Math.abs(coord[0] - end[0]) + Math.abs(coord[1] - end[1]);
     }
 
-    // Define a function to check if two coordinates are equal
+    /**
+     * Check if two coordinates are equal.
+     * @param {Array} coord1 - The first coordinate [x1, y1].
+     * @param {Array} coord2 - The second coordinate [x2, y2].
+     * @returns {boolean} True if the coordinates are equal, false otherwise.
+     */
     coordEquals(coord1, coord2) {
       return coord1[0] === coord2[0] && coord1[1] === coord2[1];
     }
 
-    // Define a function to convert a coordinate to a string for use as a key in a map
+    /**
+     * Convert a coordinate array to a string representation.
+     * @param {Array} coord - The coordinate array [x, y].
+     * @returns {string} The string representation of the coordinate.
+     */
     coordToString(coord) {
       return coord.join(",");
     }
 
-    // Define the A* algorithm function
+    /**
+     * Find a path from the start coordinate to the endpoint coordinates using the A* algorithm.
+     * @param {Array} matrix - The matrix representing the game map.
+     * @param {Array} start - The start coordinate [x, y].
+     * @param {Array} endpoints - An array of endpoint coordinates [[x1, y1], [x2, y2], ...].
+     * @returns {Array} The list of moves to reach each endpoint, represented as an array of direction vectors [dx, dy].
+     */
     findPathForWaves(matrix, start, endpoints) {
         for (let i = 0; i < endpoints.length; i++) {
             let end = [endpoints[i][0], endpoints[i][1]]
@@ -73,13 +114,11 @@ export class Model {
                 console.log(start, ' n\'est pas un début')
                 return [];
             }
-
             if (!availableTiles.includes(matrix[end[0]][end[1]].tile)) {
                 console.log(end, ' n\'est pas une fin');
                 return [];
             }
 
-            // Security number = 75
             while (openList.length > 0 && counterToStopFunction < 75) {
                 openList.sort((a, b) => a.fCost - b.fCost);
                 const currentNode = openList.shift();

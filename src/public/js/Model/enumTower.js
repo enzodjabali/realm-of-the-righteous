@@ -1,11 +1,22 @@
-/**Enum object that defines tower configurations.
- * @typedef {Object} enumTower
- * @property {Object} Configuration for tower type.
- * @property {string[]} path Array of image paths for tower at different upgrade levels.
- * @property {number[]} damage - Array of damage values for tower at different upgrade levels.
- * @property {number[]} shotRate - Array of shot rate values for tower at different upgrade levels (in milliseconds).
+/**
+ Enum object that defines tower configurations.
+ @typedef {Object} enumTower
+ @property {string[]} path - Array of image paths for tower at different upgrade levels.
+ @property {string[]} pathWeapon - Array of image paths for tower weapon at different upgrade levels.
+ @property {string[]} pathAmmo - Array of image paths for tower ammo at different upgrade levels.
+ @property {string[]} pathImpact - Array of image paths for tower impact at different upgrade levels.
+ @property {number[]} totalTowerFrames - Array of total frames for tower animation at different upgrade levels.
+ @property {number[]} totalAmmoFrames - Array of total frames for ammo animation at different upgrade levels.
+ @property {number[]} totalImpactFrames - Array of total frames for impact animation at different upgrade levels.
+ @property {number[]} damage - Array of damage values for tower at different upgrade levels.
+ @property {number[]} armorDamage - Array of armor damage values for tower at different upgrade levels.
+ @property {number[]} shotRate - Array of shot rate values for tower at different upgrade levels (in milliseconds).
+ @property {number[]} price - Array of tower prices at different upgrade levels.
+ @property {boolean} isAttackingAir - Indicates if the tower can attack flying enemies.
+ @property {number[]} splashRange - Array of splash range values for tower at different upgrade levels.
+ @property {number[]} range - Array of attack range values for tower at different upgrade levels.
+ @property {string} fullName - Full name of the tower.
  */
-
 export const enumTower = {
     'BT':{
         path : ['../../assets/images/towers/BT1.png', 

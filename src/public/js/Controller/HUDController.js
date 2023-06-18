@@ -1,6 +1,13 @@
 import {enumTower} from '../Model/enumTower.js';
 import {Tower} from "../Model/Tower.js";
 export class HUDController {
+
+    /**
+     * @param {Model} model - The game model.
+     * @param {Display} display - The game display.
+     * @param {TowerController} towerController - The tower controller.
+     * @param {PlayerController} playerController - The player controller.
+     */
     constructor(model, display, towerController, playerController) {
         this.model = model;
         this.display = display;
@@ -15,13 +22,13 @@ export class HUDController {
         document.getElementById('killedEnemies').innerText = "💀 "+ this.playerController.player.killedEnemies;
     }
 
-    createTower() {
-        /**
-         * Permit to create tower on click
-         */
+    /**
+     * Create buttons to make the player able to buy towers
+     */
+    createTowerButtons() {
         let buttonContainer = document.getElementById('button-buy-tower-container')
-
         for(const key in enumTower){
+            // Create button for each kind of tower
             let button = document.createElement('div');
             button.setAttribute("id", "tower_"+key)
             button.setAttribute("class", "p-2 flex-fill hud-button")
@@ -29,7 +36,7 @@ export class HUDController {
 
             button.innerHTML = '<p>'+enumTower[key].fullName+' <img height="40px" src="'+enumTower[key].path[0]+'"><br><br> '+enumTower[key].price[0]+' 🪙</p>';
             button.onclick = () => {
-                if(this.display.pile == -1){
+                if(!this.display.pile == -1){
                 } else {
                     if(this.playerController.buyTower(enumTower[key].price[0])){
                         this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies);
@@ -41,27 +48,9 @@ export class HUDController {
                         } else if (key == "rock") {
                             if(this.waveState) {
                                 let tempMatrice = JSON.parse(JSON.stringify(this.model.matrice));
-                                tempMatrice[this.display.pile[1][0]][this.display.pile[1][1]].tower = new Tower(
-                                    null,
-                                    null,
-                                    null,
-                                    {x: null, y: null},
-                                    null,
-                                    null,
-                                    null,
-                                    null,
-                                    null,
-                                    "rock",
-                                    null,
-                                    null,
-                                    null,
-                                    null,
-                                    null,
-                                    null,
-                                )
+                                tempMatrice[this.display.pile[1][0]][this.display.pile[1][1]].tower = new Tower(null, null, null, {x: null, y: null}, null, null, null, null, null, "rock", null, null, null, null, null, null,)
                                 let counter = 0;
                                 for (let x = 0; x < this.model.entryPoints.length; x++) {
-                                    console.log('hey')
                                     let pathForEnemies = this.model.findPathForWaves(tempMatrice, this.model.entryPoints[x], this.model.endPoints)
                                     if (pathForEnemies.length > 0) {
                                         if (this.model.matrice[this.display.pile[1][0]][this.display.pile[1][1]].tile != 'basegrass') {
@@ -100,7 +89,9 @@ export class HUDController {
         }
 
     }
-
+    /**
+     * Calculate the gold per minute.
+     */
     calculateGoldPerMinute(){
         if(this.goldPerMinute.date+10000 <= Date.now()) {
             this.goldPerMinute.gold = ((this.playerController.player.money - this.goldPerMinute.playerGold) / 10) * 60
@@ -114,6 +105,10 @@ export class HUDController {
             this.goldPerMinute.date = Date.now();
         }
     }
+
+    /**
+     * Create buttons the give tower boost (range, speed, damage)
+     */
     boostTowers(){
         let boostPriceDamage = Math.round(400 + this.model.currentWave * ((400/100)*8))
         let boostPriceRange = Math.round(300 + this.model.currentWave * ((300/100)*8))
