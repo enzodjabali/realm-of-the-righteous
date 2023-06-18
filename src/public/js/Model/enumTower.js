@@ -97,7 +97,7 @@ export const enumTower = {
         shotRate: [1500,1250,1000],//in ms
         damage: [8,14,18],
         armorDamage: [7,14,25],
-        price: [150,300,450],
+        price: [100,300,450],
         isAttackingAir: false,
         slowness: [1.1, 1.3, 1.5],
         range: [4,5,6],
@@ -161,11 +161,11 @@ export const enumTower = {
     "rock":{
         path : ['../../assets/images/tiles/rock.png'],
 
-        pathWeapon : ['../../assets/images/towers/weapons/weapons/WT1weapon.png'],
+        pathWeapon : [],
 
-        pathAmmo : ['../../assets/images/towers/weapons/flying/WT1flying.png'],
+        pathAmmo : [],
 
-        pathImpact: ['../../assets/images/towers/weapons/impact/WTimpact.png'],
+        pathImpact: [],
 
         totalTowerFrames : [0],
         totalAmmoFrames : [0],

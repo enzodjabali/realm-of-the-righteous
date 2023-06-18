@@ -9,7 +9,7 @@ export class FetchController {
     }
 
     /**
-    * Permit to instanciate back towers from save in database
+    * Permit to instantiate back towers from save in database
     */
     run() {
         let matrice = this.model.getMatrice()

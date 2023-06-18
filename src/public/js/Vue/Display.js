@@ -75,17 +75,16 @@ export class Display {
                         img.width = this.tilesSize;
                         img.height = this.tilesSize;
                         container.appendChild(img);
-                        if (img_tile === "basegrass") {
-                            img.onclick = () => {
-                                if (this.pile === -1) {
-                                    this.pile = [img, [x, y]];
-                                } else {
-                                    this.pile[0].classList.remove("tile-shadow");
-                                    this.pile = [img, [x, y]];
-                                }
-                                this.pile[0].setAttribute("class", "tile-shadow");
-                            };
-                        }
+                        img.onclick = () => {
+                            if (this.pile === -1) {
+                                this.pile = [img, [x, y]];
+                            } else {
+                                this.pile[0].classList.remove("tile-shadow");
+                                this.pile = [img, [x, y]];
+                            }
+                            this.pile[0].setAttribute("class", "tile-shadow");
+                        };
+
                     }
                 });
             });
