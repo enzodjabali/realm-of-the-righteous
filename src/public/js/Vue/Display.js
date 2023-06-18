@@ -200,14 +200,13 @@ export class Display {
         this.playTowerSprite(tower, enemy);
         const ammoDiv = this.initializeAmmo(tower);
         this.playAmmoSprite(tower);
-        if (tower.type == 'T' || tower.type == 'WT') {
+        if (tower.type == 'T' || tower.type == 'WT' || tower.type == 'NT') {
             this.rotateAmmoSprite(tower, enemy);
         }
         this.moveAmmoSprite(tower, enemy).then(() => {
             ammoDiv.remove();
             const impactDiv = this.initializeImpact(tower, enemy);
             this.playImpactSprite(tower).then(() => {
-                console.log(impactDiv,'impactDiv')
                 impactDiv.remove();
                 tower.towerAmmoId++;
             });
@@ -223,7 +222,7 @@ export class Display {
      */
     initializeAmmo(tower) {
         let imgAmmoRationSize = this.imgAmmoRationSize;
-        if (tower.type == 'T' || tower.type == 'WT') {
+        if (tower.type == 'T' || tower.type == 'WT' || tower.type == 'NT') {
             imgAmmoRationSize = this.imgAmmoRationSizeAlt;
         }
         const ammoDiv = this.createElement('div', {
@@ -371,6 +370,7 @@ export class Display {
         }, frameDuration);
     }
 
+
     /**
      * Plays the ammo sprite animation for the given tower.
      * 
@@ -397,7 +397,7 @@ export class Display {
      */
     rotateAmmoSprite(tower, enemy) {
         let imgAmmoRationSize = 8;
-        if (tower.type == 'T' || tower.type == 'WT') {
+        if (tower.type == 'T' || tower.type == 'WT' || tower.type == 'NT') {
             imgAmmoRationSize = 3;
         }
         const ammoDiv = this.getElement(`AmmoDiv_${tower.towerAmmoId}`);
@@ -473,11 +473,28 @@ export class Display {
             }
             return;
         }
-        const img = this.getElement(`${imgKey}_${tower.towerAmmoId}`);
+        let img;
+        let framePositionX;
+        switch (imgKey) {
+            case 'weaponImg':
+                img = this.getElement(`weaponImg_${tower.id}`);
+                framePositionX = -tower[frameKey] * this.tilesSize; // Move weapon image based on current frame
+                break;
+            case 'ammoImg':
+                img = this.getElement(`ammoImg_${tower.towerAmmoId}`);
+                framePositionX = -tower[frameKey] * this.tilesSize / 8; // Move ammo image based on current frame
+                break;
+            case 'impactImg':
+                img = this.getElement(`impactImg_${tower.towerAmmoId}`);
+                framePositionX = -tower[frameKey] * this.tilesSize / 2; // Move impact image based on current frame
+                break;
+            default:
+                console.log('animateSprite: invalid imgKey');
+                return;
+        }
         if (!img) {
             return;
         }
-        const framePositionX = -tower[frameKey] * this.tilesSize / 8;
         img.style.left = `${framePositionX}px`;
         tower[frameKey]++;
     }
