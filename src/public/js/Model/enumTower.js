@@ -161,11 +161,11 @@ export const enumTower = {
     "rock":{
         path : ['../../assets/images/tiles/rock.png'],
 
-        pathWeapon : ['../../assets/images/towers/weapons/weapons/WT1weapon.png'],
+        pathWeapon : [],
 
-        pathAmmo : ['../../assets/images/towers/weapons/flying/WT1flying.png'],
+        pathAmmo : [],
 
-        pathImpact: ['../../assets/images/towers/weapons/impact/WTimpact.png'],
+        pathImpact: [],
 
         totalTowerFrames : [0],
         totalAmmoFrames : [0],
