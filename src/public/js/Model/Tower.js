@@ -22,9 +22,9 @@ export class Tower{
         this.currentAmmoFrame = 0; // The current frame index for the ammo sprite animation
         this.currentImpactFrame = 0; // The current frame index for the impact sprite animation
 
-        this.animateTowerSprite; // Unclear purpose or missing information about this property
-        this.animateAmmoSprite; // Unclear purpose or missing information about this property
-        this.animateImpactSprite; // Unclear purpose or missing information about this property
+        this.animateTowerSprite;
+        this.animateAmmoSprite;
+        this.animateImpactSprite;
 
         this.animationTowerInterval; // The interval ID for the tower sprite animation
         this.animationAmmoInterval; // The interval ID for the ammo sprite animation

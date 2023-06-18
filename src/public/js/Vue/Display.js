@@ -75,7 +75,6 @@ export class Display {
                         img.width = this.tilesSize;
                         img.height = this.tilesSize;
                         container.appendChild(img);
-                    
                         img.onclick = () => {
                             if (this.pile === -1) {
                                 this.pile = [img, [x, y]];

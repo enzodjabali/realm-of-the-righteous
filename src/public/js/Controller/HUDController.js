@@ -16,7 +16,7 @@ export class HUDController {
         this.goldPerMinute = {"gold": 0, "date": Date.now(), "average": [], "playerGold": this.playerController.player.money};
         this.waveState = true;
 
-        //Set up the inital tower of the player
+        // Set up the initial tower of the player
         document.getElementById('money').innerText = "🪙 "+this.playerController.player.money+"";
         document.getElementById('life').innerText = "Current life : "+this.playerController.player.life+" ❤️";
         document.getElementById('killedEnemies').innerText = "💀 "+ this.playerController.player.killedEnemies;

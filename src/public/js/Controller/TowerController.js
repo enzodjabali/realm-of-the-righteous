@@ -115,7 +115,7 @@ export class TowerController {
                 pathImpact,
             );
 
-            //Since constructor does't accept more parameters, create setter
+            //Since constructor doesn't accept more parameters, create setter
             tower.setSlowness(slowness);
             tower.setRebound(rebound);
             tower.setSplashRange(splashRange)
@@ -139,14 +139,11 @@ export class TowerController {
      * @param {object} tower - Tower object.
      */
     towerLogics(tower) {
-
         let towerHolderId = this.display.initializeTower(tower);
         let towerHolder = document.getElementById(towerHolderId);
         towerHolder.tower = tower;
         towerHolder.this = this;
         towerHolder.addEventListener("click", this.towerOnclick)
-
-        // appel le boucle pour faire fonctionner la logique des tours.
         this.runTower(tower);
     }
 

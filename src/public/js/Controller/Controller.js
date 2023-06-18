@@ -160,16 +160,13 @@ export class Controller{
                     if (jsonEndpoints.includes(enemyPositon)) {
                         if (!this.playerController.modifyPlayerLife(enemy.trueDamage)) {
                             this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave)
-                            // Implémenter la fin de jeu (défaite)
                             this.display.stopSong()
                             this.endGame(false)
                             return
                         }
                         this.display.updatePlayerData(this.playerController.player.money, this.playerController.player.life, this.playerController.player.killedEnemies, this.model.currentWave)
-                        // Ajouter les damage lorsque balance fait
                         this.playerController.postLogs(enemy.name + " dealt " + enemy.trueDamage + " damage", 3)
                         this.display.killEnemy(enemy);
-
                         this.model.matrice[enemy.position.x][enemy.position.y].enemies.filter(enemy => enemy.id !== enemy.id);
                         break;
                     }
@@ -182,7 +179,7 @@ export class Controller{
                     }
 
                     if (enemy.curent_life <= 0) {
-                        // Permit to give money to the player when an ennemy died
+                        // Permit to give money to the player when an enemy died
                         this.playerController.player.money += Math.round(enemy.price);
                         this.model.defaultMoneyPlayer[this.model.difficulty] = this.playerController.player.money
 
@@ -199,7 +196,6 @@ export class Controller{
                     }
 
                     if (step <= path.length - 1) {
-                        //Ici update la liste de step enemy si rock trouvé
                         try {
                             if (this.model.matrice[enemy.position.x + path[step][0]][enemy.position.y + path[step][1]].tower.type == "rock") {
                                 let newPath = this.model.findPathForWaves(this.model.matrice, [enemy.position.x, enemy.position.y], this.model.endPoints)
@@ -257,7 +253,7 @@ export class Controller{
     }
 
     /**
-     * End the game by displaying an win or a lose modal.
+     * End the game by displaying a win or a loose modal.
      * @param {boolean} bool - The result of the game (true for victory, false for defeat).
      */
     endGame(bool){

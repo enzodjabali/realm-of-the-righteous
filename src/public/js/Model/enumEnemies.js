@@ -1,6 +1,6 @@
 /**
  * Enum of enemy types with their properties.
- * @typedef {Object} EnemyType
+ * @typedef {Object} EnemyType - The type of enemy
  * @property {string} pathAlive - The path to the image for the enemy when alive.
  * @property {string} pathDead - The path to the image for the enemy when dead.
  * @property {number} life - The initial life or health of the enemy.
