@@ -25,6 +25,7 @@ export class Controller{
         this.endGameHolder = false;
         this.indexOfEntryPoints;
         this.indexOfEndPoints;
+        document.getElementById('start-wave-counter').innerText = this.display.romanizeNumber(this.model.currentWave);
     }
 
     /**
@@ -114,6 +115,7 @@ export class Controller{
                                     this.playerController.postLogs("You gained " + xp + " xp !", 2)
                                     this.playerController.incrementExperience(xp)
                                     xp = 0;
+                                    document.getElementById('start-wave-counter').innerText = this.display.romanizeNumber(this.model.currentWave);
                                 }
                                 if(spawnedEnemies == 0 && i == this.model.waves[this.model.difficulty].length-1 && this.playerController.player.life > 0){
                                     this.endGame(true)
