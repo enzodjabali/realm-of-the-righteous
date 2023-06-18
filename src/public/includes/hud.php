@@ -7,7 +7,7 @@
             <li class="btn btn-form-submit" style="width: 33%" onclick="displayTabHUD('hud-tab-tower-shop')">
                 Tower
             </li>
-            <li class="btn btn-form-submit" style="width: 33%">
+            <li class="btn btn-form-submit" style="width: 33%" onclick="displayTabHUD('hud-tab-settings')">
                 Settings
             </li>
         </ul>
@@ -25,7 +25,7 @@
         </div>
 
         <div class="hud-button mb-3 mt-2" style="height: 20%; width: 100%">
-            <p id="play-game">Play game</p>
+            <p id="play-game">Start wave <span id="start-wave-counter"></span></p>
         </div>
 
         <div class="hud-button mb-3" style="height: 20%; width: 100%">
@@ -96,4 +96,13 @@
         </div>
     </div>
 
+    <div id="hud-tab-settings" class="mt-3 visually-hidden">
+        <div onclick="let backgroundAudio = document.getElementById('background-audio');backgroundAudio.currentTime = 0;backgroundAudio.volume = 0;" class="hud-button mb-3 mt-2" style="height: 20%; width: 100%">
+            <p>Turn off music</p>
+        </div>
+
+        <div onclick="location.href = '/lobby';" class="hud-button mb-3 mt-2" style="height: 20%; width: 100%">
+            <p>Quit game</p>
+        </div>
+    </div>
 </section>

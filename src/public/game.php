@@ -107,6 +107,7 @@
             $("#hud-tab-general").addClass("visually-hidden");
             $("#hud-tab-tower-shop").addClass("visually-hidden");
             $("#hud-tab-tower-actions").addClass("visually-hidden");
+            $("#hud-tab-settings").addClass("visually-hidden");
             $("#" + tabId).removeClass("visually-hidden");
         }
 

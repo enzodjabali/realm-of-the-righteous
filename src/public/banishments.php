@@ -49,7 +49,7 @@
                 <option value="3">Three</option>
             </select>
             <div class="input-group-prepend">
-                <button class="btn btn-danger h-100" type="submit">Send</button>
+                <button class="btn btn-danger h-100" type="submit">Ban</button>
             </div>
         </form>
     </div>
