@@ -200,7 +200,7 @@ export class Display {
         this.playTowerSprite(tower, enemy);
         const ammoDiv = this.initializeAmmo(tower);
         this.playAmmoSprite(tower);
-        if (tower.type == 'T' || tower.type == 'WT' || tower.type == 'NT') {
+        if (tower.type == 'T' || tower.type == 'WT') {
             this.rotateAmmoSprite(tower, enemy);
         }
         this.moveAmmoSprite(tower, enemy).then(() => {
@@ -222,7 +222,7 @@ export class Display {
      */
     initializeAmmo(tower) {
         let imgAmmoRationSize = this.imgAmmoRationSize;
-        if (tower.type == 'T' || tower.type == 'WT' || tower.type == 'NT') {
+        if (tower.type == 'T' || tower.type == 'WT') {
             imgAmmoRationSize = this.imgAmmoRationSizeAlt;
         }
         const ammoDiv = this.createElement('div', {
@@ -397,7 +397,7 @@ export class Display {
      */
     rotateAmmoSprite(tower, enemy) {
         let imgAmmoRationSize = 8;
-        if (tower.type == 'T' || tower.type == 'WT' || tower.type == 'NT') {
+        if (tower.type == 'T' || tower.type == 'WT') {
             imgAmmoRationSize = 3;
         }
         const ammoDiv = this.getElement(`AmmoDiv_${tower.towerAmmoId}`);
